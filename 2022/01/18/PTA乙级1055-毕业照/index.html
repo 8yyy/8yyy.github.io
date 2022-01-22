@@ -1,37 +1,885 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PTA," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、题目描述1055 集体照 (25 分)  拍集体照时队形很重要，这里对给定的 N 个人 K 排的队形设计排队规则如下：  每排人数为 N&#x2F;K（向下取整），多出来的人全部站在最后一排； 后排所有人的个子都不比前排任何人矮； 每排中最高者站中间（中间位置为 m&#x2F;2+1，其中 m 为该排人数，除法向下取整）； 每排其他人以中间人为轴，按身高非增序，先右后左交替入队站在中间人的两侧（例如5人身高为19">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PTA乙级1055 毕业照">
+<meta property="og:url" content="http://example.com/2022/01/18/PTA%E4%B9%99%E7%BA%A71055-%E6%AF%95%E4%B8%9A%E7%85%A7/index.html">
+<meta property="og:site_name" content="8yyy&#39;s blog">
+<meta property="og:description" content="一、题目描述1055 集体照 (25 分)  拍集体照时队形很重要，这里对给定的 N 个人 K 排的队形设计排队规则如下：  每排人数为 N&#x2F;K（向下取整），多出来的人全部站在最后一排； 后排所有人的个子都不比前排任何人矮； 每排中最高者站中间（中间位置为 m&#x2F;2+1，其中 m 为该排人数，除法向下取整）； 每排其他人以中间人为轴，按身高非增序，先右后左交替入队站在中间人的两侧（例如5人身高为19">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-18T06:01:39.000Z">
+<meta property="article:modified_time" content="2022-01-19T05:58:30.769Z">
+<meta property="article:author" content="8yyy">
+<meta property="article:tag" content="PTA">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2022/01/18/PTA乙级1055-毕业照/"/>
+
+
+
+
+
+  <title>PTA乙级1055 毕业照 | 8yyy's blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">8yyy's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">hellooo</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/18/PTA%E4%B9%99%E7%BA%A71055-%E6%AF%95%E4%B8%9A%E7%85%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="8yyy's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PTA乙级1055 毕业照</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-18T14:01:39+08:00">
+                2022-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h3><center>1055 集体照 (25 分)</center>
+
+<p>拍集体照时队形很重要，这里对给定的 <em>N</em> 个人 <em>K</em> 排的队形设计排队规则如下：</p>
+<ul>
+<li>每排人数为 <em>N</em>/<em>K</em>（向下取整），多出来的人全部站在最后一排；</li>
+<li>后排所有人的个子都不比前排任何人矮；</li>
+<li>每排中最高者站中间（中间位置为 <em>m</em>/2+1，其中 <em>m</em> 为该排人数，除法向下取整）；</li>
+<li>每排其他人以中间人为轴，按身高非增序，先右后左交替入队站在中间人的两侧（例如5人身高为190、188、186、175、170，则队形为175、188、190、186、170。这里假设你面对拍照者，所以你的左边是中间人的右边）；</li>
+<li>若多人身高相同，则按名字的字典序升序排列。这里保证无重名。</li>
+</ul>
+<p>现给定一组拍照人，请编写程序输出他们的队形。</p>
+<h4 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h4><p>每个输入包含 1 个测试用例。每个测试用例第 1 行给出两个正整数 <em>N</em>（≤104，总人数）和 <em>K</em>（≤10，总排数）。随后 <em>N</em> 行，每行给出一个人的名字（不包含空格、长度不超过 8 个英文字母）和身高（[30, 300] 区间内的整数）。</p>
+<h4 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h4><p>输出拍照的队形。即K排人名，其间以空格分隔，行末不得有多余空格。注意：假设你面对拍照者，后排的人输出在上方，前排输出在下方。</p>
+<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-in" data-language="in"><code class="language-in">10 3
+Tom 188
+Mike 170
+Eva 168
+Tim 160
+Joe 190
+Ann 168
+Bob 175
+Nick 186
+Amy 160
+John 159<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-out" data-language="out"><code class="language-out">Bob Tom Joe Nick
+Ann Mike Eva
+Tim Amy John<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3>二、思路：</h3>
+
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">先把身高利用sort()函数进行降序，如果身高相同再利用compare()函数进行比较
+bool cmp(struct student s1,struct student s2)&#123;
+	if(s1.h&gt;s2.h) return true;
+	&#x2F;&#x2F;如果身高相同，就按名字的字典序升序排列 
+	else if(s1.h&#x3D;&#x3D;s2.h)&#123;
+		if(s1.name.compare(s2.name)&#x3D;&#x3D;1)	return false;
+		else return true;
+	&#125; 
+	else return false;
+&#125;
+当然也可以直接精简为：
+bool cmp(struct student s1,struct student s2)&#123;
+	return s1.h!&#x3D;s2.h?s1.h&gt;s2.h:s1.name&lt;s2.name;
+&#125;
+先考虑两种特殊的情况，就是k&#x3D;&#x3D;1或者n&lt;k的情况，这时候他们都在一排上
+然后先输出最后一排，最高那一排的情况
+再依次向前输出
+每次都要先确定最高的那个人的位置
+最后一排的位置是 (n%k+n&#x2F;k)&#x2F;2+1
+前面的位置是：i+n&#x2F;k&#x2F;2
+以下是未通过的代码：<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;bits&#x2F;stdc++.h&gt;
+#define inf 0x3f3f3f3f
+#define maxn 10010
+using namespace std;
+int n,k;
+string s[maxn];
+
+struct student&#123;
+	string name;
+	int h;	
+&#125;stu[maxn];
+
+bool cmp(struct student s1,struct student s2)&#123;
+	if(s1.h&gt;s2.h) return true;
+	&#x2F;&#x2F;如果身高相同，就按名字的字典序升序排列 
+	else if(s1.h&#x3D;&#x3D;s2.h)&#123;
+		if(s1.name.compare(s2.name)&#x3D;&#x3D;1)	return false;
+		else return true;
+	&#125; 
+	else return false;
+	&#x2F;&#x2F;return s1.h!&#x3D;s2.h?s1.h&gt;s2.h:s1.name&lt;s2.name;可以这么精简 
+&#125;
+&#x2F;&#x2F;输出最后一排 
+void printlast(void)&#123;
+	int la&#x3D;n%k+n&#x2F;k;	   &#x2F;&#x2F;确定最后一排的人数 
+	int t&#x3D;la&#x2F;2+1; &#x2F;&#x2F;确定最后一排最大数的位置 
+	s[t]&#x3D;stu[1].name;
+	int tail&#x3D;t,head&#x3D;t;
+	for(int i&#x3D;2;i&lt;&#x3D;la;i++)&#123;
+		if(i%2&#x3D;&#x3D;0)&#123;
+			head--;
+			s[head]&#x3D;stu[i].name;
+		&#125;
+		else&#123;
+			tail++;
+			s[tail]&#x3D;stu[i].name;
+		&#125;
+	&#125;
+	for(int i&#x3D;1;i&lt;la;i++) cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;;
+	cout&lt;&lt;s[la];
+	cout&lt;&lt;endl;
+&#125;
+&#x2F;&#x2F;依次往前输出 
+void print(int l)&#123;
+	for(int i&#x3D;l;i&lt;&#x3D;n;i+&#x3D;n&#x2F;k)&#123;
+		int t&#x3D;i+n&#x2F;k&#x2F;2; &#x2F;&#x2F;确定一排中最大数的位置 
+		s[t]&#x3D;stu[i].name;
+		int tail&#x3D;t,head&#x3D;t;
+		bool flag&#x3D;true;		&#x2F;&#x2F;判断i+1的奇偶,用于保证先左后右 
+		if((i+1)%2!&#x3D;0) flag&#x3D;false;
+		for(int j&#x3D;i+1;j&lt;i+n&#x2F;k;j++)&#123;
+			if(flag)&#123;		
+				if(j%2&#x3D;&#x3D;0)&#123;
+					head--;
+					s[head]&#x3D;stu[j].name;
+				&#125;
+				else&#123;
+					tail++;
+					s[tail]&#x3D;stu[j].name;
+				&#125;
+			&#125;
+			else&#123;
+				if(j%2!&#x3D;0)&#123;
+					head--;
+					s[head]&#x3D;stu[j].name;
+				&#125;
+				else&#123;
+					tail++;
+					s[tail]&#x3D;stu[j].name;
+				&#125;
+			&#125;
+		&#125;
+		for(int d&#x3D;i;d&lt;i+n&#x2F;k-1;d++) cout&lt;&lt;s[d]&lt;&lt;&quot; &quot;;
+		cout&lt;&lt;s[i+n&#x2F;k-1];
+		cout&lt;&lt;endl;
+	&#125;
+&#125;
+
+
+int main()&#123;
+	cin&gt;&gt;n&gt;&gt;k;
+	for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;
+		cin&gt;&gt;stu[i].name&gt;&gt;stu[i].h;  
+	&#125;
+	sort(stu+1,stu+1+n,cmp);&#x2F;&#x2F;根据身高降序 
+	&#x2F;*cout&lt;&lt;endl;
+	for(int i&#x3D;1;i&lt;&#x3D;n;i++) cout&lt;&lt;stu[i].name&lt;&lt;&quot; &quot;&lt;&lt;stu[i].h&lt;&lt;endl;
+	cout&lt;&lt;endl;*&#x2F;
+	if(k&#x3D;&#x3D;1||n&lt;k)&#123;			&#x2F;&#x2F;判断特殊情况 
+		int t&#x3D;n&#x2F;2+1;
+		s[t]&#x3D;stu[1].name;
+		int tail&#x3D;t,head&#x3D;t;
+		for(int i&#x3D;2;i&lt;&#x3D;n;i++)&#123;
+			if(i%2&#x3D;&#x3D;0)&#123;
+				head--;
+				s[head]&#x3D;stu[i].name;
+			&#125;
+			else&#123;
+				tail++;
+				s[tail]&#x3D;stu[i].name;
+			&#125;
+		&#125;
+		for(int i&#x3D;1;i&lt;n;i++) cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;;
+		cout&lt;&lt;s[n];
+		cout&lt;&lt;endl;
+		return 0;
+	&#125;
+	else&#123;
+		printlast();
+		print(n%k+n&#x2F;k+1);
+	&#125;
+	return 0;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="三、网上搜了下别人的代码，简单易懂"><a href="#三、网上搜了下别人的代码，简单易懂" class="headerlink" title="三、网上搜了下别人的代码，简单易懂"></a>三、网上搜了下别人的代码，简单易懂</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+using namespace std;
+struct node &#123;
+    string name;
+    int height;
+&#125;;
+int cmp(struct node a, struct node b) &#123;
+    return a.height !&#x3D; b.height ? a.height &gt; b.height : a.name &lt; b.name;
+&#125;
+int main() &#123;
+    int n, k, m;
+    cin &gt;&gt; n &gt;&gt; k;
+    vector&lt;node&gt; stu(n);
+    for(int i &#x3D; 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; stu[i].name &gt;&gt; stu[i].height;
+    &#125;
+    sort(stu.begin(), stu.end(), cmp);
+    int t &#x3D; 0, row &#x3D; k;
+    while(row) &#123;
+        if(row &#x3D;&#x3D; k)
+            m &#x3D; n - n &#x2F; k * (k - 1);
+        else
+            m &#x3D; n &#x2F; k;
+        vector&lt;string&gt; ans(m);
+        ans[m &#x2F; 2] &#x3D; stu[t].name;
+        &#x2F;&#x2F; 左边一列
+        int j &#x3D; m &#x2F; 2 - 1;
+        for(int i &#x3D; t + 1; i &lt; t + m; i &#x3D; i + 2)
+            ans[j--] &#x3D; stu[i].name;
+        &#x2F;&#x2F; 右边一列
+        j &#x3D; m &#x2F; 2 + 1;
+        for(int i &#x3D; t + 2; i &lt; t + m; i &#x3D; i + 2)
+            ans[j++] &#x3D; stu[i].name;
+        &#x2F;&#x2F; 输出当前排
+        cout &lt;&lt; ans[0];
+        for(int i &#x3D; 1; i &lt; m; i++)
+            cout &lt;&lt; &quot; &quot; &lt;&lt; ans[i];
+        cout &lt;&lt; endl;
+        t &#x3D; t + m;
+        row--;
+    &#125;
+    return 0;
+&#125;
+源：https:&#x2F;&#x2F;blog.csdn.net&#x2F;liuchuo&#x2F;article&#x2F;details&#x2F;51994263<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PTA/" rel="tag"># PTA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/01/18/c-vector%E6%95%B4%E7%90%86/" rel="prev" title="c++ vector整理">
+                c++ vector整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、题目描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">输入格式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">输出格式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">输入样例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">输出样例：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">二、思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BD%91%E4%B8%8A%E6%90%9C%E4%BA%86%E4%B8%8B%E5%88%AB%E4%BA%BA%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%8C%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82"><span class="nav-number">3.</span> <span class="nav-text">三、网上搜了下别人的代码，简单易懂</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">8yyy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
