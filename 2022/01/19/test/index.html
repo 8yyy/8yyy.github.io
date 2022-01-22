@@ -515,13 +515,32 @@ int main()&#123;
 &#125;
 &#123;% endcodeblock %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="测试七"><a href="#测试七" class="headerlink" title="测试七"></a>测试七</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#123;% codeblock lang: cpp %&#125;
-#include &lt;bits&#x2F;stdc++.h&gt; 
-int main()&#123;
-     int a &#x3D; 10;
-     cout &lt;&lt; a &lt;&lt; endl;
+<h3 id="测试七"><a href="#测试七" class="headerlink" title="测试七"></a>测试七</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class demo &#123;
+    public static void main(String[] args) &#123;
+        Connection conn &#x3D; null;
+        PreparedStatement ps &#x3D; null;
+        ResultSet rs &#x3D; null;
+        try &#123;
+            String sql &#x3D; &quot;select * from login&quot;;
+            conn &#x3D; MyJDBCUtils.getConnection();
+            ps &#x3D; conn.prepareStatement(sql);
+            rs &#x3D; ps.executeQuery();
+            while (rs.next())&#123;
+                System.out.println(rs.getInt(&quot;id&quot;)+&quot;,user:&quot;+rs.getString(&quot;username&quot;)+&quot;,pwd:&quot;+rs.getString(&quot;password&quot;));
+            &#125;
+            System.out.println(&quot;查询完毕&quot;);
+        &#125;catch (Exception e)&#123;
+            e.printStackTrace();
+        &#125;finally &#123;
+            MyJDBCUtils.close(rs,ps,conn);
+        &#125;
+    &#125;
 &#125;
-&#123;% endcodeblock %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
                 
