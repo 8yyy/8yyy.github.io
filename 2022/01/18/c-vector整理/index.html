@@ -7,9 +7,9 @@
     <meta name="keywords" content="c++ vector整理, 8yyy&#39;s blog">
     <meta name="description" content="一、vector初始化void init()&amp;#123;
 	vector&amp;lt;int&gt; a(10);
-	//定义了10个整型元素的向量（尖括号中为元素类型名，它可以是任何合法的数据类型），
-	//但没有给出初值，其值是不确定的。
-	for">
+	/*定义了10个整型元素的向量（尖括号中为元素类型名，它可以是任何合法的数据类型），
+	  但没有给出初值，其值是不确定的。*/
+	f">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -476,8 +476,8 @@
             <div id="articleContent">
                 <h3 id="一、vector初始化"><a href="#一、vector初始化" class="headerlink" title="一、vector初始化"></a>一、vector初始化</h3><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 	vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token comment">//定义了10个整型元素的向量（尖括号中为元素类型名，它可以是任何合法的数据类型），</span>
-	<span class="token comment">//但没有给出初值，其值是不确定的。</span>
+	<span class="token comment">/*定义了10个整型元素的向量（尖括号中为元素类型名，它可以是任何合法的数据类型），
+	  但没有给出初值，其值是不确定的。*/</span>
 	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>a<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>cout<span class="token operator">&lt;&lt;</span>a<span class="token punctuation">[</span>i<span class="token operator">++</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 	cout<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span> 
 	
@@ -522,7 +522,7 @@
    （<span class="token number">8</span>）a<span class="token punctuation">.</span><span class="token function">pop_back</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//删除a向量的最后一个元素</span>
 
    （<span class="token number">9</span>）a<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>a<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-<span class="token comment">//删除a中第1个（从第0个算起）到第2个元素，也就是说删除的元素从a.begin()+1算起（包括它）一	 直到a.begin()+3（不包括它）</span>
+<span class="token comment">/*删除a中第1个（从第0个算起）到第2个元素，也就是说删除的元素从a.begin()+1算起（包括它）一	   直到a.begin()+3（不包括它）*/</span>
 
    （<span class="token number">10</span>）a<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token comment">//在a的最后一个向量后插入一个元素，其值为5</span>
@@ -533,7 +533,7 @@
 <span class="token comment">//在a的第1个元素（从第0个算起）的位置插入3个数，其值都为5</span>
 
    （<span class="token number">13</span>）a<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>b<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">,</span>b<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-<span class="token comment">//b为数组，在a的第1个元素（从第0个算起）的位置插入b的第3个元素到第5个元素（不包括b+6），如b	为1,2,3,4,5,9,8，插入元素后为1,4,5,9,2,3,4,5,9,8</span>
+<span class="token comment">/*b为数组，在a的第1个元素（从第0个算起）的位置插入b的第3个元素到第5个元素（不包括b+6），如       b为1,2,3,4,5,9,8，插入元素后为1,4,5,9,2,3,4,5,9,8*/</span>
 
    （<span class="token number">14</span>）a<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//返回a中元素的个数；</span>
 
@@ -547,7 +547,7 @@
 <span class="token comment">//将a的现有元素个数调至10个，多则删，少则补，其值为2</span>
 
    （<span class="token number">18</span>）a<span class="token punctuation">.</span><span class="token function">reserve</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-<span class="token comment">//将a的容量（capacity）扩充至100，也就是说现在测a.capacity();的时候返回值是100.这种操		作只有在需要给a添加大量数据的时候才显得有意义，因为这将避免内存多次容量扩充操作（当a的容量		不足时电脑会自动扩容，当然这必然降低性能） </span>
+   <span class="token comment">/*将a的容量（capacity）扩充至100，也就是说现在测a.capacity();的时候返回值是100.这种操	    作只有在需要给a添加大量数据的时候才显得有意义，因为这将避免内存多次容量扩充操作（当a的容量	    不足时电脑会自动扩容，当然这必然降低性能） */</span>
 
    （<span class="token number">19</span>）a<span class="token punctuation">.</span><span class="token function">swap</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token comment">//b为向量，将a中的元素和b中的元素进行整体性交换</span>
