@@ -469,102 +469,37 @@
             <div id="articleContent">
                 <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>自己搭建此博客花了很长，前前后后也踩了不少坑。采用的是hexo框架+matery主题，编写文章采用的是typora，记录下主要的过程和注意事项。</p>
 <h1 id="二、博客环境搭建"><a href="#二、博客环境搭建" class="headerlink" title="二、博客环境搭建"></a>二、博客环境搭建</h1><p> Hexo 是一个静态博客框架，基于 Node.js，将 Markdown 文章通过渲染引擎，生成一个静态网页，再结合 Git 命令（ssh），Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a target="_blank" rel="noopener" href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
-<h2 id="1-下载-Git-与Node-js"><a href="#1-下载-Git-与Node-js" class="headerlink" title="1.下载 Git 与Node.js"></a>1.下载 Git 与Node.js</h2><p>首先去 <a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Node.js 官网</a> 下载 node.js 的安装程序，根据你电脑系统的配置信息，下载对应的安装程序，然后开始进行下面的步骤。</p>
-<h3 id="1-1-Node-js-的安装与配置"><a href="#1-1-Node-js-的安装与配置" class="headerlink" title="1.1 Node.js 的安装与配置"></a>1.1 Node.js 的安装与配置</h3><p><img src="/images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/nodejs-0.png"></p>
-<p><strong>Node.js下载以及版本的选择</strong></p>
+<h2 id="1-下载-Git-与Node-js"><a href="#1-下载-Git-与Node-js" class="headerlink" title="1.下载 Git 与Node.js"></a>1.下载 Git 与Node.js</h2><p>Node官网链接：<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Node.js 官网</a> </p>
+<p>Git官网链接：<a target="_blank" rel="noopener" href="https://gitit-scm.com/">Git 官网</a> </p>
 <ul>
-<li>下载好与电脑系统对应的安装程序后，开始安装流程：</li>
+<li>验证安装，并测试 Node.js 和Git是否加入环境变量，当出现如下图的情况，Node.js 安装大功告成。</li>
 </ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-1.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>将”I accept the terms in the License Agreement” 前面的复选框勾选，同意安装协议，再点击 Next，进行下一步操作；</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-2.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>选择 Node.js 安装程序的安装位置，在这里我以”C:\Program Files\nodejs” 为例（建议安装在C盘，本身软件也不大），点击 Next，进入下一步操作；</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-3.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>选择安装的模块和功能，这里全部安装，并添加到系统环境变量 ，继续点击 Next，进入下一步操作；</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-4.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>这一步可以跳过，这个选项的意思是安装一些编译本地模块的工具，点击 Next，进入下一步；</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-5.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>点击”Install”，等待 Node.js 安装完成；</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-6.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>当看到下图所显示的情况，Node.js 就成功安装完毕。</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-7.png" alt="img"></p>
-<p><strong>img</strong></p>
-<ul>
-<li>验证安装，并测试 Node.js 是否加入环境变量，当出现如下图的情况，Node.js 安装大功告成。</li>
-</ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/node-8.png" alt="img"></p>
-<p><strong>img</strong></p>
-<p>**注意： 如果执行 <code>node -v</code> 报错的话，那么手动将 Node.js 的安装路径添加到环境变量中，右击点击我的电脑 -&gt; 属性 -&gt; 高级系统设置 -&gt; 环境变量，在系统变量下找到名为 path 的变量名，如下图：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/image-20220123195353634.png" alt="image-20220123195353634"></p>
-<h3 id="1-2-Git-的安装与配置"><a href="#1-2-Git-的安装与配置" class="headerlink" title="1.2 Git 的安装与配置"></a>1.2 Git 的安装与配置</h3><ul>
-<li><p>首先就是去 Git 官网下载 Git，根据你电脑系统的配置信息，下载对应的安装程序，然后开始进行下面的步骤。</p>
-<p><strong>点击Downloads -&gt; 根据你的系统选择Mac os / Windows / Linux -&gt; 开始下载</strong></p>
-</li>
-<li><p>接着无脑下一步，直到出现以下安装步骤：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-6.png" alt="img"></p>
-<p><strong>img</strong></p>
-<p>安装Git 对环境变量 PATH 的影响，第一种影响较小，第三种会影响到 Windows 的自带工具，默认勾选中间项，建议不要修改，直接点击 “Next” 继续安装；</p>
-</li>
-<li><p>选择 Git 在使用 HTTPS 时使用的库，若无特殊需求，可保持默认选项，点击 “Next” 继续安装：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-7.png" alt="img"></p>
-<p><strong>img</strong></p>
-</li>
-<li><p>选择提交与拉取记录时，对换行符的处理方式，若无特殊需要，默认选择即可，点击 “Next” 继续安装：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-8.png" alt="img"></p>
-<p><strong>img</strong></p>
-</li>
-<li><p>选择模拟终端软件（即命令行窗口软件），若无特殊需要，可默认选择，点击 “Next” 继续安装：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-9.png" alt="img"></p>
-<p><strong>img</strong></p>
-</li>
-<li><p>最新功能的询问，若不想尝试尚未保证稳定性的新功能，默认不勾选，点击 “Install” 即可完成安装：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-10.png" alt="img"></p>
-<p><strong>img</strong></p>
-</li>
-<li><p>安装完成</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-11.png" alt="img"></p>
-<p><strong>img</strong></p>
-</li>
-<li><p>回到桌面，点击鼠标右键，会出现两个选项 <code>Git GUI Here</code> 和 <code>Git Bash Here</code>，在打开 Cmd (Win+R)，分别输入 <code>git</code> 和 <code>git --version</code>，如果出现如下图的情况，即安装成功！</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-12.png" alt="img"></p>
-<p><strong>img</strong></p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/git-13.png" alt="img"></p>
-<p><strong>img</strong></p>
-</li>
-</ul>
+<pre class="line-numbers language-none"><code class="language-none">node -v
+git --version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>**注意： 如果报错的话，那么手动将 Node.js和Git 的安装路径添加到环境变量中，右击点击我的电脑 -&gt; 属性 -&gt; 高级系统设置 -&gt; 环境变量，在系统变量下找到名为 path 的变量名，如下图：</p>
+<pre class="line-numbers language-none"><code class="language-none">E:\node-v12.19.0-win-x64
+C:\Program Files\Git\bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
 <h2 id="2-GitHub-账号的创建以及-Git-的配置"><a href="#2-GitHub-账号的创建以及-Git-的配置" class="headerlink" title="2. GitHub 账号的创建以及 Git 的配置"></a>2. GitHub 账号的创建以及 Git 的配置</h2><h3 id="2-1-GitHub-账号的创建"><a href="#2-1-GitHub-账号的创建" class="headerlink" title="2.1 GitHub 账号的创建"></a>2.1 GitHub 账号的创建</h3><p> GitHub 账号的创建比较简单，网上也有许多教程，此处便不再赘述</p>
 <h3 id="2-2-Git-的配置"><a href="#2-2-Git-的配置" class="headerlink" title="2.2 Git 的配置"></a>2.2 Git 的配置</h3><ul>
 <li><p><strong>配置Git 用户名和邮箱</strong></p>
 <p>在桌面点击鼠标右键，点击 Git Bash Here，会出现一个界面如下图所示：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20191117215118.png" alt="img"></p>
-<p><strong>img</strong></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20191117215118.png"></p>
 <p>然后分别输入下面的两个命令，并回车：</p>
-<p>none</p>
 <pre class="line-numbers language-none"><code class="language-none">git config --global user.name &quot;此处填写你注册时的用户名&quot;
 git config --global user.email &quot;此处填写你注册时的邮箱&quot;
 # 一般只要不报错，可以跳过下面寻找.gitconfig文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <p> 然后找到<code>.gitconfig</code> 文件，文件存放位置在 <code>C:/Users/[username]/.gitconfig</code>（未找到的话，请开启显示隐藏文件的功能），用编辑器打开，看到如下图所示的内容，即配置成功！</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20191117220016.png" alt="img"></p>
-<p><strong>img</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">[user]
+	name &#x3D; xxx
+	email &#x3D; xxx@xxx.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+
 <ul>
 <li><p><strong>配置GitHub</strong></p>
 <p><strong>创建：</strong></p>
@@ -579,7 +514,7 @@ git config --global user.email &quot;此处填写你注册时的邮箱&quot;
 <li>仓库创建成功不会立即生效，需要过一段时间，大概10-30分钟，或者更久；</li>
 <li>创建页面如下：</li>
 </ul>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/1.jpg" alt="在github上创建仓库"></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/1.jpg"></p>
 <p><strong>在github上创建仓库</strong></p>
 </li>
 <li><p><strong>配置SSH 免密登录</strong></p>
@@ -601,7 +536,7 @@ git config --global user.email &quot;此处填写你注册时的邮箱&quot;
 <p>Title：随意填写</p>
 <p>Key：将本地的id_rsa.pub文件用记事本打开，复制全部内容粘贴到GitHub 仓库的SSH Keys 位置</p>
 <p>如下图所示：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/2.jpg" alt="添加密钥到github"></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/2.jpg"></p>
 <p><strong>添加密钥到github</strong></p>
 </li>
 </ol>
@@ -615,7 +550,7 @@ git config --global user.email &quot;此处填写你注册时的邮箱&quot;
 <p>命令：<code>cnpm install -g hexo-cli</code></p>
 <p>安装后验证：<code>hexo -v</code> 出现版本号说明安装成功</p>
 </li>
-<li><p>在电脑的某个地方新建一个名为HexoData的文件夹（名字可以随便取），比如我的是D:\JAVA项目\HexoData</p>
+<li><p>在电脑的某个地方新建一个名为HexoData的文件夹（名字可以随便取），比如我的是<code>D:\JAVA项目\HexoData</code></p>
 <p>这个文件夹将来就作为你存放代码的地方，所以最好不要随便放</p>
 </li>
 <li><p>在D:\JAVA项目\HexoData 文件夹下右键打开 Git Bash</p>
@@ -642,7 +577,7 @@ git config --global user.email &quot;此处填写你注册时的邮箱&quot;
   branch: main<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>说明：</strong>仓库的ssh链接如下</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/3.jpg" alt="SSH链接"></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/3.jpg"></p>
 <p><strong>SSH链接</strong></p>
 <p><strong>切记：分支branch切记修改为 main，之前github的默认主分支为master，现已经改为main</strong> ！！！</p>
 </li>
@@ -681,11 +616,11 @@ git config --global user.email &quot;此处填写你注册时的邮箱&quot;
 </ul>
 <h1 id="四、hexo-博客的主题安装以及个性化修改"><a href="#四、hexo-博客的主题安装以及个性化修改" class="headerlink" title="四、hexo 博客的主题安装以及个性化修改"></a>四、hexo 博客的主题安装以及个性化修改</h1><h2 id="4-1-主题下载与安装"><a href="#4-1-主题下载与安装" class="headerlink" title="4.1 主题下载与安装"></a>4.1 主题下载与安装</h2><p> 点击 <a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery">传送门</a> 下载 <code>master</code> 分支的最新稳定版的代码，解压缩后，将 <code>hexo-theme-matery</code> 的文件夹复制到你 Hexo 的 <code>themes</code> 文件夹中即可。</p>
 <p>当然你也可以在你的站点目录文件夹下使用 <code>git clone</code> 命令来下载（推荐）：</p>
-<p> 直接在D:\JAVA项目\HexoData\themes目录下执行下面的命令（git bash here 处）：</p>
+<p> 直接在..\博客主目录\themes目录下执行下面的命令（git bash here 处）：</p>
 <p> <code>git clone git@github.com:blinkfox/hexo-theme-matery.git</code> 下载完成后便可看到对应的主题文件</p>
 <h2 id="4-2-主题的配置与使用"><a href="#4-2-主题的配置与使用" class="headerlink" title="4.2 主题的配置与使用"></a>4.2 主题的配置与使用</h2><h3 id="4-2-1-切换主题"><a href="#4-2-1-切换主题" class="headerlink" title="4.2.1 切换主题"></a>4.2.1 切换主题</h3><p><strong>注意：</strong>首先需要明白什么是站点配置文件，什么是主题配置文件。</p>
-<p>站点配置文件就是根目录下的配置文件，比如我的博客文件在 <code>D:\JAVA项目\HexoData</code> 下，那么站点配置文件就是 <code>D:\JAVA项目\HexoData_config.yml</code>，</p>
-<p>主题配置文件就是 <code>D:\JAVA项目\HexoData\hexo-theme-matery\_config.yml</code>。</p>
+<p>站点配置文件就是根目录下的配置文件，比如我的博客文件在 <code>..\博客主目录</code> 下，那么站点配置文件就是 <code>D:\JAVA项目\HexoData\_config.yml</code>，</p>
+<p>主题配置文件就是 <code>D:\JAVA项目\HexoData\themes\hexo-theme-matery\_config.yml</code>。</p>
 <p>另外注意，配置文件中的标点符号不要出现中文格式的标点符号，不然运行会出错。</p>
 <p>主题下载完成后，将站点配置文件中的 <code>theme</code> 值修改为你下载主题的文件名，此处为 <code>hexo-theme-matery</code>，那么值就修改为 <code>theme: hexo-theme-matery</code></p>
 <p>一些站点配置文件的其他地方的修改：</p>
@@ -759,7 +694,7 @@ layout: &quot;contact&quot;
   customEmojis:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>执行 <code>hexo clean &amp;&amp; hexo g</code> 重新生成博客文件，然后就可以在文章中对应位置看到你用 <code>emoji</code> 语法写的表情了。</p>
-<h3 id="4-2-4-代码高亮"><a href="#4-2-4-代码高亮" class="headerlink" title="4.2.4 代码高亮"></a>4.2.4 代码高亮</h3><p>从 Hexo5.0 版本开始自带了 <code>prismjs</code> 代码语法高亮的支持，本主题对此进行了改造支持。</p>
+<h3 id="4-2-4-代码高亮"><a href="#4-2-4-代码高亮" class="headerlink" title="4.2.4 代码高亮"></a>4.2.4 代码高亮</h3><p>从 Hexo5.0 版本开始自带了 <code>prismjs</code> 代码语法高亮的支持，matery主题对此进行了改造支持。</p>
 <p>如果你的博客中曾经安装过 <code>hexo-prism-plugin</code> 的插件，那么你须要执行 <code>npm uninstall hexo-prism-plugin</code> 来卸载掉它，否则生成的代码中会有 <code>&#123;</code> 和 <code>&#125;</code> 的转义字符。</p>
 <p>然后，修改 Hexo 根目录下 <code>_config.yml</code> 文件中 <code>highlight.enable</code> 的值为 <code>false</code>，并将 <code>prismjs.enable</code> 的值设置为 <code>true</code>，主要配置如下：</p>
 <pre class="line-numbers language-none"><code class="language-none">highlight:
@@ -831,11 +766,9 @@ prismjs:
 <li><p>City 版：是一款适合所有人使用的免费版本；</p>
 </li>
 <li><p>Premium 版：是一款能够帮助企业实现自动化管理的多功能收费版本。</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20200115142313.png" alt="img"></p>
-<p><strong>img</strong></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20200115142313.png"></p>
 <p>注册完之后，会提示你填写网站的相关信息，如网站链接，网站名称等等，填写完毕之后，会给你一段代码，如下图所示:</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/image-20200115142709585.png" alt="img"></p>
-<p><strong>img</strong></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/image-20200115142709585.png"></p>
 <pre class="line-numbers language-none"><code class="language-none"># Livere comment configuration, the default is not activated
 # Livere 来必力评论模块的配置，默认为不激活
 livere:
@@ -884,8 +817,7 @@ livere:
 
 <p>说明： banner图即为你博客主页所显示的图片 （默认为 <code>0.jpg</code> ）</p>
 <h3 id="4-3-3-修改网站上的相关信息"><a href="#4-3-3-修改网站上的相关信息" class="headerlink" title="4.3.3 修改网站上的相关信息"></a>4.3.3 修改网站上的相关信息</h3><p>首先看图：</p>
-<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20200115115221.png" alt="img"></p>
-<p><strong>img</strong></p>
+<p><img src="../images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/20200115115221.png"></p>
 <p>相关配置信息如下：</p>
 <pre class="line-numbers language-none"><code class="language-none">#这是根目录下的配置文件信息
 title: 过客~励む   												#这是网站标题
@@ -995,6 +927,12 @@ tags:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></spa
 <pre class="line-numbers language-none"><code class="language-none">H:\8yyy&#39;s blog\themes\hexo-theme-matery\source\libs\prism<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><a target="_blank" rel="noopener" href="https://prismjs.com/download.html#themes=prism&amp;languages=markup+css+clike+javascript">https://prismjs.com/download.html#themes=prism&amp;languages=markup+css+clike+javascript</a></p>
+<h3 id="6-3-关于hexo的降级操作"><a href="#6-3-关于hexo的降级操作" class="headerlink" title="6.3 关于hexo的降级操作"></a>6.3 关于hexo的降级操作</h3><p>如果有需要的话，首先卸载当前版本的hexo</p>
+<pre class="line-numbers language-none"><code class="language-none">npm uninstall hexo --save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>下载旧版本的hexo，例如hexo4.2.0</p>
+<pre class="line-numbers language-none"><code class="language-none">npm install hexo@4.2.0 --save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p><strong>参考文献：</strong></p>
 <ol>
 <li><p><a target="_blank" rel="noopener" href="https://yafine-blog.cn/posts/4ab2.html#toc-heading-79">https://yafine-blog.cn/posts/4ab2.html#toc-heading-79</a></p>
