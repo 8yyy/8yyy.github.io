@@ -468,9 +468,6 @@
         <hr class="clearfix">
 
         
-        <!-- 是否加载使用自带的 prismjs. -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
-        
 
         
 
@@ -489,207 +486,17 @@
 <p>现给定一组拍照人，请编写程序输出他们的队形。</p>
 <h4 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h4><p>每个输入包含 1 个测试用例。每个测试用例第 1 行给出两个正整数 <em>N</em>（≤104，总人数）和 <em>K</em>（≤10，总排数）。随后 <em>N</em> 行，每行给出一个人的名字（不包含空格、长度不超过 8 个英文字母）和身高（[30, 300] 区间内的整数）。</p>
 <h4 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h4><p>输出拍照的队形。即K排人名，其间以空格分隔，行末不得有多余空格。注意：假设你面对拍照者，后排的人输出在上方，前排输出在下方。</p>
-<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-in" data-language="in"><code class="language-in">10 3
-Tom 188
-Mike 170
-Eva 168
-Tim 160
-Joe 190
-Ann 168
-Bob 175
-Nick 186
-Amy 160
-John 159<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">10 3</span><br><span class="line">Tom 188</span><br><span class="line">Mike 170</span><br><span class="line">Eva 168</span><br><span class="line">Tim 160</span><br><span class="line">Joe 190</span><br><span class="line">Ann 168</span><br><span class="line">Bob 175</span><br><span class="line">Nick 186</span><br><span class="line">Amy 160</span><br><span class="line">John 159</span><br></pre></td></tr></table></figure>
 
-<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-out" data-language="out"><code class="language-out">Bob Tom Joe Nick
-Ann Mike Eva
-Tim Amy John<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bob Tom Joe Nick</span><br><span class="line">Ann Mike Eva</span><br><span class="line">Tim Amy John</span><br></pre></td></tr></table></figure>
 
 <h3>二、思路：</h3>
 
-<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">先把身高利用sort()函数进行降序，如果身高相同再利用compare()函数进行比较
-bool cmp(struct student s1,struct student s2)&#123;
-	if(s1.h&gt;s2.h) return true;
-	&#x2F;&#x2F;如果身高相同，就按名字的字典序升序排列 
-	else if(s1.h&#x3D;&#x3D;s2.h)&#123;
-		if(s1.name.compare(s2.name)&#x3D;&#x3D;1)	return false;
-		else return true;
-	&#125; 
-	else return false;
-&#125;
-当然也可以直接精简为：
-bool cmp(struct student s1,struct student s2)&#123;
-	return s1.h!&#x3D;s2.h?s1.h&gt;s2.h:s1.name&lt;s2.name;
-&#125;
-先考虑两种特殊的情况，就是k&#x3D;&#x3D;1或者n&lt;k的情况，这时候他们都在一排上
-然后先输出最后一排，最高那一排的情况
-再依次向前输出
-每次都要先确定最高的那个人的位置
-最后一排的位置是 (n%k+n&#x2F;k)&#x2F;2+1
-前面的位置是：i+n&#x2F;k&#x2F;2
-以下是未通过的代码：<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">先把身高利用<span class="built_in">sort</span>()函数进行降序，如果身高相同再利用<span class="built_in">compare</span>()函数进行比较</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">struct</span> student s1,<span class="keyword">struct</span> student s2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(s1.h&gt;s2.h) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="comment">//如果身高相同，就按名字的字典序升序排列 </span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(s1.h==s2.h)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s1.name.<span class="built_in">compare</span>(s2.name)==<span class="number">1</span>)	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">当然也可以直接精简为：</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">struct</span> student s1,<span class="keyword">struct</span> student s2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> s1.h!=s2.h?s1.h&gt;s2.h:s1.name&lt;s2.name;</span><br><span class="line">&#125;</span><br><span class="line">先考虑两种特殊的情况，就是k==<span class="number">1</span>或者n&lt;k的情况，这时候他们都在一排上</span><br><span class="line">然后先输出最后一排，最高那一排的情况</span><br><span class="line">再依次向前输出</span><br><span class="line">每次都要先确定最高的那个人的位置</span><br><span class="line">最后一排的位置是 (n%k+n/k)/<span class="number">2</span>+<span class="number">1</span></span><br><span class="line">前面的位置是：i+n/k/<span class="number">2</span></span><br><span class="line">以下是未通过的代码：</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;bits&#x2F;stdc++.h&gt;
-#define inf 0x3f3f3f3f
-#define maxn 10010
-using namespace std;
-int n,k;
-string s[maxn];
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> inf 0x3f3f3f3f</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 10010</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> n,k;</span><br><span class="line">string s[maxn];</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">student</span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="type">int</span> h;	</span><br><span class="line">&#125;stu[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">struct</span> student s1,<span class="keyword">struct</span> student s2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(s1.h&gt;s2.h) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="comment">//如果身高相同，就按名字的字典序升序排列 </span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(s1.h==s2.h)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s1.name.<span class="built_in">compare</span>(s2.name)==<span class="number">1</span>)	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="comment">//return s1.h!=s2.h?s1.h&gt;s2.h:s1.name&lt;s2.name;可以这么精简 </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出最后一排 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printlast</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> la=n%k+n/k;	   <span class="comment">//确定最后一排的人数 </span></span><br><span class="line">	<span class="type">int</span> t=la/<span class="number">2</span>+<span class="number">1</span>; <span class="comment">//确定最后一排最大数的位置 </span></span><br><span class="line">	s[t]=stu[<span class="number">1</span>].name;</span><br><span class="line">	<span class="type">int</span> tail=t,head=t;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=la;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(i%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">			head--;</span><br><span class="line">			s[head]=stu[i].name;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			tail++;</span><br><span class="line">			s[tail]=stu[i].name;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;la;i++) cout&lt;&lt;s[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">	cout&lt;&lt;s[la];</span><br><span class="line">	cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//依次往前输出 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">int</span> l)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=l;i&lt;=n;i+=n/k)&#123;</span><br><span class="line">		<span class="type">int</span> t=i+n/k/<span class="number">2</span>; <span class="comment">//确定一排中最大数的位置 </span></span><br><span class="line">		s[t]=stu[i].name;</span><br><span class="line">		<span class="type">int</span> tail=t,head=t;</span><br><span class="line">		<span class="type">bool</span> flag=<span class="literal">true</span>;		<span class="comment">//判断i+1的奇偶,用于保证先左后右 </span></span><br><span class="line">		<span class="keyword">if</span>((i+<span class="number">1</span>)%<span class="number">2</span>!=<span class="number">0</span>) flag=<span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=i+<span class="number">1</span>;j&lt;i+n/k;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(flag)&#123;		</span><br><span class="line">				<span class="keyword">if</span>(j%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">					head--;</span><br><span class="line">					s[head]=stu[j].name;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span>&#123;</span><br><span class="line">					tail++;</span><br><span class="line">					s[tail]=stu[j].name;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">if</span>(j%<span class="number">2</span>!=<span class="number">0</span>)&#123;</span><br><span class="line">					head--;</span><br><span class="line">					s[head]=stu[j].name;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span>&#123;</span><br><span class="line">					tail++;</span><br><span class="line">					s[tail]=stu[j].name;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> d=i;d&lt;i+n/k<span class="number">-1</span>;d++) cout&lt;&lt;s[d]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">		cout&lt;&lt;s[i+n/k<span class="number">-1</span>];</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		cin&gt;&gt;stu[i].name&gt;&gt;stu[i].h;  </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">sort</span>(stu+<span class="number">1</span>,stu+<span class="number">1</span>+n,cmp);<span class="comment">//根据身高降序 </span></span><br><span class="line">	<span class="comment">/*cout&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">	for(int i=1;i&lt;=n;i++) cout&lt;&lt;stu[i].name&lt;&lt;&quot; &quot;&lt;&lt;stu[i].h&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">	cout&lt;&lt;endl;*/</span></span><br><span class="line">	<span class="keyword">if</span>(k==<span class="number">1</span>||n&lt;k)&#123;			<span class="comment">//判断特殊情况 </span></span><br><span class="line">		<span class="type">int</span> t=n/<span class="number">2</span>+<span class="number">1</span>;</span><br><span class="line">		s[t]=stu[<span class="number">1</span>].name;</span><br><span class="line">		<span class="type">int</span> tail=t,head=t;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(i%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">				head--;</span><br><span class="line">				s[head]=stu[i].name;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				tail++;</span><br><span class="line">				s[tail]=stu[i].name;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++) cout&lt;&lt;s[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">		cout&lt;&lt;s[n];</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printlast</span>();</span><br><span class="line">		<span class="built_in">print</span>(n%k+n/k+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-struct student&#123;
-	string name;
-	int h;	
-&#125;stu[maxn];
-
-bool cmp(struct student s1,struct student s2)&#123;
-	if(s1.h&gt;s2.h) return true;
-	&#x2F;&#x2F;如果身高相同，就按名字的字典序升序排列 
-	else if(s1.h&#x3D;&#x3D;s2.h)&#123;
-		if(s1.name.compare(s2.name)&#x3D;&#x3D;1)	return false;
-		else return true;
-	&#125; 
-	else return false;
-	&#x2F;&#x2F;return s1.h!&#x3D;s2.h?s1.h&gt;s2.h:s1.name&lt;s2.name;可以这么精简 
-&#125;
-&#x2F;&#x2F;输出最后一排 
-void printlast(void)&#123;
-	int la&#x3D;n%k+n&#x2F;k;	   &#x2F;&#x2F;确定最后一排的人数 
-	int t&#x3D;la&#x2F;2+1; &#x2F;&#x2F;确定最后一排最大数的位置 
-	s[t]&#x3D;stu[1].name;
-	int tail&#x3D;t,head&#x3D;t;
-	for(int i&#x3D;2;i&lt;&#x3D;la;i++)&#123;
-		if(i%2&#x3D;&#x3D;0)&#123;
-			head--;
-			s[head]&#x3D;stu[i].name;
-		&#125;
-		else&#123;
-			tail++;
-			s[tail]&#x3D;stu[i].name;
-		&#125;
-	&#125;
-	for(int i&#x3D;1;i&lt;la;i++) cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;;
-	cout&lt;&lt;s[la];
-	cout&lt;&lt;endl;
-&#125;
-&#x2F;&#x2F;依次往前输出 
-void print(int l)&#123;
-	for(int i&#x3D;l;i&lt;&#x3D;n;i+&#x3D;n&#x2F;k)&#123;
-		int t&#x3D;i+n&#x2F;k&#x2F;2; &#x2F;&#x2F;确定一排中最大数的位置 
-		s[t]&#x3D;stu[i].name;
-		int tail&#x3D;t,head&#x3D;t;
-		bool flag&#x3D;true;		&#x2F;&#x2F;判断i+1的奇偶,用于保证先左后右 
-		if((i+1)%2!&#x3D;0) flag&#x3D;false;
-		for(int j&#x3D;i+1;j&lt;i+n&#x2F;k;j++)&#123;
-			if(flag)&#123;		
-				if(j%2&#x3D;&#x3D;0)&#123;
-					head--;
-					s[head]&#x3D;stu[j].name;
-				&#125;
-				else&#123;
-					tail++;
-					s[tail]&#x3D;stu[j].name;
-				&#125;
-			&#125;
-			else&#123;
-				if(j%2!&#x3D;0)&#123;
-					head--;
-					s[head]&#x3D;stu[j].name;
-				&#125;
-				else&#123;
-					tail++;
-					s[tail]&#x3D;stu[j].name;
-				&#125;
-			&#125;
-		&#125;
-		for(int d&#x3D;i;d&lt;i+n&#x2F;k-1;d++) cout&lt;&lt;s[d]&lt;&lt;&quot; &quot;;
-		cout&lt;&lt;s[i+n&#x2F;k-1];
-		cout&lt;&lt;endl;
-	&#125;
-&#125;
-
-
-int main()&#123;
-	cin&gt;&gt;n&gt;&gt;k;
-	for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;
-		cin&gt;&gt;stu[i].name&gt;&gt;stu[i].h;  
-	&#125;
-	sort(stu+1,stu+1+n,cmp);&#x2F;&#x2F;根据身高降序 
-	&#x2F;*cout&lt;&lt;endl;
-	for(int i&#x3D;1;i&lt;&#x3D;n;i++) cout&lt;&lt;stu[i].name&lt;&lt;&quot; &quot;&lt;&lt;stu[i].h&lt;&lt;endl;
-	cout&lt;&lt;endl;*&#x2F;
-	if(k&#x3D;&#x3D;1||n&lt;k)&#123;			&#x2F;&#x2F;判断特殊情况 
-		int t&#x3D;n&#x2F;2+1;
-		s[t]&#x3D;stu[1].name;
-		int tail&#x3D;t,head&#x3D;t;
-		for(int i&#x3D;2;i&lt;&#x3D;n;i++)&#123;
-			if(i%2&#x3D;&#x3D;0)&#123;
-				head--;
-				s[head]&#x3D;stu[i].name;
-			&#125;
-			else&#123;
-				tail++;
-				s[tail]&#x3D;stu[i].name;
-			&#125;
-		&#125;
-		for(int i&#x3D;1;i&lt;n;i++) cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;;
-		cout&lt;&lt;s[n];
-		cout&lt;&lt;endl;
-		return 0;
-	&#125;
-	else&#123;
-		printlast();
-		print(n%k+n&#x2F;k+1);
-	&#125;
-	return 0;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="三、网上搜了下别人的代码，简单易懂"><a href="#三、网上搜了下别人的代码，简单易懂" class="headerlink" title="三、网上搜了下别人的代码，简单易懂"></a>三、网上搜了下别人的代码，简单易懂</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-#include &lt;vector&gt;
-using namespace std;
-struct node &#123;
-    string name;
-    int height;
-&#125;;
-int cmp(struct node a, struct node b) &#123;
-    return a.height !&#x3D; b.height ? a.height &gt; b.height : a.name &lt; b.name;
-&#125;
-int main() &#123;
-    int n, k, m;
-    cin &gt;&gt; n &gt;&gt; k;
-    vector&lt;node&gt; stu(n);
-    for(int i &#x3D; 0; i &lt; n; i++) &#123;
-        cin &gt;&gt; stu[i].name &gt;&gt; stu[i].height;
-    &#125;
-    sort(stu.begin(), stu.end(), cmp);
-    int t &#x3D; 0, row &#x3D; k;
-    while(row) &#123;
-        if(row &#x3D;&#x3D; k)
-            m &#x3D; n - n &#x2F; k * (k - 1);
-        else
-            m &#x3D; n &#x2F; k;
-        vector&lt;string&gt; ans(m);
-        ans[m &#x2F; 2] &#x3D; stu[t].name;
-        &#x2F;&#x2F; 左边一列
-        int j &#x3D; m &#x2F; 2 - 1;
-        for(int i &#x3D; t + 1; i &lt; t + m; i &#x3D; i + 2)
-            ans[j--] &#x3D; stu[i].name;
-        &#x2F;&#x2F; 右边一列
-        j &#x3D; m &#x2F; 2 + 1;
-        for(int i &#x3D; t + 2; i &lt; t + m; i &#x3D; i + 2)
-            ans[j++] &#x3D; stu[i].name;
-        &#x2F;&#x2F; 输出当前排
-        cout &lt;&lt; ans[0];
-        for(int i &#x3D; 1; i &lt; m; i++)
-            cout &lt;&lt; &quot; &quot; &lt;&lt; ans[i];
-        cout &lt;&lt; endl;
-        t &#x3D; t + m;
-        row--;
-    &#125;
-    return 0;
-&#125;
-源：https:&#x2F;&#x2F;blog.csdn.net&#x2F;liuchuo&#x2F;article&#x2F;details&#x2F;51994263<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="三、网上搜了下别人的代码，简单易懂"><a href="#三、网上搜了下别人的代码，简单易懂" class="headerlink" title="三、网上搜了下别人的代码，简单易懂"></a>三、网上搜了下别人的代码，简单易懂</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span> &#123;</span><br><span class="line">    string name;</span><br><span class="line">    <span class="type">int</span> height;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">cmp</span><span class="params">(<span class="keyword">struct</span> node a, <span class="keyword">struct</span> node b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.height != b.height ? a.height &gt; b.height : a.name &lt; b.name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n, k, m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">    <span class="function">vector&lt;node&gt; <span class="title">stu</span><span class="params">(n)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        cin &gt;&gt; stu[i].name &gt;&gt; stu[i].height;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(stu.<span class="built_in">begin</span>(), stu.<span class="built_in">end</span>(), cmp);</span><br><span class="line">    <span class="type">int</span> t = <span class="number">0</span>, row = k;</span><br><span class="line">    <span class="keyword">while</span>(row) &#123;</span><br><span class="line">        <span class="keyword">if</span>(row == k)</span><br><span class="line">            m = n - n / k * (k - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            m = n / k;</span><br><span class="line">        <span class="function">vector&lt;string&gt; <span class="title">ans</span><span class="params">(m)</span></span>;</span><br><span class="line">        ans[m / <span class="number">2</span>] = stu[t].name;</span><br><span class="line">        <span class="comment">// 左边一列</span></span><br><span class="line">        <span class="type">int</span> j = m / <span class="number">2</span> - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = t + <span class="number">1</span>; i &lt; t + m; i = i + <span class="number">2</span>)</span><br><span class="line">            ans[j--] = stu[i].name;</span><br><span class="line">        <span class="comment">// 右边一列</span></span><br><span class="line">        j = m / <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = t + <span class="number">2</span>; i &lt; t + m; i = i + <span class="number">2</span>)</span><br><span class="line">            ans[j++] = stu[i].name;</span><br><span class="line">        <span class="comment">// 输出当前排</span></span><br><span class="line">        cout &lt;&lt; ans[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; m; i++)</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; ans[i];</span><br><span class="line">        cout &lt;&lt; endl;</span><br><span class="line">        t = t + m;</span><br><span class="line">        row--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">源：https:<span class="comment">//blog.csdn.net/liuchuo/article/details/51994263</span></span><br></pre></td></tr></table></figure>
 
 
                 
