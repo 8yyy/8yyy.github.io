@@ -1141,105 +1141,104 @@ namespace EventSample
 <h3 id="4-2-初识类型、变量与方法"><a href="#4-2-初识类型、变量与方法" class="headerlink" title="4.2 初识类型、变量与方法"></a>4.2 初识类型、变量与方法</h3><ol>
 <li><p>初识类型（Type）</p>
 <ul>
-<li><p>亦称数据类型（Data Type）</p>
+<li>亦称数据类型（Data Type）<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">var x &#x3D; 3;         Console.WriteLine(x.GetType().Name);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
 </li>
-<li><p>```c#<br>var x = 3;         Console.WriteLine(x.GetType().Name);</p>
-<pre class="line-numbers language-none"><code class="language-none">
--  var 赋值的变量C#会自动推算出数据类型
+</ol>
+<ul>
+<li> var 赋值的变量C#会自动推算出数据类型</li>
+</ul>
+<ol start="2">
+<li><p>变量是存放数据的地方，简称”数据“</p>
+<ul>
+<li>变量的声明</li>
+<li>变量的使用</li>
+</ul>
+</li>
+<li><p>方法（旧城函数）是处理数据的逻辑，又称”算法“</p>
+<ul>
+<li>方法的声明</li>
+<li>方法的调用</li>
+</ul>
+</li>
+<li><p>程序=数据+算法</p>
+<ul>
+<li>有了变量和方法就可以写有意义的程序了</li>
+<li>ctrl+k+c 快速注释</li>
+<li>ctrl+k+u 快速解注释</li>
+</ul>
+</li>
+<li><p>简单算法，计算1到100的和</p>
+<ul>
+<li><p>第一种使用循环，代码如下</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
 
-2. 变量是存放数据的地方，简称”数据“
+namespace sample
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            Calculator c &#x3D; new Calculator();
+            Console.WriteLine(c.SumFrom1ToX(100));
+        &#125;
+    &#125;
 
-   - 变量的声明
-   - 变量的使用
-
-3. 方法（旧城函数）是处理数据的逻辑，又称”算法“
-
-   - 方法的声明
-   - 方法的调用
-
-4. 程序&#x3D;数据+算法
-
-   - 有了变量和方法就可以写有意义的程序了
-   - ctrl+k+c 快速注释
-   - ctrl+k+u 快速解注释
-
-5. 简单算法，计算1到100的和
-
-   - 第一种使用循环，代码如下
-
-   - &#96;&#96;&#96;c#
-     using System;
-     
-     namespace sample
-     &#123;
-         class Program
-         &#123;
-             static void Main(string[] args)
-             &#123;
-                 Calculator c &#x3D; new Calculator();
-                 Console.WriteLine(c.SumFrom1ToX(100));
-             &#125;
-         &#125;
-     
-         class Calculator
-         &#123;
-             public int SumFrom1ToX(int x)
-             &#123;
-                 int res &#x3D; 0;
-                 for (int i &#x3D; 1; i &lt; x+1; i++)
-                 &#123;
-                     res +&#x3D; i;
-                 &#125;
-                 return res;
-             &#125;
-         &#125;
-     &#125;
-     <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+    class Calculator
+    &#123;
+        public int SumFrom1ToX(int x)
+        &#123;
+            int res &#x3D; 0;
+            for (int i &#x3D; 1; i &lt; x+1; i++)
+            &#123;
+                res +&#x3D; i;
+            &#125;
+            return res;
+        &#125;
+    &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>第二种使用递归</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+
+namespace sample
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            Calculator c &#x3D; new Calculator();
+            Console.WriteLine(c.SumFrom1ToX(100));
+        &#125;
+    &#125;
+
+    class Calculator
+    &#123;
+        public int SumFrom1ToX(int x)
+        &#123;
+            if (x &#x3D;&#x3D; 1)
+            &#123;
+                return 1;
+            &#125;
+            else
+            &#123;
+                int result &#x3D; x + SumFrom1ToX(x - 1);
+                return result;
+            &#125;
+        &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 </li>
-<li><p>```c#<br>using System;</p>
-<p>namespace sample<br>{</p>
-<pre><code>class Program
-&#123;
-    static void Main(string[] args)
-    &#123;
-        Calculator c = new Calculator();
-        Console.WriteLine(c.SumFrom1ToX(100));
-    &#125;
-&#125;
-
-class Calculator
-&#123;
-    public int SumFrom1ToX(int x)
-    &#123;
-        if (x == 1)
-        &#123;
-            return 1;
-        &#125;
-        else
-        &#123;
-            int result = x + SumFrom1ToX(x - 1);
-            return result;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-6. 汉诺塔问题
-
-   主要分为A,B,C杆，将A杆中的盘子全部移至C杆，分为三部：
-
-   (1)以C杆为中介，从A杆将1至n-1号盘移至B杆；
-
-   (2)将A杆中剩下的第n号盘移至C杆；
-
-   (3)以A杆为中介；从B杆将1至n-1号盘移至C杆。
-
-代码如下：
-
-&#96;&#96;&#96;c#
-using System;
+<li><p>汉诺塔问题</p>
+<p>主要分为A,B,C杆，将A杆中的盘子全部移至C杆，分为三部：</p>
+<p>(1)以C杆为中介，从A杆将1至n-1号盘移至B杆；</p>
+<p>(2)将A杆中剩下的第n号盘移至C杆；</p>
+<p>(3)以A杆为中介；从B杆将1至n-1号盘移至C杆。</p>
+</li>
+</ol>
+<p>代码如下：</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
 
 namespace sample
 &#123;
@@ -1269,10 +1268,8 @@ namespace sample
     &#125;
 
    
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-</li>
-</ol>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <hr>
 
 
@@ -1315,160 +1312,160 @@ namespace sample
 <li><p>此类型所包含的成员（如方法、属性、事件等）</p>
 </li>
 <li><p>此类型由何基类派生而来</p>
-<ul>
-<li><p>```c#<br>using System;<br>using System.Reflection;<br>using System.Windows.Forms;</p>
-<p>namespace sample<br>{</p>
-<pre><code> class Program
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+using System.Reflection;
+using System.Windows.Forms;
+
+namespace sample
 &#123;
-    static void Main(string[] args)
+     class Program
     &#123;
-        Type myType = typeof(Form);
-        Console.WriteLine(myType.Name);                 //查看类型的名字
-        Console.WriteLine(myType.FullName);             //查看类型的全名
-        Console.WriteLine(myType.BaseType.FullName);    //查看类型的基类
-
-        PropertyInfo[] pInfos = myType.GetProperties();
-        //能够动态的探知程序运行过程中有那些属性
-        foreach(var p in pInfos)
+        static void Main(string[] args)
         &#123;
-            Console.WriteLine(p.Name);
-        &#125;
+            Type myType &#x3D; typeof(Form);
+            Console.WriteLine(myType.Name);                 &#x2F;&#x2F;查看类型的名字
+            Console.WriteLine(myType.FullName);             &#x2F;&#x2F;查看类型的全名
+            Console.WriteLine(myType.BaseType.FullName);    &#x2F;&#x2F;查看类型的基类
 
-        MethodInfo[] mInfos = myType.GetMethods();
-        //能够动态的探知程序运行过程中有那些方法
-        foreach (var m in mInfos)
-        &#123;
-            Console.WriteLine(m.Name);
+            PropertyInfo[] pInfos &#x3D; myType.GetProperties();
+            &#x2F;&#x2F;能够动态的探知程序运行过程中有那些属性
+            foreach(var p in pInfos)
+            &#123;
+                Console.WriteLine(p.Name);
+            &#125;
+
+            MethodInfo[] mInfos &#x3D; myType.GetMethods();
+            &#x2F;&#x2F;能够动态的探知程序运行过程中有那些方法
+            foreach (var m in mInfos)
+            &#123;
+                Console.WriteLine(m.Name);
+            &#125;
         &#125;
     &#125;
 &#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-    
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-- 程序运行的时候，此类型的变量分配在内存的什么位置
-
-  - Stack简介
-
-    - 给方法调用
-    - Stack比较小，比较快
-
-  - Stack overflow
-
-    - 算法没写好
-
-    - 分配了过多的内存
-
-    - &#96;&#96;&#96;c#
-      using System;
-      
-      namespace StackOverflow
-      &#123;
-           class Program
-          &#123;
-              static void Main(string[] args)
-              &#123;
-                  BadGur bg &#x3D; new BadGur();
-                  bg.BadMethod();
-              &#125;
-          &#125;
-      
-          class BadGur
-          &#123;
-              public void BadMethod()
-              &#123;
-                  int x &#x3D; 100;
-                  this.BadMethod();   &#x2F;&#x2F;死循环递归
-              &#125;
-          &#125;
-      &#125;
-      <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+</li>
+<li><p>程序运行的时候，此类型的变量分配在内存的什么位置</p>
 <ul>
-<li><p>```c#<br>using System;</p>
-<p>namespace StackOverflow<br>{</p>
-<pre><code>class Program
+<li><p>Stack简介</p>
+<ul>
+<li>给方法调用</li>
+<li>Stack比较小，比较快</li>
+</ul>
+</li>
+<li><p>Stack overflow</p>
+<ul>
+<li><p>算法没写好</p>
+</li>
+<li><p>分配了过多的内存</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+
+namespace StackOverflow
 &#123;
-    //用到指针需要加上unsafe，同时需要在项目 -&gt; 最底部的项目名属性(P) -&gt;生成 -&gt; 允许不安全代码
-    static unsafe void Main(string[] args)
+     class Program
     &#123;
-        int* p = stackalloc int[9999999];
-        //.NET应用程序的默认堆栈大小为1 MB ,为1024*1024，而9999999显然大于这个数字，造成栈溢出
-    &#125;
-&#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-    
-
-- Heap简介
-
-  - 存储对象，实例放在堆里
-  - Heap比Stack大
-
-- 使用Performance Monitor查看进程的堆内存使用量
-
-  - Process（进程），一个程序由硬盘加载到内存之后就形成一个进程
-
-  - &#96;&#96;&#96;c#
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
-    
-    namespace HeapSample
-    &#123;
-        &#x2F;&#x2F;&#x2F; &lt;summary&gt;
-        &#x2F;&#x2F;&#x2F; MainWindow.xaml 的交互逻辑
-        &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;
-        public partial class MainWindow : Window
+        static void Main(string[] args)
         &#123;
-            public MainWindow()
-            &#123;
-                InitializeComponent();
-            &#125;
-            List&lt;Window&gt; winList;
-            &#x2F;&#x2F;window占用的内存多
-            private void Button1_Click(object sender, RoutedEventArgs e)
-            &#123;
-                winList &#x3D; new List&lt;Window&gt;();
-                &#x2F;&#x2F;生成有15000个Window实例的列表
-                for (int i &#x3D; 0; i &lt; 15000; i++)
-                &#123;
-                    Window w &#x3D; new Window();
-                    winList.Add(w);
-                &#125;
-            &#125;
-    
-            private void Button2_Click(object sender, RoutedEventArgs e)
-            &#123;
-                winList.Clear();
-            &#125;
+            BadGur bg &#x3D; new BadGur();
+            bg.BadMethod();
         &#125;
     &#125;
-    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+
+    class BadGur
+    &#123;
+        public void BadMethod()
+        &#123;
+            int x &#x3D; 100;
+            this.BadMethod();   &#x2F;&#x2F;死循环递归
+        &#125;
+    &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+
+namespace StackOverflow
+&#123;
+    class Program
+    &#123;
+        &#x2F;&#x2F;用到指针需要加上unsafe，同时需要在项目 -&gt; 最底部的项目名属性(P) -&gt;生成 -&gt; 允许不安全代码
+        static unsafe void Main(string[] args)
+        &#123;
+            int* p &#x3D; stackalloc int[9999999];
+            &#x2F;&#x2F;.NET应用程序的默认堆栈大小为1 MB ,为1024*1024，而9999999显然大于这个数字，造成栈溢出
+        &#125;
+    &#125;
+
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>Heap简介</p>
+<ul>
+<li>存储对象，实例放在堆里</li>
+<li>Heap比Stack大</li>
+</ul>
+</li>
+<li><p>使用Performance Monitor查看进程的堆内存使用量</p>
+<ul>
+<li><p>Process（进程），一个程序由硬盘加载到内存之后就形成一个进程</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace HeapSample
+&#123;
+    &#x2F;&#x2F;&#x2F; &lt;summary&gt;
+    &#x2F;&#x2F;&#x2F; MainWindow.xaml 的交互逻辑
+    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;
+    public partial class MainWindow : Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+        &#125;
+        List&lt;Window&gt; winList;
+        &#x2F;&#x2F;window占用的内存多
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        &#123;
+            winList &#x3D; new List&lt;Window&gt;();
+            &#x2F;&#x2F;生成有15000个Window实例的列表
+            for (int i &#x3D; 0; i &lt; 15000; i++)
+            &#123;
+                Window w &#x3D; new Window();
+                winList.Add(w);
+            &#125;
+        &#125;
+
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        &#123;
+            winList.Clear();
+        &#125;
+    &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>生成解决方案，ctrl+shift+b</p>
 </li>
 <li><p>ctrl+r运行，输入perfmon打开性能监视器</p>
 </li>
 <li><p>点击<code>红色的X号</code>，再点击<code>绿色的+号</code></p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908155807969.png" alt="image-20220908155807969"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908155807969.png"></p>
 </li>
 <li><p>选择process -&gt; private bytes</p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908160109789.png" alt="image-20220908160109789"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908160109789.png" alt="image-20220908160109789"></p>
 </li>
 <li><p>独享的已分配的当前字节数就是堆内存</p>
 </li>
@@ -1476,17 +1473,17 @@ namespace sample
 </li>
 <li><p>然后回到性能监视器，如下图所示</p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908160238140.png" alt="image-20220908160238140"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908160238140.png" alt="image-20220908160238140"></p>
 </li>
 <li><p>发现一直在100，原理是已经超过了能表示的最大范围</p>
 </li>
-<li><p>双击底部的<img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908160328957.png" alt="image-20220908160328957"></p>
+<li><p>双击底部的<img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908160328957.png" alt="image-20220908160328957"></p>
 </li>
 <li><p>将图标下垂直比例最大值改为1024</p>
 </li>
 <li><p>然后回到性能监视器，如下图所示</p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908160447751.png" alt="image-20220908160447751"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908160447751.png" alt="image-20220908160447751"></p>
 </li>
 <li><p>点击<code>Consume Heap Memory</code>按钮，你会发现性能监视器的图示会立刻往上升</p>
 </li>
@@ -1505,159 +1502,160 @@ namespace sample
 </ul>
 </li>
 <li><p>此类型所允许的操作（运算）</p>
+ <pre class="line-numbers language-none"><code class="language-none">double res1 &#x3D; 3 &#x2F; 4;		&#x2F;&#x2F;0
+double res2 &#x3D; 3.0 &#x2F; 4.0;	&#x2F;&#x2F;0.75<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-3-C-语言的数据类型"><a href="#5-3-C-语言的数据类型" class="headerlink" title="5.3 C#语言的数据类型"></a>5.3 C#语言的数据类型</h3><h4 id="5-3-1-C-的五大数据类型"><a href="#5-3-1-C-的五大数据类型" class="headerlink" title="5.3.1 C#的五大数据类型"></a>5.3.1 C#的五大数据类型</h4><ul>
+<li><p>类（Classes）：如Windows,Form,Console,String</p>
 <ul>
-<li>```<br>double res1 = 3 / 4;        //0<br>double res2 = 3.0 / 4.0;    //0.75<pre class="line-numbers language-none"><code class="language-none">
-      
-
-### 5.3 C#语言的数据类型
-
-#### 5.3.1 C#的五大数据类型
-
-- 类（Classes）：如Windows,Form,Console,String
-
-  - 按&#96;F12&#96;可以转到定义的地方
-
-- 结构体（Structures）:如Int32，Int64，Single，Double
-
-  - int就是一个结构体类型
-
-- 枚举（Enumerations）：如HorizontalAlignment，Visibility
-
-  - 枚举类型，里面的数据都是预定义好的
-
-  - &#96;&#96;&#96;c#
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    
-    namespace ConsoleApp1
-    &#123;
-        class Program
-        &#123;
-            static void Main(string[] args)
-            &#123;
-                Form f &#x3D; new Form();
-                f.WindowState &#x3D; FormWindowState.Maximized;
-                &#x2F;&#x2F;FormWindowState就是一个枚举类型
-                f.ShowDialog();
-            &#125;
-        &#125;
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>按<code>F12</code>可以转到定义的地方</li>
 </ul>
 </li>
-<li><p>F12转到定义</p>
+<li><p>结构体（Structures）:如Int32，Int64，Single，Double</p>
+<ul>
+<li>int就是一个结构体类型</li>
+</ul>
 </li>
-<li><p>```c#<br>using System.Runtime.InteropServices;</p>
-<p>namespace System.Windows.Forms<br>{</p>
-<pre><code>//
-// 摘要:
-//     指定窗体窗口的显示方式。
-[ComVisible(true)]
-public enum FormWindowState
+<li><p>枚举（Enumerations）：如HorizontalAlignment，Visibility</p>
+<ul>
+<li><p>枚举类型，里面的数据都是预定义好的</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ConsoleApp1
 &#123;
-    //
-    // 摘要:
-    //     默认大小的窗口。
-    Normal = 0,
-    //
-    // 摘要:
-    //     最小化的窗口中。
-    Minimized = 1,
-    //
-    // 摘要:
-    //     最大化的窗口。
-    Maximized = 2
-&#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-    
-
-- 接口（Interfaces）
-
-- 委托（Delegates）
-
-#### 5.3.2 C#类型的派生谱系
-
-- C#类型的派生谱系是一个树状的系统
-
-- &#96;Object&#96; （根部，基类型）分为&#96;引用类型(Reference Type)&#96; 和 &#96;值类型(Value Type)&#96;，两大数据类型分组
-- &#96;引用类型(Reference Type)&#96;分为三大分支
-  - 类
-  - 接口
-  - 委托
-- &#96;值类型(Value Type)&#96;分为两大分支
-  - 结构体
-  - 枚举
-- ![image-20220908163836346](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908163836346.png)
-
-
-
-### 5.4 变量、对象与内存
-
-#### 5.4.1 什么是变量
-
-- 表面上来看，变量的用途是存储数据
-
-- 实际上，&lt;font color&#x3D;blue&gt;变量表示了存储位置，并且每个变量都有一个类型，以决定什么样的值能够存入变量&lt;&#x2F;font&gt;
-
-  - 变量名表示（对应着）变量的值内存中的存储位置
-  - 变量类型就是告诉系统从这个存储位置开始数多少个字节，这段字节来保存这个变量的值
-
-- 变量一共有7种
-
-  - 静态变量
-
-  - 实例变量(成员变量，字段)
-
-  - 数组元素
-
-  - 值参数
-
-  - 引用参数
-
-  - 输出形参
-
-  - 局部变量
-
-  - &#96;&#96;&#96;c#
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    
-    namespace ConsoleApp1
+    class Program
     &#123;
-        class Program
+        static void Main(string[] args)
         &#123;
-            static void Main(string[] args)
-            &#123;
-                int[] arr &#x3D; new int[100];   &#x2F;&#x2F;数组元素
-                int x;                      &#x2F;&#x2F;局部变量
-            &#125;
+            Form f &#x3D; new Form();
+            f.WindowState &#x3D; FormWindowState.Maximized;
+            &#x2F;&#x2F;FormWindowState就是一个枚举类型
+            f.ShowDialog();
         &#125;
-    
-        class student 
-        &#123;
-            public static int amount;   &#x2F;&#x2F;静态变量
-            public int age;             &#x2F;&#x2F;实例变量
-            public double Add(ref double a,out double b,double c)
-            &#x2F;&#x2F;a为引用参数，b为输出形参，c为值参数
-            &#123;
-                b &#x3D; 23;
-                return a + b + c;
-            &#125;
-    
-        &#125;
-    
     &#125;
-    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>F12转到定义</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System.Runtime.InteropServices;
+
+namespace System.Windows.Forms
+&#123;
+    &#x2F;&#x2F;
+    &#x2F;&#x2F; 摘要:
+    &#x2F;&#x2F;     指定窗体窗口的显示方式。
+    [ComVisible(true)]
+    public enum FormWindowState
+    &#123;
+        &#x2F;&#x2F;
+        &#x2F;&#x2F; 摘要:
+        &#x2F;&#x2F;     默认大小的窗口。
+        Normal &#x3D; 0,
+        &#x2F;&#x2F;
+        &#x2F;&#x2F; 摘要:
+        &#x2F;&#x2F;     最小化的窗口中。
+        Minimized &#x3D; 1,
+        &#x2F;&#x2F;
+        &#x2F;&#x2F; 摘要:
+        &#x2F;&#x2F;     最大化的窗口。
+        Maximized &#x3D; 2
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
+</li>
+<li><p>接口（Interfaces）</p>
+</li>
+<li><p>委托（Delegates）</p>
+</li>
+</ul>
+<h4 id="5-3-2-C-类型的派生谱系"><a href="#5-3-2-C-类型的派生谱系" class="headerlink" title="5.3.2 C#类型的派生谱系"></a>5.3.2 C#类型的派生谱系</h4><ul>
+<li><p>C#类型的派生谱系是一个树状的系统</p>
+</li>
+<li><p><code>Object</code> （根部，基类型）分为<code>引用类型(Reference Type)</code> 和 <code>值类型(Value Type)</code>，两大数据类型分组</p>
+</li>
+<li><p><code>引用类型(Reference Type)</code>分为三大分支</p>
+<ul>
+<li>类</li>
+<li>接口</li>
+<li>委托</li>
+</ul>
+</li>
+<li><p><code>值类型(Value Type)</code>分为两大分支</p>
+<ul>
+<li>结构体</li>
+<li>枚举</li>
+</ul>
+</li>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908163836346.png" alt="image-20220908163836346"></p>
+</li>
+</ul>
+<h3 id="5-4-变量、对象与内存"><a href="#5-4-变量、对象与内存" class="headerlink" title="5.4 变量、对象与内存"></a>5.4 变量、对象与内存</h3><h4 id="5-4-1-什么是变量"><a href="#5-4-1-什么是变量" class="headerlink" title="5.4.1 什么是变量"></a>5.4.1 什么是变量</h4><ul>
+<li><p>表面上来看，变量的用途是存储数据</p>
+</li>
+<li><p>实际上，<font color="blue">变量表示了存储位置，并且每个变量都有一个类型，以决定什么样的值能够存入变量</font></p>
+<ul>
+<li>变量名表示（对应着）变量的值内存中的存储位置</li>
+<li>变量类型就是告诉系统从这个存储位置开始数多少个字节，这段字节来保存这个变量的值</li>
+</ul>
+</li>
+<li><p>变量一共有7种</p>
+<ul>
+<li><p>静态变量</p>
+</li>
+<li><p>实例变量(成员变量，字段)</p>
+</li>
+<li><p>数组元素</p>
+</li>
+<li><p>值参数</p>
+</li>
+<li><p>引用参数</p>
+</li>
+<li><p>输出形参</p>
+</li>
+<li><p>局部变量</p>
+</li>
+</ul>
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ConsoleApp1
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int[] arr &#x3D; new int[100];   &#x2F;&#x2F;数组元素
+            int x;                      &#x2F;&#x2F;局部变量
+        &#125;
+    &#125;
+
+    class student 
+    &#123;
+        public static int amount;   &#x2F;&#x2F;静态变量
+        public int age;             &#x2F;&#x2F;实例变量
+        public double Add(ref double a,out double b,double c)
+        &#x2F;&#x2F;a为引用参数，b为输出形参，c为值参数
+        &#123;
+            b &#x3D; 23;
+            return a + b + c;
+        &#125;
+
+    &#125;
+
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 </li>
 <li><p>侠义的变量指局部变量，因为其它种类的变量都有自己的约定名称</p>
 <ul>
@@ -1667,59 +1665,59 @@ public enum FormWindowState
 <li><p>变量的声明</p>
 <ul>
 <li><p><font color="blue"> 有效的修饰符组合<del>opt</del> 类型 变量名 初始化器<del>opt</del> </font></p>
+<pre class="line-numbers language-none"><code class="language-none">public int a &#x3D; 100;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>opt表示可有可无的，有效的修饰符组合和初始化器是可选的，类型和变量名是必须的</p>
 </li>
-<li><p>```<br>public int a = 100;</p>
-<pre class="line-numbers language-none"><code class="language-none">
-  - opt表示可有可无的，有效的修饰符组合和初始化器是可选的，类型和变量名是必须的
-
-  - 尽量不要写 &#96;int a&#x3D;100,b&#x3D;200;&#96;这种形式，让代码的可读性变差了
-
-- &lt;font color&#x3D;red&gt;变量是以变量名所对应的内存地址为起点，以其数据类型所要求的存储空间为长度的一块内存区域&lt;&#x2F;font&gt;
-
-#### 5.4.2 值类型的变量
-
-- 值类型没有实例，所谓的“实例”与变量合而为一
-- 值类型的变量在内存的存储
-- 小端模式，是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中
-- &#96;ushort us &#x3D; 1000&#96;,占16-bit，换算成二进制是
-- &#96;00000011 11101000&#96;
-- ![image-20220908193144801](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908193144801.png)
-- &lt;font color&#x3D;8899##&gt;黄色区域为已经被占用的内存&lt;&#x2F;font&gt;
-- &#96;short s&#x3D; -1000&#96;,按位取反+1
-  - 00000011 11101000
-  - 11111100 00010111 按位取反
-  - &#96;11111100 00011000&#96; +1后的结果
-- ![image-20220908193716094](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908193716094.png)
-
-#### 5.4.3 引用类型的变量与实例
-
-- 引用类型的变量与实例的关系：引用类型变量里存储的数据是对象的地址
-
-- &#96;&#96;&#96;c#
-  using System;
-  
-  namespace test
-  &#123;
-      class Program
-      &#123;
-          static void Main(string[] args)
-          &#123;
-              student stu;            &#x2F;&#x2F;引用类型，直接分配32bit，用于存放实例的地址，局部变量在栈上分配内存
-              stu &#x3D; new student();    &#x2F;&#x2F;stu实例化后,在堆上分配32bit+16bit的内存
-              student stu1 &#x3D; stu;     &#x2F;&#x2F;引用类型，直接分配32bit，存放stu实例化之后的地址，局部变量在栈上分配内存
-          &#125;
-      &#125;
-  
-      class student 
-      &#123;
-          uint ID;        &#x2F;&#x2F;32bit
-          ushort Score;   &#x2F;&#x2F;16bit
-      &#125;
-  &#125;
-  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>尽量不要写 <code>int a=100,b=200;</code>这种形式，让代码的可读性变差了</p>
+</li>
 </ul>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908195733520.png" alt="image-20220908195733520"></p>
+<li><p><font color="red">变量是以变量名所对应的内存地址为起点，以其数据类型所要求的存储空间为长度的一块内存区域</font></p>
+</li>
+</ul>
+<h4 id="5-4-2-值类型的变量"><a href="#5-4-2-值类型的变量" class="headerlink" title="5.4.2 值类型的变量"></a>5.4.2 值类型的变量</h4><ul>
+<li>值类型没有实例，所谓的“实例”与变量合而为一</li>
+<li>值类型的变量在内存的存储</li>
+<li>小端模式，是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中</li>
+<li><code>ushort us = 1000</code>,占16-bit，换算成二进制是</li>
+<li><code>00000011 11101000</code></li>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908193144801.png" alt="image-20220908193144801"></li>
+<li><font color="8899##">黄色区域为已经被占用的内存</font></li>
+<li><code>short s= -1000</code>,按位取反+1<ul>
+<li>00000011 11101000</li>
+<li>11111100 00010111 按位取反</li>
+<li><code>11111100 00011000</code> +1后的结果</li>
+</ul>
+</li>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908193716094.png" alt="image-20220908193716094"></li>
+</ul>
+<h4 id="5-4-3-引用类型的变量与实例"><a href="#5-4-3-引用类型的变量与实例" class="headerlink" title="5.4.3 引用类型的变量与实例"></a>5.4.3 引用类型的变量与实例</h4><ul>
+<li>引用类型的变量与实例的关系：引用类型变量里存储的数据是对象的地址</li>
+</ul>
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+
+namespace test
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            student stu;            &#x2F;&#x2F;引用类型，直接分配32bit，用于存放实例的地址，局部变量在栈上分配内存
+            stu &#x3D; new student();    &#x2F;&#x2F;stu实例化后,在堆上分配32bit+16bit的内存
+            student stu1 &#x3D; stu;     &#x2F;&#x2F;引用类型，直接分配32bit，存放stu实例化之后的地址，局部变量在栈上分配内存
+        &#125;
+    &#125;
+
+    class student 
+    &#123;
+        uint ID;        &#x2F;&#x2F;32bit
+        ushort Score;   &#x2F;&#x2F;16bit
+    &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908195733520.png" alt="image-20220908195733520"></p>
 </li>
 <li><p>十进制 30000001  -&gt; 二进制 高位 0000 0001 1100 1001 1100 0011 1000 0001 低位</p>
 </li>
@@ -1741,51 +1739,43 @@ public enum FormWindowState
 <li><p>例如</p>
 <pre class="line-numbers language-none"><code class="language-none">int x &#x3D; 100;	&#x2F;&#x2F;int即int32，占4个字节
 object obj &#x3D;x;	&#x2F;&#x2F;object是所有类型的基类，是引用类型，占4个字节<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220908202330792.png" alt="image-20220908202330792"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220908202330792.png" alt="image-20220908202330792"></p>
 </li>
 <li><p>拆箱就是从堆上往栈搬东西，从堆上oject实例的值，按照我们的要求拆成目标类型的值，存储在栈上</p>
+<pre class="line-numbers language-none"><code class="language-none">int x &#x3D; 100;	&#x2F;&#x2F;int即int32，占4个字节
+object obj &#x3D;x;	&#x2F;&#x2F;object是所有类型的基类，是引用类型，占4个字节
+int y &#x3D; (int)obj;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr></li>
+</ul>
+<h2 id="6-方法的定义、调用与调试"><a href="#6-方法的定义、调用与调试" class="headerlink" title="6. 方法的定义、调用与调试"></a>6. 方法的定义、调用与调试</h2><p>两本书：《CLR via C#》、《C# IN DEPTH》</p>
+<h3 id="6-1-方法的由来"><a href="#6-1-方法的由来" class="headerlink" title="6.1 方法的由来"></a>6.1 方法的由来</h3><h4 id="6-1-1-方法（method）的前身是C-C-语言的函数（function）"><a href="#6-1-1-方法（method）的前身是C-C-语言的函数（function）" class="headerlink" title="6.1.1 方法（method）的前身是C/C++语言的函数（function）"></a>6.1.1 方法（method）的前身是C/C++语言的函数（function）</h4><ul>
+<li>方法是面向对象语言范畴的概念，在非面向对象语言种仍然称为函数</li>
+<li>使用C/C++语言做对比<ul>
+<li>在C语言中printf()，print打印，f是format的意思，就是根据所要的格式进行打印</li>
+<li>C++中<code>std::cout</code>就类似于C#中<code>system.Console</code></li>
+</ul>
 </li>
-<li><p>```<br>int x = 100;    //int即int32，占4个字节<br>object obj =x;    //object是所有类型的基类，是引用类型，占4个字节<br>int y = (int)obj;</p>
-<pre class="line-numbers language-none"><code class="language-none">
-  &lt;hr&gt;
+</ul>
+<h4 id="6-1-2-永远都是类（或结构体）的成员"><a href="#6-1-2-永远都是类（或结构体）的成员" class="headerlink" title="6.1.2 永远都是类（或结构体）的成员"></a>6.1.2 永远都是类（或结构体）的成员</h4><ul>
+<li><p>C#语言种函数不可能独立于类（或结构体）之外</p>
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
 
-  
-
-## 6. 方法的定义、调用与调试
-
-两本书：《CLR via C#》、《C# IN DEPTH》
-
-### 6.1 方法的由来
-
-#### 6.1.1 方法（method）的前身是C&#x2F;C++语言的函数（function）
-
-- 方法是面向对象语言范畴的概念，在非面向对象语言种仍然称为函数
-- 使用C&#x2F;C++语言做对比
-  - 在C语言中printf()，print打印，f是format的意思，就是根据所要的格式进行打印
-  - C++中&#96;std::cout&#96;就类似于C#中&#96;system.Console&#96;
-
-#### 6.1.2 永远都是类（或结构体）的成员
-
-- C#语言种函数不可能独立于类（或结构体）之外
-
-  - &#96;&#96;&#96;c#
-    using System;
-    
-    namespace ConsoleApp1
+namespace ConsoleApp1
+&#123;
+    double Add(double a,double b)
     &#123;
-        double Add(double a,double b)
+        return a + b;
+    &#125;
+    class Program
+    &#123;
+        static void Main(string[] args)
         &#123;
-            return a + b;
-        &#125;
-        class Program
-        &#123;
-            static void Main(string[] args)
-            &#123;
-                Console.WriteLine(&quot;Hello World!&quot;);
-            &#125;
+            Console.WriteLine(&quot;Hello World!&quot;);
         &#125;
     &#125;
-    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
 <li><font color="red">严重错误：命名空间不能直接包含字段或方法之类的成员</font></li>
@@ -1812,85 +1802,103 @@ object obj &#x3D;x;	&#x2F;&#x2F;object是所有类型的基类，是引用类型
 </ul>
 </li>
 <li><p>示例：计算圆面积、圆柱体积、圆锥体积</p>
-<ul>
-<li>```c#<br>using System;namespace CSharpMethodExample<br>{<pre><code>class Calculator
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+
+namespace CSharpMethodExample
 &#123;
-    public double GetCircleArea(double r)   //计算圆的面积
+    class Calculator
     &#123;
-        return Math.PI * r * r;
-    &#125;
+        public double GetCircleArea(double r)   &#x2F;&#x2F;计算圆的面积
+        &#123;
+            return Math.PI * r * r;
+        &#125;
 
-    public double GetCylinderVolume(double h,double r) //计算圆柱的体积
-    &#123;
-        return GetCircleArea(r) * h;
-    &#125;
+        public double GetCylinderVolume(double h,double r) &#x2F;&#x2F;计算圆柱的体积
+        &#123;
+            return GetCircleArea(r) * h;
+        &#125;
 
-    public double GetConeVolume(double h,double r)  //计算圆锥的体积
+        public double GetConeVolume(double h,double r)  &#x2F;&#x2F;计算圆锥的体积
+        &#123;
+            return GetCylinderVolume(h, r) &#x2F; 3;
+        &#125;
+    &#125;
+    class Program
     &#123;
-        return GetCylinderVolume(h, r) / 3;
+        static void Main(string[] args)
+        &#123;
+            Calculator c &#x3D; new Calculator();
+            Console.WriteLine(c.GetCylinderVolume(10,100));
+        &#125;
     &#125;
 &#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+</li>
+</ul>
+<h3 id="6-2-方法的定义与调用"><a href="#6-2-方法的定义与调用" class="headerlink" title="6.2 方法的定义与调用"></a>6.2 方法的定义与调用</h3><h4 id="6-2-1-声明方法的语法详细"><a href="#6-2-1-声明方法的语法详细" class="headerlink" title="6.2.1 声明方法的语法详细"></a>6.2.1 声明方法的语法详细</h4><pre class="line-numbers language-none"><code class="language-none">public double GetCircleArea(double r) &#x2F;&#x2F;函数头  
+&#123;									  &#x2F;&#x2F;函数体
+     return Math.PI * r * r;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>参见C#语言文档（声明、定义不分家）</li>
+<li>Parameter全程为“formal parameter”形式上的参数，简称“形参”</li>
+<li>形参参与构成算法逻辑</li>
+<li>Parameter是一种变量</li>
+</ul>
+<h4 id="6-2-2-方法的命名规范"><a href="#6-2-2-方法的命名规范" class="headerlink" title="6.2.2 方法的命名规范"></a>6.2.2 方法的命名规范</h4><ul>
+<li>大小写规范</li>
+<li>需要以动词或者动词短语作为名字</li>
+<li>采用帕斯卡命名法，所有单词的首字母都大写，例如<code>GetCircleArea</code>，与JAVA存在区别</li>
+</ul>
+<h4 id="6-2-3-重温静态（static）方法和实例方法"><a href="#6-2-3-重温静态（static）方法和实例方法" class="headerlink" title="6.2.3 重温静态（static）方法和实例方法"></a>6.2.3 重温静态（static）方法和实例方法</h4><ul>
+<li>静态（static）方法，<code>public static double Add()</code></li>
+<li>实例方法就是不加static的方法</li>
+<li>重温静态（static）方法和实例方法，静态方法是和类绑定的，在类第一次加载时就被加载到内存里，直到程序结束才释放，静态类是工具类，不需要创建实例就能用到里面的方法；实例方法是和实例绑定的，在new实例的时候才创建，并且使用完就释放了。所以，为了方便，常用的方法写成静态方法，为了节省内存，大部分方法写成非静态的</li>
+</ul>
+<h4 id="6-2-4-调用方法"><a href="#6-2-4-调用方法" class="headerlink" title="6.2.4 调用方法"></a>6.2.4 调用方法</h4><ul>
+<li>Argument中文C#文档的官方译法为“实际参数”，简称“实参”，可理解为调用方法时的真实条件</li>
+<li>调用方法时的实参的列表与定义方法时的形参的列表一定要匹配</li>
+</ul>
+<h3 id="6-3-构造器（一种特殊的方法）"><a href="#6-3-构造器（一种特殊的方法）" class="headerlink" title="6.3 构造器（一种特殊的方法）"></a>6.3 构造器（一种特殊的方法）</h3><h4 id="6-3-1-构造器（constructor）是类型的成员之一"><a href="#6-3-1-构造器（constructor）是类型的成员之一" class="headerlink" title="6.3.1 构造器（constructor）是类型的成员之一"></a>6.3.1 构造器（constructor）是类型的成员之一</h4><h4 id="6-3-2-侠义的构造器指的是“实例构造器”-instance-constructor"><a href="#6-3-2-侠义的构造器指的是“实例构造器”-instance-constructor" class="headerlink" title="6.3.2 侠义的构造器指的是“实例构造器”(instance constructor)"></a>6.3.2 侠义的构造器指的是“实例构造器”(instance constructor)</h4><h4 id="6-3-3-如何调用构造器"><a href="#6-3-3-如何调用构造器" class="headerlink" title="6.3.3 如何调用构造器"></a>6.3.3 如何调用构造器</h4><ul>
+<li>例如<code>student stu = new student();</code>,()就是构造器</li>
+<li>当你没有给类写构造器时，存在一个默认的无参数的构造器</li>
+<li>只存在一个带参数的构造器，就不能使用无参的构造器</li>
+<li>如果你还想使用无参的构造器，你需要再写一个无参的构造器</li>
+</ul>
+<h4 id="6-3-4-声明构造器"><a href="#6-3-4-声明构造器" class="headerlink" title="6.3.4 声明构造器"></a>6.3.4 声明构造器</h4><ul>
+<li>ctor+tab+tab，自动准备好一个构造器</li>
+</ul>
+<h4 id="6-3-5-构造器的内存原理"><a href="#6-3-5-构造器的内存原理" class="headerlink" title="6.3.5 构造器的内存原理"></a>6.3.5 构造器的内存原理</h4><ul>
+<li><p>栈内存由高地址向低地址进行分配</p>
+</li>
+<li><p>接下来是调用默认的构造器的内存原理</p>
+</li>
+<li><p>```c#<br>using System;</p>
+<p>namespace CSharpMethodExample<br>{</p>
+<pre><code>class student
+&#123;
+    public int ID;         //占4个字节
+    public string name;    //string是引用类型，直接占4个字节
+&#125;
+
 class Program
 &#123;
     static void Main(string[] args)
     &#123;
-        Calculator c = new Calculator();
-        Console.WriteLine(c.GetCylinderVolume(10,100));
+        student stu = new student();
+        Console.WriteLine(stu.name==null);
     &#125;
 &#125;
 </code></pre>
-}<pre class="line-numbers language-none"><code class="language-none">
-    
+<p>}</p>
+<pre class="line-numbers language-none"><code class="language-none">
+  
 
-### 6.2 方法的定义与调用
+- ![image-20220909114008993](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909114008993.png)
 
-#### 6.2.1 声明方法的语法详细
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-public double GetCircleArea(double r) //函数头<br>{                                      //函数体<br> return Math.PI * r * r;<br>}<pre class="line-numbers language-none"><code class="language-none">
-- 参见C#语言文档（声明、定义不分家）
-- Parameter全程为“formal parameter”形式上的参数，简称“形参”
-- 形参参与构成算法逻辑
-- Parameter是一种变量
-
-#### 6.2.2 方法的命名规范
-
-- 大小写规范
-- 需要以动词或者动词短语作为名字
-- 采用帕斯卡命名法，所有单词的首字母都大写，例如&#96;GetCircleArea&#96;，与JAVA存在区别
-
-#### 6.2.3 重温静态（static）方法和实例方法
-
-- 静态（static）方法，&#96;public static double Add()&#96;
-- 实例方法就是不加static的方法
-- 重温静态（static）方法和实例方法，静态方法是和类绑定的，在类第一次加载时就被加载到内存里，直到程序结束才释放，静态类是工具类，不需要创建实例就能用到里面的方法；实例方法是和实例绑定的，在new实例的时候才创建，并且使用完就释放了。所以，为了方便，常用的方法写成静态方法，为了节省内存，大部分方法写成非静态的
-
-#### 6.2.4 调用方法
-
-- Argument中文C#文档的官方译法为“实际参数”，简称“实参”，可理解为调用方法时的真实条件
-- 调用方法时的实参的列表与定义方法时的形参的列表一定要匹配
-
-### 6.3 构造器（一种特殊的方法）
-
-#### 6.3.1 构造器（constructor）是类型的成员之一
-
-#### 6.3.2 侠义的构造器指的是“实例构造器”(instance constructor)
-
-#### 6.3.3 如何调用构造器
-
-- 例如&#96;student stu &#x3D; new student();&#96;,()就是构造器
-- 当你没有给类写构造器时，存在一个默认的无参数的构造器
-- 只存在一个带参数的构造器，就不能使用无参的构造器
-- 如果你还想使用无参的构造器，你需要再写一个无参的构造器
-
-#### 6.3.4 声明构造器
-
-- ctor+tab+tab，自动准备好一个构造器
-
-#### 6.3.5 构造器的内存原理
-
-- 栈内存由高地址向低地址进行分配
-
-- 接下来是调用默认的构造器的内存原理
+- 接下来是调用带参数的构造器的内存原理
 
 - &#96;&#96;&#96;c#
   using System;
@@ -1901,300 +1909,362 @@ public double GetCircleArea(double r) //函数头<br>{                          
       &#123;
           public int ID;         &#x2F;&#x2F;占4个字节
           public string name;    &#x2F;&#x2F;string是引用类型，直接占4个字节
+          public student(int initID,string initName)
+          &#123;
+              this.ID &#x3D; initID;
+              this.name &#x3D; initName;
+          &#125;
       &#125;
       
       class Program
       &#123;
           static void Main(string[] args)
           &#123;
-              student stu &#x3D; new student();
+              student stu &#x3D; new student(1,&quot;Mr.Okay&quot;);
               Console.WriteLine(stu.name&#x3D;&#x3D;null);
           &#125;
       &#125;
   &#125;
-  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909120619585.png" alt="image-20220909120619585"></p>
+</li>
+</ul>
+<h3 id="6-4-方法的重载（Overload）"><a href="#6-4-方法的重载（Overload）" class="headerlink" title="6.4 方法的重载（Overload）"></a>6.4 方法的重载（Overload）</h3><h4 id="6-4-1-调用重载方法的实例"><a href="#6-4-1-调用重载方法的实例" class="headerlink" title="6.4.1 调用重载方法的实例"></a>6.4.1 调用重载方法的实例</h4><ul>
+<li>例如cw有17个重载</li>
+<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909165403871.png" alt="image-20220909165403871"></li>
+</ul>
+<h4 id="6-4-2-声明带有重载的方法"><a href="#6-4-2-声明带有重载的方法" class="headerlink" title="6.4.2 声明带有重载的方法"></a>6.4.2 声明带有重载的方法</h4><ul>
+<li><p>方法签名（method signature）由方法的名称、类型形参的个数和它的每一个形参（按从左到右的顺序）的类型和种类（值、引用或输出）组成。<font color="red">方法签名不包含返回类型。</font></p>
+<ul>
+<li><p>签名在现实中表示唯一性</p>
+</li>
+<li><p>```c#<br>//方法签名不包含返回类型,这样写就无法编译通过<br>class Calculator</p>
+<pre><code>&#123;
+    public int Add(int a,int b)
+    &#123;
+        return a + b;
+    &#125;
+    public double Add(int a, int b)
+    &#123;
+        return a + b;
+    &#125;
+&#125;
+</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">
+- &#96;&#96;&#96;c#
+  &#x2F;&#x2F;类型形参
+  class Calculator
+      &#123;
+          public int Add(int a,int b)
+          &#123;
+              return a + b;
+          &#125;
+          public int Add&lt;T&gt;(int a, int b)
+          &#123;
+              T t;
+              return a + b;
+          &#125;
+      &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909114008993.png" alt="image-20220909114008993"></p>
+<li><p>实例构造函数签名由它的每一个形参（按从左到右的顺序）的类型和种类（值、引用或输出）组成</p>
 </li>
-<li><p>接下来是调用带参数的构造器的内存原理</p>
+<li><p>重载决策（到底调用哪一个来重载）：用于在给定了参数列表和一组候选函数成员的情况下，选择哪一个最佳函数成员来实施调用</p>
+</li>
+</ul>
+<h3 id="6-5-如何对方法进行debug"><a href="#6-5-如何对方法进行debug" class="headerlink" title="6.5 如何对方法进行debug"></a>6.5 如何对方法进行debug</h3><ul>
+<li>设置断点（breakpoint）<ul>
+<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909171226298.png" alt="image-20220909171226298"></li>
+</ul>
+</li>
+<li>观察方法调用时的call stack<ul>
+<li>先按F5调试，然后再按CTRL+ALT+C 调用堆栈，其实和堆栈帧是一样的 </li>
+<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909172252145.png" alt="image-20220909172252145"></li>
+<li>可以看出函数调用的方式</li>
+</ul>
+</li>
+<li>Step-in，Step-over，Step-out<ul>
+<li>Step-in F11 逐语句，每次进一步,最仔细的debug方法</li>
+<li>Step-over F10 逐过程</li>
+<li>Step-out Shift + F11 跳出</li>
+</ul>
+</li>
+<li>观察局部变量的值与变化<ul>
+<li>Locals 局部变量 ctrl+alt+v</li>
+<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909173403090.png" alt="image-20220909173403090"></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-6-方法的调用与栈"><a href="#6-6-方法的调用与栈" class="headerlink" title="6.6 方法的调用与栈*"></a>6.6 方法的调用与栈*</h3><ul>
+<li><p>方法调用时栈内存的分配</p>
+<ul>
+<li>对stack frame的分析</li>
+<li>stack frame 指的是一个方法在被调用的时候在栈内存的布局</li>
+<li>栈内存由高字节向低字节发展</li>
+</ul>
+</li>
+<li><p>对以下代码进行分析</p>
 </li>
 <li><p>```c#<br>using System;</p>
 <p>namespace CSharpMethodExample<br>{</p>
-<pre><code>class student
+<pre><code>class Calculator
 &#123;
-    public int ID;         //占4个字节
-    public string name;    //string是引用类型，直接占4个字节
-    public student(int initID,string initName)
+    public static double GetCircleArea(double r)   //计算圆的面积
     &#123;
-        this.ID = initID;
-        this.name = initName;
+        return Math.PI * r * r;
+    &#125;
+
+    public static double GetCylinderVolume(double r, double h) //计算圆柱的体积
+    &#123;
+        double a = GetCircleArea(r);
+        return a * h;
+    &#125;
+
+    public static double GetConeVolume(double r, double h)  //计算圆锥的体积
+    &#123;
+        double cv = GetCylinderVolume(r, h);
+        return cv / 3;
     &#125;
 &#125;
-
 class Program
 &#123;
     static void Main(string[] args)
     &#123;
-        student stu = new student(1,&quot;Mr.Okay&quot;);
-        Console.WriteLine(stu.name==null);
+        double result = Calculator.GetConeVolume(100, 100);    //断点
     &#125;
 &#125;
 </code></pre>
 <p>}</p>
 <pre class="line-numbers language-none"><code class="language-none">
-- ![image-20220909120619585](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909120619585.png)
+- 这是内存默认的情况
 
-### 6.4 方法的重载（Overload）
+- ![image-20220909195448466](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909195448466.png)
 
-#### 6.4.1 调用重载方法的实例
+- 我们对&#96; double result &#x3D; Calculator.GetConeVolume(100, 100);&#96;进行断点
 
-- 例如cw有17个重载
-- ![image-20220909165403871](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909165403871.png)
+- 使用F5进行调试，进入如下界面
 
-#### 6.4.2 声明带有重载的方法
+- ![image-20220909202244944](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202244944.png)
 
-- 方法签名（method signature）由方法的名称、类型形参的个数和它的每一个形参（按从左到右的顺序）的类型和种类（值、引用或输出）组成。&lt;font color&#x3D;red&gt;方法签名不包含返回类型。&lt;&#x2F;font&gt;
+- Main方法在栈中占用的stack frame的大小暂时不用管，以下是分配给Main方法之后栈内存的分配情况
 
-  - 签名在现实中表示唯一性
+- ![image-20220909200306630](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909200306630.png)
 
-  - &#96;&#96;&#96;c#
-    &#x2F;&#x2F;方法签名不包含返回类型,这样写就无法编译通过
-    class Calculator
-        &#123;
-            public int Add(int a,int b)
-            &#123;
-                return a + b;
-            &#125;
-            public double Add(int a, int b)
-            &#123;
-                return a + b;
-            &#125;
-        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>```c#<br>//类型形参<br>class Calculator<pre><code>&#123;
-    public int Add(int a,int b)
-    &#123;
-        return a + b;
-    &#125;
-    public int Add&lt;T&gt;(int a, int b)
-    &#123;
-        T t;
-        return a + b;
-    &#125;
-&#125;
+- &#96;&#96;&#96;
+  static void Main(string[] args)
+          &#123;
+              double result &#x3D; Calculator.GetConeVolume(100, 100);
+          &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><code>Main</code>方法是<code>主调者</code>caller，<code>GetConeVolume</code>方法是<code>被调者</code> callee</p>
+</li>
+<li><p>Main方法在调用<code>GetConeVolume</code>方法的时候，需要传两个参数变量，在C#中这两个参数变量归Main方法管</p>
+</li>
+<li><p>100虽然是整型，但是<code>GetConeVolume</code>方法里的两个参数是<code>double</code>型，所以占<code>8个字节</code>的内存</p>
+</li>
+<li><p>在压栈的时候，C#是从左往右进行参数的压栈</p>
+</li>
+<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202317905.png" alt="image-20220909202317905"></p>
+</li>
+<li><p>之后按下F11，我们就进入到了<code>GetConeVolume</code>方法里了</p>
+</li>
+<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202343831.png" alt="image-20220909202343831"></p>
+</li>
+<li><p>```c#<br>public static double GetConeVolume(double r, double h)  //计算圆锥的体积</p>
+<pre><code>    &#123;
+        double cv = GetCylinderVolume(r, h);
+        return cv / 3;
+   &#125;
 </code></pre>
 <pre class="line-numbers language-none"><code class="language-none">
-    
+- 进入&#96;GetConeVolume&#96;方法里后，我们知道局部变量是需要分配栈内存的，在这里r,h已经&#96;Main&#96;方法压到了栈里，所以我们只需要给cv分配栈内存，也是double类型的8个字节
 
-- 实例构造函数签名由它的每一个形参（按从左到右的顺序）的类型和种类（值、引用或输出）组成
+- ![image-20220909202644466](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202644466.png)
 
-- 重载决策（到底调用哪一个来重载）：用于在给定了参数列表和一组候选函数成员的情况下，选择哪一个最佳函数成员来实施调用
+- 给cv分配好之后，&#96;GetConeVolume&#96;方法需要调用&#96;GetCylinderVolume&#96;方法，而&#96;GetCylinderVolume&#96;也需要2个double型的参数，还是和之前一样，谁调用谁负责压栈
 
-### 6.5 如何对方法进行debug
+- ![image-20220909203554249](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909203554249.png)
 
-- 设置断点（breakpoint）
-  - ![image-20220909171226298](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909171226298.png)
-- 观察方法调用时的call stack
-  - 先按F5调试，然后再按CTRL+ALT+C 调用堆栈，其实和堆栈帧是一样的 
-  - ![image-20220909172252145](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909172252145.png)
-  - 可以看出函数调用的方式
-- Step-in，Step-over，Step-out
-  - Step-in F11 逐语句，每次进一步,最仔细的debug方法
-  - Step-over F10 逐过程
-  - Step-out Shift + F11 跳出
-- 观察局部变量的值与变化
-  - Locals 局部变量 ctrl+alt+v
-  - ![image-20220909173403090](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909173403090.png)
+- 之后按下F11，我们就进入到了&#96;GetCylinderVolume&#96;方法里了
 
-### 6.6 方法的调用与栈*
+- ![image-20220909203826886](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909203826886.png)
 
-- 方法调用时栈内存的分配
-
-  - 对stack frame的分析
-  - stack frame 指的是一个方法在被调用的时候在栈内存的布局
-  - 栈内存由高字节向低字节发展
-
-- 对以下代码进行分析
-
-- &#96;&#96;&#96;c#
-  using System;
-  
-  namespace CSharpMethodExample
-  &#123;
-      class Calculator
-      &#123;
-          public static double GetCircleArea(double r)   &#x2F;&#x2F;计算圆的面积
-          &#123;
-              return Math.PI * r * r;
-          &#125;
-  
-          public static double GetCylinderVolume(double r, double h) &#x2F;&#x2F;计算圆柱的体积
+- &#96;&#96;&#96;C#
+  public static double GetCylinderVolume(double r, double h) &#x2F;&#x2F;计算圆柱的体积
           &#123;
               double a &#x3D; GetCircleArea(r);
               return a * h;
-          &#125;
+          &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>进入<code>GetCylinderVolume</code>方法里后，在这里r,h已经被<code>GetConeVolume</code>方法压到了栈里，所以我们只需要给参数变量a进行压栈，也是double类型的8个字节</p>
+</li>
+<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909204122550.png" alt="image-20220909204122550"></p>
+</li>
+<li><p>给a参数分配好之后，<code>GetCylinderVolume</code>方法需要调用<code>GetCircleArea</code>方法，而<code>GetCircleArea</code>需要1个double型的参数变量r，还是和之前一样，谁调用谁负责压栈</p>
+</li>
+<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909204613369.png" alt="image-20220909204613369"></p>
+</li>
+<li><p>按F11后，我们进入到最后一层调用</p>
+</li>
+<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909204719178.png" alt="image-20220909204719178"></p>
+</li>
+<li><p>```c#<br>public static double GetCircleArea(double r)   //计算圆的面积</p>
+<pre><code>    &#123;
+        return Math.PI * r * r;
+    &#125;
+</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">
+- 我们发现只有一个局部变量r，而r已经被&#96;GetCylinderVolume&#96;方法压栈了
+
+- &lt;font color&#x3D;red&gt;如果一个方法没有局部变量，它仍然占内存，我们上面的内存图只是以局部变量为重点制作的内存图，实际上还有其它地方占内存，比如说我们用完这个方法后，回到之前那个方法，我们需要在栈上保存之前方法的内存地址&lt;&#x2F;font&gt;
+
+- ![image-20220909205257393](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909205257393.png)
+
+- 执行完之后，这个方法会产生一个返回值，返回值一般情况下是存放在CPU的寄存器里面，也有特殊的情况，寄存器存不下然后在栈上开辟内存空间，而这里的double型是肯定可以存下的。
+
+- 之后按几下F11键，调试指针就回到了&#96;GetCylinderVolume&#96;方法里
+
+- ![image-20220909205837338](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909205837338.png)
+
+- ![image-20220909210038402](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210038402.png)
+
+- 而在栈中，框起来的一块进行了出栈操作，对&#96;GetCircleArea&#96;方法所占内存和它主调函数负责压栈的参数进行清空
+
+- 你会发现调用堆栈里少了最上面的一层，这时候a的值为0是因为返回值还存放在CPU的寄存器里面，你再一下F11就会得到a的值
+
+- ![image-20220909210452029](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210452029.png)
+
+- 之后继续按F11，调试指针就回到了&#96;GetConeVolume&#96;方法里
+
+- ![image-20220909210622628](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210622628.png)
+
+- 你会发现调用堆栈里又少了上面的一层，这时候cv的值为0是因为返回值还存放在CPU的寄存器里面，你再一下F11就会得到cv的值
+
+- ![image-20220909210738227](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210738227.png)
+
+- ![image-20220909210829883](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210829883.png)
+
+- 而在栈中，框起来的一块进行了出栈操作，对&#96;GetCylinderVolume&#96;方法所占内存和它主调函数负责压栈的参数进行清空
+
+- 这时候继续按几次F11，调试指针就回到了&#96;Main&#96;方法
+
+- ![image-20220909211551716](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909211551716.png)
+
+- 同样的对框里的内容进行出栈操作
+
+- ![image-20220909211647067](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909211647067.png)
+
+- 之后在按几次F11，随着&#96;Main&#96;函数执行完，它在内存中所占的内存也被清空
+
+- ![image-20220909211900564](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909211900564.png)
+
+- 这时程序就彻底结束了
+
+- 理解并熟记这块内容，你就已经是很专业的开发人员了
+
+&lt;hr&gt;
+
+
+## 7. 操作符详解
+
+### 7.1 操作符概览
+
+- ![image-20220910092648080](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220910092648080.png)
+- 操作符（operator）也译为运算符
+- 操作符是用来操作数据的，被操作符操作的数据称为操作数（Operand）
+
+### 7.2 操作符的本质
+
+- 操作符的本质是函数（算法）的简记法
+
+- 操作符不能脱离与它相关联的数据类型
+
+  - 例如 3&#x2F;4&#x3D;0，3.0&#x2F;4.0&#x3D;0.75
+
+- 举例
+
+- &#96;&#96;&#96;c#
+  using System;
+  using System.Collections.Generic;
   
-          public static double GetConeVolume(double r, double h)  &#x2F;&#x2F;计算圆锥的体积
-          &#123;
-              double cv &#x3D; GetCylinderVolume(r, h);
-              return cv &#x2F; 3;
-          &#125;
-      &#125;
+  namespace Operator
+  &#123;
       class Program
       &#123;
           static void Main(string[] args)
           &#123;
-              double result &#x3D; Calculator.GetConeVolume(100, 100);	&#x2F;&#x2F;断点
+              Person p1 &#x3D; new Person();
+              Person p2 &#x3D; new Person();
+              p1.name &#x3D; &quot;Deer&quot;;
+              p2.name &#x3D; &quot;Deer&#39;s wife&quot;;
+              List&lt;Person&gt; nation &#x3D; p1 + p2;
+              foreach(var p in nation)
+              &#123;
+                  Console.WriteLine(p.name);
+              &#125;
+          &#125;
+      &#125;
+  
+      class Person
+      &#123;
+          public string name;
+  
+          public static List&lt;Person&gt; operator +(Person p1,Person p2)
+          &#123;
+              List&lt;Person&gt; people &#x3D; new List&lt;Person&gt;();
+              people.Add(p1);
+              people.Add(p2);
+              for (int i &#x3D; 0; i &lt; 11; i++)
+              &#123;
+                  Person child &#x3D; new Person();
+                  child.name &#x3D; p1.name + &quot; &amp; &quot; + p2.name + &quot;&#39;s child&quot;;
+                  people.Add(child);
+              &#125;
+              return people;
           &#125;
       &#125;
   &#125;
-  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
+  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>运行结果如下：</p>
 </li>
-<li><p>这是内存默认的情况</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909195448466.png" alt="image-20220909195448466"></p>
-</li>
-<li><p>我们对<code> double result = Calculator.GetConeVolume(100, 100);</code>进行断点</p>
-</li>
-<li><p>使用F5进行调试，进入如下界面</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202244944.png" alt="image-20220909202244944"></p>
-</li>
-<li><p>Main方法在栈中占用的stack frame的大小暂时不用管，以下是分配给Main方法之后栈内存的分配情况</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909200306630.png" alt="image-20220909200306630"></p>
-</li>
-<li><p>```<br>static void Main(string[] args)</p>
-<pre><code>    &#123;
-        double result = Calculator.GetConeVolume(100, 100);
-    &#125;
-</code></pre>
+<li><p>```<br>Deer<br>Deer’s wife<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child</p>
 <pre class="line-numbers language-none"><code class="language-none">
-- &#96;Main&#96;方法是&#96;主调者&#96;caller，&#96;GetConeVolume&#96;方法是&#96;被调者&#96; callee
+### 7.3 操作符的优先级
 
-- Main方法在调用&#96;GetConeVolume&#96;方法的时候，需要传两个参数变量，在C#中这两个参数变量归Main方法管
+- 可以使用圆括号提高被括起来表达式的优先级
+- 圆括号可以嵌套
+- 不像数学里有方括号和花括号，在C#语言里&#96;[]&#96;与&#96;&#123;&#125;&#96;有专门的用途
 
-- 100虽然是整型，但是&#96;GetConeVolume&#96;方法里的两个参数是&#96;double&#96;型，所以占&#96;8个字节&#96;的内存
+### 7.4 同级操作符的运算顺序
 
-- 在压栈的时候，C#是从左往右进行参数的压栈
+- 除了带有赋值功能的操作符，同优先级操作符都是由左向右进行运算
 
-- ![image-20220909202317905](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202317905.png)
+- 带有赋值功能的操作符的运算顺序都是由右向左
 
-- 之后按下F11，我们就进入到了&#96;GetConeVolume&#96;方法里了
+  - ![image-20220910095610510](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220910095610510.png)
 
-- ![image-20220909202343831](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202343831.png)
+  - 例如 x &#x3D; 3 + 4 + 5
 
-- &#96;&#96;&#96;c#
-  public static double GetConeVolume(double r, double h)  &#x2F;&#x2F;计算圆锥的体积
-          &#123;
-              double cv &#x3D; GetCylinderVolume(r, h);
-              return cv &#x2F; 3;
-         &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>进入<code>GetConeVolume</code>方法里后，我们知道局部变量是需要分配栈内存的，在这里r,h已经<code>Main</code>方法压到了栈里，所以我们只需要给cv分配栈内存，也是double类型的8个字节</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909202644466.png" alt="image-20220909202644466"></p>
-</li>
-<li><p>给cv分配好之后，<code>GetConeVolume</code>方法需要调用<code>GetCylinderVolume</code>方法，而<code>GetCylinderVolume</code>也需要2个double型的参数，还是和之前一样，谁调用谁负责压栈</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909203554249.png" alt="image-20220909203554249"></p>
-</li>
-<li><p>之后按下F11，我们就进入到了<code>GetCylinderVolume</code>方法里了</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909203826886.png" alt="image-20220909203826886"></p>
-</li>
-<li><p>```C#<br>public static double GetCylinderVolume(double r, double h) //计算圆柱的体积</p>
-<pre><code>    &#123;
-        double a = GetCircleArea(r);
-        return a * h;
-    &#125;
-</code></pre>
-<pre class="line-numbers language-none"><code class="language-none">
-- 进入&#96;GetCylinderVolume&#96;方法里后，在这里r,h已经被&#96;&#96;GetConeVolume&#96;&#96;方法压到了栈里，所以我们只需要给参数变量a进行压栈，也是double类型的8个字节
+  - 顺序1： 3+4
 
-- ![image-20220909204122550](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909204122550.png)
+  - 顺序2： 7+5
 
-- 给a参数分配好之后，&#96;GetCylinderVolume&#96;方法需要调用&#96;GetCircleArea&#96;方法，而&#96;GetCircleArea&#96;需要1个double型的参数变量r，还是和之前一样，谁调用谁负责压栈
+  - 顺序3： x&#x3D;12
 
-- ![image-20220909204613369](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909204613369.png)
-
-- 按F11后，我们进入到最后一层调用
-
-- ![image-20220909204719178](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909204719178.png)
-
-- &#96;&#96;&#96;c#
-  public static double GetCircleArea(double r)   &#x2F;&#x2F;计算圆的面积
-          &#123;
-              return Math.PI * r * r;
-          &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>我们发现只有一个局部变量r，而r已经被<code>GetCylinderVolume</code>方法压栈了</p>
-</li>
-<li><p><font color="red">如果一个方法没有局部变量，它仍然占内存，我们上面的内存图只是以局部变量为重点制作的内存图，实际上还有其它地方占内存，比如说我们用完这个方法后，回到之前那个方法，我们需要在栈上保存之前方法的内存地址</font></p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909205257393.png" alt="image-20220909205257393"></p>
-</li>
-<li><p>执行完之后，这个方法会产生一个返回值，返回值一般情况下是存放在CPU的寄存器里面，也有特殊的情况，寄存器存不下然后在栈上开辟内存空间，而这里的double型是肯定可以存下的。</p>
-</li>
-<li><p>之后按几下F11键，调试指针就回到了<code>GetCylinderVolume</code>方法里</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909205837338.png" alt="image-20220909205837338"></p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210038402.png" alt="image-20220909210038402"></p>
-</li>
-<li><p>而在栈中，框起来的一块进行了出栈操作，对<code>GetCircleArea</code>方法所占内存和它主调函数负责压栈的参数进行清空</p>
-</li>
-<li><p>你会发现调用堆栈里少了最上面的一层，这时候a的值为0是因为返回值还存放在CPU的寄存器里面，你再一下F11就会得到a的值</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210452029.png" alt="image-20220909210452029"></p>
-</li>
-<li><p>之后继续按F11，调试指针就回到了<code>GetConeVolume</code>方法里</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210622628.png" alt="image-20220909210622628"></p>
-</li>
-<li><p>你会发现调用堆栈里又少了上面的一层，这时候cv的值为0是因为返回值还存放在CPU的寄存器里面，你再一下F11就会得到cv的值</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210738227.png" alt="image-20220909210738227"></p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909210829883.png" alt="image-20220909210829883"></p>
-</li>
-<li><p>而在栈中，框起来的一块进行了出栈操作，对<code>GetCylinderVolume</code>方法所占内存和它主调函数负责压栈的参数进行清空</p>
-</li>
-<li><p>这时候继续按几次F11，调试指针就回到了<code>Main</code>方法</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909211551716.png" alt="image-20220909211551716"></p>
-</li>
-<li><p>同样的对框里的内容进行出栈操作</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909211647067.png" alt="image-20220909211647067"></p>
-</li>
-<li><p>之后在按几次F11，随着<code>Main</code>函数执行完，它在内存中所占的内存也被清空</p>
-</li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220909211900564.png" alt="image-20220909211900564"></p>
-</li>
-<li><p>这时程序就彻底结束了</p>
-</li>
-<li><p>理解并熟记这块内容，你就已经是很专业的开发人员了</p>
-</li>
-</ul>
-<hr>
-
-
-<h2 id="7-操作符详解"><a href="#7-操作符详解" class="headerlink" title="7. 操作符详解"></a>7. 操作符详解</h2><h3 id="7-1-操作符概览"><a href="#7-1-操作符概览" class="headerlink" title="7.1 操作符概览"></a>7.1 操作符概览</h3><ul>
-<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220910092648080.png" alt="image-20220910092648080"></li>
-<li>操作符（operator）也译为运算符</li>
-<li>操作符是用来操作数据的，被操作符操作的数据称为操作数（Operand）</li>
-</ul>
-<h3 id="7-2-操作符的本质"><a href="#7-2-操作符的本质" class="headerlink" title="7.2 操作符的本质"></a>7.2 操作符的本质</h3><ul>
-<li><p>操作符的本质是函数（算法）的简记法</p>
-</li>
-<li><p>操作符不能脱离与它相关联的数据类型</p>
+  - &#96;&#96;&#96;c#
+    int x &#x3D; 100;
+    int y &#x3D; 200;
+    int z &#x3D; 300;
+    x +&#x3D; y +&#x3D; z;
+    Console.WriteLine(x); &#x2F;&#x2F;600
+    Console.WriteLine(y); &#x2F;&#x2F;500
+    Console.WriteLine(z); &#x2F;&#x2F;300<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>与数学运算不同，计算机语言的同优先级运算没有”结合律”</p>
 <ul>
-<li>例如 3/4=0，3.0/4.0=0.75</li>
+<li>3+4+5只能理解为Add(Add(3+4),5)不能理解为Add(3,Add(4,5))</li>
 </ul>
 </li>
-<li><p>举例</p>
+</ul>
+<h3 id="7-5-各种操作符的示例"><a href="#7-5-各种操作符的示例" class="headerlink" title="7.5 各种操作符的示例"></a>7.5 各种操作符的示例</h3><ul>
+<li><p>委托可以把方法当作参数在其他类中使用</p>
 </li>
 <li><p>```c#<br>using System;<br>using System.Collections.Generic;</p>
 <p>namespace Operator<br>{</p>
@@ -2202,34 +2272,81 @@ class Program
 &#123;
     static void Main(string[] args)
     &#123;
-        Person p1 = new Person();
-        Person p2 = new Person();
-        p1.name = &quot;Deer&quot;;
-        p2.name = &quot;Deer&#39;s wife&quot;;
-        List&lt;Person&gt; nation = p1 + p2;
-        foreach(var p in nation)
-        &#123;
-            Console.WriteLine(p.name);
-        &#125;
+        Calculator c = new Calculator();
+        Action myAction = new Action(c.PrintHello); //委托
+        myAction();
     &#125;
 &#125;
 
-class Person
+class Calculator
 &#123;
-    public string name;
-
-    public static List&lt;Person&gt; operator +(Person p1,Person p2)
+    public double Add(double a,double b)
     &#123;
-        List&lt;Person&gt; people = new List&lt;Person&gt;();
-        people.Add(p1);
-        people.Add(p2);
-        for (int i = 0; i &lt; 11; i++)
+        return a + b;
+    &#125;
+
+    public void PrintHello()
+    &#123;
+        Console.WriteLine(&quot;Hello&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>}</p>
+<pre class="line-numbers language-none"><code class="language-none">
+- 元素访问操作符，&#96;方括号[]&#96;里不一定是整数
+
+- &#96;&#96;&#96;c#
+  using System;
+  using System.Collections.Generic;
+  
+  namespace Operator
+  &#123;
+      class Program
+      &#123;
+          static void Main(string[] args)
+          &#123;
+              Dictionary&lt;string, Student&gt; stuDic &#x3D; new Dictionary&lt;string, Student&gt;(); &#x2F;&#x2F;字典
+              for (int i &#x3D; 1; i &lt; 101; i++)
+              &#123;
+                  Student stu &#x3D; new Student();
+                  stu.name &#x3D; &quot;s_&quot; + i.ToString();
+                  stu.score &#x3D; i;
+                  stuDic.Add(stu.name, stu);
+              &#125;
+  
+              Student stu6 &#x3D; stuDic[&quot;s_6&quot;];
+              Console.WriteLine(stu6.score);	&#x2F;&#x2F;结果为6
+          &#125;
+      &#125;
+      class Student
+      &#123;
+          public string name;
+          public int score;
+      &#125;
+  &#125;
+  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="7-5-1-基本操作符"><a href="#7-5-1-基本操作符" class="headerlink" title="7.5.1 基本操作符"></a>7.5.1 基本操作符</h4></li>
+<li><p><code>typeof</code>操作符</p>
+</li>
+<li><p><code>typeof</code> 运算符用于获取某个类型的 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/api/system.type">System.Type</a> 实例</p>
+</li>
+<li><p>```c#<br>using System;<br>using System.Collections.Generic;</p>
+<p>namespace Operator<br>{</p>
+<pre><code>class Program
+&#123;
+    static void Main(string[] args)
+    &#123;
+        Type t = typeof(int);
+        Console.WriteLine(t.Namespace); //输出类型int的名称空间
+        Console.WriteLine(t.FullName);  //输出类型int的全名
+        Console.WriteLine(t.Name);      //输出类型int的名称
+        Console.WriteLine();
+        foreach(var mi in t.GetMethods()) //查看int的方法
         &#123;
-            Person child = new Person();
-            child.name = p1.name + &quot; &amp; &quot; + p2.name + &quot;&#39;s child&quot;;
-            people.Add(child);
+            Console.WriteLine(mi.Name);
         &#125;
-        return people;
+        Console.WriteLine(t.GetMethods().Length);   //输出int的方法的个数
     &#125;
 &#125;
 </code></pre>
@@ -2238,196 +2355,81 @@ class Person
 - 运行结果如下：
 
 - &#96;&#96;&#96;
-  Deer
-  Deer&#39;s wife
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child
-  Deer &amp; Deer&#39;s wife&#39;s child<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-<h3 id="7-3-操作符的优先级"><a href="#7-3-操作符的优先级" class="headerlink" title="7.3 操作符的优先级"></a>7.3 操作符的优先级</h3><ul>
-<li>可以使用圆括号提高被括起来表达式的优先级</li>
-<li>圆括号可以嵌套</li>
-<li>不像数学里有方括号和花括号，在C#语言里<code>[]</code>与<code>&#123;&#125;</code>有专门的用途</li>
-</ul>
-<h3 id="7-4-同级操作符的运算顺序"><a href="#7-4-同级操作符的运算顺序" class="headerlink" title="7.4 同级操作符的运算顺序"></a>7.4 同级操作符的运算顺序</h3><ul>
-<li><p>除了带有赋值功能的操作符，同优先级操作符都是由左向右进行运算</p>
-</li>
-<li><p>带有赋值功能的操作符的运算顺序都是由右向左</p>
-<ul>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220910095610510.png" alt="image-20220910095610510"></p>
-</li>
-<li><p>例如 x = 3 + 4 + 5</p>
-</li>
-<li><p>顺序1： 3+4</p>
-</li>
-<li><p>顺序2： 7+5</p>
-</li>
-<li><p>顺序3： x=12</p>
-</li>
-<li><p>```c#<br>int x = 100;<br>int y = 200;<br>int z = 300;<br>x += y += z;<br>Console.WriteLine(x); //600<br>Console.WriteLine(y); //500<br>Console.WriteLine(z); //300</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- 与数学运算不同，计算机语言的同优先级运算没有&quot;结合律&quot;
-
-  - 3+4+5只能理解为Add(Add(3+4),5)不能理解为Add(3,Add(4,5))
-
-### 7.5 各种操作符的示例
-
-- 委托可以把方法当作参数在其他类中使用
-
-- &#96;&#96;&#96;c#
-  using System;
-  using System.Collections.Generic;
+  System
+  System.Int32
+  Int32
   
-  namespace Operator
-  &#123;
-      class Program
-      &#123;
-          static void Main(string[] args)
-          &#123;
-              Calculator c &#x3D; new Calculator();
-              Action myAction &#x3D; new Action(c.PrintHello); &#x2F;&#x2F;委托
-              myAction();
-          &#125;
-      &#125;
-  
-      class Calculator
-      &#123;
-          public double Add(double a,double b)
-          &#123;
-              return a + b;
-          &#125;
-  
-          public void PrintHello()
-          &#123;
-              Console.WriteLine(&quot;Hello&quot;);
-          &#125;
-      &#125;
-  &#125;
-  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
+  CompareTo
+  CompareTo
+  Equals
+  Equals
+  GetHashCode
+  ToString
+  ToString
+  ToString
+  ToString
+  TryFormat
+  Parse
+  Parse
+  Parse
+  Parse
+  Parse
+  TryParse
+  TryParse
+  TryParse
+  TryParse
+  GetTypeCode
+  GetType
+  21<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><code>default</code>操作符</p>
 </li>
-<li><p>元素访问操作符，<code>方括号[]</code>里不一定是整数</p>
-</li>
-<li><p>```c#<br>using System;<br>using System.Collections.Generic;</p>
-<p>namespace Operator<br>{</p>
-<pre><code>class Program
+<li><p>从 C# 7.1 开始，当编译器可以推断表达式类型时，可以使用 <code>default</code> 文本生成类型的默认值。</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+using System.Collections.Generic;
+
+namespace Operator
 &#123;
-    static void Main(string[] args)
+    class Program
     &#123;
-        Dictionary&lt;string, Student&gt; stuDic = new Dictionary&lt;string, Student&gt;(); //字典
-        for (int i = 1; i &lt; 101; i++)
+        static void Main(string[] args)
         &#123;
-            Student stu = new Student();
-            stu.name = &quot;s_&quot; + i.ToString();
-            stu.score = i;
-            stuDic.Add(stu.name, stu);
+            &#x2F;&#x2F;结构体类型
+            int x &#x3D; default(int);
+            Console.WriteLine(x);
+
+            &#x2F;&#x2F;引用类型
+            Student stu &#x3D; default(Student);
+            Console.WriteLine(stu&#x3D;&#x3D;null);
+
+            &#x2F;&#x2F;枚举类型
+            Level level &#x3D; default(Level);
+            Console.WriteLine(level);
+            Level2 level2 &#x3D; default(Level2);
+            Console.WriteLine(level2);
         &#125;
-
-        Student stu6 = stuDic[&quot;s_6&quot;];
-        Console.WriteLine(stu6.score);    //结果为6
     &#125;
-&#125;
-class Student
-&#123;
-    public string name;
-    public int score;
-&#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-  #### 7.5.1 基本操作符
 
-- &#96;typeof&#96;操作符
+   
+    enum Level
+    &#123;
+        Low,        &#x2F;&#x2F;0
+        Mid,        &#x2F;&#x2F;1
+        High        &#x2F;&#x2F;2
+    &#125;
 
-- &#96;typeof&#96; 运算符用于获取某个类型的 [System.Type](https:&#x2F;&#x2F;docs.microsoft.com&#x2F;zh-cn&#x2F;dotnet&#x2F;api&#x2F;system.type) 实例
-
-- &#96;&#96;&#96;c#
-  using System;
-  using System.Collections.Generic;
-  
-  namespace Operator
-  &#123;
-      class Program
-      &#123;
-          static void Main(string[] args)
-          &#123;
-              Type t &#x3D; typeof(int);
-              Console.WriteLine(t.Namespace); &#x2F;&#x2F;输出类型int的名称空间
-              Console.WriteLine(t.FullName);  &#x2F;&#x2F;输出类型int的全名
-              Console.WriteLine(t.Name);      &#x2F;&#x2F;输出类型int的名称
-              Console.WriteLine();
-              foreach(var mi in t.GetMethods()) &#x2F;&#x2F;查看int的方法
-              &#123;
-                  Console.WriteLine(mi.Name);
-              &#125;
-              Console.WriteLine(t.GetMethods().Length);   &#x2F;&#x2F;输出int的方法的个数
-          &#125;
-      &#125;
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>运行结果如下：</p>
-</li>
-<li><p>```<br>System<br>System.Int32<br>Int32</p>
-<p>CompareTo<br>CompareTo<br>Equals<br>Equals<br>GetHashCode<br>ToString<br>ToString<br>ToString<br>ToString<br>TryFormat<br>Parse<br>Parse<br>Parse<br>Parse<br>Parse<br>TryParse<br>TryParse<br>TryParse<br>TryParse<br>GetTypeCode<br>GetType<br>21</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- &#96;default&#96;操作符
-
-- 从 C# 7.1 开始，当编译器可以推断表达式类型时，可以使用 &#96;default&#96; 文本生成类型的默认值。
-
-  &#96;&#96;&#96;c#
-  using System;
-  using System.Collections.Generic;
-  
-  namespace Operator
-  &#123;
-      class Program
-      &#123;
-          static void Main(string[] args)
-          &#123;
-              &#x2F;&#x2F;结构体类型
-              int x &#x3D; default(int);
-              Console.WriteLine(x);
-  
-              &#x2F;&#x2F;引用类型
-              Student stu &#x3D; default(Student);
-              Console.WriteLine(stu&#x3D;&#x3D;null);
-  
-              &#x2F;&#x2F;枚举类型
-              Level level &#x3D; default(Level);
-              Console.WriteLine(level);
-              Level2 level2 &#x3D; default(Level2);
-              Console.WriteLine(level2);
-          &#125;
-      &#125;
-  
-     
-      enum Level
-      &#123;
-          Low,        &#x2F;&#x2F;0
-          Mid,        &#x2F;&#x2F;1
-          High        &#x2F;&#x2F;2
-      &#125;
-  
-      &#x2F;&#x2F;设计枚举类型，最好要给一个0，否则容易出错
-      enum Level2
-      &#123;
-          Low&#x3D;1,        
-          Mid&#x3D;0,        
-          High&#x3D;2        
-      &#125;
-      
-      class Student
-      &#123;
-          
-      &#125;
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+    &#x2F;&#x2F;设计枚举类型，最好要给一个0，否则容易出错
+    enum Level2
+    &#123;
+        Low&#x3D;1,        
+        Mid&#x3D;0,        
+        High&#x3D;2        
+    &#125;
+    
+    class Student
+    &#123;
+        
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>运行结果如下：</p>
 </li>
 <li><p>```<br>0<br>True<br>Low<br>Mid</p>
