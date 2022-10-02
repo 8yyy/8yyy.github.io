@@ -476,7 +476,7 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="Part1-3-NET-Standard"><a href="#Part1-3-NET-Standard" class="headerlink" title="Part1-3 .NET Standard"></a>Part1-3 .NET Standard</h2><p>Net Standard只是一个标准，不是实现</p>
-<p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220929181328537.png" alt="image-20220929181328537"></p>
+<p><img src="/images/DOTNETCore/image-20220929181328537.png" alt="image-20220929181328537"></p>
 <pre class="line-numbers language-none"><code class="language-none">typeof(FileStream).Assembly.Location<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ul>
@@ -492,13 +492,13 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
 <li><p>ILSpy 反编译器</p>
 <ul>
 <li>可以使用ILSpy反编译器验证.NET Standard只是标准，不是实现</li>
-<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930095806352.png" alt="image-20220930095806352"></li>
+<li><img src="/images/DOTNETCore/image-20220930095806352.png" alt="image-20220930095806352"></li>
 </ul>
 </li>
 <li><p>.NET Standard只是规范，一个.NET Standard类库可以被支持其版本的 .NET Framework、.NET Core、XAMARIN等引用。而.NET Core类库、.NET Framework类库则不可以。如果编写一个公用的类库，尽量选择.NET Standard，并且尽量用低版本</p>
 <ul>
 <li>.NET Standard也存在版本，与.NET Framework、.NET Core版本存在对应图</li>
-<li><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930100710855.png" alt="image-20220930100710855"></li>
+<li><img src="/images/DOTNETCore/image-20220930100710855.png" alt="image-20220930100710855"></li>
 </ul>
 </li>
 </ul>
@@ -524,11 +524,11 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
 <ul>
 <li><p>工具 –&gt; NuGet 包管理器 –&gt; 程序包管理器控制台</p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930112223131.png" alt="image-20220930112223131"></p>
+<li><p><img src="/images/DOTNETCore/image-20220930112223131.png" alt="image-20220930112223131"></p>
 </li>
 <li><p>在NuGet官网随便找一个包下载，如<code>MySql.Data</code></p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930112434163.png" alt="image-20220930112434163"></p>
+<li><p><img src="/images/DOTNETCore/image-20220930112434163.png" alt="image-20220930112434163"></p>
 </li>
 <li><p>将<code>Package Manager</code>下面的代码复制到VS的<code>程序包管理控制台</code>下</p>
 </li>
@@ -537,26 +537,22 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
 <li>不带<code>-Version</code>下载最新稳定版</li>
 </ul>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930112605725.png" alt="image-20220930112605725"></p>
+<li><p><img src="/images/DOTNETCore/image-20220930112605725.png" alt="image-20220930112605725"></p>
 </li>
 <li><p>你还可以选择<code>默认项目</code>选择下载到哪个项目里</p>
 </li>
 <li><p>安装完之后你就可以到<code>public</code>解决方案下的<code>依赖项</code>的<code>包</code>里看到<code>MySql.Data</code></p>
 </li>
-<li><p><img src="/.com//Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930112926826.png" alt="image-20220930112926826"></p>
+<li><p><img src="/images/DOTNETCore/image-20220930112926826.png" alt="image-20220930112926826"></p>
 </li>
 <li><p>之后是卸载操作，可以在<code>程序包管理控制台</code>直接输入如下语句卸载</p>
+<pre class="line-numbers language-none"><code class="language-none">UnInstall-Package MySql.Data(这里的名字就是下图中&lt;ItemGroup&gt;里PackageReference中的Include)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p><img src="/images/DOTNETCore/image-20220930113055901.png" alt="image-20220930113055901"></p>
 </li>
-<li><p>```<br>UnInstall-Package MySql.Data(这里的名字就是下图中<ItemGroup>里PackageReference中的Include)</ItemGroup></p>
-<pre class="line-numbers language-none"><code class="language-none">
-- ![image-20220930113055901](C:\Users\8y\AppData\Roaming\Typora\typora-user-images\image-20220930113055901.png)
-
-- 或者在项目文件里直接移除如下代码
-
-- &#96;&#96;&#96;
-    &lt;ItemGroup&gt;
-      &lt;PackageReference Include&#x3D;&quot;MySql.Data&quot; Version&#x3D;&quot;8.0.30&quot; &#x2F;&gt;
-    &lt;&#x2F;ItemGroup&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>或者在项目文件里直接移除如下代码</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;ItemGroup&gt;
+  &lt;PackageReference Include&#x3D;&quot;MySql.Data&quot; Version&#x3D;&quot;8.0.30&quot; &#x2F;&gt;
+&lt;&#x2F;ItemGroup&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <h2 id="Part2-4-异步编程"><a href="#Part2-4-异步编程" class="headerlink" title="Part2-4 异步编程"></a>Part2-4 异步编程</h2><h3 id="Part2-4-3-异步编程"><a href="#Part2-4-3-异步编程" class="headerlink" title="Part2-4-3 异步编程"></a>Part2-4-3 异步编程</h3><ul>
 <li><p>小例子：点餐</p>
@@ -585,26 +581,30 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
 <li><p>3)调用异步方法时，一般在方法前加上await，这样拿到的返回值就是泛型指定的T类型；</p>
 </li>
 <li><p>4)异步方法的“传染性”：一个方法中如果有await调用，则这个方法也必须修饰为async</p>
-</li>
-<li><p>```c#<br>//没有返回值的方法<br>static async Task Main(string[] args)</p>
-<p>{</p>
-<p>   string fileName = “d:/1.txt”;</p>
-<p>   File.Delete(fileName);</p>
-<p>   File.WriteAllTextAsync(fileName, “hello async”);</p>
-<p>   string s = await File.ReadAllTextAsync(fileName);</p>
-<p>   Console.WriteLine(s);</p>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- 举例同步方法
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">&#x2F;&#x2F;没有返回值的方法
+static async Task Main(string[] args)
 
-- &#96;&#96;&#96;c#
-  static void Main(string[] args)
-          &#123;
-              string fileName &#x3D; @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;;
-              File.WriteAllText(fileName, &quot;hello,world!&quot;);
-              string s &#x3D; File.ReadAllText(fileName);
-              Console.WriteLine(s);
-          &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&#123;
+
+   string fileName &#x3D; &quot;d:&#x2F;1.txt&quot;;
+
+   File.Delete(fileName);
+
+   File.WriteAllTextAsync(fileName, &quot;hello async&quot;);
+
+   string s &#x3D; await File.ReadAllTextAsync(fileName);
+
+   Console.WriteLine(s);
+
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>举例同步方法</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">static void Main(string[] args)
+        &#123;
+            string fileName &#x3D; @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;;
+            File.WriteAllText(fileName, &quot;hello,world!&quot;);
+            string s &#x3D; File.ReadAllText(fileName);
+            Console.WriteLine(s);
+        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
 <li><strong>File.WriteAllText 方法</strong><ul>
@@ -627,150 +627,135 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
 </ul>
 </li>
 <li><p>使用异步方法</p>
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">static async Task Main(string[] args)
+        &#123;
+            string fileName &#x3D; @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;;
+            await File.WriteAllTextAsync(fileName, &quot;hello,aysnc!&quot;);
+            string s &#x3D; await File.ReadAllTextAsync(fileName);
+            Console.WriteLine(s);
+        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ul>
-<li>```c#<br>static async Task Main(string[] args)<pre><code>    &#123;
-        string fileName = @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;;
-        await File.WriteAllTextAsync(fileName, &quot;hello,aysnc!&quot;);
-        string s = await File.ReadAllTextAsync(fileName);
-        Console.WriteLine(s);
-    &#125;
-</code></pre>
-<pre class="line-numbers language-none"><code class="language-none">
-      - **File.WriteAllTextAsync 方法**
-        - 以异步形式创建一个新文件，在其中写入指定的字符串，然后关闭该文件。 如果目标文件已存在，则覆盖该文件。
-        - 本质是独占式写入
-        - &#96;public static Task WriteAllTextAsync(string path, string contents, CancellationToken cancellationToken &#x3D; default);&#96;
-        - 调用异步方法时，一般在方法前加上await
-        - 这里即使不加上await也不会报错，原因是加入的字符产太短了，如果加上很长的字符串，就会产生异常&#96;System.IO.IOException&#96;
-
-      - **File.ReadAllTextAsync 方法**
-        - 以异步形式打开一个文本文件，读取文件中的所有文本，然后关闭此文件。
-
-  
-
-  
-
-  
-
-### Part2-4-5 编写异步方法
-
-- 示例1，不带返回值的异步方法
-
-- &#96;&#96;&#96;c#
-  using System;
-  using System.IO;
-  using System.Net.Http;
-  using System.Threading.Tasks;
-  
-  namespace AwaitAsync
-  &#123;
-      class Program
-      &#123;
-          static async Task Main(string[] args)
-          &#123;
-              await DownloadHtmlAsync(&quot;https:&#x2F;&#x2F;www.youzack.com&quot;, @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;);
-              Console.WriteLine(&quot;ok&quot;);
-          &#125;
-  
-          static async Task DownloadHtmlAsync(string url,string fileName)
-          &#123;
-              &#x2F;&#x2F;这是一种比较粗鲁的写法
-              using (HttpClient httpClient &#x3D; new HttpClient())
-              &#123;
-                  string html &#x3D; await httpClient.GetStringAsync(url);
-                  await File.WriteAllTextAsync(fileName, html);
-              &#125;
-          &#125;
-      &#125;
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>File.WriteAllTextAsync 方法</strong></p>
+<ul>
+<li>以异步形式创建一个新文件，在其中写入指定的字符串，然后关闭该文件。 如果目标文件已存在，则覆盖该文件。</li>
+<li>本质是独占式写入</li>
+<li><code>public static Task WriteAllTextAsync(string path, string contents, CancellationToken cancellationToken = default);</code></li>
+<li>调用异步方法时，一般在方法前加上await</li>
+<li>这里即使不加上await也不会报错，原因是加入的字符产太短了，如果加上很长的字符串，就会产生异常<code>System.IO.IOException</code></li>
 </ul>
 </li>
-<li><p>运行完using里面的代码后，将new的对象释放</p>
-</li>
-<li><p><strong>HttpClient 类</strong></p>
+<li><p><strong>File.ReadAllTextAsync 方法</strong></p>
 <ul>
+<li>以异步形式打开一个文本文件，读取文件中的所有文本，然后关闭此文件。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Part2-4-5-编写异步方法"><a href="#Part2-4-5-编写异步方法" class="headerlink" title="Part2-4-5 编写异步方法"></a>Part2-4-5 编写异步方法</h3><ul>
+<li><p>示例1，不带返回值的异步方法</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace AwaitAsync
+&#123;
+    class Program
+    &#123;
+        static async Task Main(string[] args)
+        &#123;
+            await DownloadHtmlAsync(&quot;https:&#x2F;&#x2F;www.youzack.com&quot;, @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;);
+            Console.WriteLine(&quot;ok&quot;);
+        &#125;
+
+        static async Task DownloadHtmlAsync(string url,string fileName)
+        &#123;
+            &#x2F;&#x2F;这是一种比较粗鲁的写法
+            using (HttpClient httpClient &#x3D; new HttpClient())
+            &#123;
+                string html &#x3D; await httpClient.GetStringAsync(url);
+                await File.WriteAllTextAsync(fileName, html);
+            &#125;
+        &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>运行完using里面的代码后，将new的对象释放</li>
+<li><strong>HttpClient 类</strong><ul>
 <li>提供一个类，用于发送 HTTP 请求并从 URI 标识的资源接收 HTTP 响应。</li>
 </ul>
 </li>
-<li><p><strong>HttpClient.GetStringAsync 方法</strong></p>
-<ul>
+<li><strong>HttpClient.GetStringAsync 方法</strong><ul>
 <li>将 GET 请求发送到指定 URI 并在异步操作中以字符串的形式返回响应正文。</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>改为带返回值的异步方法</p>
-</li>
-<li><p>```c#<br>static async Task Main(string[] args)</p>
-<pre><code>    &#123;
-        int length = await DownloadHtmlAsync(&quot;https://www.youzack.com&quot;, @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;);
-        Console.WriteLine(length);
-    &#125;
-
-    static async Task&lt;int&gt; DownloadHtmlAsync(string url,string fileName)
-    &#123;
-        //这是一种比较粗鲁的写法
-        using (HttpClient httpClient = new HttpClient())
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">static async Task Main(string[] args)
         &#123;
-            string html = await httpClient.GetStringAsync(url);
-            await File.WriteAllTextAsync(fileName, html);
-            return html.Length;
+            int length &#x3D; await DownloadHtmlAsync(&quot;https:&#x2F;&#x2F;www.youzack.com&quot;, @&quot;G:\8yyy&#39;s blog\local\1.txt&quot;);
+            Console.WriteLine(length);
         &#125;
-    &#125;
-</code></pre>
-<pre class="line-numbers language-none"><code class="language-none">
-  
 
-- 如果同样的功能，既有同步方法，又有异步方法，那么首先使用异步方法。.NET5中，很多框架中的方法也都支持异步：Main、WinForm事件处理函数。
-  
-  - WinForm中不能使用Task，只能使用void处理事件
-- 对于不支持的异步方法怎么办？Wait()（无返回值）；Result（有返回值）。风险：死锁。尽量不用。
-
-
-
-
-
-
-
-
-
-## Part2-4-6 async、await原理揭秘
-
-- 反编译使用dll，跨平台
-
-- 用&#96;ILSpy&#96;反编译&#96;dll&#96;(.exe只是windows下的启动器)成C# 4.0版本，就能看到容易理解的底层IL代码。
-
-  - 什么是IL代码？ 
-    - IL,也称为CIL,MSI,是.NET框架中中间语言(Intermediate Language)的缩写。
-
-- &#96;await&#96;、&#96;async&#96;是“语法糖”，最终编译成“状态机调用”。
-
-- 总结：&#96;async&#96;的方法会被C#编译器编译成一个类，会主要根据&#96;await&#96;调用进行切分为多个状态，对&#96;async&#96;方法的调用会被拆分为对&#96;MoveNext&#96;的调用。
-
-- 用&#96;await&#96;看似是“等待”，经过编译后，其实没有“wait”。
-
-- 为什么要把一个&#96;async&#96;方法拆分为多个状态然后分为多次调用？
-
-  “异步的可以避免线程等待耗时操作” 但是&#96;await&#96;还是等待呀？
-
-  - &#96;await&#96;调用的等待期间，&#96;.NET&#96;会把当前的线程返回给线程池，等异步方法调用执行完毕后，框架会从线程池再取出来一个线程执行后续的代码。
-
-  - &#96;Thread.CurrentThread.ManagedThreadId&#96;获得当前线程Id。
-
-    **验证：在耗时异步(写入大字符串)操作前后分别打印线程Id**
-
-    - &#96;&#96;&#96;c#
-      static async Task Main(string[] args)
-              &#123;
-                  Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                  StringBuilder stringBuilder &#x3D; new StringBuilder();
-                  for (int i &#x3D; 0; i &lt; 10000; i++)
-                  &#123;
-                      stringBuilder.Append(&quot;xxxxxxxx&quot;);
-                  &#125;
-                  await File.WriteAllTextAsync(@&quot;G:\8yyy&#39;s blog\local\1.txt&quot;, stringBuilder.ToString());
-                  Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-              &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        static async Task&lt;int&gt; DownloadHtmlAsync(string url,string fileName)
+        &#123;
+            &#x2F;&#x2F;这是一种比较粗鲁的写法
+            using (HttpClient httpClient &#x3D; new HttpClient())
+            &#123;
+                string html &#x3D; await httpClient.GetStringAsync(url);
+                await File.WriteAllTextAsync(fileName, html);
+                return html.Length;
+            &#125;
+        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>如果同样的功能，既有同步方法，又有异步方法，那么首先使用异步方法。.NET5中，很多框架中的方法也都支持异步：Main、WinForm事件处理函数。</p>
+<ul>
+<li>WinForm中不能使用Task，只能使用void处理事件</li>
+</ul>
+</li>
+<li><p>对于不支持的异步方法怎么办？Wait()（无返回值）；Result（有返回值）。风险：死锁。尽量不用。</p>
+</li>
+</ul>
+<h2 id="Part2-4-6-async、await原理揭秘"><a href="#Part2-4-6-async、await原理揭秘" class="headerlink" title="Part2-4-6 async、await原理揭秘"></a>Part2-4-6 async、await原理揭秘</h2><ul>
+<li><p>反编译使用dll，跨平台</p>
+</li>
+<li><p>用<code>ILSpy</code>反编译<code>dll</code>(.exe只是windows下的启动器)成C# 4.0版本，就能看到容易理解的底层IL代码。</p>
+<ul>
+<li>什么是IL代码？ <ul>
+<li>IL,也称为CIL,MSI,是.NET框架中中间语言(Intermediate Language)的缩写。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>await</code>、<code>async</code>是“语法糖”，最终编译成“状态机调用”。</p>
+</li>
+<li><p>总结：<code>async</code>的方法会被C#编译器编译成一个类，会主要根据<code>await</code>调用进行切分为多个状态，对<code>async</code>方法的调用会被拆分为对<code>MoveNext</code>的调用。</p>
+</li>
+<li><p>用<code>await</code>看似是“等待”，经过编译后，其实没有“wait”。</p>
+</li>
+<li><p>为什么要把一个<code>async</code>方法拆分为多个状态然后分为多次调用？</p>
+<p>“异步的可以避免线程等待耗时操作” 但是<code>await</code>还是等待呀？</p>
+<ul>
+<li><p><code>await</code>调用的等待期间，<code>.NET</code>会把当前的线程返回给线程池，等异步方法调用执行完毕后，框架会从线程池再取出来一个线程执行后续的代码。</p>
+</li>
+<li><p><code>Thread.CurrentThread.ManagedThreadId</code>获得当前线程Id。</p>
+<p><strong>验证：在耗时异步(写入大字符串)操作前后分别打印线程Id</strong></p>
+ <pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">static async Task Main(string[] args)
+        &#123;
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            StringBuilder stringBuilder &#x3D; new StringBuilder();
+            for (int i &#x3D; 0; i &lt; 10000; i++)
+            &#123;
+                stringBuilder.Append(&quot;xxxxxxxx&quot;);
+            &#125;
+            await File.WriteAllTextAsync(@&quot;G:\8yyy&#39;s blog\local\1.txt&quot;, stringBuilder.ToString());
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
 <li><p>线程的 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.thread.managedthreadid?view=net-6.0">ManagedThreadId</a> 属性值用于唯一标识其进程中的线程。</p>
@@ -792,6 +777,8 @@ FileStream(文件流) 这个类主要用于二进制文件中读写，也可以"
 </ul>
 </li>
 <li>取决于你电脑的性能</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
