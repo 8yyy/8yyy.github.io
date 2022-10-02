@@ -631,7 +631,7 @@ namespace test
 <h3 id="1-7-在Azure-Cloud-Service输出Hello-World"><a href="#1-7-在Azure-Cloud-Service输出Hello-World" class="headerlink" title="1.7 在Azure Cloud Service输出Hello,World!"></a>1.7 在Azure Cloud Service输出Hello,World!</h3><ul>
 <li>将ASP.NET Web角色添加到云服务器解决方案</li>
 <li>MVC</li>
-<li><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906103230967.png"></li>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906103230967.png"></li>
 </ul>
 <p>和6）一样views -&gt; Home -&gt; Index.cshtml  <code>&lt;h2&gt;Hello,World!&lt;/h2&gt;</code></p>
 <p>老版本的VS需要启动云平台模拟器运行程序</p>
@@ -703,79 +703,12 @@ namespace test
 <li><p>一个项目(Project)可以隶属于不同的解决方案(Solution)</p>
 </li>
 <li><p>现在解决方案test下有一个项目test，里面有一个类Calculator，类里的主要代码如下：</p>
-<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
-
-namespace Tools
-&#123;
-    public class Calculator
-    &#123;
-        public static double Add(double a,double b)
-        &#123;
-            return a + b;
-        &#125;
-
-        public static double Sub(double a, double b)
-        &#123;
-            return a - b - 10;
-        &#125;
-    &#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>然后打开解决方案Sample，里面有个项目sample，右键解决方案sample -&gt; 添加 -&gt; 添加先有项，找到上面的test.csproj</p>
-<p>之后如下图所示</p>
-</li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906202018586.png"></p>
-</li>
-<li><p>这样一个解决方案就有2个项目了，一个叫sample，一个叫test，之后右键在项目sample右键引用，发现test已经在那了</p>
-</li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906202251533.png"></p>
-</li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906202330829.png"></p>
-</li>
-</ul>
-<ul>
-<li>可以看到test在引用里了(底部)</li>
-</ul>
-<p><code>我这里因为一个项目指向“netcoreapp3.1”，一个项目指向“.NETFramework,Version=v4.7.2”，所以不能引用            </code></p>
-<ul>
-<li>我这里重新创建了一个项目，名为sample2</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906203222664.png"></li>
-<li>将sample2的Program.cs的代码改为上述test代码，然后重新打开sample1</li>
-<li>我发现这样虽然能正常引用类库了，但是因为是.net framework框架，导致不能正常显示console的结果</li>
-<li>使用.net core console</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906204737434.png"></li>
-<li>后来我发现都不行，因为我做了一个很大的错误，我都是新建了两个.net framework或者是两个.net core console，其中一个得是类库(classlibrary),如下</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906210110681.png"></li>
-<li>正常运行了</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906210510077.png"></li>
-<li>发现结果是错的，这时我们需要在如下代码进行断点调试</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906210557240.png"></li>
-<li>按<code>F5</code>开始调试</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906210733333.png"></li>
-<li>result结果为0</li>
-<li>之后按<code>F11</code>逐语句调试</li>
-<li>然后执行指针就进入到了类库里的Sub函数，然后就可以发现这个简单的错误了</li>
-<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906210838383.png"></li>
-</ul>
-<p><strong>尝试直接在解决方案里写一个类库，然后引用</strong></p>
-<ul>
-<li><p>右键解决方案，添加一个新项目</p>
-</li>
-<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906211748154.png"></p>
-</li>
-<li><p>类库(classlibrary)编译出来的结果就是一个DLL文件</p>
-</li>
-<li><p>修改如下，你会发现类库默认的类就是public类型的</p>
-</li>
-<li><p><img src="../images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906212122712.png" alt="image-20220906212122712"></p>
-</li>
-<li><p>编写代码如下：</p>
 </li>
 <li><p>```c#<br>using System;</p>
 <p>namespace Tools<br>{</p>
 <pre><code>public class Calculator
 &#123;
-    public static double Add(double a, double b)
+    public static double Add(double a,double b)
     &#123;
         return a + b;
     &#125;
@@ -784,48 +717,126 @@ namespace Tools
     &#123;
         return a - b - 10;
     &#125;
-
-    public static double Mul(double a, double b)
-    &#123;
-        return a * b;
-    &#125;
-
-    public static double Div(double a, double b)
-    &#123;
-        if (b == 0)
-        &#123;
-            return double.PositiveInfinity; //无穷大
-        &#125;
-        else
-        &#123;
-            return a / b;
-        &#125;
-           
-    &#125;
 &#125;
 </code></pre>
 <p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- 之后在项目sample添加项目引用，然后在Program.cs写点代码调试，如下所示：
+<pre class="line-numbers language-none"><code class="language-none">  
+  
 
-- ![](images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906212511088.png)
+- 然后打开解决方案Sample，里面有个项目sample，右键解决方案sample -&gt; 添加 -&gt; 添加先有项，找到上面的test.csproj
 
-#### 2.2.4依赖关系
+  之后如下图所示
 
-- 类（或对象）之间的耦合关系
-- 优秀的程序追求&#96;高内聚，低耦合&#96;
-  - 高内聚：一些数据、功能，该属于哪个类就该放到哪个类里面
-  - 低耦合：类和类之间的依赖关系尽可能低
-  - 教学程序往往会违反这个原则
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906202018586.png)
 
-- UML（通用建模语言）类图
-  - 用来展示类和类之间的关系
-  - ![](images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906213301526.png)
-  - 就比如&#96;hello,world&#96;这个来说，我们自己写的类叫&#96;Program类&#96;，里面有一个方法叫&#96;Main()方法&#96;，然后我们在&#96;Main()方法&#96;里调用了&#96;Console类&#96;里面的&#96;WriteLine()方法&#96;
+- 这样一个解决方案就有2个项目了，一个叫sample，一个叫test，之后右键在项目sample右键引用，发现test已经在那了
+
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906202251533.png)
+
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906202330829.png)
 
 
 
-&lt;hr&gt;
+- 可以看到test在引用里了(底部)
+
+&#96;我这里因为一个项目指向“netcoreapp3.1”，一个项目指向“.NETFramework,Version&#x3D;v4.7.2”，所以不能引用			&#96;
+
+- 我这里重新创建了一个项目，名为sample2
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906203222664.png)
+- 将sample2的Program.cs的代码改为上述test代码，然后重新打开sample1
+- 我发现这样虽然能正常引用类库了，但是因为是.net framework框架，导致不能正常显示console的结果
+- 使用.net core console
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906204737434.png)
+- 后来我发现都不行，因为我做了一个很大的错误，我都是新建了两个.net framework或者是两个.net core console，其中一个得是类库(classlibrary),如下
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906210110681.png)
+- 正常运行了
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906210510077.png)
+- 发现结果是错的，这时我们需要在如下代码进行断点调试
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906210557240.png)
+- 按&#96;F5&#96;开始调试
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906210733333.png)
+- result结果为0
+- 之后按&#96;F11&#96;逐语句调试
+- 然后执行指针就进入到了类库里的Sub函数，然后就可以发现这个简单的错误了
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906210838383.png)
+
+
+
+**尝试直接在解决方案里写一个类库，然后引用**
+
+- 右键解决方案，添加一个新项目
+
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906211748154.png)
+
+- 类库(classlibrary)编译出来的结果就是一个DLL文件
+
+- 修改如下，你会发现类库默认的类就是public类型的
+
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906212122712.png)
+
+- 编写代码如下：
+
+- &#96;&#96;&#96;c#
+  using System;
+  
+  namespace Tools
+  &#123;
+      public class Calculator
+      &#123;
+          public static double Add(double a, double b)
+          &#123;
+              return a + b;
+          &#125;
+  
+          public static double Sub(double a, double b)
+          &#123;
+              return a - b - 10;
+          &#125;
+  
+          public static double Mul(double a, double b)
+          &#123;
+              return a * b;
+          &#125;
+  
+          public static double Div(double a, double b)
+          &#123;
+              if (b &#x3D;&#x3D; 0)
+              &#123;
+                  return double.PositiveInfinity; &#x2F;&#x2F;无穷大
+              &#125;
+              else
+              &#123;
+                  return a &#x2F; b;
+              &#125;
+                 
+          &#125;
+      &#125;
+  &#125;
+  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>之后在项目sample添加项目引用，然后在Program.cs写点代码调试，如下所示：</p>
+</li>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906212511088.png"></p>
+</li>
+</ul>
+<h4 id="2-2-4依赖关系"><a href="#2-2-4依赖关系" class="headerlink" title="2.2.4依赖关系"></a>2.2.4依赖关系</h4><ul>
+<li><p>类（或对象）之间的耦合关系</p>
+</li>
+<li><p>优秀的程序追求<code>高内聚，低耦合</code></p>
+<ul>
+<li>高内聚：一些数据、功能，该属于哪个类就该放到哪个类里面</li>
+<li>低耦合：类和类之间的依赖关系尽可能低</li>
+<li>教学程序往往会违反这个原则</li>
+</ul>
+</li>
+<li><p>UML（通用建模语言）类图</p>
+<ul>
+<li>用来展示类和类之间的关系</li>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906213301526.png"></li>
+<li>就比如<code>hello,world</code>这个来说，我们自己写的类叫<code>Program类</code>，里面有一个方法叫<code>Main()方法</code>，然后我们在<code>Main()方法</code>里调用了<code>Console类</code>里面的<code>WriteLine()方法</code></li>
+</ul>
+</li>
+</ul>
+<hr>
 
 
 
@@ -834,45 +845,44 @@ namespace Tools
 
 
 
-## 3. 类、对象、类成员简介
-
-
-
-&lt;font size&#x3D;5&gt;类（class）是现实世界事物的模型&lt;&#x2F;font&gt;
-
-- 类是对现实世界事物进行抽象所得到的结果
-  - 事物包括&quot;物质&quot;(实体)与&quot;运动&quot;(逻辑)
-  - 建模是一个去伪存真，由表及里的过程
-
-![](images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220907093936767.png)
-
-- 飞行员依赖战斗机
-
-
-
-
-
-
-
-### 3.1 类与对象的关系
-
-- 对象也叫实例，是类经过&quot;实例化&quot;后得到的内存中的实体
-  - 对象和实例是一回事
-  - &quot;飞机&quot;与&quot;一架飞机&quot;有何区别？天上有(一架)飞机——必须是实例飞，概念是不能飞的
-  - 有些类是不能实例化的，比如&quot;数学&quot;(Math class)，我们不能说&quot;一个数字&quot;
-  - &quot;可数名词与不可数名词&quot;
-- 依照类，我们可以创建对象，这就是&#96;实例化&#96;
-  - 现实世界中常称&#96;对象&#96;，程序世界中常称&#96;实例&#96;
-  - 两者并无太大区别，常常混用，初学者不必迷惑
-- 使用&#96;new&#96;操作符创建类的实例
-
-- 引用变量与实例的关系
-  - 孩子(引用变量)与气球(实例)
-  - 气球不一定有孩子&#96;牵着&#96;(相当于赋值符号&#x3D;)
-  - 多个孩子可以使用各自的绳子牵着同一个气球，也可以都通过一根绳子牵着气球(引用变量指向同一个地址)
-
-&#96;&#96;&#96;c#
-using System;
+<h2 id="3-类、对象、类成员简介"><a href="#3-类、对象、类成员简介" class="headerlink" title="3. 类、对象、类成员简介"></a>3. 类、对象、类成员简介</h2><p><font size="5">类（class）是现实世界事物的模型</font></p>
+<ul>
+<li>类是对现实世界事物进行抽象所得到的结果<ul>
+<li>事物包括”物质”(实体)与”运动”(逻辑)</li>
+<li>建模是一个去伪存真，由表及里的过程</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907093936767.png"></p>
+<ul>
+<li>飞行员依赖战斗机</li>
+</ul>
+<h3 id="3-1-类与对象的关系"><a href="#3-1-类与对象的关系" class="headerlink" title="3.1 类与对象的关系"></a>3.1 类与对象的关系</h3><ul>
+<li><p>对象也叫实例，是类经过”实例化”后得到的内存中的实体</p>
+<ul>
+<li>对象和实例是一回事</li>
+<li>“飞机”与”一架飞机”有何区别？天上有(一架)飞机——必须是实例飞，概念是不能飞的</li>
+<li>有些类是不能实例化的，比如”数学”(Math class)，我们不能说”一个数字”</li>
+<li>“可数名词与不可数名词”</li>
+</ul>
+</li>
+<li><p>依照类，我们可以创建对象，这就是<code>实例化</code></p>
+<ul>
+<li>现实世界中常称<code>对象</code>，程序世界中常称<code>实例</code></li>
+<li>两者并无太大区别，常常混用，初学者不必迷惑</li>
+</ul>
+</li>
+<li><p>使用<code>new</code>操作符创建类的实例</p>
+</li>
+<li><p>引用变量与实例的关系</p>
+<ul>
+<li>孩子(引用变量)与气球(实例)</li>
+<li>气球不一定有孩子<code>牵着</code>(相当于赋值符号=)</li>
+<li>多个孩子可以使用各自的绳子牵着同一个气球，也可以都通过一根绳子牵着气球(引用变量指向同一个地址)</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -898,10 +908,10 @@ namespace ClassAndInstance
         &#125;
     &#125;
 &#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>运行结果如下：</p>
-<p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907101852929.png"></p>
+<p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907101852929.png"></p>
 <h3 id="3-2-类的三大成员"><a href="#3-2-类的三大成员" class="headerlink" title="3.2 类的三大成员"></a>3.2 类的三大成员</h3><ul>
 <li><p>属性（Property）</p>
 <ul>
@@ -937,15 +947,15 @@ namespace ClassAndInstance
 </li>
 <li><p>回到VS，右击项目，添加新建项，如下图所示</p>
 </li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907105639515.png"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907105639515.png"></p>
 </li>
 <li><p>添加，选择来自数据库的EF设计器</p>
 </li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907105723149.png"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907105723149.png"></p>
 </li>
 <li><p>之后一步一步，跟着视频差不多，最后我选了两张表，结果如下</p>
 </li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907105846979.png"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907105846979.png"></p>
 </li>
 <li><p>```c#<br>using System;<br>using System.Collections.Generic;<br>using System.Linq;<br>using System.Text;<br>using System.Threading.Tasks;<br>using System.Windows.Forms;</p>
 <p>namespace ClassAndInstance<br>{</p>
@@ -975,7 +985,7 @@ namespace ClassAndInstance
   cw+tab+tab，可以直接打出Console.WriteLine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 <li><p>运行结果如下：</p>
 </li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907110953735.png"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907110953735.png"></p>
 </li>
 <li><p>下面举例以方法为侧重的类Math</p>
 </li>
@@ -1002,7 +1012,7 @@ namespace ClassAndInstance
 </li>
 <li><p>使用WPF应用，为了跟着视频，选择.net framework框架的</p>
 </li>
-<li><p><img src="images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907112003427.png"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907112003427.png"></p>
 </li>
 <li><p>新建后之后，拖入一个textbox，命名为timeTextBox</p>
 </li>
@@ -1038,7 +1048,11 @@ public partial class MainWindow : Window
 
 - 运行结果如下：
 
-- ![](images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220907113603979.png)
+- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220907113603979.png)
+
+
+
+
 
 ### 3.3 静态成员与实例成员
 
@@ -1053,7 +1067,15 @@ public partial class MainWindow : Window
 &lt;hr&gt;
 
 
+
+
+
+
 ## 4. C#语言基本元素概览，初识类型、变量与方法，算法简介
+
+
+
+
 
 ### 4.1 构成C#语言的基本元素
 
@@ -1087,7 +1109,7 @@ public partial class MainWindow : Window
    - 亦称数据类型（Data Type）
 
    - &#96;&#96;&#96;c#
-     var x &#x3D; 3;         Console.WriteLine(x.GetType().Name);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+     var x &#x3D; 3;         Console.WriteLine(x.GetType().Name);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p> var 赋值的变量C#会自动推算出数据类型</p>
 </li>
 </ul>
