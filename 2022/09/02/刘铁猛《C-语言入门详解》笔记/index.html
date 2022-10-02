@@ -791,72 +791,66 @@ namespace Tools
 <li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906212122712.png"></p>
 </li>
 <li><p>编写代码如下：</p>
-</li>
-<li><p>```c#<br>using System;</p>
-<p>namespace Tools<br>{</p>
-<pre><code>public class Calculator
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
+
+namespace Tools
 &#123;
-    public static double Add(double a, double b)
+    public class Calculator
     &#123;
-        return a + b;
-    &#125;
-
-    public static double Sub(double a, double b)
-    &#123;
-        return a - b - 10;
-    &#125;
-
-    public static double Mul(double a, double b)
-    &#123;
-        return a * b;
-    &#125;
-
-    public static double Div(double a, double b)
-    &#123;
-        if (b == 0)
+        public static double Add(double a, double b)
         &#123;
-            return double.PositiveInfinity; //无穷大
+            return a + b;
         &#125;
-        else
+
+        public static double Sub(double a, double b)
         &#123;
-            return a / b;
+            return a - b - 10;
         &#125;
-           
+
+        public static double Mul(double a, double b)
+        &#123;
+            return a * b;
+        &#125;
+
+        public static double Div(double a, double b)
+        &#123;
+            if (b &#x3D;&#x3D; 0)
+            &#123;
+                return double.PositiveInfinity; &#x2F;&#x2F;无穷大
+            &#125;
+            else
+            &#123;
+                return a &#x2F; b;
+            &#125;
+               
+        &#125;
     &#125;
 &#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-  
-  
-- 之后在项目sample添加项目引用，然后在Program.cs写点代码调试，如下所示：
-
-  
-
-- ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906212511088.png)
-
-
-
-
-
-
-
-#### 2.2.4依赖关系
-
-- 类（或对象）之间的耦合关系
-- 优秀的程序追求&#96;高内聚，低耦合&#96;
-  - 高内聚：一些数据、功能，该属于哪个类就该放到哪个类里面
-  - 低耦合：类和类之间的依赖关系尽可能低
-  - 教学程序往往会违反这个原则
-
-- UML（通用建模语言）类图
-  - 用来展示类和类之间的关系
-  - ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220906213301526.png)
-  - 就比如&#96;hello,world&#96;这个来说，我们自己写的类叫&#96;Program类&#96;，里面有一个方法叫&#96;Main()方法&#96;，然后我们在&#96;Main()方法&#96;里调用了&#96;Console类&#96;里面的&#96;WriteLine()方法&#96;
-
-
-
-&lt;hr&gt;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>之后在项目sample添加项目引用，然后在Program.cs写点代码调试，如下所示：</p>
+</li>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906212511088.png"></p>
+</li>
+</ul>
+<h4 id="2-2-4依赖关系"><a href="#2-2-4依赖关系" class="headerlink" title="2.2.4依赖关系"></a>2.2.4依赖关系</h4><ul>
+<li><p>类（或对象）之间的耦合关系</p>
+</li>
+<li><p>优秀的程序追求<code>高内聚，低耦合</code></p>
+<ul>
+<li>高内聚：一些数据、功能，该属于哪个类就该放到哪个类里面</li>
+<li>低耦合：类和类之间的依赖关系尽可能低</li>
+<li>教学程序往往会违反这个原则</li>
+</ul>
+</li>
+<li><p>UML（通用建模语言）类图</p>
+<ul>
+<li>用来展示类和类之间的关系</li>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220906213301526.png"></li>
+<li>就比如<code>hello,world</code>这个来说，我们自己写的类叫<code>Program类</code>，里面有一个方法叫<code>Main()方法</code>，然后我们在<code>Main()方法</code>里调用了<code>Console类</code>里面的<code>WriteLine()方法</code></li>
+</ul>
+</li>
+</ul>
+<hr>
 
 
 
@@ -865,45 +859,44 @@ namespace Tools
 
 
 
-## 3. 类、对象、类成员简介
-
-
-
-&lt;font size&#x3D;5&gt;类（class）是现实世界事物的模型&lt;&#x2F;font&gt;
-
-- 类是对现实世界事物进行抽象所得到的结果
-  - 事物包括&quot;物质&quot;(实体)与&quot;运动&quot;(逻辑)
-  - 建模是一个去伪存真，由表及里的过程
-
-![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220907093936767.png)
-
-- 飞行员依赖战斗机
-
-
-
-
-
-
-
-### 3.1 类与对象的关系
-
-- 对象也叫实例，是类经过&quot;实例化&quot;后得到的内存中的实体
-  - 对象和实例是一回事
-  - &quot;飞机&quot;与&quot;一架飞机&quot;有何区别？天上有(一架)飞机——必须是实例飞，概念是不能飞的
-  - 有些类是不能实例化的，比如&quot;数学&quot;(Math class)，我们不能说&quot;一个数字&quot;
-  - &quot;可数名词与不可数名词&quot;
-- 依照类，我们可以创建对象，这就是&#96;实例化&#96;
-  - 现实世界中常称&#96;对象&#96;，程序世界中常称&#96;实例&#96;
-  - 两者并无太大区别，常常混用，初学者不必迷惑
-- 使用&#96;new&#96;操作符创建类的实例
-
-- 引用变量与实例的关系
-  - 孩子(引用变量)与气球(实例)
-  - 气球不一定有孩子&#96;牵着&#96;(相当于赋值符号&#x3D;)
-  - 多个孩子可以使用各自的绳子牵着同一个气球，也可以都通过一根绳子牵着气球(引用变量指向同一个地址)
-
-&#96;&#96;&#96;c#
-using System;
+<h2 id="3-类、对象、类成员简介"><a href="#3-类、对象、类成员简介" class="headerlink" title="3. 类、对象、类成员简介"></a>3. 类、对象、类成员简介</h2><p><font size="5">类（class）是现实世界事物的模型</font></p>
+<ul>
+<li>类是对现实世界事物进行抽象所得到的结果<ul>
+<li>事物包括”物质”(实体)与”运动”(逻辑)</li>
+<li>建模是一个去伪存真，由表及里的过程</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907093936767.png"></p>
+<ul>
+<li>飞行员依赖战斗机</li>
+</ul>
+<h3 id="3-1-类与对象的关系"><a href="#3-1-类与对象的关系" class="headerlink" title="3.1 类与对象的关系"></a>3.1 类与对象的关系</h3><ul>
+<li><p>对象也叫实例，是类经过”实例化”后得到的内存中的实体</p>
+<ul>
+<li>对象和实例是一回事</li>
+<li>“飞机”与”一架飞机”有何区别？天上有(一架)飞机——必须是实例飞，概念是不能飞的</li>
+<li>有些类是不能实例化的，比如”数学”(Math class)，我们不能说”一个数字”</li>
+<li>“可数名词与不可数名词”</li>
+</ul>
+</li>
+<li><p>依照类，我们可以创建对象，这就是<code>实例化</code></p>
+<ul>
+<li>现实世界中常称<code>对象</code>，程序世界中常称<code>实例</code></li>
+<li>两者并无太大区别，常常混用，初学者不必迷惑</li>
+</ul>
+</li>
+<li><p>使用<code>new</code>操作符创建类的实例</p>
+</li>
+<li><p>引用变量与实例的关系</p>
+<ul>
+<li>孩子(引用变量)与气球(实例)</li>
+<li>气球不一定有孩子<code>牵着</code>(相当于赋值符号=)</li>
+<li>多个孩子可以使用各自的绳子牵着同一个气球，也可以都通过一根绳子牵着气球(引用变量指向同一个地址)</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -929,8 +922,8 @@ namespace ClassAndInstance
         &#125;
     &#125;
 &#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>运行结果如下：</p>
 <p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220907101852929.png"></p>
 <h3 id="3-2-类的三大成员"><a href="#3-2-类的三大成员" class="headerlink" title="3.2 类的三大成员"></a>3.2 类的三大成员</h3><ul>
