@@ -4,8 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="CSharp中常见的数据结构, 8yyy&#39;s blog">
-    <meta name="description" content="数据结构：                1.Set集合，纯粹的容器，无需存储，就是一个容器                2.线型结构：在存储的时候，一对一存储                3.树形结构：表达式目录树（二叉树）、菜单结构">
+    <meta name="keywords" content="CSharp文件操作详解, 8yyy&#39;s blog">
+    <meta name="description" content="C#对文件的操作相当方便，主要涉及到四个类：File、FileInfo、Directory、DirectoryInfo，前两个提供了针对文件的操作，后两个提供了针对目录的操作，类图关系如下：
+
+　　图1：类图
+下面通过实例来看下每个类的使用">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>CSharp中常见的数据结构 | 8yyy&#39;s blog</title>
+    <title>CSharp文件操作详解 | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -322,12 +325,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">CSharp中常见的数据结构</h1>
+                    <h1 class="description center-align post-title">CSharp文件操作详解</h1>
                 </div>
             </div>
         </div>
@@ -441,25 +444,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/CSharp-DataStructure/">
-                                <span class="chip bg-color">CSharp DataStructure</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
-                                后端
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -468,28 +458,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-03
+                    2022-10-11
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-04
+                    2022-10-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    716
+                    6.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    29 分
                 </div>
                 
 
@@ -512,56 +502,91 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>数据结构：<br>                1.Set集合，纯粹的容器，无需存储，就是一个容器<br>                2.线型结构：在存储的时候，一对一存储<br>                3.树形结构：表达式目录树（二叉树）、菜单结构：一对多<br>                4.图形结构：扩扑图、网状结构（地图开发，用的上）</p>
-<pre><code>    1.线程结构
-        1.线程结构：Array/ArrayList/List/LinkedList/Queue/Stack/HastSet/SortedSer/Hashtable/SortedList
-                    Dictionaty/SortedDictionary
-        2.数组：内存连续储存，节约空间，可以索引访问，读取快，增删慢
-        
-        Array:在内存上连续分配的，而且元素类型是一样的
-              可以坐标访问，读取快---增减慢，长度不变
- 
-        ArrayList:在以前的开发中使用不较多，不定长度，连续分配的
-                  元素没有限制，任何元素都是当成Object处理，如果是值类型，会有装箱操作
-                  读取快，增删慢
- 
-        List：是Array，内存上都是连续摆放，不定长度，泛型，保证类型安全，避免装箱拆箱 性能也比ArrayList高
-              读取快，增删慢
-       以上特点：读取快，增删相对慢
- 
-        3.非连续摆放，存储数据+地址，找数据的话就只能顺序查找，读取慢，增删快
-            1.LinkedList:泛型的特点：链表，元素不连续分配，每个元素都有记录前后节点，节点值可以重复
-                         能不能以下标访问：不能没找元素只能遍历，查找不方便
-                         增删 就比较方便
-                LinkedList&lt;int&gt; node123 = linkedList.Find(123);得到节点
-            
-            2.Queue 就是链表  先进先出 放任务延迟执行，A不断写入日志任务   B不断获取任务去执行
-                Queue queue = new Queue();
-                queue.Equals(); //添加数据
-                queue.Dequeue(); //获取并移除数据
- 
-            3.Stack 就是链表  先进先出  解析表达式目录树，先产出的数据后使用，
-                    操作记录为命令，撤销的时候是倒序 
-                    Stack stack = new Stack();
-                    stack.Push();//添加数据
-                    stack.Pop();//获取并移除数据
-       2.Set纯粹的集合，容器，东西丢进去，唯一性，无序的
-            1.集合：hash分布，元素间没有关系，动态增加容量，去重
-                    统计用户IP：IP投票  交叉并补---二次好友/间接关注/粉丝合集
-            2. 排序的集合：去重 而且排序
-                    统计排名 -- 没统计一个就丢进集合里
-                    IComparer&lt;T&gt; comparer 自定义对象的排序，就用这个指定
-      3.Hashtable  Key-value  体积可以动态增加  拿着Key计算一个地址，然后放入Key-value
-                    object - 装箱拆箱   如果不同的key得到相同的地址，第二个在前面地址上+1 浪费了空间，Hashtable是基于数组实现
-                    
-      4.线程安全
-            ConcurrentQueue  线程安全版本的Queue
-            ConcurrentStack 线程安全版本的Stack
-            ConcurrentBag   线程安全的对象集合
-            ConcurrentDictionary    线程安全的Dictionary
-            BlockingCollection
-</code></pre>
+                <p>C#对文件的操作相当方便，主要涉及到四个类：File、FileInfo、Directory、DirectoryInfo，前两个提供了针对文件的操作，后两个提供了针对目录的操作，类图关系如下：</p>
+<p><img src="../images/CSharp%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/06172524-6aa7bef34c524adbbfd4a6a203a78364.png" alt="img"></p>
+<p>　　<font align="center">图1：类图</font></p>
+<p>下面通过实例来看下每个类的使用。</p>
+<p>　　一、File类  File中提供了许多的静态方法，使用这些静态方法我们可以方便的对文件进行读写查等基本操作。</p>
+<p>　　1、读文件</p>
+<p>// 摘要:打开一个文件，将文件的内容读入一个字符串，然后关闭该文件。<br><code>public` `static` `byte</code>[] ReadAllBytes(<code>string` `path);  </code></p>
+<p>// 摘要: 打开一个文本文件，读取文件的所有行，然后关闭该文件。<br><code>public` `static` `string</code>[] ReadAllLines(<code>string` `path);  </code></p>
+<p>// 摘要:打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。<br><code>public` `static` `string</code>[] ReadAllLines(<code>string` `path, Encoding encoding);  </code>// 摘要: 打开一个文本文件，读取文件的所有行，然后关闭该文件。<br><code>public` `static` `string` `ReadAllText(</code>stringpath);<br><code>// 摘要: 打开一个文件，使用指定的编码读取文件的所有行，然后关闭该文件。  </code>publicstaticstringReadAllText(<code>string` `path, Encoding encoding); </code>// 摘要: 读取文件的文本行。<br><code>public` `static` `IEnumerable&lt;</code>string<code>&gt; ReadLines(</code>stringpath);<br><code>// 摘要: 读取具有指定编码的文件的文本行。  </code>publicstaticIEnumerable&lt;<code>string</code>&gt; ReadLines(``string<code> </code>path, Encoding encoding);</p>
+<p>　　2、写文件</p>
+<p>// 摘要: 创建一个新文件，在其中写入指定的字节数组，然后关闭该文件。如果目标文件已存在，则覆盖该文件。 <code>public` `static` `void` `WriteAllBytes(</code>string<code> </code>path, <code>byte</code>[] bytes); <code>// 摘要:创建一个新文件，在其中写入一组字符串，然后关闭该文件。 </code>public<code> </code>static<code> </code>void<code> </code>WriteAllLines(<code>string` `path, IEnumerable&lt;</code>string<code>&gt; contents); </code>// 摘要:创建一个新文件，在其中写入指定的字符串数组，然后关闭该文件。 <code>public` `static` `void` `WriteAllLines(</code>string<code> </code>path, <code>string</code>[] contents); <code>// 摘要:使用指定的编码创建一个新文件，在其中写入一组字符串，然后关闭该文件。 </code>public<code> </code>static<code> </code>void<code> </code>WriteAllLines(<code>string` `path, IEnumerable&lt;</code>string<code>&gt; contents, Encoding encoding); </code>// 摘要:创建一个新文件，使用指定的编码在其中写入指定的字符串数组，然后关闭该文件。 <code>public` `static` `void` `WriteAllLines(</code>string<code> </code>path, <code>string</code>[] contents, Encoding encoding); <code>// 摘要: 创建一个新文件，在其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。 </code>public<code> </code>static<code> </code>void<code> </code>WriteAllText(<code>string` `path, </code>string<code> </code>contents); <code>// 摘要: 创建一个新文件，在其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。 </code>public<code> </code>static<code> </code>void<code> </code>WriteAllText(<code>string` `path, </code>string<code> </code>contents, Encoding encoding);</p>
+<p>　　3、追加内容</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要: 在一个文件中追加文本行，然后关闭该文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;AppendAllLines(&#96;&#96;string&#96; &#96;path, IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; contents); &#96;&#96;&#x2F;&#x2F; 摘要:使用指定的编码向一个文件中追加文本行，然后关闭该文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;AppendAllLines(&#96;&#96;string&#96; &#96;path, IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; contents, Encoding encoding); &#96;&#96;&#x2F;&#x2F; 摘要:打开一个文件，向其中追加指定的字符串，然后关闭该文件。如果文件不存在，此方法创建一个文件，将指定的字符串写入文件，然后关闭该文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;AppendAllText(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;contents); &#96;&#96;&#x2F;&#x2F; 摘要:将指定的字符串追加到文件中，如果文件还不存在则创建该文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;AppendAllText(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;contents, Encoding encoding); &#96;&#96;&#x2F;&#x2F; 摘要: 创建一个 System.IO.StreamWriter，它将 UTF-8 编码文本追加到现有文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;StreamWriter AppendText(&#96;&#96;string&#96; &#96;path);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<p>　　4、创建文件</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:在指定路径中创建或覆盖文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Create(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:创建或覆盖指定的文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Create(&#96;&#96;string&#96; &#96;path, &#96;&#96;int&#96; &#96;bufferSize); &#96;&#96;&#x2F;&#x2F; 摘要:创建或覆盖指定的文件，并指定缓冲区大小和一个描述如何创建或覆盖该文件的 System.IO.FileOptions 值。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Create(&#96;&#96;string&#96; &#96;path, &#96;&#96;int&#96; &#96;bufferSize, FileOptions options); &#96;&#96;&#x2F;&#x2F; 摘要:创建或覆盖具有指定的缓冲区大小、文件选项和文件安全性的指定文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Create(&#96;&#96;string&#96; &#96;path, &#96;&#96;int&#96; &#96;bufferSize, FileOptions options, FileSecurity fileSecurity); <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　5、打开文件</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要: 打开指定路径上的 System.IO.FileStream，具有读&#x2F;写访问权限。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Open(&#96;&#96;string&#96; &#96;path, FileMode mode); &#96;&#96;&#x2F;&#x2F; 摘要:以指定的模式和访问权限打开指定路径上的 System.IO.FileStream。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Open(&#96;&#96;string&#96; &#96;path, FileMode mode, FileAccess access); &#96;&#96;&#x2F;&#x2F; 摘要:打开指定路径上的 System.IO.FileStream，具有指定的读、写或读&#x2F;写访问模式以及指定的共享选项。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream Open(&#96;&#96;string&#96; &#96;path, FileMode mode, FileAccess access, FileShare share); &#96;&#96;&#x2F;&#x2F; 摘要:打开现有文件以进行读取。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileStream OpenRead(&#96;&#96;string&#96; &#96;path);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　6、获取和设置文件属性</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:获取一个 System.Security.AccessControl.FileSecurity 对象，它封装指定文件的访问控制列表 (ACL) 条目。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileSecurity GetAccessControl(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:获取一个 System.Security.AccessControl.FileSecurity 对象，它封装特定文件的指定类型的访问控制列表 (ACL)项。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileSecurity GetAccessControl(&#96;&#96;string&#96; &#96;path, AccessControlSections includeSections); &#96;&#96;&#x2F;&#x2F; 摘要: 获取在此路径上的文件的 System.IO.FileAttributes。 &#96;&#96;public&#96; &#96;static&#96; &#96;FileAttributes GetAttributes(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定文件或目录的创建日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetCreationTime(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定的文件或目录的创建日期及时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetCreationTimeUtc(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回上次访问指定文件或目录的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastAccessTime(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 返回上次访问指定的文件或目录的日期及时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastAccessTimeUtc(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回上次写入指定文件或目录的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastWriteTime(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 返回上次写入指定的文件或目录的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastWriteTimeUtc(&#96;&#96;string&#96; &#96;path); &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F; 摘要:对指定的文件应用由 System.Security.AccessControl.FileSecurity 对象描述的访问控制列表 (ACL) 项。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetAccessControl(&#96;&#96;string&#96; &#96;path, FileSecurity fileSecurity); &#96;&#96;&#x2F;&#x2F; 摘要:设置指定路径上文件的指定的 System.IO.FileAttributes。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetAttributes(&#96;&#96;string&#96; &#96;path, FileAttributes fileAttributes); &#96;&#96;&#x2F;&#x2F; 摘要:设置创建该文件的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetCreationTime(&#96;&#96;string&#96; &#96;path, DateTime creationTime); &#96;&#96;&#x2F;&#x2F; 摘要:设置文件创建的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetCreationTimeUtc(&#96;&#96;string&#96; &#96;path, DateTime creationTimeUtc); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次访问指定文件的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastAccessTime(&#96;&#96;string&#96; &#96;path, DateTime lastAccessTime); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次访问指定的文件的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastAccessTimeUtc(&#96;&#96;string&#96; &#96;path, DateTime lastAccessTimeUtc); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次写入指定文件的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastWriteTime(&#96;&#96;string&#96; &#96;path, DateTime lastWriteTime); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次写入指定的文件的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastWriteTimeUtc(&#96;&#96;string&#96; &#96;path, DateTime lastWriteTimeUtc);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　7、复制、移动、替换</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:将现有文件复制到新文件。不允许覆盖同名的文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Copy(&#96;&#96;string&#96; &#96;sourceFileName, &#96;&#96;string&#96; &#96;destFileName); &#96;&#96;&#x2F;&#x2F; 摘要:将现有文件复制到新文件。允许覆盖同名的文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Copy(&#96;&#96;string&#96; &#96;sourceFileName, &#96;&#96;string&#96; &#96;destFileName, &#96;&#96;bool&#96; &#96;overwrite); &#96;&#96; &#96; &#96;&#x2F;&#x2F; 摘要:将指定文件移到新位置，并提供指定新文件名的选项。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Move(&#96;&#96;string&#96; &#96;sourceFileName, &#96;&#96;string&#96; &#96;destFileName); &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F; 摘要:使用其他文件的内容替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Replace(&#96;&#96;string&#96; &#96;sourceFileName, &#96;&#96;string&#96; &#96;destinationFileName, &#96;&#96;string&#96; &#96;destinationBackupFileName); &#96;&#96;&#x2F;&#x2F; 摘要: 用其他文件的内容替换指定文件的内容，删除原始文件，并创建被替换文件的备份和（可选）忽略合并错误。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Replace(&#96;&#96;string&#96; &#96;sourceFileName, &#96;&#96;string&#96; &#96;destinationFileName, &#96;&#96;string&#96; &#96;destinationBackupFileName, &#96;&#96;bool&#96; &#96;ignoreMetadataErrors);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　8、加密解密、删除、判定是否存在</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:将某个文件加密，使得只有加密该文件的帐户才能将其解密。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Encrypt(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:解密由当前帐户使用 System.IO.File.Encrypt(System.String) 方法加密的文件。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Decrypt(&#96;&#96;string&#96; &#96;path); &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F; 摘要: 删除指定的文件。如果指定的文件不存在，则不引发异常 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Delete(&#96;&#96;string&#96; &#96;path); &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F; 摘要:确定指定的文件是否存在。 &#96;&#96;public&#96; &#96;static&#96; &#96;bool&#96; &#96;Exists(&#96;&#96;string&#96; &#96;path);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 　通过上面的函数声明，大家应该很清楚如何是好这些方法了，这里就不举例说明了。</p>
+<p> 　同时，看到如此多的函数，我们也很清楚的知道，File类已经可以满足我们对文件操作的基本需求了。File类通过静态方法的方式为我们提供了操作文件的途径。</p>
+<p>　　FileInfo类  提供了与File类相同的功能，不同的是FileInfo提供的都是成员方法</p>
+<p>　　1、读文件</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:创建只读 System.IO.FileStream。 &#96;&#96;public&#96; &#96;System.IO.FileStream OpenRead() &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:创建使用 UTF8 编码、从现有文本文件中进行读取的 System.IO.StreamReader。&lt;BR&gt;public System.IO.StreamReader OpenText()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　2、写文件</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:创建只写 System.IO.FileStream。 &#96;&#96;public&#96; &#96;System.IO.FileStream OpenWrite()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　3、追加内容</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:创建一个 System.IO.StreamWriter，它向 System.IO.FileInfo 的此实例表示的文件追加文本。 &#96;&#96;public&#96; &#96;System.IO.StreamWriter AppendText()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　4、打开文件</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:在指定的模式中打开文件。 &#96;&#96;public&#96; &#96;System.IO.FileStream Open(System.IO.FileMode mode) &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:用读、写或读&#x2F;写访问权限在指定模式下打开文件。 &#96;&#96;public&#96; &#96;System.IO.FileStream Open(System.IO.FileMode mode, System.IO.FileAccess access) &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:用读、写或读&#x2F;写访问权限和指定的共享选项在指定的模式中打开文件。 &#96;&#96;public&#96; &#96;System.IO.FileStream Open(System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　5、复制、移动、替换</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:将现有文件复制到新文件，不允许覆盖现有文件。 &#96;&#96;public&#96; &#96;System.IO.FileInfo CopyTo(&#96;&#96;string&#96; &#96;destFileName) &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:将现有文件复制到新文件，允许覆盖现有文件。 &#96;&#96;public&#96; &#96;System.IO.FileInfo CopyTo(&#96;&#96;string&#96; &#96;destFileName, &#96;&#96;bool&#96; &#96;overwrite) &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F;摘要:将指定文件移到新位置，并提供指定新文件名的选项。 &#96;&#96;public&#96; &#96;void&#96; &#96;MoveTo(&#96;&#96;string&#96; &#96;destFileName) &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F;摘要:使用当前 System.IO.FileInfo 对象所描述的文件替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份。 &#96;&#96;public&#96; &#96;System.IO.FileInfo Replace(&#96;&#96;string&#96; &#96;destinationFileName, &#96;&#96;string&#96; &#96;destinationBackupFileName) &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:使用当前 System.IO.FileInfo 对象所描述的文件替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份。还指定是否忽略合并错误。 &#96;&#96;public&#96; &#96;System.IO.FileInfo Replace(&#96;&#96;string&#96; &#96;destinationFileName, &#96;&#96;string&#96; &#96;destinationBackupFileName, &#96;&#96;bool&#96; &#96;ignoreMetadataErrors)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　6、加密解密、删除</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:将某个文件加密，使得只有加密该文件的帐户才能将其解密。 &#96;&#96;public&#96; &#96;void&#96; &#96;Encrypt() &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:解密由当前帐户使用 System.IO.FileInfo.Encrypt() 方法加密的文件。 &#96;&#96;public&#96; &#96;void&#96; &#96;Decrypt() &#96;&#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F;摘要:永久删除文件。 &#96;&#96;public&#96; &#96;override&#96; &#96;void&#96; &#96;Delete()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　7、获得文件属性</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;摘要:获取父目录的实例。 &#96;&#96;public&#96; &#96;System.IO.DirectoryInfo Directory &#123; &#96;&#96;get&#96;&#96;; &#125; &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:获取表示目录的完整路径的字符串。 &#96;&#96;public&#96; &#96;string&#96; &#96;DirectoryName &#123; &#96;&#96;get&#96;&#96;; &#125; &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:获取指示文件是否存在的值。 &#96;&#96;public&#96; &#96;override&#96; &#96;bool&#96; &#96;Exists &#123; &#96;&#96;get&#96;&#96;; &#125; &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:获取或设置确定当前文件是否为只读的值。 &#96;&#96;public&#96; &#96;bool&#96; &#96;IsReadOnly &#123; &#96;&#96;set&#96;&#96;; &#96;&#96;get&#96;&#96;; &#125; &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:获取当前文件的大小（字节）。 &#96;&#96;public&#96; &#96;long&#96; &#96;Length &#123; &#96;&#96;get&#96;&#96;; &#125; &#96;&#96; &#96; &#96;&#x2F;&#x2F;摘要:获取文件名。 &#96;&#96;public&#96; &#96;override&#96; &#96;string&#96; &#96;Name &#123; &#96;&#96;get&#96;&#96;; &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　在FileInfo中获取文件的相关属性不再是方法了，都是通过属性获得的，并且除是否只读属性为可读可写的，其他属性都是只读的。</p>
+<p>　　小结</p>
+<p>　　大家注意到，我们在介绍File类时，所有的操作都是通过静态方法实现的，并且返回值都是具体的值类型（暂且这样说），而在FileInfo中提供的方法不再是静态的，并且返回值都是FileStream类型的，是一个文件流，因此我们在使用FileInfo这个类时还需要结合FileStream类一起使用。</p>
+<p>   这也算是对File类与FileInfo类的错略的对比。</p>
+<p>前面两篇介绍了File类和FileInfo类，对于文件的操作基本够用，但是后面还会补充一下FileStream相关的操作，例如StreamReader和StreamWriter的内容。本文主要介绍Directory类的使用，让我们一起看一下Directory类为我们提供了哪些操作。</p>
+<p>　　Directory类  提供了大量的操作目录的静态方法，下面我们一一学习一下。</p>
+<p>　　1、创建目录</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:按 path 的指定创建所有目录和子目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;DirectoryInfo CreateDirectory(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:创建指定路径中的所有目录，并应用指定的 Windows 安全性。 &#96;&#96;public&#96; &#96;static&#96; &#96;DirectoryInfo CreateDirectory(&#96;&#96;string&#96; &#96;path, DirectorySecurity directorySecurity);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　这里要说明一下，我们使用CreateDirectory方法时，不是只能创建一级目录，而是可以创建一个层级目录，只要你指定的目录路径无此目录，就可以创建。</p>
+<p>　　2、删除目录</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:从指定路径删除空目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Delete(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:删除指定的目录并（如果指示）删除该目录中的任何子目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Delete(&#96;&#96;string&#96; &#96;path, &#96;&#96;bool&#96; &#96;recursive);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　我们看方法的注释可以知道，第一个方法只能删除一个空的目录，若删除非空目录会提示错误，如图：</p>
+<p><img src="../images/CSharp%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/09231310-3e7ea6ad50784c1cb93deb4e29a3bf98.png" alt="img"></p>
+<p>第二个方法则是可以通过指定第二个参数来控制是否递归删除子目录，因此，建议在使用时先使用第一个方法，当捕获到异常时，再提示使用第二个方法递归删除（此处只是个人建议，并非固定模式）。</p>
+<p>　　3、获取子目录、文件</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;获取目录集合&lt;BR&gt;&#x2F;&#x2F; 摘要:返回指定路径中的目录名称的可枚举集合。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateDirectories(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中与搜索模式匹配的目录名称的可枚举集合。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateDirectories(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中与搜索模式匹配的目录名称的可枚举集合，还可以搜索子目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateDirectories(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern, SearchOption searchOption); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中的文件名的可枚举集合。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateFiles(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中与搜索模式匹配的文件名称的可枚举集合。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateFiles(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中与搜索模式匹配的文件名称的可枚举集合，还可以搜索子目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateFiles(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern, SearchOption searchOption); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中的文件系统项的可枚举集合。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateFileSystemEntries(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中与搜索模式匹配的文件系统项的可枚举集合。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateFileSystemEntries(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径中与搜索模式匹配的文件名称和目录名称的可枚举集合，还可以搜索子目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;IEnumerable&lt;&#96;&#96;string&#96;&#96;&gt; EnumerateFileSystemEntries(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern, SearchOption searchOption); &#96;&#96;     &#96; &#96; &#96; &#96;&#x2F;&#x2F;获取目录数组 &#96;&#96;&#x2F;&#x2F; 摘要:获取指定目录中子目录的名称。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetDirectories(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:从当前目录获取与指定搜索模式匹配的目录的数组。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetDirectories(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern); &#96;&#96;&#x2F;&#x2F; 摘要:获取当前目录中与指定搜索模式匹配并使用某个值确定是否在子目录中搜索的目录的数组。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetDirectories(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern, SearchOption searchOption); &#96;&#96; &#96; &#96;&lt;BR&gt;&#96;&#96;&#x2F;&#x2F;获取文件 &#96;&#96;&#x2F;&#x2F; 摘要:返回指定目录中的文件的名称。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetFiles(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 返回指定目录中与指定搜索模式匹配的文件的名称。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetFiles(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern); &#96;&#96;&#x2F;&#x2F; 摘要: 返回指定目录中文件的名称，该目录与指定搜索模式匹配并使用某个值确定是否在子目录中搜索。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetFiles(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern, SearchOption searchOption); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定目录中所有文件和子目录的名称。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetFileSystemEntries(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 返回与指定搜索条件匹配的文件系统项的数组。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetFileSystemEntries(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern); &#96;&#96;&#x2F;&#x2F; 摘要: 获取指定路径中与搜索模式匹配的所有文件名称和目录名称的数组，还可以搜索子目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetFileSystemEntries(&#96;&#96;string&#96; &#96;path, &#96;&#96;string&#96; &#96;searchPattern, SearchOption searchOption);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　通过上述的方法我们可以完成目录的遍历功能，所以大家在练习本节的方法时，希望是以完成一个目录遍历的小例子为最终目的，我会在下篇中上传我做的一个目录遍历的程序给大家做参考，希望能给大家提供帮助。</p>
+<p>　　4、获取和设置目录属性</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:获取一个 System.Security.AccessControl.DirectorySecurity 对象，该对象封装指定目录的访问控制列表(ACL) 项。 &#96;&#96;public&#96; &#96;static&#96; &#96;DirectorySecurity GetAccessControl(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:获取一个 System.Security.AccessControl.DirectorySecurity 对象，它封装指定目录的指定类型的访问控制列表(ACL) 项。 &#96;&#96;public&#96; &#96;static&#96; &#96;DirectorySecurity GetAccessControl(&#96;&#96;string&#96; &#96;path, AccessControlSections includeSections); &#96;&#96;&#x2F;&#x2F; 摘要:获取目录的创建日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetCreationTime(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:获取目录创建的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetCreationTimeUtc(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回上次访问指定文件或目录的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastAccessTime(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:返回上次访问指定文件或目录的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastAccessTimeUtc(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 返回上次写入指定文件或目录的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastWriteTime(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 返回上次写入指定文件或目录的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;DateTime GetLastWriteTimeUtc(&#96;&#96;string&#96; &#96;path); &#96;&#96; &#96; &#96; &#96; &#96; &#96; &#96;&#x2F;&#x2F; 摘要:将 System.Security.AccessControl.DirectorySecurity 对象描述的访问控制列表 (ACL) 项应用于指定的目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetAccessControl(&#96;&#96;string&#96; &#96;path, DirectorySecurity directorySecurity); &#96;&#96;&#x2F;&#x2F; 摘要:为指定的文件或目录设置创建日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetCreationTime(&#96;&#96;string&#96; &#96;path, DateTime creationTime); &#96;&#96;&#x2F;&#x2F; 摘要:设置指定文件或目录的创建日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetCreationTimeUtc(&#96;&#96;string&#96; &#96;path, DateTime creationTimeUtc); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次访问指定文件或目录的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastAccessTime(&#96;&#96;string&#96; &#96;path, DateTime lastAccessTime); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次访问指定文件或目录的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastAccessTimeUtc(&#96;&#96;string&#96; &#96;path, DateTime lastAccessTimeUtc); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次写入目录的日期和时间。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastWriteTime(&#96;&#96;string&#96; &#96;path, DateTime lastWriteTime); &#96;&#96;&#x2F;&#x2F; 摘要:设置上次写入某个目录的日期和时间，其格式为协调世界时 (UTC)。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetLastWriteTimeUtc(&#96;&#96;string&#96; &#96;path, DateTime lastWriteTimeUtc);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　5、移动、判断是否存在</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:将文件或目录及其内容移到新位置。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;Move(&#96;&#96;string&#96; &#96;sourceDirName, &#96;&#96;string&#96; &#96;destDirName); &#96;&#96;&#x2F;&#x2F; 摘要: 确定给定路径是否引用磁盘上的现有目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;bool&#96; &#96;Exists(&#96;&#96;string&#96; &#96;path);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　6、获取卷信息、根信息、当前工作目录</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 摘要:获取应用程序的当前工作目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96; &#96;GetCurrentDirectory(); &#96;&#96;&#x2F;&#x2F; 摘要:返回指定路径的卷信息、根信息或两者同时返回。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96; &#96;GetDirectoryRoot(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要:检索此计算机上格式为“&lt;盘符&gt;:\”的逻辑驱动器的名称。 &#96;&#96;public&#96; &#96;static&#96; &#96;string&#96;&#96;[] GetLogicalDrives(); &#96;&#96;&#x2F;&#x2F; 摘要:检索指定路径的父目录，包括绝对路径和相对路径。 &#96;&#96;public&#96; &#96;static&#96; &#96;DirectoryInfo GetParent(&#96;&#96;string&#96; &#96;path); &#96;&#96;&#x2F;&#x2F; 摘要: 将应用程序的当前工作目录设置为指定的目录。 &#96;&#96;public&#96; &#96;static&#96; &#96;void&#96; &#96;SetCurrentDirectory(&#96;&#96;string&#96; &#96;path);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　</p>
+<p>转自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/amylis_chen/archive/2013/01/10/2853992.html">https://www.cnblogs.com/amylis_chen/archive/2013/01/10/2853992.html</a></p>
+<pre class="line-numbers language-none"><code class="language-none"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -587,7 +612,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">http://example.com/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a>
+                    <a href="http://example.com/2022/10/11/CSharp%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/">http://example.com/2022/10/11/CSharp%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -624,11 +649,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/CSharp-DataStructure/">
-                                    <span class="chip bg-color">CSharp DataStructure</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -822,9 +843,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/10/11/CSharp%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/22.jpg" class="responsive-img" alt="CSharp文件操作详解">
+                        
+                        <span class="card-title">CSharp文件操作详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            8yyy
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2022/10/04/CSharp-In-Depth-%E7%AC%94%E8%AE%B0/">
                     <div class="card-image">
@@ -842,9 +902,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-04
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -862,55 +922,6 @@
                     
                     <a href="/tags/CSharp/">
                         <span class="chip bg-color">CSharp</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/09/19/DOTNETCore/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="DOTNETCORE">
-                        
-                        <span class="card-title">DOTNETCORE</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-19
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    笔记
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/DOTNETCORE/">
-                        <span class="chip bg-color">DOTNETCORE</span>
                     </a>
                     
                 </div>

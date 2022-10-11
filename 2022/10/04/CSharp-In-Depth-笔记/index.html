@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="CSharp中常见的数据结构, 8yyy&#39;s blog">
-    <meta name="description" content="数据结构：                1.Set集合，纯粹的容器，无需存储，就是一个容器                2.线型结构：在存储的时候，一对一存储                3.树形结构：表达式目录树（二叉树）、菜单结构">
+    <meta name="keywords" content="CSharp In Depth 笔记, 8yyy&#39;s blog">
+    <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>CSharp中常见的数据结构 | 8yyy&#39;s blog</title>
+    <title>CSharp In Depth 笔记 | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -322,12 +322,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">CSharp中常见的数据结构</h1>
+                    <h1 class="description center-align post-title">CSharp In Depth 笔记</h1>
                 </div>
             </div>
         </div>
@@ -443,8 +443,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CSharp-DataStructure/">
-                                <span class="chip bg-color">CSharp DataStructure</span>
+                            <a href="/tags/CSharp/">
+                                <span class="chip bg-color">CSharp</span>
                             </a>
                         
                     </div>
@@ -455,8 +455,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
-                                后端
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
+                                笔记
                             </a>
                         
                     </div>
@@ -468,28 +468,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-03
+                    2022-10-04
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-04
+                    2022-10-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    716
+                    0
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -512,56 +512,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>数据结构：<br>                1.Set集合，纯粹的容器，无需存储，就是一个容器<br>                2.线型结构：在存储的时候，一对一存储<br>                3.树形结构：表达式目录树（二叉树）、菜单结构：一对多<br>                4.图形结构：扩扑图、网状结构（地图开发，用的上）</p>
-<pre><code>    1.线程结构
-        1.线程结构：Array/ArrayList/List/LinkedList/Queue/Stack/HastSet/SortedSer/Hashtable/SortedList
-                    Dictionaty/SortedDictionary
-        2.数组：内存连续储存，节约空间，可以索引访问，读取快，增删慢
-        
-        Array:在内存上连续分配的，而且元素类型是一样的
-              可以坐标访问，读取快---增减慢，长度不变
- 
-        ArrayList:在以前的开发中使用不较多，不定长度，连续分配的
-                  元素没有限制，任何元素都是当成Object处理，如果是值类型，会有装箱操作
-                  读取快，增删慢
- 
-        List：是Array，内存上都是连续摆放，不定长度，泛型，保证类型安全，避免装箱拆箱 性能也比ArrayList高
-              读取快，增删慢
-       以上特点：读取快，增删相对慢
- 
-        3.非连续摆放，存储数据+地址，找数据的话就只能顺序查找，读取慢，增删快
-            1.LinkedList:泛型的特点：链表，元素不连续分配，每个元素都有记录前后节点，节点值可以重复
-                         能不能以下标访问：不能没找元素只能遍历，查找不方便
-                         增删 就比较方便
-                LinkedList&lt;int&gt; node123 = linkedList.Find(123);得到节点
-            
-            2.Queue 就是链表  先进先出 放任务延迟执行，A不断写入日志任务   B不断获取任务去执行
-                Queue queue = new Queue();
-                queue.Equals(); //添加数据
-                queue.Dequeue(); //获取并移除数据
- 
-            3.Stack 就是链表  先进先出  解析表达式目录树，先产出的数据后使用，
-                    操作记录为命令，撤销的时候是倒序 
-                    Stack stack = new Stack();
-                    stack.Push();//添加数据
-                    stack.Pop();//获取并移除数据
-       2.Set纯粹的集合，容器，东西丢进去，唯一性，无序的
-            1.集合：hash分布，元素间没有关系，动态增加容量，去重
-                    统计用户IP：IP投票  交叉并补---二次好友/间接关注/粉丝合集
-            2. 排序的集合：去重 而且排序
-                    统计排名 -- 没统计一个就丢进集合里
-                    IComparer&lt;T&gt; comparer 自定义对象的排序，就用这个指定
-      3.Hashtable  Key-value  体积可以动态增加  拿着Key计算一个地址，然后放入Key-value
-                    object - 装箱拆箱   如果不同的key得到相同的地址，第二个在前面地址上+1 浪费了空间，Hashtable是基于数组实现
-                    
-      4.线程安全
-            ConcurrentQueue  线程安全版本的Queue
-            ConcurrentStack 线程安全版本的Stack
-            ConcurrentBag   线程安全的对象集合
-            ConcurrentDictionary    线程安全的Dictionary
-            BlockingCollection
-</code></pre>
-
+                
                 
             </div>
             <hr/>
@@ -587,7 +538,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">http://example.com/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a>
+                    <a href="http://example.com/2022/10/04/CSharp-In-Depth-%E7%AC%94%E8%AE%B0/">http://example.com/2022/10/04/CSharp-In-Depth-%E7%AC%94%E8%AE%B0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -625,8 +576,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CSharp-DataStructure/">
-                                    <span class="chip bg-color">CSharp DataStructure</span>
+                                <a href="/tags/CSharp/">
+                                    <span class="chip bg-color">CSharp</span>
                                 </a>
                             
                         </div>
@@ -826,13 +777,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/10/04/CSharp-In-Depth-%E7%AC%94%E8%AE%B0/">
+                <a href="/2022/10/11/CSharp%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/11.jpg" class="responsive-img" alt="CSharp In Depth 笔记">
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/22.jpg" class="responsive-img" alt="CSharp文件操作详解">
                         
-                        <span class="card-title">CSharp In Depth 笔记</span>
+                        <span class="card-title">CSharp文件操作详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -843,27 +794,15 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-04
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-11
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    笔记
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            8yyy
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/CSharp/">
-                        <span class="chip bg-color">CSharp</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -875,13 +814,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/09/19/DOTNETCore/">
+                <a href="/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="DOTNETCORE">
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/20.jpg" class="responsive-img" alt="CSharp中常见的数据结构">
                         
-                        <span class="card-title">DOTNETCORE</span>
+                        <span class="card-title">CSharp中常见的数据结构</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -892,14 +831,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    笔记
+                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
+                                    后端
                                 </a>
                             
                             
@@ -909,8 +848,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/DOTNETCORE/">
-                        <span class="chip bg-color">DOTNETCORE</span>
+                    <a href="/tags/CSharp-DataStructure/">
+                        <span class="chip bg-color">CSharp DataStructure</span>
                     </a>
                     
                 </div>
