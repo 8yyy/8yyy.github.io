@@ -516,7 +516,7 @@
                 <h2 id="1-什么是I-O"><a href="#1-什么是I-O" class="headerlink" title="1. 什么是I/O"></a>1. 什么是I/O</h2><p>I/O 的全称是input/output，翻译过来就是输入/输出。对于一个系统或者计算机来说，键盘、U盘、网络接口、显示器、音响、摄像头等都是IO设备。那么，对于一个程序I/O又是什么呢？</p>
 <p>对于程序而言，I/O就是与外界进行数据交换的方式。借用一句广告词，程序不生产数据，只是数据的搬用工。当然，正如XX还需要对水进行过滤、消毒等工序一样，程序也要对数据进行运算，所以也不完全算是搬用工，严格来讲是加工厂。那么，I/O就是工厂的原料提供商和成品销售商。</p>
 <p><strong>在C# 中，I/O体系整体分为三个部分，后台存储流、装饰器流、流适配器，具体划分如下图所示：</strong></p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/v2-f747eb53b7b2e143ae8836cd49692f62_720w.webp" alt="img"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/v2-f747eb53b7b2e143ae8836cd49692f62_720w.webp"></p>
 <p>在流与流之间，都是采用字节数据进行交换，所以可以得到一个简单的结论，I/O在程序中表现为字节流，换句话说I/O就是将各种数据转成字节的工具。</p>
 <h3 id="1-1-System-IO-命名空间"><a href="#1-1-System-IO-命名空间" class="headerlink" title="1.1 System.IO 命名空间"></a>1.1 System.IO 命名空间</h3><p>包含允许读写文件和数据流的类型以及提供基本文件和目录支持的类型。</p>
 <h4 id="1-1-1-文件系统类-System-IO-的介绍"><a href="#1-1-1-文件系统类-System-IO-的介绍" class="headerlink" title="1.1.1 文件系统类(System.IO)的介绍"></a>1.1.1 文件系统类(System.IO)的介绍</h4><p>​    文件操作类大都在<code>System.IO</code>命名空间里。<code>FileSystemInfo</code>类是任何文件系统类的基类；<code>FileInfo</code>与<code>File</code>表示文件系统中的文件；<code>DirectoryInfo</code>与<code>Directory</code>表示文件系统中的文件夹；<code>Path</code>表示文件系统中的路径；<code>DriveInfo</code>提供对有关驱动器的信息的访问。<strong>注意，XXXInfo与XXX类的区别是：XXX是静态类，XXXInfo类可以实例化。</strong><br>​    还有个较为特殊的类System.MarshalByRefObject允许在支持远程处理的应用程序中跨应用程序域边界访问对象。 </p>
@@ -1028,19 +1028,19 @@ The directory was deleted successfully.<span aria-hidden="true" class="line-numb
 <p algin="center">1.2.1-图1 初始情况</p>
 
 <p>第一次执行代码后</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205219370.png" alt="image-20221011205219370"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205219370.png"></p>
 <p algin="center">1.2.1-图2 创建文件</p>
 
 <p>按回车继续执行程序</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205304048.png" alt="image-20221011205304048"></p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205346231.png" alt="image-20221011205346231"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205304048.png"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205346231.png"></p>
 <p algin="center">1.2.1-图2 移动文件</p>
 
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205421575.png" alt="image-20221011205421575"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205421575.png"></p>
 <p algin="center">1.2.1-图2 复制文件</p>
 
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205450759.png" alt="image-20221011205450759"></p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205500945.png" alt="image-20221011205500945"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205450759.png"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221011205500945.png"></p>
 <p algin="center">1.2.1-图2 删除文件</p>
 
 
@@ -1216,11 +1216,11 @@ Welcome
 
 <p>运行结果如下：</p>
 <p>第一步，写入字节数组</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012163308250.png" alt="image-20221012163308250"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012163308250.png"></p>
 <p>第二步，写入字符串集合</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012163331407.png" alt="image-20221012163331407"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012163331407.png"></p>
 <p>第三步，写入指定的字符串</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012163422303.png" alt="image-20221012163422303"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012163422303.png"></p>
 <table>
 <thead>
 <tr>
@@ -1300,7 +1300,7 @@ public abstract bool CanSeek &#123; get; &#125; // 获取指示当前流是否�
 <li>CryptoStream 用于将数据流链接到加密转换</li>
 </ul>
 <p><strong>数据流类的层次结构：</strong></p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/051413373995825.png" alt="img"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/051413373995825.png"></p>
 <h4 id="1-3-4-使用FileStream读写二进制文件"><a href="#1-3-4-使用FileStream读写二进制文件" class="headerlink" title="1.3.4 使用FileStream读写二进制文件"></a>1.3.4 使用FileStream读写二进制文件</h4><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
 <span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>IO</span><span class="token punctuation">;</span>
 <span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Text</span><span class="token punctuation">;</span>
@@ -1339,9 +1339,9 @@ public abstract bool CanSeek &#123; get; &#125; // 获取指示当前流是否�
 
 <p>运行结果如下：</p>
 <p>第一步写入文件</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012170028003.png" alt="image-20221012170028003"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012170028003.png"></p>
 <p>第二步读取文件里的内容</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012170049344.png" alt="image-20221012170049344"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012170049344.png"></p>
 <p><strong>FileStream</strong> 类 构造函数</p>
 <table>
 <thead>
@@ -1442,8 +1442,8 @@ public abstract bool CanSeek &#123; get; &#125; // 获取指示当前流是否�
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>运行结果如下：</p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012190711396.png" alt="image-20221012190711396"></p>
-<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012190728353.png" alt="image-20221012190728353"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012190711396.png"></p>
+<p><img src="/images/CSharpIO%E8%AF%A6%E8%A7%A3/image-20221012190728353.png"></p>
 <p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.io.streamwriter?view=net-6.0">StreamWriter</a> 专用于特定编码的字符输出，而从派生的类 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.io.stream?view=net-6.0">Stream</a> 则设计用于字节输入和输出。</p>
 <p>​    <strong>重要</strong></p>
 <p><strong>此类型实现 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.idisposable?view=net-6.0">IDisposable</a> 接口。 在使用完类型后，您应直接或间接释放类型。 若要直接释放类型，请在 <code>try</code>/<code>catch</code> 块中调用其 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.idisposable.dispose?view=net-6.0">Dispose</a> 方法。 若要间接释放类型，请使用 <code>using</code>（在 C# 中）或 <code>Using</code>（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.idisposable?view=net-6.0">IDisposable</a> 接口主题中的“使用实现 IDisposable 的对象”一节。</strong></p>
@@ -1480,7 +1480,7 @@ public abstract bool CanSeek &#123; get; &#125; // 获取指示当前流是否�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2022/10/11/CSharpIO%E8%AF%A6%E8%A7%A3/">http://example.com/2022/10/11/CSharpIO%E8%AF%A6%E8%A7%A3/</a>
+                    <a href="http://8yyy.github.io/2022/10/11/CSharpIO%E8%AF%A6%E8%A7%A3/">http://8yyy.github.io/2022/10/11/CSharpIO%E8%AF%A6%E8%A7%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
