@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="CSharp中常见的数据结构, 8yyy&#39;s blog">
-    <meta name="description" content="数据结构：                1.Set集合，纯粹的容器，无需存储，就是一个容器                2.线型结构：在存储的时候，一对一存储                3.树形结构：表达式目录树（二叉树）、菜单结构">
+    <meta name="keywords" content="test, 8yyy&#39;s blog">
+    <meta name="description" content="
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>CSharp中常见的数据结构 | 8yyy&#39;s blog</title>
+    <title>test | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -237,12 +238,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/test/run.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">CSharp中常见的数据结构</h1>
+                    <h1 class="description center-align post-title">test</h1>
                 </div>
             </div>
         </div>
@@ -358,8 +359,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CSharp-DataStructure/">
-                                <span class="chip bg-color">CSharp DataStructure</span>
+                            <a href="/tags/test-light/">
+                                <span class="chip bg-color">test,light</span>
                             </a>
                         
                     </div>
@@ -370,8 +371,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
-                                后端
+                            <a href="/categories/test/" class="post-category">
+                                test
                             </a>
                         
                     </div>
@@ -383,7 +384,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-03
+                    2022-10-17
                 </div>
                 
 
@@ -397,14 +398,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    714
+                    0
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -427,56 +428,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>数据结构：<br>                1.Set集合，纯粹的容器，无需存储，就是一个容器<br>                2.线型结构：在存储的时候，一对一存储<br>                3.树形结构：表达式目录树（二叉树）、菜单结构：一对多<br>                4.图形结构：扩扑图、网状结构（地图开发，用的上）</p>
-<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token number">1</span><span class="token punctuation">.</span>线程结构
-    <span class="token number">1</span><span class="token punctuation">.</span>线程结构：Array<span class="token operator">/</span>ArrayList<span class="token operator">/</span>List<span class="token operator">/</span>LinkedList<span class="token operator">/</span>Queue<span class="token operator">/</span>Stack<span class="token operator">/</span>HastSet<span class="token operator">/</span>SortedSer<span class="token operator">/</span>Hashtable<span class="token operator">/</span>SortedList
-                Dictionaty<span class="token operator">/</span>SortedDictionary
-    <span class="token number">2</span><span class="token punctuation">.</span>数组：内存连续储存，节约空间，可以索引访问，读取快，增删慢
-    
-    Array<span class="token punctuation">:</span>在内存上连续分配的，而且元素类型是一样的
-          可以坐标访问，读取快<span class="token operator">--</span><span class="token operator">-</span>增减慢，长度不变
- 
-    ArrayList<span class="token punctuation">:</span>在以前的开发中使用不较多，不定长度，连续分配的
-              元素没有限制，任何元素都是当成Object处理，如果是值类型，会有装箱操作
-              读取快，增删慢
- 
-    List：是Array，内存上都是连续摆放，不定长度，泛型，保证类型安全，避免装箱拆箱 性能也比ArrayList高
-          读取快，增删慢
-   以上特点：读取快，增删相对慢
- 
-    <span class="token number">3</span><span class="token punctuation">.</span>非连续摆放，存储数据<span class="token operator">+</span>地址，找数据的话就只能顺序查找，读取慢，增删快
-        <span class="token number">1</span><span class="token punctuation">.</span>LinkedList<span class="token punctuation">:</span>泛型的特点：链表，元素不连续分配，每个元素都有记录前后节点，节点值可以重复
-                     能不能以下标访问：不能没找元素只能遍历，查找不方便
-                     增删 就比较方便
-            <span class="token class-name">LinkedList<span class="token punctuation">&lt;</span><span class="token keyword">int</span><span class="token punctuation">></span></span> node123 <span class="token operator">=</span> linkedList<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">;</span>得到节点
-        
-        <span class="token number">2</span><span class="token punctuation">.</span>Queue 就是链表  先进先出 放任务延迟执行，A不断写入日志任务   B不断获取任务去执行
-            <span class="token class-name">Queue</span> queue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            queue<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//添加数据</span>
-            queue<span class="token punctuation">.</span><span class="token function">Dequeue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//获取并移除数据</span>
- 
-        <span class="token number">3</span><span class="token punctuation">.</span>Stack 就是链表  先进先出  解析表达式目录树，先产出的数据后使用，
-                操作记录为命令，撤销的时候是倒序 
-                <span class="token class-name">Stack</span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Stack</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                stack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//添加数据</span>
-                stack<span class="token punctuation">.</span><span class="token function">Pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//获取并移除数据</span>
-   <span class="token number">2</span><span class="token punctuation">.</span>Set纯粹的集合，容器，东西丢进去，唯一性，无序的
-        <span class="token number">1</span><span class="token punctuation">.</span>集合：hash分布，元素间没有关系，动态增加容量，去重
-                统计用户IP：IP投票  交叉并补<span class="token operator">--</span><span class="token operator">-</span>二次好友<span class="token operator">/</span>间接关注<span class="token operator">/</span>粉丝合集
-        <span class="token number">2</span><span class="token punctuation">.</span> 排序的集合：去重 而且排序
-                统计排名 <span class="token operator">--</span> 没统计一个就丢进集合里
-                IComparer<span class="token operator">&lt;</span>T<span class="token operator">></span> comparer 自定义对象的排序，就用这个指定
-  <span class="token number">3</span><span class="token punctuation">.</span>Hashtable  Key<span class="token operator">-</span><span class="token keyword">value</span>  体积可以动态增加  拿着Key计算一个地址，然后放入Key<span class="token operator">-</span><span class="token keyword">value</span>
-                <span class="token keyword">object</span> <span class="token operator">-</span> 装箱拆箱   如果不同的key得到相同的地址，第二个在前面地址上<span class="token operator">+</span><span class="token number">1</span> 浪费了空间，Hashtable是基于数组实现
-                
-  <span class="token number">4</span><span class="token punctuation">.</span>线程安全
-        ConcurrentQueue  线程安全版本的Queue
-        ConcurrentStack 线程安全版本的Stack
-        ConcurrentBag   线程安全的对象集合
-        ConcurrentDictionary    线程安全的Dictionary
-        BlockingCollection<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
+                <p><img src="/images/test/run.jpg"></p>
 
                 
             </div>
@@ -503,7 +455,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://8yyy.github.io/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">http://8yyy.github.io/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a>
+                    <a href="http://8yyy.github.io/2022/10/17/test/">http://8yyy.github.io/2022/10/17/test/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -541,8 +493,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CSharp-DataStructure/">
-                                    <span class="chip bg-color">CSharp DataStructure</span>
+                                <a href="/tags/test-light/">
+                                    <span class="chip bg-color">test,light</span>
                                 </a>
                             
                         </div>
@@ -738,17 +690,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/10/04/CSharp-In-Depth-%E7%AC%94%E8%AE%B0/">
+                <a href="/2022/10/17/test/">
                     <div class="card-image">
                         
+                        <img src="/images/test/run.jpg" class="responsive-img" alt="test">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/11.jpg" class="responsive-img" alt="CSharp In Depth 笔记">
-                        
-                        <span class="card-title">CSharp In Depth 笔记</span>
+                        <span class="card-title">test</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -758,26 +710,27 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-04
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    笔记
+                            <a href="/categories/test/" class="post-category">
+                                    test
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CSharp/">
-                        <span class="chip bg-color">CSharp</span>
+                    <a href="/tags/test-light/">
+                        <span class="chip bg-color">test,light</span>
                     </a>
                     
                 </div>
@@ -791,13 +744,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/09/19/DOTNETCore/">
+                <a href="/2022/10/16/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="DOTNETCORE">
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/22.jpg" class="responsive-img" alt="坦克大战">
                         
-                        <span class="card-title">DOTNETCORE</span>
+                        <span class="card-title">坦克大战</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -808,14 +761,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-16
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    笔记
+                            <a href="/categories/CSharp/" class="post-category">
+                                    CSharp
                                 </a>
                             
                             
@@ -825,8 +778,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/DOTNETCORE/">
-                        <span class="chip bg-color">DOTNETCORE</span>
+                    <a href="/tags/WinForm/">
+                        <span class="chip bg-color">WinForm</span>
                     </a>
                     
                 </div>
