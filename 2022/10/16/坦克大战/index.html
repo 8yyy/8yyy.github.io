@@ -393,21 +393,21 @@ this.StartPositi">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-19
+                    2022-10-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.2k
+                    8.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    24 分
+                    37 分
                 </div>
                 
 
@@ -1590,6 +1590,608 @@ GameFramework<span class="token punctuation">.</span>g <span class="token operat
 <p>由于敌人坦克之间没有进行同类的碰撞检测，所以你可以看到有部分的敌人坦克存在重叠的情况，这是没什么问题的</p>
 <h3 id="10-3-解决资源冲突问题"><a href="#10-3-解决资源冲突问题" class="headerlink" title="10.3 解决资源冲突问题"></a>10.3 解决资源冲突问题</h3><p>当你运行一段事件后会报错，如下图所示</p>
 <p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221019213134135.png"></p>
+<p>当你按方向键不动时，就会一直调用<code>MyTank</code>中的<code>KeyDown</code>方法</p>
+<p>多线程冲突，可以使用加锁解决</p>
+<p>权宜之计是在<code>MyTank</code>中的<code>KeyDown</code>方法加个判断</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020084450795.png"></p>
+<p>可以看到按下W的时候已经加了判断，而按下S还没有</p>
+<p>接下来使用加锁的方式</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020085902038.png"></p>
+<p>对于图片的使用存在两个地方，第一个是按键按下的时候系统处理事件的线程，会得到一个bmp，相关代码如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020085254140.png"></p>
+<p>还有一处是在DrawSelf()，会把元素绘制到图片上，这个是放在我们自己写的线程<code>_gameMainThread</code>里，当两个线程同时执行某一个功能，会产生线程冲突</p>
+<p>将<code>GameObject</code>类里的<code>DrawSelf</code>方法添加为<code>virtual</code>方法，让它可以被继承重写</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020085631835.png"></p>
+<p>在<code>Movething</code>类中重写这个方法，加锁</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020085750269.png"></p>
+<h2 id="11-控制子弹的生成"><a href="#11-控制子弹的生成" class="headerlink" title="11. 控制子弹的生成"></a>11. 控制子弹的生成</h2><h3 id="11-1-生成子弹"><a href="#11-1-生成子弹" class="headerlink" title="11.1 生成子弹"></a>11.1 生成子弹</h3><p>先制作<code>MyTank</code>的子弹，方法是在<code>MyTank</code>类的<code>KeyDown</code>里添加一个<code>Keys.Space</code>的响应，如下图所示</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020103247378.png"></p>
+<p>然后在<code>GameObjectManager</code>添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">      <span class="token comment">//Bullet</span>
+      <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">List<span class="token punctuation">&lt;</span>Bullet<span class="token punctuation">></span></span> _bulletList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>Bullet<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">//创建子弹</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">CreateBullet</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span><span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">,</span><span class="token class-name">Tag</span> tag<span class="token punctuation">,</span><span class="token class-name">Direction</span> dir<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token class-name">Bullet</span> bullet <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Bullet</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span>dir<span class="token punctuation">,</span>tag<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          _bulletList<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>bullet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+<span class="token comment">//印刷子弹</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>    
+          <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> _bulletList<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              item<span class="token punctuation">.</span><span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">&#125;</span>
+	<span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在<code>MyTank</code>类里添加一个<code>_Attack</code>方法</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_Attack</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//发射子弹</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>X<span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> y <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>Y<span class="token punctuation">;</span>
+            <span class="token comment">//计算子弹位置</span>
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span>Dir<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Up<span class="token punctuation">:</span>
+                    x <span class="token operator">+=</span> Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Down<span class="token punctuation">:</span>
+                    x <span class="token operator">+=</span> Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    y <span class="token operator">+=</span> Height<span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Left<span class="token punctuation">:</span>
+                    y <span class="token operator">+=</span> Height<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Right<span class="token punctuation">:</span>
+                    x <span class="token operator">+=</span> Width<span class="token punctuation">;</span>
+                    y <span class="token operator">+=</span> Height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            GameObjectManager<span class="token punctuation">.</span><span class="token function">CreateBullet</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>Tag<span class="token punctuation">.</span>MyTank<span class="token punctuation">,</span>Dir<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>子弹<code>Bullet</code>类代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">enum</span> <span class="token class-name">Tag</span>
+    <span class="token punctuation">&#123;</span>
+        MyTank<span class="token punctuation">,</span>
+        EnemyTank
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Bullet</span><span class="token punctuation">:</span><span class="token type-list"><span class="token class-name">Movething</span></span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token comment">//辨别子弹是MyTank还是EnemyTank的</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name">Tag</span> Tag <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">public</span> <span class="token function">Bullet</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">int</span></span> speed<span class="token punctuation">,</span><span class="token class-name">Direction</span>  dir<span class="token punctuation">,</span><span class="token class-name">Tag</span> tag<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//初始坐标</span>
+            X <span class="token operator">=</span> x<span class="token punctuation">;</span>
+            Y <span class="token operator">=</span> y<span class="token punctuation">;</span>
+            <span class="token comment">//初始速度</span>
+            Speed <span class="token operator">=</span> speed<span class="token punctuation">;</span>
+            <span class="token comment">//四个方向的图片</span>
+            BitmapDown <span class="token operator">=</span> Resources<span class="token punctuation">.</span>BulletDown<span class="token punctuation">;</span>
+            BitmapUp <span class="token operator">=</span> Resources<span class="token punctuation">.</span>BulletUp<span class="token punctuation">;</span>
+            BitmapRight <span class="token operator">=</span> Resources<span class="token punctuation">.</span>BulletRight<span class="token punctuation">;</span>
+            BitmapLeft <span class="token operator">=</span> Resources<span class="token punctuation">.</span>BulletLeft<span class="token punctuation">;</span>
+            Dir <span class="token operator">=</span> dir<span class="token punctuation">;</span>
+            Tag <span class="token operator">=</span> Tag<span class="token punctuation">;</span>
+            <span class="token comment">//由于子弹本身存在宽高的空白区域，导致显示问题，所以需要减去宽高</span>
+            X <span class="token operator">-=</span> Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            Y <span class="token operator">-=</span> Height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">DrawSelf</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">base</span><span class="token punctuation">.</span><span class="token function">DrawSelf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行效果如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020103652431.png"></p>
+<p>可以看到我发射了三枚子弹，只是目前子弹还无法移动</p>
+<h3 id="11-2-控制子弹的移动和超出边界销毁"><a href="#11-2-控制子弹的移动和超出边界销毁" class="headerlink" title="11.2 控制子弹的移动和超出边界销毁"></a>11.2 控制子弹的移动和超出边界销毁</h3><p>子弹的移动和敌人的类似的，只不过相对来说会简单一些，因为子弹的移动只需要朝一个方向即可，将敌人移动的代码复制到<code>Bullet</code>类</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token function">_MoveCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//移动检查</span>
+          <span class="token function">_Move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">base</span><span class="token punctuation">.</span><span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+
+      <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_MoveCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token preprocessor property">#<span class="token directive keyword">region</span> 检查有没有超出窗体边界，不需要预判</span>
+          <span class="token comment">//判断中间的小点，即子弹</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>Dir <span class="token operator">==</span> Direction<span class="token punctuation">.</span>Up<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token comment">//高度一半，然后子弹是6，加上子弹的一半</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>Y<span class="token operator">+</span>Height<span class="token operator">/</span><span class="token number">2</span> <span class="token operator">+</span><span class="token number">3</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+              <span class="token punctuation">&#123;</span>
+                  IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                  <span class="token keyword">return</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+          <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>Dir <span class="token operator">==</span> Direction<span class="token punctuation">.</span>Down<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>Y <span class="token operator">+</span> Height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span><span class="token number">3</span> <span class="token operator">></span> <span class="token number">450</span><span class="token punctuation">)</span>
+              <span class="token punctuation">&#123;</span>
+                  IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                  <span class="token keyword">return</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+          <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>Dir <span class="token operator">==</span> Direction<span class="token punctuation">.</span>Left<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>X <span class="token operator">+</span>Width<span class="token operator">/</span><span class="token number">2</span><span class="token operator">-</span><span class="token number">3</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+              <span class="token punctuation">&#123;</span>
+                  IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                  <span class="token keyword">return</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+          <span class="token keyword">else</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>X <span class="token operator">+</span> Width <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span> <span class="token operator">></span> <span class="token number">450</span><span class="token punctuation">)</span>
+              <span class="token punctuation">&#123;</span>
+                  IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                  <span class="token keyword">return</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+          <span class="token preprocessor property">#<span class="token directive keyword">endregion</span></span>
+      <span class="token punctuation">&#125;</span>
+
+      <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_Move</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token keyword">switch</span> <span class="token punctuation">(</span>Dir<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Up<span class="token punctuation">:</span>
+                  Y <span class="token operator">-=</span> Speed<span class="token punctuation">;</span>
+                  <span class="token keyword">break</span><span class="token punctuation">;</span>
+              <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Down<span class="token punctuation">:</span>
+                  Y <span class="token operator">+=</span> Speed<span class="token punctuation">;</span>
+                  <span class="token keyword">break</span><span class="token punctuation">;</span>
+              <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Left<span class="token punctuation">:</span>
+                  X <span class="token operator">-=</span> Speed<span class="token punctuation">;</span>
+                  <span class="token keyword">break</span><span class="token punctuation">;</span>
+              <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Right<span class="token punctuation">:</span>
+                  X <span class="token operator">+=</span> Speed<span class="token punctuation">;</span>
+                  <span class="token keyword">break</span><span class="token punctuation">;</span>
+          <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="11-3-控制子弹攻击墙和敌人"><a href="#11-3-控制子弹攻击墙和敌人" class="headerlink" title="11.3 控制子弹攻击墙和敌人"></a>11.3 控制子弹攻击墙和敌人</h3><p><code>GameObjectManager</code>类添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">      <span class="token comment">//检测销毁子弹</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">CheckAndDestroyBullet</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token class-name">List<span class="token punctuation">&lt;</span>Bullet<span class="token punctuation">></span></span> needToDestroy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>Bullet<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> _bulletList<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>IsDestroy <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+              <span class="token punctuation">&#123;</span>
+                  needToDestroy<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+          <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> needToDestroy<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              _bulletList<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span>
+      
+      <span class="token comment">//销毁红墙</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">DestroyWall</span><span class="token punctuation">(</span><span class="token class-name">NotMovething</span> wall<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          _wallList<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>wall<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+
+      <span class="token comment">//销毁敌人的坦克</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">DestroyEnemyTank</span><span class="token punctuation">(</span><span class="token class-name">EnemyTank</span> enemyTank<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          _tankList<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>enemyTank<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+              
+          <span class="token function">CheckAndDestroyBullet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment">//foreach (var item in _bulletList)</span>
+          <span class="token comment">//&#123;</span>
+          <span class="token comment">//    item.Update();</span>
+          <span class="token comment">//&#125;</span>
+
+          <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> _bulletList<span class="token punctuation">.</span>Count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              _bulletList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">&#125;</span>
+          
+	<span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+      <span class="token punctuation">&#125;</span>
+<span class="token comment">//检测子弹是否碰到敌人</span>
+      <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name">EnemyTank</span> <span class="token function">IsCollidedEnemyTank</span><span class="token punctuation">(</span><span class="token class-name">Rectangle</span> rt<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> _tankList<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span><span class="token function">GetRectangle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">IntersectsWith</span><span class="token punctuation">(</span>rt<span class="token punctuation">)</span><span class="token punctuation">)</span>
+              <span class="token punctuation">&#123;</span>
+                  <span class="token keyword">return</span> item<span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+          <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>Bullet</code>类添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">     <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_MoveCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+     <span class="token punctuation">&#123;</span>
+         <span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+         
+         <span class="token comment">//检查有没有和其他元素发生碰撞</span>
+
+         <span class="token class-name">Rectangle</span> rectangle <span class="token operator">=</span> <span class="token function">GetRectangle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+         rectangle<span class="token punctuation">.</span>X <span class="token operator">=</span> X <span class="token operator">+</span> Width <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">3</span><span class="token punctuation">;</span>
+         rectangle<span class="token punctuation">.</span>Y <span class="token operator">=</span> Y <span class="token operator">+</span> Height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">3</span><span class="token punctuation">;</span>
+         rectangle<span class="token punctuation">.</span>Height <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+         rectangle<span class="token punctuation">.</span>Width <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+
+         <span class="token class-name">NotMovething</span> wall <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+         <span class="token comment">//自身销毁，红墙销毁</span>
+         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>wall<span class="token operator">=</span> GameObjectManager<span class="token punctuation">.</span><span class="token function">IsCollidedWall</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+         <span class="token punctuation">&#123;</span>
+             IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+             GameObjectManager<span class="token punctuation">.</span><span class="token function">DestroyWall</span><span class="token punctuation">(</span>wall<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token keyword">return</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span>
+         <span class="token comment">//碰到钢铁自身销毁</span>
+         <span class="token keyword">if</span> <span class="token punctuation">(</span>GameObjectManager<span class="token punctuation">.</span><span class="token function">IsCollidedSteel</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+         <span class="token punctuation">&#123;</span>
+             IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+             <span class="token keyword">return</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span>
+         <span class="token comment">/* 与boos的碰撞检测还没写
+         if (GameObjectManager.IsCollidedBoss(rectangle) != false)
+         &#123;    
+             return;
+         &#125;
+*/</span>
+         <span class="token keyword">if</span><span class="token punctuation">(</span>Tag <span class="token operator">==</span> Tag<span class="token punctuation">.</span>MyTank<span class="token punctuation">)</span>
+         <span class="token punctuation">&#123;</span>
+             <span class="token class-name">EnemyTank</span> enemyTank <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+             <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>enemyTank <span class="token operator">=</span> GameObjectManager<span class="token punctuation">.</span><span class="token function">IsCollidedEnemyTank</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+             <span class="token punctuation">&#123;</span>
+                 IsDestroy <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                 GameObjectManager<span class="token punctuation">.</span><span class="token function">DestroyEnemyTank</span><span class="token punctuation">(</span>enemyTank<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 <span class="token keyword">return</span><span class="token punctuation">;</span>
+             <span class="token punctuation">&#125;</span>
+         <span class="token punctuation">&#125;</span>
+     <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行效果如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020141308104.png"></p>
+<p>可以看到一部分的红墙已经被我销毁了</p>
+<h3 id="11-4-添加爆炸效果"><a href="#11-4-添加爆炸效果" class="headerlink" title="11.4 添加爆炸效果"></a>11.4 添加爆炸效果</h3><p>添加一个新的类<code>Explosion</code>类，主要代码如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//爆炸效果和Movething以及NotMovthing都不太像</span>
+   <span class="token comment">//需要绘制几个图片动态的切换</span>
+   <span class="token keyword">class</span> <span class="token class-name">Explosion</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">GameObject</span></span>
+   <span class="token punctuation">&#123;</span>
+       <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _playSpeed <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>     <span class="token comment">//让每一张图片停留2帧</span>
+       
+       <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _playCount <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>    <span class="token comment">//计数器用于处理_playSpeed</span>
+
+       <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+       <span class="token comment">//爆炸效果一共有五张图</span>
+       <span class="token keyword">private</span> <span class="token class-name">Bitmap<span class="token punctuation">[</span><span class="token punctuation">]</span></span> _bmpArray <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Bitmap<span class="token punctuation">[</span><span class="token punctuation">]</span></span>
+       <span class="token punctuation">&#123;</span>
+           Resources<span class="token punctuation">.</span>EXP1<span class="token punctuation">,</span>
+           Resources<span class="token punctuation">.</span>EXP2<span class="token punctuation">,</span>
+           Resources<span class="token punctuation">.</span>EXP3<span class="token punctuation">,</span>
+           Resources<span class="token punctuation">.</span>EXP4<span class="token punctuation">,</span>
+           Resources<span class="token punctuation">.</span>EXP5
+       <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+       <span class="token keyword">public</span> <span class="token function">Explosion</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span><span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">)</span>
+       <span class="token punctuation">&#123;</span>
+           <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> _bmpArray<span class="token punctuation">)</span>
+           <span class="token punctuation">&#123;</span>
+               item<span class="token punctuation">.</span><span class="token function">MakeTransparent</span><span class="token punctuation">(</span>Color<span class="token punctuation">.</span>Black<span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">&#125;</span>
+           <span class="token comment">//需要爆炸在正中心,取任意图的位置即可</span>
+           X <span class="token operator">=</span> x <span class="token operator">-</span> _bmpArray<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+           Y <span class="token operator">=</span> y <span class="token operator">-</span> _bmpArray<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+       <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">Image</span> <span class="token function">GetImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">&#123;</span>
+           <span class="token comment">//_index超过4，统一用第五张图</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span>_index<span class="token operator">></span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token keyword">return</span> _bmpArray<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+           <span class="token keyword">return</span> _bmpArray<span class="token punctuation">[</span>_index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+
+       <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+       <span class="token punctuation">&#123;</span>
+           _playCount<span class="token operator">++</span><span class="token punctuation">;</span>
+           _index <span class="token operator">=</span> <span class="token punctuation">(</span>_playCount <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> _playSpeed<span class="token punctuation">;</span>
+           <span class="token keyword">base</span><span class="token punctuation">.</span><span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在<code>GameObjectManager</code>添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//Explosion</span>
+<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">List<span class="token punctuation">&lt;</span>Explosion<span class="token punctuation">></span></span> _explosionList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>Explosion<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//创建爆炸</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">CreateExplosion</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">Explosion</span> exp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Explosion</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    _explosionList<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//印刷</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+            
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> _explosionList<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        item<span class="token punctuation">.</span><span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在<code>Bullet</code>类的<code>_MoveCheck</code>方法添加代码如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020144416449.png"></p>
+<p>运行效果如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020144523260.png"></p>
+<p>可以看到爆炸效果已经产生了，不过会一直留在产生炮炸的地方</p>
+<h3 id="11-5-控制爆炸效果的销毁"><a href="#11-5-控制爆炸效果的销毁" class="headerlink" title="11.5 控制爆炸效果的销毁"></a>11.5 控制爆炸效果的销毁</h3><p>当所有图片的帧播放完（5张爆炸图），可以通过索引（_index）判断</p>
+<p>在<code>Explosion</code>类中添加一个属性，用于判断爆炸是否需要销毁</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">bool</span></span> IsNeedDestroy <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>     <span class="token comment">//判断爆炸是否需要销毁</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>修改构造函数，设置默认不需要销毁</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020145757242.png"></p>
+<p>修改<code>GetImage</code>方法如下，</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020145634849.png"></p>
+<p>然后在<code>GameObjectManager</code>添加一个方法<code>CheckAndDestroyExplosion</code>用于检测销毁爆炸</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//检测销毁爆炸</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">CheckAndDestroyExplosion</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">List<span class="token punctuation">&lt;</span>Explosion<span class="token punctuation">></span></span> needToDestroy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>Explosion<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> _explosionList<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>IsNeedDestroy <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            needToDestroy<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> needToDestroy<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        _explosionList<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后放到<code>GameObjectManager</code>的<code>Update()</code>方法里</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020150102334.png"></p>
+<p>然后再把<code>CheckAndDestroyExplosion</code>添加到子弹的<code>_MoveCheck</code>方法里</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020150301918.png"></p>
+<p>运行效果如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020150335691.png"></p>
+<p>可以看到已经销毁了爆炸的效果</p>
+<h3 id="11-6-控制敌人坦克的攻击"><a href="#11-6-控制敌人坦克的攻击" class="headerlink" title="11.6 控制敌人坦克的攻击"></a>11.6 控制敌人坦克的攻击</h3><p>在<code>EnemyTank</code>类里写入代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> AttackSpeed <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>    <span class="token comment">//控制子弹的发射速度</span>
+<span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _attackCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">//子弹的计数器</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>将<code>AttackSpeed</code>属性添加一个默认值到构造方法</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020155457931.png"></p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_AttackCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _attackCount<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>_attackCount <span class="token operator">&lt;</span> AttackSpeed<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token function">_Attack</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            _attackCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_Attack</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//发射子弹</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>X<span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> y <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>Y<span class="token punctuation">;</span>
+            <span class="token comment">//计算子弹位置</span>
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span>Dir<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Up<span class="token punctuation">:</span>
+                    x <span class="token operator">+=</span> Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Down<span class="token punctuation">:</span>
+                    x <span class="token operator">+=</span> Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    y <span class="token operator">+=</span> Height<span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Left<span class="token punctuation">:</span>
+                    y <span class="token operator">+=</span> Height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> Direction<span class="token punctuation">.</span>Right<span class="token punctuation">:</span>
+                    x <span class="token operator">+=</span> Width<span class="token punctuation">;</span>
+                    y <span class="token operator">+=</span> Height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            GameObjectManager<span class="token punctuation">.</span><span class="token function">CreateBullet</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> Tag<span class="token punctuation">.</span>EnemyTank<span class="token punctuation">,</span> Dir<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//这个方法从MyTank中复制过来，只需要改下Tag即可</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>将<code>_AttackCheck</code>方法添加到Update中</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020155637469.png"></p>
+<p>然后运行调试发生了很离谱的错误，敌人坦克会过个两秒自爆</p>
+<p>找了半天错误发现在<code>Bullet</code>里的构造方法写错了，写成了<code>Tag=Tag;</code>,相当于没有进行赋值</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020155819617.png"></p>
+<p>之后运行调试就正常了，运行效果如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020155957351.png"></p>
+<h3 id="11-7-让敌人坦克的AI更智能"><a href="#11-7-让敌人坦克的AI更智能" class="headerlink" title="11.7 让敌人坦克的AI更智能"></a>11.7 让敌人坦克的AI更智能</h3><p>不至于碰到障碍物才转移方向，思路是让敌人坦克每隔特定时间就进行一次转向</p>
+<p>在<code>EnemyTank</code>中添加代码如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> ChangeDirSpeed <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">//敌人改变方向的时间</span>
+      <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _changeDirCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>        <span class="token comment">//敌人改变方向的计数器</span>
+      <span class="token comment">//自动改变方向</span>
+      <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_AutoChangeDir</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          _changeDirCount<span class="token operator">++</span><span class="token punctuation">;</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>_changeDirCount<span class="token operator">&lt;</span>ChangeDirSpeed<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+          <span class="token function">_ChangeDirection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          _changeDirCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>同时在构造方法中添加敌人改变所需要的时间，目前设置为80帧</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020160901303.png"></p>
+<p>将<code>_AutoChangeDir</code>方法添加到Update中</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020160957166.png"></p>
+<p>运行之后你就会发现敌人会稍微灵活点了，不会只有碰到障碍物才会转其他方向</p>
+<h3 id="11-8-控制敌人子弹对主角的攻击"><a href="#11-8-控制敌人子弹对主角的攻击" class="headerlink" title="11.8 控制敌人子弹对主角的攻击"></a>11.8 控制敌人子弹对主角的攻击</h3><p>在<code>Bullet</code>类的<code>_MoveCheck</code>中添加如下代码</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020205344832.png"></p>
+<p>用于敌人子弹对主角的攻击，同时在<code>IsCollidedMyTank</code>需要写一个<code>IsCollidedMyTank</code>方法用于判断是否产生碰撞测试</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020205529914.png"></p>
+<p>一开始是想用布尔类型的返回值的</p>
+<p>由于敌人坦克的子弹碰撞到我的坦克不是直接销毁的<br>而是要调用我的坦克的成员，比如说血量，所以这里不能用bool类型的返回值</p>
+<p>然后在<code>MyTank</code>类中添加我的坦克默认的HP，同时需要保存默认的坐标，代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> HP <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">//设置默认血量</span>
+
+      <span class="token comment">//出生点</span>
+      <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _originalX<span class="token punctuation">;</span>
+      <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _originalY<span class="token punctuation">;</span>
+      <span class="token keyword">public</span> <span class="token function">MyTank</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span><span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">,</span><span class="token class-name"><span class="token keyword">int</span></span> speed<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+          HP <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token comment">//代表我的坦克受到了攻击</span>
+      <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">TakeDamage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          HP<span class="token operator">--</span><span class="token punctuation">;</span>
+          <span class="token comment">//回出生点</span>
+          <span class="token keyword">if</span><span class="token punctuation">(</span>HP <span class="token operator">&lt;=</span><span class="token number">0</span><span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              X <span class="token operator">=</span> _originalX<span class="token punctuation">;</span>
+              Y <span class="token operator">=</span> _originalY<span class="token punctuation">;</span>
+              HP <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+              Dir <span class="token operator">=</span> Direction<span class="token punctuation">.</span>Up<span class="token punctuation">;</span>	
+          <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后最好加个默认的方向<code>Dir = Direction.Up;    </code>，老师的代码中没有加导致效果不太好，方向可能会像左右下</p>
+<h2 id="12-控制游戏的结束"><a href="#12-控制游戏的结束" class="headerlink" title="12. 控制游戏的结束"></a>12. 控制游戏的结束</h2><p>子弹攻击到BOOS即代表游戏的结束</p>
+<ul>
+<li>敌人坦克的子弹攻击到BOOS</li>
+<li>我的坦克的子弹攻击到BOOS</li>
+<li>即子弹攻击到BOOS</li>
+</ul>
+<p>在<code>GameFramework</code>框架中添加如下代码</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//游戏状态</span>
+    <span class="token keyword">enum</span> <span class="token class-name">GameState</span>
+    <span class="token punctuation">&#123;</span>
+        Running<span class="token punctuation">,</span>
+        GameOver
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">class</span> <span class="token class-name">GameFramework</span>
+    <span class="token punctuation">&#123;</span>
+    	<span class="token comment">//默认游戏状态为Running</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">GameState</span> _gameState <span class="token operator">=</span> GameState<span class="token punctuation">.</span>Running<span class="token punctuation">;</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token range operator">..</span><span class="token range operator">..</span><span class="token range operator">..</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>_gameState <span class="token operator">==</span> GameState<span class="token punctuation">.</span>Running<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                GameObjectManager<span class="token punctuation">.</span><span class="token function">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token function">_GameOverUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">_GameOverUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+             <span class="token class-name"><span class="token keyword">int</span></span> x <span class="token operator">=</span> <span class="token number">450</span> <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> Resources<span class="token punctuation">.</span>GameOver<span class="token punctuation">.</span>Width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> y <span class="token operator">=</span> <span class="token number">450</span> <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> Resources<span class="token punctuation">.</span>GameOver<span class="token punctuation">.</span>Height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            g<span class="token punctuation">.</span><span class="token function">DrawImage</span><span class="token punctuation">(</span>Resources<span class="token punctuation">.</span>GameOver<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ChangeToGameOver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _gameState <span class="token operator">=</span> GameState<span class="token punctuation">.</span>GameOver<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后回到<code>Bullet</code>类中的<code>_MoveCheck</code>方法内</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">if</span> <span class="token punctuation">(</span>GameObjectManager<span class="token punctuation">.</span><span class="token function">IsCollidedBoss</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                GameFramework<span class="token punctuation">.</span><span class="token function">ChangeToGameOver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>添加一行<code>GameFramework.ChangeToGameOver();</code>用来表示子弹攻击到BOOS后GAME OVER，运行效果如下</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020212008076.png"></p>
+<h2 id="13-添加音效（游戏结束）"><a href="#13-添加音效（游戏结束）" class="headerlink" title="13.添加音效（游戏结束）"></a>13.添加音效（游戏结束）</h2><p>一共存在五种音效</p>
+<ol>
+<li>hit 敌人坦克打到我的坦克的音效</li>
+<li>add 敌人生成的音效</li>
+<li>start 游戏开始的音效</li>
+<li>fire 子弹发射的音效</li>
+<li>blast 爆炸</li>
+</ol>
+<p>添加一个<code>SoundManager</code>类用于存放音效</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">class</span> <span class="token class-name">SoundManager</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">SoundPlayer</span> _startPlayer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">SoundPlayer</span> _addPlayer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">SoundPlayer</span> _blastPlayer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">SoundPlayer</span> _firePlayer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">SoundPlayer</span> _hitPlayer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">InitSound</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _startPlayer<span class="token punctuation">.</span>Stream<span class="token operator">=</span> Resources<span class="token punctuation">.</span>start<span class="token punctuation">;</span>
+            _addPlayer<span class="token punctuation">.</span>Stream <span class="token operator">=</span> Resources<span class="token punctuation">.</span><span class="token keyword">add</span><span class="token punctuation">;</span>
+            _blastPlayer<span class="token punctuation">.</span>Stream <span class="token operator">=</span> Resources<span class="token punctuation">.</span>blast<span class="token punctuation">;</span>
+            _firePlayer<span class="token punctuation">.</span>Stream <span class="token operator">=</span> Resources<span class="token punctuation">.</span>fire<span class="token punctuation">;</span>
+            _hitPlayer<span class="token punctuation">.</span>Stream <span class="token operator">=</span> Resources<span class="token punctuation">.</span>hit<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">//游戏开始的音效，只需要在GameFramework中添加一次</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PlayStart</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _startPlayer<span class="token punctuation">.</span><span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//增加一个敌人的音效，在GameOjectManager中的EnemyBorn</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PlayAdd</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _addPlayer<span class="token punctuation">.</span><span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    	<span class="token comment">//爆炸音效，比如子弹攻击到红墙、BOOS或者我的坦克攻击到敌人坦克</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PlayBlast</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _blastPlayer<span class="token punctuation">.</span><span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    	<span class="token comment">//子弹发射的音效</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PlayFire</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _firePlayer<span class="token punctuation">.</span><span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    	<span class="token comment">//敌人坦克打到我的坦克的音效</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PlayHit</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            _hitPlayer<span class="token punctuation">.</span><span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>将<code>InitSound</code>和<code>PlayStart</code>方法添加到<code>GameFramework</code>中的<code>Start</code>方法中</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020214536481.png"></p>
+<p>因为这两个方法都只需要在游戏开始时运行一次</p>
+<p>然后将<code>PlayAdd</code>添加到<code>GameObjectManager</code>类中的<code>_EnemyBurn</code>方法中</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020214759121.png"></p>
+<p>将<code>PlayBlast</code>方法添加到<code>Bullet</code>类的<code>_MoveCheck</code>方法中</p>
+<ol>
+<li>红墙碰到子弹会爆炸</li>
+<li>BOOS碰到子弹会爆炸GameOver</li>
+<li>我的坦克发射的子弹碰到敌人坦克，敌人坦克会爆炸</li>
+</ol>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020215141419.png"></p>
+<p>然后敌人子弹碰到我的坦克会产生Hit音效</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020215354179.png"></p>
+<p>我的坦克发射子弹会产生Fire音效</p>
+<p><img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/image-20221020215533792.png"></p>
+<p>到这整个游戏的开发就结束了，存在许多可以优化的问题，比如说音效无法同时生效，然后我因为将坦克的速度设置的大了点，导致产生空气墙的问题（原理是提前进行碰撞测试，因为速度过大，导致会产生空气墙），解决方案是将坦克速度设置的小一点</p>
 
                 
             </div>
@@ -2183,7 +2785,7 @@ GameFramework<span class="token punctuation">.</span>g <span class="token operat
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">100.6k</span>
+                        class="white-color">103.5k</span>
             
             
             
