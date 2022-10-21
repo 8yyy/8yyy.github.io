@@ -243,7 +243,7 @@ C#语言简介怎样编写程序和程序语言的选择
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/cover.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -396,14 +396,14 @@ C#语言简介怎样编写程序和程序语言的选择
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-20
+                    2022-10-21
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    42.7k
+                    42.6k
                 </div>
                 
 
@@ -9089,8 +9089,7 @@ I will love you forever...<span aria-hidden="true" class="line-numbers-rows"><sp
 <li><p><font size="5">2、为什么需要反射</font></p>
 </li>
 <li><p><strong>原因</strong>：</p>
-</li>
-<li><ul>
+<ul>
 <li>很多时候程序的逻辑并不是在写的时候就能确定，有时需要用户交互时才确定<ul>
 <li>此时程序已经属于运行状态（Dynamic，动态）</li>
 <li>如果要程序员在静态（static）编写时，去枚举用户可能做的操作，会让程序变得十分臃肿，可读性、可维护性都很烂，并且枚举用户可能做的操作这件事是很难实现的</li>
@@ -9102,16 +9101,14 @@ I will love you forever...<span aria-hidden="true" class="line-numbers-rows"><sp
 <li><p><font size="5">3、反射优缺点</font></p>
 <ul>
 <li><p><strong>优点</strong></p>
-</li>
-<li><ul>
+<ul>
 <li>1、反射提高了程序的灵活性和扩展性。</li>
 <li>2、降低耦合性，提高自适应能力。</li>
 <li>3、它允许程序创建和控制任何类的对象，无需提前硬编码目标类。</li>
 </ul>
 </li>
 <li><p><strong>缺点</strong></p>
-</li>
-<li><ul>
+<ul>
 <li>1、性能问题：反射是去内存中动态拿到对象/类型描述，再用这些描述去创建对象，这个过程是对性能有影响的（使用反射基本上是一种解释操作，用于字段和方法接入时要远慢于直接代码。因此反射机制主要应用在对灵活性和拓展性要求很高的系统框架上，普通程序不建议使用。）</li>
 <li>2、使用反射会模糊程序内部逻辑；程序员希望在源代码中看到程序的逻辑，反射却绕过了源代码的技术，因而会带来维护的问题，反射代码比相应的直接代码更复杂。</li>
 </ul>
@@ -9125,105 +9122,114 @@ I will love you forever...<span aria-hidden="true" class="line-numbers-rows"><sp
 </li>
 <li><p>Main方法的主要代码如下</p>
 </li>
-<li><p>```csharp<br>using System;<br>using System.Reflection;</p>
-<p>namespace IspExample<br>{</p>
-<pre><code>class Program
-&#123;
-    static void Main(string[] args)
-    &#123;
-        ITank tank = new HeavyTank();
-        //=========华丽的分割线=========
-        var t = tank.GetType();
-        object o = Activator.CreateInstance(t);
-        //Activator.CreateInstance方法 使用最符合指定参数的构造函数创建指定类型的实例
-        MethodInfo fireMi = t.GetMethod(&quot;Fire&quot;);
-        MethodInfo runMi = t.GetMethod(&quot;Run&quot;);
-        //MethodInfo 发现方法的属性并提供对方法元数据的访问。
-        fireMi.Invoke(o, null);
-        runMi.Invoke(o, null);
-    &#125;
-&#125;
-</code></pre>
-<p>}</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- 运行结果如下：
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>Boom!!!<br>Ka!! ka!! ka!! …</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- 主体程序和插件的关系就是以不变应万变
+</ul>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Reflection</span><span class="token punctuation">;</span>
 
-- 主体程序一般都会发布包含程序开发接口API，程序开发包SDK
+<span class="token keyword">namespace</span> <span class="token namespace">IspExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">ITank</span> tank <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">HeavyTank</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//=========华丽的分割线=========</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> t <span class="token operator">=</span> tank<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">object</span></span> o <span class="token operator">=</span> Activator<span class="token punctuation">.</span><span class="token function">CreateInstance</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//Activator.CreateInstance方法 使用最符合指定参数的构造函数创建指定类型的实例</span>
+            <span class="token class-name">MethodInfo</span> fireMi <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"Fire"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">MethodInfo</span> runMi <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"Run"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//MethodInfo 发现方法的属性并提供对方法元数据的访问。</span>
+            fireMi<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>o<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            runMi<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>o<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-  - 程序开发接口API不一定都是接口
-  - 依赖注入的高自由度意味着错误率提高，例如调方法时大小写写错，就无法找到对应的方法再成功调用了。
-  - 开发插件过程中，为了避免自由度过高导致的错误，我们需要有一定的约束，就是SDK中的API
+<ul>
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">Boom!!!
+Ka!! ka!! ka!! ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-- 孩子玩具的例子
+<ul>
+<li><p>主体程序和插件的关系就是以不变应万变</p>
+</li>
+<li><p>主体程序一般都会发布包含程序开发接口API，程序开发包SDK</p>
+<ul>
+<li>程序开发接口API不一定都是接口</li>
+<li>依赖注入的高自由度意味着错误率提高，例如调方法时大小写写错，就无法找到对应的方法再成功调用了。</li>
+<li>开发插件过程中，为了避免自由度过高导致的错误，我们需要有一定的约束，就是SDK中的API</li>
+</ul>
+</li>
+<li><p>孩子玩具的例子</p>
+</li>
+<li><p>创建一个.net core的程序控制台应用<code>BabyStroller.App</code></p>
+</li>
+<li><p>首先使用<code>Console.WriteLine(Environment.CurrentDirectory);</code>获取程序所在文件夹的位置</p>
+</li>
+<li><p>然后在文件夹内新建一个Animals文件夹</p>
+</li>
+</ul>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>IO</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Runtime<span class="token punctuation">.</span>Loader</span><span class="token punctuation">;</span>
 
-- 创建一个.net core的程序控制台应用&#96;BabyStroller.App&#96;
+<span class="token keyword">namespace</span> <span class="token namespace">BabyStroller<span class="token punctuation">.</span>App</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//Console.WriteLine(Environment.CurrentDirectory);</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> folder <span class="token operator">=</span> Path<span class="token punctuation">.</span><span class="token function">Combine</span><span class="token punctuation">(</span>Environment<span class="token punctuation">.</span>CurrentDirectory<span class="token punctuation">,</span> <span class="token string">"Animals"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//得到Animals文件夹</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> files <span class="token operator">=</span> Directory<span class="token punctuation">.</span><span class="token function">GetFiles</span><span class="token punctuation">(</span>folder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//从Path中把所有.dll文件load进来，当然目前是没有文件的</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> animalsTypes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>Type<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> file <span class="token keyword">in</span> files<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token class-name"><span class="token keyword">var</span></span> assembly <span class="token operator">=</span> AssemblyLoadContext<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">LoadFromAssemblyPath</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">//将assembly里所有的动物类型加到animalsTypes里</span>
+                <span class="token class-name"><span class="token keyword">var</span></span> types <span class="token operator">=</span> assembly<span class="token punctuation">.</span><span class="token function">GetTypes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> t <span class="token keyword">in</span> types<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"Voice"</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">&#123;</span>
+                        animalsTypes<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
 
-- 首先使用&#96;Console.WriteLine(Environment.CurrentDirectory);&#96;获取程序所在文件夹的位置
 
-- 然后在文件夹内新建一个Animals文件夹
+            <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> animalsTypes<span class="token punctuation">.</span>Count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">i<span class="token operator">+</span><span class="token number">1</span></span><span class="token punctuation">&#125;</span></span><span class="token string">.</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">animalsTypes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Name</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"======================"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Please choose animal."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name"><span class="token keyword">int</span></span> index <span class="token operator">=</span> <span class="token keyword">int</span><span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>Console<span class="token punctuation">.</span><span class="token function">ReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>index<span class="token operator">></span>animalsTypes<span class="token punctuation">.</span>Count <span class="token operator">||</span> index <span class="token operator">&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"No such an animal.Try again!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
 
- &#96;&#96;&#96;csharp
-  using System;
-  using System.IO;
-  using System.Collections.Generic;
-  using System.Runtime.Loader;
-  
-  namespace BabyStroller.App
-  &#123;
-      class Program
-      &#123;
-          static void Main(string[] args)
-          &#123;
-              &#x2F;&#x2F;Console.WriteLine(Environment.CurrentDirectory);
-              var folder &#x3D; Path.Combine(Environment.CurrentDirectory, &quot;Animals&quot;);
-              &#x2F;&#x2F;得到Animals文件夹
-              var files &#x3D; Directory.GetFiles(folder);
-              &#x2F;&#x2F;从Path中把所有.dll文件load进来，当然目前是没有文件的
-              var animalsTypes &#x3D; new List&lt;Type&gt;();
-              foreach (var file in files)
-              &#123;
-                  var assembly &#x3D; AssemblyLoadContext.Default.LoadFromAssemblyPath(file);
-                  &#x2F;&#x2F;将assembly里所有的动物类型加到animalsTypes里
-                  var types &#x3D; assembly.GetTypes();
-                  foreach (var t in types)
-                  &#123;
-                      if (t.GetMethod(&quot;Voice&quot;) !&#x3D; null)
-                      &#123;
-                          animalsTypes.Add(t);
-                      &#125;
-                  &#125;
-              &#125;
-  
-  
-              while (true)
-              &#123;
-                  for (int i &#x3D; 0; i &lt; animalsTypes.Count; i++)
-                  &#123;
-                      Console.WriteLine($&quot;&#123;i+1&#125;.&#123;animalsTypes[i].Name&#125;&quot;);
-                  &#125;
-                  Console.WriteLine(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
-                  Console.WriteLine(&quot;Please choose animal.&quot;);
-                  int index &#x3D; int.Parse(Console.ReadLine());
-                  if(index&gt;animalsTypes.Count || index &lt; 1)
-                  &#123;
-                      Console.WriteLine(&quot;No such an animal.Try again!&quot;);
-                      continue;
-                  &#125;
-  
-                  int times &#x3D; int.Parse(Console.ReadLine());
-                  var t &#x3D; animalsTypes[index - 1];
-                  var m &#x3D; t.GetMethod(&quot;Voice&quot;);
-                  var o &#x3D; Activator.CreateInstance(t);
-                  m.Invoke(o, new object[] &#123; times &#125;);
-              &#125;
-          &#125;
-      &#125;
-  &#125;
-  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+                <span class="token class-name"><span class="token keyword">int</span></span> times <span class="token operator">=</span> <span class="token keyword">int</span><span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>Console<span class="token punctuation">.</span><span class="token function">ReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name"><span class="token keyword">var</span></span> t <span class="token operator">=</span> animalsTypes<span class="token punctuation">[</span>index <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token class-name"><span class="token keyword">var</span></span> m <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"Voice"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name"><span class="token keyword">var</span></span> o <span class="token operator">=</span> Activator<span class="token punctuation">.</span><span class="token function">CreateInstance</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>o<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">object</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> <span class="token punctuation">&#123;</span> times <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
 <li><p>之后创建插件，创建一个类库，解决方案如下，两个类库，每个类库下都有两个类</p>
 </li>
 <li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220926151204152.png"></p>
