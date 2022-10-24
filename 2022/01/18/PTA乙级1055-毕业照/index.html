@@ -243,7 +243,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/PTA%E4%B9%99%E7%BA%A71055-%E6%AF%95%E4%B8%9A%E7%85%A7/jhz.jpeg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -364,8 +364,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/PTA/">
-                                <span class="chip bg-color">PTA</span>
+                            <a href="/tags/1055%E9%9B%86%E5%90%88%E7%85%A7/">
+                                <span class="chip bg-color">1055集合照</span>
                             </a>
                         
                     </div>
@@ -376,8 +376,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
+                            <a href="/categories/PTA/" class="post-category">
+                                PTA
                             </a>
                         
                     </div>
@@ -396,7 +396,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-04
+                    2022-10-24
                 </div>
                 
 
@@ -433,7 +433,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h3><center>1055 集体照 (25 分)</center>
+                <h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><center>1055 集体照 (25 分)</center>
 
 <p>拍集体照时队形很重要，这里对给定的 <em>N</em> 个人 <em>K</em> 排的队形设计排队规则如下：</p>
 <ul>
@@ -444,9 +444,9 @@
 <li>若多人身高相同，则按名字的字典序升序排列。这里保证无重名。</li>
 </ul>
 <p>现给定一组拍照人，请编写程序输出他们的队形。</p>
-<h4 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h4><p>每个输入包含 1 个测试用例。每个测试用例第 1 行给出两个正整数 <em>N</em>（≤104，总人数）和 <em>K</em>（≤10，总排数）。随后 <em>N</em> 行，每行给出一个人的名字（不包含空格、长度不超过 8 个英文字母）和身高（[30, 300] 区间内的整数）。</p>
-<h4 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h4><p>输出拍照的队形。即K排人名，其间以空格分隔，行末不得有多余空格。注意：假设你面对拍照者，后排的人输出在上方，前排输出在下方。</p>
-<h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-in" data-language="in"><code class="language-in">10 3
+<h3 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h3><p>每个输入包含 1 个测试用例。每个测试用例第 1 行给出两个正整数 <em>N</em>（≤104，总人数）和 <em>K</em>（≤10，总排数）。随后 <em>N</em> 行，每行给出一个人的名字（不包含空格、长度不超过 8 个英文字母）和身高（[30, 300] 区间内的整数）。</p>
+<h3 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h3><p>输出拍照的队形。即K排人名，其间以空格分隔，行末不得有多余空格。注意：假设你面对拍照者，后排的人输出在上方，前排输出在下方。</p>
+<h3 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h3><pre class="line-numbers language-in" data-language="in"><code class="language-in">10 3
 Tom 188
 Mike 170
 Eva 168
@@ -458,13 +458,11 @@ Nick 186
 Amy 160
 John 159<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-out" data-language="out"><code class="language-out">Bob Tom Joe Nick
+<h3 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h3><pre class="line-numbers language-out" data-language="out"><code class="language-out">Bob Tom Joe Nick
 Ann Mike Eva
 Tim Amy John<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h3>二、思路：</h3>
-
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">先把身高利用<span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数进行降序，如果身高相同再利用<span class="token function">compare</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数进行比较
+<h2 id="二、思路"><a href="#二、思路" class="headerlink" title="二、思路"></a>二、思路</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">先把身高利用<span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数进行降序，如果身高相同再利用<span class="token function">compare</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数进行比较
 <span class="token keyword">bool</span> <span class="token function">cmp</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">student</span> s1<span class="token punctuation">,</span><span class="token keyword">struct</span> <span class="token class-name">student</span> s2<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 	<span class="token keyword">if</span><span class="token punctuation">(</span>s1<span class="token punctuation">.</span>h<span class="token operator">></span>s2<span class="token punctuation">.</span>h<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
 	<span class="token comment">//如果身高相同，就按名字的字典序升序排列 </span>
@@ -601,7 +599,7 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
 <span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="三、网上搜了下别人的代码，简单易懂"><a href="#三、网上搜了下别人的代码，简单易懂" class="headerlink" title="三、网上搜了下别人的代码，简单易懂"></a>三、网上搜了下别人的代码，简单易懂</h3><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<h2 id="三、网上搜了下别人的代码，简单易懂"><a href="#三、网上搜了下别人的代码，简单易懂" class="headerlink" title="三、网上搜了下别人的代码，简单易懂"></a>三、网上搜了下别人的代码，简单易懂</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
 <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm></span></span>
 <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector></span></span>
 <span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
@@ -646,8 +644,9 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
     <span class="token punctuation">&#125;</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span>
-源：https<span class="token operator">:</span><span class="token comment">//blog.csdn.net/liuchuo/article/details/51994263</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>源：<a target="_blank" rel="noopener" href="https://blog.csdn.net/liuchuo/article/details/51994263">https://blog.csdn.net/liuchuo/article/details/51994263</a></p>
 
                 
             </div>
@@ -712,8 +711,8 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/PTA/">
-                                    <span class="chip bg-color">PTA</span>
+                                <a href="/tags/1055%E9%9B%86%E5%90%88%E7%85%A7/">
+                                    <span class="chip bg-color">1055集合照</span>
                                 </a>
                             
                         </div>
@@ -916,8 +915,7 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                 <a href="/2022/01/18/c-vector%E6%95%B4%E7%90%86/">
                     <div class="card-image">
                         
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/22.jpg" class="responsive-img" alt="c++ vector整理">
+                        <img src="/images/c-vector%E6%95%B4%E7%90%86/vector.jpeg" class="responsive-img" alt="c++ vector整理">
                         
                         <span class="card-title">c++ vector整理</span>
                     </div>
@@ -936,8 +934,8 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
-                                    后端
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -947,8 +945,8 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-STL/">
-                        <span class="chip bg-color">C++ STL</span>
+                    <a href="/tags/STL/">
+                        <span class="chip bg-color">STL</span>
                     </a>
                     
                 </div>
@@ -965,8 +963,7 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                 <a href="/2022/01/18/PTA%E4%B9%99%E7%BA%A71055-%E6%AF%95%E4%B8%9A%E7%85%A7/">
                     <div class="card-image">
                         
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/12.jpg" class="responsive-img" alt="PTA乙级1055 毕业照">
+                        <img src="/images/PTA%E4%B9%99%E7%BA%A71055-%E6%AF%95%E4%B8%9A%E7%85%A7/jhz.jpeg" class="responsive-img" alt="PTA乙级1055 毕业照">
                         
                         <span class="card-title">PTA乙级1055 毕业照</span>
                     </div>
@@ -985,8 +982,8 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/PTA/" class="post-category">
+                                    PTA
                                 </a>
                             
                             
@@ -997,8 +994,8 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/PTA/">
-                        <span class="chip bg-color">PTA</span>
+                    <a href="/tags/1055%E9%9B%86%E5%90%88%E7%85%A7/">
+                        <span class="chip bg-color">1055集合照</span>
                     </a>
                     
                 </div>
@@ -1239,7 +1236,7 @@ string s<span class="token punctuation">[</span>maxn<span class="token punctuati
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">107.5k</span>
+                        class="white-color">115.1k</span>
             
             
             
