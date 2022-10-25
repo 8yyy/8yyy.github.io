@@ -393,21 +393,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-24
+                    2022-10-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    11.7k
+                    14k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    46 分
+                    55 分
                 </div>
                 
 
@@ -450,6 +450,11 @@
 <li>线程之间对共享资源的访问会相互影响，必须解决<strong>争用共享资源</strong>的问题。</li>
 <li>线程太多会导致控制太复杂，最终<strong>可能造成很多程序缺陷</strong>。</li>
 </ol>
+<h3 id="1-4-线程池"><a href="#1-4-线程池" class="headerlink" title="1.4 线程池"></a>1.4 线程池</h3><p>.NET Framework的<code>ThreadPool</code>类提供一个线程池，该线程池可用于执行任务、发送工作项、处理异步 I/O、代表其他线程等待以及处理计时器。那么什么是线程池？线程池其实就是一个存放线程对象的“池子(pool)”，他提供了一些基本方法，如：设置pool中最小/最大线程数量、把要执行的方法排入队列等等。<code>ThreadPool</code>是一个静态类，因此可以直接使用，不用创建对象。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ThreadPool</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>说得简单一点，每新建一个线程都需要占用内存空间和其他资源，而新建了那么多线程，有很多在休眠，或者在等待资源释放；又有许多线程只是周期性的做一些小工作，如刷新数据等等，太浪费了，划不来，实际编程中大量线程突发，然后在短时间内结束的情况很少见。于是，就提出了线程池的概念。线程池中的线程执行完指定的方法后并不会自动消除，而是以挂起状态返回线程池，如果应用程序再次向线程池发出请求，那么处以挂起状态的线程就会被激活并执行任务，而不会创建新线程，这就节约了很多开销。只有当线程数达到最大线程数量，系统才会自动销毁线程。因此，使用线程池可以避免大量的创建和销毁的开支，具有更好的性能和稳定性，其次，开发人员把线程交给系统管理，可以集中精力处理其他任务。</p>
+<h3 id="1-5-线程的组成："><a href="#1-5-线程的组成：" class="headerlink" title="1.5 线程的组成："></a>1.5 线程的组成：</h3><p>（1）CPU<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%AF%84%E5%AD%98%E5%99%A8&spm=1001.2101.3001.7020">寄存器</a>：记录当前线程的执行状态。<br>（2）调用栈：保护线程所调用到的内存和数据。<br>（3）线程本地存储器（TLS）：存放线程的状态信息。</p>
 <h2 id="2-C-多线程"><a href="#2-C-多线程" class="headerlink" title="2. C# 多线程"></a>2. C# 多线程</h2><p><code>当启动一个可执行程序时，将创建一个主线程。在默认的情况下，C#程序具有一个线程，此线程执行程序中以Main方法开始和结束的代码，Main（）方法直接或间接执行的每一个命令都有默认线程（主线程）执行，当Main（）方法返回时此线程也将终止。</code></p>
 <p>在刘老师的课提到<code>Thread</code>是一种比较古老的方式，而<code>Task</code>相对于<code>Thread</code>会高级一些</p>
 <h3 id="2-1-什么是thread"><a href="#2-1-什么是thread" class="headerlink" title="2.1 什么是thread"></a>2.1 什么是thread</h3><p>当我们提及多线程的时候会想到thread和threadpool，这都是异步操作，threadpool其实就是thread的集合，具有很多优势，不过在任务多的时候全局队列会存在竞争而消耗资源。</p>
@@ -783,7 +788,7 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
 <p><img src="/images/CSharpMultithreading/image-20221023150140779.png"></p>
 <p>把bThread.IsBackground = true注释掉，运行结果：主线程执行完毕后(Main函数)，程序并未结束，而是要等所有的前台线程结束以后才会结束。</p>
 <p><font color="red">后台线程一般用于处理不重要的事情，应用程序结束时，后台线程是否执行完成对整个应用程序没有影响。如果要执行的事情很重要，需要将线程设置为前台线程。</font></p>
-<h4 id="2-3-10-线程同步-Lock"><a href="#2-3-10-线程同步-Lock" class="headerlink" title="2.3.10 线程同步(Lock)"></a>2.3.10 线程同步(Lock)</h4><p><strong>所谓同步：是指在某一时刻只有一个线程可以访问变量。</strong><br>如果不能确保对变量的访问是同步的，就会产生错误。<br>c#为同步访问变量提供了一个非常简单的方式，即使用c#语言的<code>关键字Lock</code>，它可以把一段代码定义为互斥段，互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。在c#中，关键字Lock定义如下：</p>
+<h4 id="2-3-10-线程同步-Lock-，解决资源访问冲突问题"><a href="#2-3-10-线程同步-Lock-，解决资源访问冲突问题" class="headerlink" title="2.3.10 线程同步(Lock)，解决资源访问冲突问题"></a>2.3.10 线程同步(Lock)，解决资源访问冲突问题</h4><p><strong>所谓同步：是指在某一时刻只有一个线程可以访问变量。</strong><br>如果不能确保对变量的访问是同步的，就会产生错误。<br>c#为同步访问变量提供了一个非常简单的方式，即使用c#语言的<code>关键字Lock</code>，它可以把一段代码定义为互斥段，互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。在c#中，关键字Lock定义如下：</p>
 <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token function">Lock</span><span class="token punctuation">(</span>expression<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
   statement_block
@@ -1421,6 +1426,248 @@ Task<span class="token punctuation">.</span>Factory<span class="token punctuatio
 
 <p>执行结果如下，第5次执行在取消回调后打印，这是因为，执行取消的时候第5次任务已经通过了while()判断，任务已经执行中了：</p>
 <p><img src="/images/CSharpMultithreading/image-20221024152419527.png"></p>
+<h3 id="2-5-死锁问题Deadlock"><a href="#2-5-死锁问题Deadlock" class="headerlink" title="2.5 死锁问题Deadlock"></a>2.5 死锁问题Deadlock</h3><p>通过前面的学习，我们可以知道Lock可以解决线程访问资源冲突的问题</p>
+<h4 id="2-5-1-死锁简介"><a href="#2-5-1-死锁简介" class="headerlink" title="2.5.1 死锁简介"></a>2.5.1 死锁简介</h4><p>在多道程序设计环境下，多个进程可能竞争一定数量的资源，一个进程申请资源，如果资源不可用，那么进程进入等待状态。如果所申请的资源被其他等待进程占有，那么该等待的进程有可能无法改变状态，这种情况下称之为<strong>死锁</strong>。</p>
+<h4 id="2-5-2-死锁条件"><a href="#2-5-2-死锁条件" class="headerlink" title="2.5.2 死锁条件"></a>2.5.2 死锁条件</h4><ol>
+<li>非抢占：资源不能被抢占</li>
+<li>互斥：至少有一个资源必须处在非共享模式，即一次只能有一个进程使用，如果另一进程申请该资源，那么申请进程必须延迟直到该资源释放为止。</li>
+<li>占有并等待：一个进程必须占有至少一个资源，并等待另一个资源，而该资源为其他进程所占有。</li>
+<li>循环等待：有一组进程{P0,P1,…Pn},P0等待的资源被P1占有，P1等待的资源被P2占有，Pn-1等待的资源被Pn占有，Pn等待的资源被P0占有。</li>
+</ol>
+<p>形成死锁必须要满足这四个条件。那么违背这几个条件中的任何一个就不会形成死锁，这种方式成为 死锁预防，而死锁避免是动态的检测分配资源的状态是否安全。</p>
+<h4 id="2-5-3-死锁示例代码"><a href="#2-5-3-死锁示例代码" class="headerlink" title="2.5.3 死锁示例代码"></a>2.5.3 死锁示例代码</h4><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">DeadLock</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">StateObject</span> state <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">StateObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Thread</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span>ChangeState1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                t1<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">Thread</span> t2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Thread</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span>ChangeState2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                t2<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">class</span> <span class="token class-name">StateObject</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">object</span></span> _lock1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">object</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">object</span></span> _lock2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">object</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ChangeState1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">lock</span> <span class="token punctuation">(</span>_lock1<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>CurrentThread<span class="token punctuation">.</span>ManagedThreadId <span class="token operator">+</span><span class="token string">"拿到了第一把锁"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">lock</span> <span class="token punctuation">(</span>_lock2<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>CurrentThread<span class="token punctuation">.</span>ManagedThreadId <span class="token operator">+</span> <span class="token string">"拿到了第二把锁"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ChangeState2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">lock</span> <span class="token punctuation">(</span>_lock2<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>CurrentThread<span class="token punctuation">.</span>ManagedThreadId <span class="token operator">+</span> <span class="token string">"拿到了第二把锁"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">lock</span> <span class="token punctuation">(</span>_lock1<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>CurrentThread<span class="token punctuation">.</span>ManagedThreadId <span class="token operator">+</span> <span class="token string">"拿到了第一把锁"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下</p>
+<p><img src="/images/CSharpMultithreading/image-20221024211337725.png"></p>
+<p><code>线程6</code>占用了资源并等待<code>线程 5</code> 占用的资源释放，<code>线程 5</code> 不肯释放自己的资源并等待<code>线程 6</code> 释放占用的资源，在这样一种谁也不肯让步的情形下，死锁产生。</p>
+<p><strong>上述死锁的解决方案是在编程的开始设计阶段，设定<code>锁定顺序</code></strong>,即让<code>ChangeState1</code>和<code>ChangeState2</code>的锁定顺序一样，设置如下</p>
+<p><img src="/images/CSharpMultithreading/image-20221024211816254.png"></p>
+<p>查看运行效果</p>
+<p><img src="/images/CSharpMultithreading/image-20221024211844541.png"></p>
+<h4 id="2-5-4-死锁的解决方法"><a href="#2-5-4-死锁的解决方法" class="headerlink" title="2.5.4 死锁的解决方法"></a>2.5.4 死锁的解决方法</h4><ol>
+<li><p>我们可以通过对锁加时效性，或者死锁检测来处理。</p>
+</li>
+<li><p>Monitor.TryEnter()方法。虽然这种方法可以解决死锁问题，但是最好还是不要出现死锁这种情况。</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?f1url=?appId=Dev16IDEF1&l=ZH-CN&k=k(System.Threading.Monitor.TryEnter);k(DevLang-csharp)&rd=true&view=net-6.0">Monitor.TryEnter 方法</a></p>
+<p>定义</p>
+<ul>
+<li><p>命名空间:</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading?view=net-6.0">System.Threading</a></p>
+</li>
+<li><p>程序集:</p>
+<p>System.Threading.dll</p>
+</li>
+</ul>
+<p>尝试获取指定对象的排他锁。</p>
+<table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?view=net-6.0#system-threading-monitor-tryenter(system-object-system-timespan-system-boolean@)">TryEnter(Object, TimeSpan, Boolean)</a></th>
+<th>在指定的一段时间内尝试获取指定对象上的排他锁，并自动设置一个值，指示是否获得了该锁。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?view=net-6.0#system-threading-monitor-tryenter(system-object-system-int32-system-boolean@)">TryEnter(Object, Int32, Boolean)</a></td>
+<td>在指定的毫秒数内尝试获取指定对象上的排他锁，并自动设置一个值，指示是否获取了该锁。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?view=net-6.0#system-threading-monitor-tryenter(system-object-system-timespan)">TryEnter(Object, TimeSpan)</a></td>
+<td>在指定的时间内尝试获取指定对象上的排他锁。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?view=net-6.0#system-threading-monitor-tryenter(system-object-system-boolean@)">TryEnter(Object, Boolean)</a></td>
+<td>尝试获取指定对象上的排他锁，并自动设置一个值，指示是否获取了该锁。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?view=net-6.0#system-threading-monitor-tryenter(system-object)">TryEnter(Object)</a></td>
+<td>尝试获取指定对象的排他锁。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.monitor.tryenter?view=net-6.0#system-threading-monitor-tryenter(system-object-system-int32)">TryEnter(Object, Int32)</a></td>
+<td>在指定的毫秒数内尝试获取指定对象上的排他锁。</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">MonitorTryEnter</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name"><span class="token keyword">object</span></span> lock1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">object</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">object</span></span> lock2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">object</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">LockTooMuch</span><span class="token punctuation">(</span>lock1<span class="token punctuation">,</span> lock2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//先使用第一把锁，再使用第二把锁</span>
+
+            <span class="token keyword">lock</span> <span class="token punctuation">(</span>lock2<span class="token punctuation">)</span>    <span class="token comment">//先使用第二把锁，然后请求使用第一把锁失败，锁2释放，未造成死锁</span>
+            <span class="token punctuation">&#123;</span>
+                Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Monitor.TryEnter allow not to get stuck,returning false after a specified timer is elapsed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>Monitor<span class="token punctuation">.</span><span class="token function">TryEnter</span><span class="token punctuation">(</span>lock1<span class="token punctuation">,</span> <span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Acquired a protected resource succesfully"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token punctuation">&#125;</span>
+                <span class="token keyword">else</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Timerout cquiring a resource"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+
+
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">LockTooMuch</span><span class="token punctuation">(</span>lock1<span class="token punctuation">,</span> lock2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//先使用第一把锁，再使用第二把锁</span>
+
+            <span class="token keyword">lock</span> <span class="token punctuation">(</span>lock2<span class="token punctuation">)</span>    <span class="token comment">//先使用第二把锁，然后请求使用第一把锁失败，锁二未释放，造成死锁</span>
+            <span class="token punctuation">&#123;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"This will be deadlock"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">lock</span> <span class="token punctuation">(</span>lock1<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Acquired a protected resource succesfully"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+
+            <span class="token punctuation">&#125;</span>
+            Console<span class="token punctuation">.</span><span class="token function">ReadKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">LockTooMuch</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> Lock1<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">object</span></span> Lock2<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">lock</span> <span class="token punctuation">(</span>Lock1<span class="token punctuation">)</span>    
+            <span class="token punctuation">&#123;</span>
+                Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">lock</span> <span class="token punctuation">(</span>Lock2<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+
+                <span class="token punctuation">&#125;</span>
+
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上述代码运行如下</p>
+<pre class="line-numbers language-none"><code class="language-none">Monitor.TryEnter allow not to get stuck,returning false after a specified timer is elapsed
+Timerout cquiring a resource
+This will be deadlock<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到运行顺序如下图所示</p>
+<p><img src="/images/CSharpMultithreading/image-20221025090006474.png"></p>
+<p><code>Monitor.TryEnter()</code>方法是检查锁对象在指定时间内是否释放资源，如果释放则返回true否则false</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">LockTooMuch</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> Lock1<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">object</span></span> Lock2<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">lock</span> <span class="token punctuation">(</span>Lock1<span class="token punctuation">)</span>    
+            <span class="token punctuation">&#123;</span>
+                Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">lock</span> <span class="token punctuation">(</span>Lock2<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+
+                <span class="token punctuation">&#125;</span>
+
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们先来分析一下<code>LockTooMuch方法</code>，这个方法是首先获取第一把锁，然后将线程挂起一秒后获取第二把锁。</p>
+<p><strong>这个部分的锁死的代码，也就意味着解锁的顺序，lock1等待lock2执行完毕才会解锁lock1。</strong></p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">         <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">LockTooMuch</span><span class="token punctuation">(</span>lock1<span class="token punctuation">,</span> lock2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//先使用第一把锁，再使用第二把锁            </span>
+<span class="token keyword">lock</span> <span class="token punctuation">(</span>lock2<span class="token punctuation">)</span>    <span class="token comment">//先使用第二把锁，然后请求使用第一把锁失败，锁二释放，未造成死锁</span>
+         <span class="token punctuation">&#123;</span>
+             Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+             Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Monitor.TryEnter allow not to get stuck,returning false after a specified timer is elapsed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+             <span class="token keyword">if</span> <span class="token punctuation">(</span>Monitor<span class="token punctuation">.</span><span class="token function">TryEnter</span><span class="token punctuation">(</span>lock1<span class="token punctuation">,</span> <span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+             <span class="token punctuation">&#123;</span>
+                 Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Acquired a protected resource succesfully"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+             <span class="token punctuation">&#125;</span>
+             <span class="token keyword">else</span>
+             <span class="token punctuation">&#123;</span>
+                 Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Timerout cquiring a resource"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+             <span class="token punctuation">&#125;</span>
+         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li>然后我们再来查看一下上面这段代码，这段代码先创建了一条分支线程，然后在<strong>分支线程先使用第一把锁，再使用第二把锁  <strong>，然后我们</strong>在主线程先使用了第二把锁，等待请求使用第一把锁</strong>，然后使用Thread创建的分支线程和主线程是<strong>同时进行</strong>的，也就是说存在着<strong>竞争关系</strong>。</li>
+<li>这意味着，主线程使用了Lock2，请求使用Lock1，而分支线程使用了Lock1，请求使用Lcok2。</li>
+<li><code>主线程</code>占用了Lock2并等待<code>分支线程</code> 占用的lock1释放，<code>分支线程</code> 不肯释放自己的lcok1并等待<code>主线程</code> 释放占用的资源lock2，在这样一种谁也不肯让步的情形下，死锁就可能产生。</li>
+<li>然后在上述代码因为使用了<code>Monitor.TryEnter(lock1, 5000)</code>表示如果在5秒内尝试获取第二把锁，为获取到则释放lock2，这样就避免了死锁</li>
+<li>所以上述代码将输出<code>Console.WriteLine(&quot;Monitor.TryEnter allow not to get stuck,returning false after a specified timer is elapsed&quot;);</code>以及<code>Console.WriteLine(&quot;Timerout cquiring a resource&quot;);</code></li>
+</ol>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">new</span> <span class="token constructor-invocation class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">LockTooMuch</span><span class="token punctuation">(</span>lock1<span class="token punctuation">,</span> lock2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//先使用第一把锁，再使用第二把锁</span>
+
+<span class="token keyword">lock</span> <span class="token punctuation">(</span>lock2<span class="token punctuation">)</span>    <span class="token comment">//先使用第二把锁，然后请求使用第一把锁失败，锁二未释放，造成死锁</span>
+<span class="token punctuation">&#123;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"This will be deadlock"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">lock</span> <span class="token punctuation">(</span>lock1<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Acquired a protected resource succesfully"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li>然后我们在看一下上述代码，和上一个代码差不多，只不过没有使用<code>Monitor.TryEnter()方法</code></li>
+<li>这意味着，主线程使用了Lock2，请求使用Lock1，而分支线程使用了Lock1，请求使用Lcok2，互不退让最后造成了死锁</li>
+<li>所以上述代码将输出<code>Console.WriteLine(&quot;This will be deadlock&quot;);</code></li>
+</ol>
 <h2 id="3-同步-sync-和异步-async"><a href="#3-同步-sync-和异步-async" class="headerlink" title="3. 同步(sync)和异步(async)"></a>3. 同步(sync)和异步(async)</h2><p>同步和异步的概念在之前刘老师<code>委托的高级使用</code>中已经学过了，在这再复习一下</p>
 <p>同步和异步是对方法执行顺序的描述。</p>
 <p>同步：等待上一行完成计算之后，才会进入下一行。</p>
@@ -1632,6 +1879,7 @@ Task<span class="token punctuation">.</span>Factory<span class="token punctuatio
 <li> <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.thread?f1url=?appId=Dev16IDEF1&l=ZH-CN&k=k(System.Threading.Thread);k(DevLang-csharp)&rd=true&view=net-6.0">MSDN Thread类</a></li>
 <li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/yinjun98/p/12307014.html">C# Task和async/await详解</a>*</li>
 <li> <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.threading.tasks.task?view=net-6.0">MSDN Task类</a></li>
+<li> <a target="_blank" rel="noopener" href="http://www.qb5200.com/article/481892.html">C#多线程之死锁</a></li>
 </ol>
 
                 
@@ -2223,7 +2471,7 @@ Task<span class="token punctuation">.</span>Factory<span class="token punctuatio
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">119.2k</span>
+                        class="white-color">121.6k</span>
             
             
             
