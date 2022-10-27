@@ -390,21 +390,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-25
+                    2022-10-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    5.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    18 分
+                    19 分
                 </div>
                 
 
@@ -477,6 +477,14 @@
 </ul>
 <p>但这些都不是本文的主题！我们要讨论的是网络中进程之间如何通信？首要解决的问题是如何唯一标识一个进程，否则通信无从谈起！在本地可以通过进程PID来唯一标识一个进程，但是在网络中这是行不通的。其实TCP/IP协议族已经帮我们解决了这个问题，网络层的“<strong>ip地址</strong>”可以唯一标识网络中的主机，而传输层的“<strong>协议+端口</strong>”可以唯一标识主机中的应用程序（进程）。这样利用三元组（ip地址，协议，端口）就可以标识网络的进程了，网络中的进程通信就可以利用这个标志与其它进程进行交互。</p>
 <p>使用TCP/IP协议的应用程序通常采用应用编程接口：UNIX BSD的套接字（socket）和UNIX System V的TLI（已经被淘汰），来实现网络进程之间的通信。就目前而言，几乎所有的应用程序都是采用socket，而现在又是网络时代，网络中进程通信是无处不在，这就是我为什么说“一切皆socket”。</p>
+<h3 id="1-7-Port端口号"><a href="#1-7-Port端口号" class="headerlink" title="1.7 Port端口号"></a>1.7 Port端口号</h3><ol>
+<li>在编程里，端口是一种“逻辑连接位置”，特别是在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%9B%A0%E7%89%B9%E7%BD%91%E5%8D%8F%E8%AE%AE?fromModule=lemma_inlink">因特网协议</a><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/TCP%2FIP/214077?fromModule=lemma_inlink">TCP/IP</a>中，客户端程序被分派计算机上特殊服务程序的一种方式。</li>
+<li>所谓的端口，就好像是门牌号一样，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AE%A2%E6%88%B7%E7%AB%AF/101081?fromModule=lemma_inlink">客户端</a>可以通过ip地址找到对应的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/3369401?fromModule=lemma_inlink">服务器端</a>，但是服务器端是有很多端口的，每个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/5985445?fromModule=lemma_inlink">应用程序</a>对应一个端口号，通过类似门牌号的端口号，客户端才能真正的访问到该服务器。为了对端口进行区分，将每个端口进行了编号，这就是端口号 。</li>
+<li>一个IP地址的端口通过<code>16bit</code>进行编号，最多可以有<code>65536</code>个端口。</li>
+<li>端口号小于256的定义为常用端口，服务器一般都是通过常用端口号来识别的。任何TCP/IP实现所提供的服务都用1—1023之间的端口号，是由ICANN来管理的；端口号从1024—49151是被注册的端口，也成为“用户端口”，被IANA指定为特殊服务使用 </li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AE%A2%E6%88%B7%E7%AB%AF?fromModule=lemma_inlink">客户端</a>只需保证该端口号在本机上是唯一的就可以了。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AE%A2%E6%88%B7%E7%AB%AF/101081?fromModule=lemma_inlink">客户端</a>端口号因存在时间很短暂又称临时端口号</li>
+<li>大多数TCP/IP实现给临时端口号分配1024—5000之间的端口号。大于5000的端口号是为其他服务器预留的</li>
+</ol>
 <h2 id="2-Socket-对象"><a href="#2-Socket-对象" class="headerlink" title="2. Socket 对象"></a>2. Socket 对象</h2><h3 id="2-1-Socket-类"><a href="#2-1-Socket-类" class="headerlink" title="2.1 Socket 类"></a>2.1 Socket 类</h3><p><strong>定义</strong></p>
 <ul>
 <li><p>命名空间:</p>
@@ -1017,7 +1025,7 @@ send <span class="token operator">=</span> socket<span class="token punctuation"
          <span class="token comment">//Bind() 用于绑定 IPEndPoint 对象，在服务端使用。</span>
          sSocket<span class="token punctuation">.</span><span class="token function">Bind</span><span class="token punctuation">(</span>ipe<span class="token punctuation">)</span><span class="token punctuation">;</span>
          <span class="token comment">//监听</span>
-         sSocket<span class="token punctuation">.</span><span class="token function">Listen</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         sSocket<span class="token punctuation">.</span><span class="token function">Listen</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
          Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"监听已经打开，请等待"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
          <span class="token comment">//receive message</span>
@@ -1066,6 +1074,12 @@ send <span class="token operator">=</span> socket<span class="token punctuation"
          clientSocket<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>上述服务器端和客户端建立通信，在互相发送一次信息后通信便结束。</p>
+<h3 id="7-3-使用-内网-局域网测试"><a href="#7-3-使用-内网-局域网测试" class="headerlink" title="7.3 使用(内网)局域网测试"></a>7.3 使用(内网)局域网测试</h3><p>打开<code>cmd</code>输入<code>ipconfig</code>查看网络配置，我连接的WIFI，使用的IPv4地址如下</p>
+<p><img src="/images/Socket/image-20221026111558431.png"></p>
+<p>打开两个VS，一个用作客户端，一个用作服务器端，如下图所示</p>
+<p><img src="/images/Socket/image-20221026112422871.png"></p>
+<p>同时运行，运行效果如下图所示</p>
+<p><img src="/images/Socket/image-20221026112538546.png"></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/whuanle/p/10375526.html">C# Socket编程 笔记，Socket 详解，入门简单</a></li>
 <li> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260139078">用大白话解释什么是Socket</a></li>
@@ -1337,17 +1351,17 @@ send <span class="token operator">=</span> socket<span class="token punctuation"
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/10/25/Socket/">
+                <a href="/2022/10/26/CSharpXML/">
                     <div class="card-image">
                         
-                        <img src="/images/Socket/socket.jpeg" class="responsive-img" alt="Socket">
                         
-                        <span class="card-title">Socket</span>
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/0.jpg" class="responsive-img" alt="CSharpXML">
+                        
+                        <span class="card-title">CSharpXML</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1357,9 +1371,9 @@ send <span class="token operator">=</span> socket<span class="token punctuation"
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-26
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1372,12 +1386,11 @@ send <span class="token operator">=</span> socket<span class="token punctuation"
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Socket/">
-                        <span class="chip bg-color">Socket</span>
+                    <a href="/tags/XML/">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
                 </div>
@@ -1666,7 +1679,7 @@ send <span class="token operator">=</span> socket<span class="token punctuation"
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">126.2k</span>
+                        class="white-color">127.1k</span>
             
             
             
