@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>解决StackOverFlow打开慢，实现快速访问</title>
+      <link href="/2022/10/28/%E8%A7%A3%E5%86%B3StackOverFlow%E6%89%93%E5%BC%80%E6%85%A2%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E8%AE%BF%E9%97%AE/"/>
+      <url>/2022/10/28/%E8%A7%A3%E5%86%B3StackOverFlow%E6%89%93%E5%BC%80%E6%85%A2%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E8%AE%BF%E9%97%AE/</url>
+      
+        <content type="html"><![CDATA[<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>我经常搜索关于<code>CSharp</code>的问题搜到<code>StackVverFlow</code>，但是<code>StackVverFlow</code>打开很慢，常常需要等几分钟才行。</p><h2 id="2-StackVverFlow-介绍"><a href="#2-StackVverFlow-介绍" class="headerlink" title="2. StackVverFlow 介绍"></a>2. StackVverFlow 介绍</h2><p>Stack Overflow是一个与程序相关的IT技术问答网站。用户可以在网站免费提交问题，浏览问题，索引相关内容，在创建主页的时候使用简单的HTML。在问题页面，不会弹出任何广告，销售信息，JavaScript 窗口等。</p><h2 id="3-解决问题，替换Google-CDN"><a href="#3-解决问题，替换Google-CDN" class="headerlink" title="3. 解决问题，替换Google CDN"></a>3. 解决问题，替换Google CDN</h2><p>但是我们打开<code>StackOverFlow</code>时发现，访问的速度特别的慢，其实这并不是<code>StackOverFlow</code>的网站被墙了，而是这个网站请求了谷歌的资源，谷歌被墙导致的。接下来我们来解决这个问题！</p><p><code>GitHub</code>有大牛开发出了插件，将<code>Google CDN</code> 替换成国内中科大的了。具体地址为：<a href="https://github.com/justjavac/ReplaceGoogleCDN%EF%BC%8C%E6%88%91%E4%BB%AC%E7%82%B9%E5%87%BB%E8%BF%99%E4%B8%AA%E5%9C%B0%E5%9D%80%E8%BF%9B%E5%85%A5%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%9D%A5%E5%88%B0%E5%A6%82%E4%B8%8B%E7%95%8C%E9%9D%A2%EF%BC%9A">https://github.com/justjavac/ReplaceGoogleCDN，我们点击这个地址进入，可以来到如下界面：</a><br><img src="/images/%E8%A7%A3%E5%86%B3StackOverFlow%E6%89%93%E5%BC%80%E6%85%A2%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E8%AE%BF%E9%97%AE/image-20221028084602302.png"></p><p>点击上图的Clone or dowmload，再点击Dowmload ZIP 下载至任意位置；<br>然后将压缩包解压得到如下文件：</p><p><img src="/images/%E8%A7%A3%E5%86%B3StackOverFlow%E6%89%93%E5%BC%80%E6%85%A2%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E8%AE%BF%E9%97%AE/image-20221028084710106.png"></p><p>接着我们打开Chorme，打开扩展程序，将<code>extension-v2</code>添加进去，如下我是已经添加好了</p><p><img src="/images/%E8%A7%A3%E5%86%B3StackOverFlow%E6%89%93%E5%BC%80%E6%85%A2%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E8%AE%BF%E9%97%AE/image-20221028084752201.png"></p><p>整个流程步骤就是这样，这时我们再把stack overflow打开，速度就变得飞快了！</p><h2 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4. 参考资料"></a>4. 参考资料</h2><ol><li> <a href="https://blog.csdn.net/weixin_44928884/article/details/106273796">解决StackOverFlow打开慢，实现快速访问（图文步骤详细说明）</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> tips </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> StackVverFlow </tag>
+            
+            <tag> Google </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>如何在VS2019上传项目到GitHub？</title>
       <link href="/2022/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8VS2019%E4%B8%8A%E4%BC%A0%E9%A1%B9%E7%9B%AE%E5%88%B0GitHub%EF%BC%9F/"/>
       <url>/2022/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8VS2019%E4%B8%8A%E4%BC%A0%E9%A1%B9%E7%9B%AE%E5%88%B0GitHub%EF%BC%9F/</url>
@@ -13,7 +40,7 @@
       
       <categories>
           
-          <category> 技巧 </category>
+          <category> tips </category>
           
       </categories>
       
