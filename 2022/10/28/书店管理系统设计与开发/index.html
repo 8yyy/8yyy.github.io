@@ -362,12 +362,12 @@
                                 <span class="chip bg-color">CSharp</span>
                             </a>
                         
-                            <a href="/tags/VS/">
-                                <span class="chip bg-color">VS</span>
-                            </a>
-                        
                             <a href="/tags/SQL-Server/">
                                 <span class="chip bg-color">SQL Server</span>
+                            </a>
+                        
+                            <a href="/tags/VS/">
+                                <span class="chip bg-color">VS</span>
                             </a>
                         
                     </div>
@@ -398,21 +398,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-28
+                    2022-11-01
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    88
+                    1.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    6 分
                 </div>
                 
 
@@ -438,6 +438,254 @@
                 <h2 id="1-导读"><a href="#1-导读" class="headerlink" title="1. 导读"></a>1. 导读</h2><p>根据B站视频<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1xP411n7NV/?p=3&vd_source=794a7fc718885ad84490c05351dcf216">书店管理系统设计与开发 Visual Studio C# SQL Server</a>做的项目，UP使用的是VS2022，我目前还是使用VS2019，不会存在什么问题。框架采用的是.NET Framework4.7.2，是一个采用WinForm的客户端程序。</p>
 <h2 id="2-系统加载界面设计"><a href="#2-系统加载界面设计" class="headerlink" title="2. 系统加载界面设计"></a>2. 系统加载界面设计</h2><p>创建项目文件BookShopTuto</p>
 <p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221028093509305.png"></p>
+<p>创建完之后，首先调整窗体边框为无边框，<code>FormBorderStyle</code></p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221029165300518.png"></p>
+<p>调整加载页大小Size，以及窗体颜色BackColor</p>
+<p>修改窗体名字为Splash</p>
+<p>添加一个Label</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221029170941598.png"></p>
+<p>如上图即为加载页面</p>
+<ul>
+<li>3个Label<ul>
+<li>小白书店管理系统</li>
+<li>加载中……</li>
+<li>%</li>
+</ul>
+</li>
+<li>一个图片框picturebox</li>
+<li>一个进度条ProgressBar</li>
+</ul>
+<h2 id="3-用户登录界面设计"><a href="#3-用户登录界面设计" class="headerlink" title="3. 用户登录界面设计"></a>3. 用户登录界面设计</h2><p>添加一个窗体Login，修改窗体启动位置<code>StartPosition</code>为<code>CenterScreen</code>，边框<code>FormBorderStyle</code>为<code>null</code>，修改背景颜色BackColor为<code>Indigo</code></p>
+<p>添加面板控件<code>panel</code>，将面板分为两个区域</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221029173901086.png"></p>
+<p>简单设计如上</p>
+<ul>
+<li>面板控件<code>panel</code>分为2个面板<ul>
+<li>左侧的面板为3个label</li>
+<li>右侧的面板为窗体登录框<ul>
+<li>5个Label<ul>
+<li>X，设置一个Click事件，代码如下<code>Application.Exit();</code></li>
+<li>小白书店</li>
+<li>用户名</li>
+<li>密码</li>
+<li>管理员</li>
+</ul>
+</li>
+<li>一个图片框</li>
+<li>两个TextBox，用来输入账号密码</li>
+<li>一个按钮Button</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-书籍管理界面显示与设计"><a href="#4-书籍管理界面显示与设计" class="headerlink" title="4. 书籍管理界面显示与设计"></a>4. 书籍管理界面显示与设计</h2><p>添加一个窗体Books</p>
+<p>combobox书目类型</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221029193916903.png"></p>
+<p>主要设计如下，因为没有原图，图片都没有加，不过这都不是重点</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221029195358633.png"></p>
+<p>简要分析下：</p>
+<p>和登录界面一样分为左右两块</p>
+<p>左边有：</p>
+<ul>
+<li>5个图片框pic</li>
+<li>5个label</li>
+<li>5个panel<ul>
+<li>1块整体</li>
+<li>4块小的<ul>
+<li>书籍，背景绿色代表选中状态</li>
+<li>用户</li>
+<li>账户管理</li>
+<li>退出</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>右边有就不分析了也差不多，右上角也是一个用来表示退出的label</p>
+<p><strong>上图登录应为保存</strong></p>
+<h2 id="5-用户管理界面和账户管理界面"><a href="#5-用户管理界面和账户管理界面" class="headerlink" title="5. 用户管理界面和账户管理界面"></a>5. 用户管理界面和账户管理界面</h2><p>添加一个窗体Users，和前面的设置的差不多，需要注意的是<strong>需要调整窗体的Size值与Books窗体相同，BackColor也要相同</strong>，为了方便可以直接将Books中的所有控件赋值到Users窗体中，毕竟左侧是几乎完全相同的panel</p>
+<p>设计大致如下，和上面的书籍界面差不多</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221029201205024.png"></p>
+<p>接下来是用户管理界面</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031084136179.png"></p>
+<p>主要由三块panel组成</p>
+<h2 id="6-创建数据库"><a href="#6-创建数据库" class="headerlink" title="6. 创建数据库"></a>6. 创建数据库</h2><p>UP主是直接在VS上创建数据库，VS2019的操作是服务器资源管理器–&gt;数据连接–&gt;创建新SQL SERVER数据库</p>
+<p>首先创建用户数据表UserTb1</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031085246404.png"></p>
+<p>UId为标识列，标识种子为500，标识增量为11</p>
+<p>然后创建书籍数据表BookTb1</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031090551687.png"></p>
+<p>BId为标识列，标识种子为100，标识增量为1</p>
+<p>最后创建订单数据表BillTb1</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031090743501.png"></p>
+<p>BillId为标识列，标识种子为1000，标识增量为1</p>
+<h2 id="7-系统加载界面功能实现"><a href="#7-系统加载界面功能实现" class="headerlink" title="7. 系统加载界面功能实现"></a>7. 系统加载界面功能实现</h2><p>主要使用Timer控件实现进度条的加载</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">partial</span> <span class="token keyword">class</span> <span class="token class-name">Splash</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">Form</span></span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token function">Splash</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">InitializeComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token class-name"><span class="token keyword">int</span></span> startPos <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">timer1_Tick</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        startPos<span class="token operator">++</span><span class="token punctuation">;</span>
+        Myprogress<span class="token punctuation">.</span>Value <span class="token operator">=</span> startPos<span class="token punctuation">;</span>
+        PercentageLbl<span class="token punctuation">.</span>Text <span class="token operator">=</span> startPos<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"%"</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>Myprogress<span class="token punctuation">.</span>Value <span class="token operator">==</span> <span class="token number">100</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            Myprogress<span class="token punctuation">.</span>Value <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            timer1<span class="token punctuation">.</span><span class="token function">Stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Login</span> log <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Login</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            log<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">Hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Splash_Load</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        timer1<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="8-书籍界面管理功能实现"><a href="#8-书籍界面管理功能实现" class="headerlink" title="8. 书籍界面管理功能实现"></a>8. 书籍界面管理功能实现</h2><p>首先创建一个SqlConnection的对象</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">SqlConnection</span> Con <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlConnection</span><span class="token punctuation">(</span><span class="token string">@"Data Source=.;Initial Catalog=WhiteBookShopDb;Integrated Security=True;Pooling=False"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>连接字符串可通过右键服务器名称–&gt;属性的方式查到</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031093904071.png"></p>
+<h3 id="8-1-保存功能"><a href="#8-1-保存功能" class="headerlink" title="8.1 保存功能"></a>8.1 保存功能</h3><p>保存功能如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">SaveBtn_Click</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>BTitleTb<span class="token punctuation">.</span>Text<span class="token operator">==</span><span class="token string">""</span> <span class="token operator">||</span> BautTb<span class="token punctuation">.</span>Text<span class="token operator">==</span><span class="token string">""</span> <span class="token operator">||</span> QtyTb<span class="token punctuation">.</span>Text<span class="token operator">==</span><span class="token string">""</span> <span class="token operator">||</span> PriceTb<span class="token punctuation">.</span>Text<span class="token operator">==</span><span class="token string">""</span> <span class="token operator">||</span> BCatCb<span class="token punctuation">.</span>SelectedIndex <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"信息缺失！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span>
+        <span class="token punctuation">&#123;</span>
+            Con<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> query <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"insert into BookTb1 values('</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">BTitleTb<span class="token punctuation">.</span>Text</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">BautTb<span class="token punctuation">.</span>Text</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">BCatCb<span class="token punctuation">.</span>SelectedItem</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">QtyTb<span class="token punctuation">.</span>Text</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">PriceTb<span class="token punctuation">.</span>Text</span><span class="token punctuation">&#125;</span></span><span class="token string">')"</span></span><span class="token punctuation">;</span>
+            <span class="token class-name">SqlCommand</span> cmd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommand</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> Con<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cmd<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"书籍信息保存成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Con<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//这两个方法是后面加的</span>
+            <span class="token function">Populate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">Reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span>Message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="8-2-设置数据表格控件"><a href="#8-2-设置数据表格控件" class="headerlink" title="8.2 设置数据表格控件"></a>8.2 设置数据表格控件</h3><p>编写一个函数用于显示datagirdview数据</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//显示datagirdview数据</span>
+<span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Populate</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Con<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">string</span></span> query <span class="token operator">=</span> <span class="token string">"select * from BookTb1"</span><span class="token punctuation">;</span>
+    <span class="token class-name">SqlDataAdapter</span> sda <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlDataAdapter</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> Con<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">SqlCommandBuilder</span> builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommandBuilder</span><span class="token punctuation">(</span>sda<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> ds <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DataSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    sda<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>ds<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    BookGDV<span class="token punctuation">.</span>DataSource <span class="token operator">=</span> ds<span class="token punctuation">.</span>Tables<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Con<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>同时将上述方法添加到Books类中的构造方法中，以运行时直接显示表格的数据</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031103710206.png"></p>
+<p>对数据表格控件BookGDV进行修改如下，以显示更好的效果，</p>
+<p>将AutoSizeColumnsMode设置为Fill，调整列宽，使所有列的宽度正好填充控件的显示区域，只需要水平滚动保证列宽在</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031100141186.png"></p>
+<p>将RowHeaderVisible设置为False，不显示行号</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031100230649.png"></p>
+<p>将SelectionMode设置为FullRowSelect，整行选定</p>
+<p>将ReadOnly设置为Ture，表示表格只读</p>
+<p>将CellBorderStyle设置为SingleHorizontal，单元格划线使用水平单线边框</p>
+<p>将GirdColor设置GrayText，灰色</p>
+<p>设置RowsDefaultCellStyle中的外观SelectionBackColor，设置选中行标题颜色</p>
+<p><strong>我们可以发现一个问题，就是表格在加载时显示的列标题为数据库中的字段名称，如何将标题行设置为中文?</strong></p>
+<p>点击BookDGV右上角的小三角–&gt;编辑列–&gt;添加–&gt;设置页眉文本</p>
+<p>添加如下</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031102146185.png"></p>
+<p>之后将标题与字段进行绑定</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031102250880.png"></p>
+<p>之后设置EnableHeaderVisualStyles设置为False，将原本的表头不显示</p>
+<p>设置ColumnHeadersDefaultCellStyle，将BackColor设置为indigo，表示将表头的颜色设置为紫色，然后将ForeColor设置为White</p>
+<p>设置完之后，显示效果如下</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031103106130.png"></p>
+<p>发现书籍类型搞错了，应该设置为SelectedItem</p>
+<h3 id="8-3-选定类目功能"><a href="#8-3-选定类目功能" class="headerlink" title="8.3 选定类目功能"></a>8.3 选定类目功能</h3><p>需要使用到下拉框的SelectionChangeCommitted事件</p>
+<p>编写一个方法进行过滤</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//根据书目类型进行过滤</span>
+<span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Filter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Con<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">string</span></span> query <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"select * from BookTb1 where BCat ='</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">CatCbSearch<span class="token punctuation">.</span>SelectedItem<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">'"</span></span><span class="token punctuation">;</span>
+    <span class="token class-name">SqlDataAdapter</span> sda <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlDataAdapter</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> Con<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">SqlCommandBuilder</span> builder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommandBuilder</span><span class="token punctuation">(</span>sda<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> ds <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DataSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    sda<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>ds<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    BookGDV<span class="token punctuation">.</span>DataSource <span class="token operator">=</span> ds<span class="token punctuation">.</span>Tables<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Con<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">CatCbSearch_SelectionChangeCommitted</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">Filter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="8-4-重置功能"><a href="#8-4-重置功能" class="headerlink" title="8.4 重置功能"></a>8.4 重置功能</h3><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    BTitleTb<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    BautTb<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    BCatCb<span class="token punctuation">.</span>SelectedIndex <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    QtyTb<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    PriceTb<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ResetBtn_Click</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">Reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="8-5-删除功能"><a href="#8-5-删除功能" class="headerlink" title="8.5 删除功能"></a>8.5 删除功能</h3><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">DeleteBtn_Click</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>key<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"信息缺失！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span>
+        <span class="token punctuation">&#123;</span>
+            Con<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> query <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"delete * from BookTb1 where BId = '</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">key</span><span class="token punctuation">&#125;</span></span><span class="token string">'"</span></span><span class="token punctuation">;</span>
+            <span class="token class-name">SqlCommand</span> cmd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommand</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> Con<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cmd<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"书籍信息删除成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Con<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">Populate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">Reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span>Message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>代码都比较简单</p>
+<h2 id="9-打印订单"><a href="#9-打印订单" class="headerlink" title="9. 打印订单"></a>9. 打印订单</h2><p>可以使用printDocument控件和printPreviewDialog控件</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031161350842.png"></p>
+<p>同时将它们进行连接</p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221031161332980.png"></p>
+<p><img src="/images/%E4%B9%A6%E5%BA%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91/image-20221101102632387.png"></p>
+<p>不然Total的值会变成0，也就是说必须先把数据添加到BillTb1表中，之后才能进行打印订单</p>
 
                 
             </div>
@@ -506,12 +754,12 @@
                                     <span class="chip bg-color">CSharp</span>
                                 </a>
                             
-                                <a href="/tags/VS/">
-                                    <span class="chip bg-color">VS</span>
-                                </a>
-                            
                                 <a href="/tags/SQL-Server/">
                                     <span class="chip bg-color">SQL Server</span>
+                                </a>
+                            
+                                <a href="/tags/VS/">
+                                    <span class="chip bg-color">VS</span>
                                 </a>
                             
                         </div>
@@ -1042,7 +1290,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">128.2k</span>
+                        class="white-color">132.7k</span>
             
             
             
