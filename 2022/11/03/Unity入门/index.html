@@ -390,21 +390,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-07
+                    2022-11-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.8k
+                    4.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    17 分
                 </div>
                 
 
@@ -808,7 +808,140 @@ rd <span class="token operator">=</span> <span class="token generic-method"><spa
 <p><strong>如果想修改预制体，只需要点击Prefabs的Food，修改右边的Inspector窗口下的属性即可</strong></p>
 <p>如果想通过子物品修改预制体的属性，可通过</p>
 <p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221107160404705.png"></p>
-<p>预制体和示例的单向传递（Class Object）</p>
+<h3 id="4-17-控制可捡起物体旋转和学习文档查阅"><a href="#4-17-控制可捡起物体旋转和学习文档查阅" class="headerlink" title="4.17 控制可捡起物体旋转和学习文档查阅"></a>4.17 控制可捡起物体旋转和学习文档查阅</h3><p>控制可捡起物旋转，给预制体添加一个Food脚本</p>
+<p>添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">transform<span class="token punctuation">.</span><span class="token function">Rotate</span><span class="token punctuation">(</span>Vector3<span class="token punctuation">.</span>up<span class="token punctuation">,</span>Space<span class="token punctuation">.</span>World<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>运行之后你就会发现所有的Food都进行了旋转</p>
+<p>文档查阅</p>
+<blockquote>
+<p>Help菜单栏 –&gt; 点击Unity Manual/Scripting Reference</p>
+</blockquote>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108152346190.png"></p>
+<h3 id="4-18-通过检测碰撞-检测碰撞到食物"><a href="#4-18-通过检测碰撞-检测碰撞到食物" class="headerlink" title="4.18 通过检测碰撞=检测碰撞到食物"></a>4.18 通过检测碰撞=检测碰撞到食物</h3><p>小球与Cube的碰撞，碰撞后小球吃掉Food(Cube)</p>
+<p>Unity已经帮我们写好了碰撞检测的代码</p>
+<p><strong>检测碰撞</strong></p>
+<p>1、系统事件（消息，方法）</p>
+<blockquote>
+<p>系统调用（发送）</p>
+<p>示例：</p>
+<p>OnCollisionEnter 碰撞开始</p>
+<p>OnCollisionStay   持续碰撞</p>
+<p>OnCollisionExit    碰撞结束</p>
+<p>测试碰撞是三个事件</p>
+</blockquote>
+<p>由于小球是要吃掉Cube的所以，这里我们只需要用到OnCollisionEnter </p>
+<blockquote>
+<p> 区分游戏物体有两种方式:名字和标签Tag，均可以重复</p>
+</blockquote>
+<p>如何给预制体Food添加一个名为Tag的标签?</p>
+<blockquote>
+<p>Tag –&gt; Add Tag –&gt; + –&gt; 设置名字 –&gt; save</p>
+</blockquote>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108154212675.png"></p>
+<p><strong>通过标签Tag区分游戏物体比名字更好。</strong></p>
+<p>2、获取到碰撞的物体名字</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnCollisionEnter</span><span class="token punctuation">(</span><span class="token class-name">Collision</span> collision<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name"><span class="token keyword">string</span></span> name <span class="token operator">=</span> collision<span class="token punctuation">.</span>collider<span class="token punctuation">.</span>name<span class="token punctuation">;</span>
+    Debug<span class="token punctuation">.</span><span class="token function">Log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>知识点</p>
+<p>GameObject Component</p>
+<p>component.gameObject</p>
+<p>component.gameObject.name</p>
+<p>component.name</p>
+</blockquote>
+<p>3、添加标签，通过标签区分某一类物体（食物、敌人）</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnCollisionEnter</span><span class="token punctuation">(</span><span class="token class-name">Collision</span> collision<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>collision<span class="token punctuation">.</span>collider<span class="token punctuation">.</span>tag <span class="token operator">==</span> <span class="token string">"Food"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">Destroy</span><span class="token punctuation">(</span>collision<span class="token punctuation">.</span>collider<span class="token punctuation">.</span>gameObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>通过这种实现的方式，小球吃方块的时候会顿一下。</p>
+</blockquote>
+<h3 id="4-19-通过触发检测，吃食物"><a href="#4-19-通过触发检测，吃食物" class="headerlink" title="4.19 通过触发检测，吃食物"></a>4.19 通过触发检测，吃食物</h3><p>触发器本质是一个碰撞器</p>
+<blockquote>
+<p>勾选上Box Collider下的Is Trigger就可以穿过这个游戏物体</p>
+</blockquote>
+<p>将预制体Food的碰撞器修改为触发器</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108160742719.png"></p>
+<p>添加触发检测代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnTriggerEnter</span><span class="token punctuation">(</span><span class="token class-name">Collider</span> other<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>other<span class="token punctuation">.</span>tag <span class="token operator">==</span> <span class="token string">"Food"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">Destroy</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>gameObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>通过这种实现的方式，小球吃方块的时候就不会顿一下了。</p>
+</blockquote>
+<h3 id="4-20-通过UI-User-Interface-显示得分"><a href="#4-20-通过UI-User-Interface-显示得分" class="headerlink" title="4.20 通过UI(User Interface)显示得分"></a>4.20 通过UI(User Interface)显示得分</h3><p>UI是2D的，创建UI的Text</p>
+<blockquote>
+<p>右键MainScene –&gt; GameObject –&gt; UI –&gt; Legacy –&gt; Text</p>
+</blockquote>
+<p>然后创建后显示的效果不是很好，切换为2D，将Text拖到右上角</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108163409038.png"></p>
+<p>游戏运行时Text显示的大致方位和这里显示的是差不多的</p>
+<p>修改Text为分数：0</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108163606078.png"></p>
+<p>回到小球的脚本NewBehaviourScript，添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">UnityEngine<span class="token punctuation">.</span>UI</span><span class="token punctuation">;</span>	
+    <span class="token keyword">public</span> <span class="token class-name">Text</span> scoreText<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> score<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnTriggerEnter</span><span class="token punctuation">(</span><span class="token class-name">Collider</span> other<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>other<span class="token punctuation">.</span>tag <span class="token operator">==</span> <span class="token string">"Food"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">Destroy</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>gameObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            score<span class="token operator">++</span><span class="token punctuation">;</span>
+            scoreText<span class="token punctuation">.</span>text <span class="token operator">=</span> <span class="token string">"分数："</span> <span class="token operator">+</span> score<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>将Text拖拽进去</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108163952585.png"></p>
+<p>运行效果如下</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108164037766.png"></p>
+<h3 id="4-2-1-显示游戏胜利"><a href="#4-2-1-显示游戏胜利" class="headerlink" title="4.2.1 显示游戏胜利"></a>4.2.1 显示游戏胜利</h3><p>在创建一个Text UI游戏物体即可，添加到地面中间，一开始设置Enable=False，吃光所有方块后显示Win!</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108165226489.png"></p>
+<p>回到小球的脚本NewBehaviourScript，添加代码如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token class-name">GameObject</span> winText<span class="token punctuation">;</span>	<span class="token comment">//我一开始设置为Text找了半天问题</span>
+    <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnTriggerEnter</span><span class="token punctuation">(</span><span class="token class-name">Collider</span> other<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>other<span class="token punctuation">.</span>tag <span class="token operator">==</span> <span class="token string">"Food"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">Destroy</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>gameObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            score<span class="token operator">++</span><span class="token punctuation">;</span>
+            scoreText<span class="token punctuation">.</span>text <span class="token operator">=</span> <span class="token string">"分数："</span> <span class="token operator">+</span> score<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>score <span class="token operator">==</span> <span class="token number">12</span><span class="token punctuation">)</span> winText<span class="token punctuation">.</span><span class="token function">SetActive</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>加个判断即可</p>
+<p>之后同样的加WinTextUI拖拽进去</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108165519674.png"></p>
+<p>因为我一开始定义为<code>public Text winText</code>导致出错，重新拖拽</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108171710497.png"></p>
+<h3 id="4-2-2-游戏打包发布"><a href="#4-2-2-游戏打包发布" class="headerlink" title="4.2.2 游戏打包发布"></a>4.2.2 游戏打包发布</h3><blockquote>
+<p> File –&gt; Build Settings  –&gt; 设置（选择平台等） –&gt; Build</p>
+</blockquote>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108172243054.png"></p>
+<p>选择文件夹</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108172425758.png"></p>
+<p>打包完成后效果如下</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108173031927.png"></p>
+<p>点击RollABall.exe即可运行游戏</p>
+<p>游戏默认是全屏的，我们可以在刚才Build前设置游戏的分辨率，这是默认的效果</p>
+<p><img src="/images/Unity%E5%85%A5%E9%97%A8/image-20221108173200580.png"></p>
 
                 
             </div>
@@ -1409,7 +1542,7 @@ rd <span class="token operator">=</span> <span class="token generic-method"><spa
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">137.7k</span>
+                        class="white-color">139.9k</span>
             
             
             
