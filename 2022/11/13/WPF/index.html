@@ -398,14 +398,14 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    775
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    9 分
                 </div>
                 
 
@@ -441,7 +441,7 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
 <p>5、易于部署</p>
 <p>WPF除了可以使用传统的Windows Installer以及ClickOnce方式来发布我们的桌面应用程序之外，还可以将我们的应用程序稍加改动发布为基于浏览器的应用程序。</p>
 <p>6、基于数据驱动，数据是核心</p>
-<h2 id="3-初步了解XAML"><a href="#3-初步了解XAML" class="headerlink" title="3. 初步了解XAML"></a>3. 初步了解XAML</h2><p>XAML 是一种基于 XML 的标记语言，以声明形式实现应用程序的外观。 通常用它创建窗口、对话框、页和用户控件，并填充控件、形状和图形。</p>
+<h2 id="3-初步了解XAML"><a href="#3-初步了解XAML" class="headerlink" title="3. 初步了解XAML"></a>3. 初步了解XAML</h2><p><strong>XAML 是一种基于 XML 的标记语言</strong>，以声明形式实现应用程序的外观。 通常用它创建窗口、对话框、页和用户控件，并填充控件、形状和图形。</p>
 <p>XAML ⽂件是通常具有 .xaml 扩展名的 XML ⽂件。 可通过任何 XML 编码对⽂件进⾏编码，但通常以 UTF-8 编码。  </p>
 <blockquote>
 <p>Ctrl+K+C 快速注释</p>
@@ -456,12 +456,174 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
        &lt;!--单标签格式--&gt;
        &lt;Button&#x2F;&gt;
        &lt;!--双标签格式--&gt;
-       &lt;Button&gt;&lt;&#x2F;Button&gt;
-   &lt;&#x2F;Grid&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+       &lt;Button&gt;
+       	&lt;!--Content--&gt;	
+       &lt;&#x2F;Button&gt;
+   &lt;&#x2F;Grid&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="3-2-XAML根元素"><a href="#3-2-XAML根元素" class="headerlink" title="3.2 XAML根元素"></a>3.2 XAML根元素</h3><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<h3 id="3-2-XAML根元素"><a href="#3-2-XAML根元素" class="headerlink" title="3.2 XAML根元素"></a>3.2 XAML根元素</h3><p>⼀个 XAML ⽂件只能有⼀个根元素，这样才能同时作为格式正确的 XML ⽂件和有效的 XAML ⽂件。 对于典型 WPF ⽅案，可使⽤在 WPF 应⽤模型中具有突出意义的根元素（例如，⻚⾯的 Window 或 Page）  </p>
+<p>Window</p>
+<pre class="line-numbers language-xaml" data-language="xaml"><code class="language-xaml">&lt;Window x:Class&#x3D;&quot;WPFExample.MainWindow&quot;
+        xmlns&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&#x2F;presentation&quot;
+        xmlns:x&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&quot;
+        xmlns:d&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;expression&#x2F;blend&#x2F;2008&quot;
+        xmlns:mc&#x3D;&quot;http:&#x2F;&#x2F;schemas.openxmlformats.org&#x2F;markup-compatibility&#x2F;2006&quot;
+        xmlns:local&#x3D;&quot;clr-namespace:WPFExample&quot;
+        mc:Ignorable&#x3D;&quot;d&quot;
+        Title&#x3D;&quot;MainWindow&quot; Height&#x3D;&quot;450&quot; Width&#x3D;&quot;800&quot;&gt;
+    &lt;Grid&gt;
+    &lt;&#x2F;Grid&gt;
+&lt;&#x2F;Window&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Page</p>
+<pre class="line-numbers language-xaml" data-language="xaml"><code class="language-xaml">&lt;Page x:Class&#x3D;&quot;WPFExample.Page1&quot;
+      xmlns&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&#x2F;presentation&quot;
+      xmlns:x&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&quot;
+      xmlns:mc&#x3D;&quot;http:&#x2F;&#x2F;schemas.openxmlformats.org&#x2F;markup-compatibility&#x2F;2006&quot; 
+      xmlns:d&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;expression&#x2F;blend&#x2F;2008&quot; 
+      xmlns:local&#x3D;&quot;clr-namespace:WPFExample&quot;
+      mc:Ignorable&#x3D;&quot;d&quot; 
+      d:DesignHeight&#x3D;&quot;450&quot; d:DesignWidth&#x3D;&quot;800&quot;
+      Title&#x3D;&quot;Page1&quot;&gt;
+    &lt;Grid&gt;  
+    &lt;&#x2F;Grid&gt;
+&lt;&#x2F;Page&gt;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>在根标签下只能有一个二级标签，例如Grid就是一个二级标签</p>
+<p>而在二级标签下可以有多个三级、四级标签，就在上面介绍对象元素语法时，Grid标签下有两个Button三级标签</p>
+</blockquote>
+<h3 id="3-3-WPF-和-XAML-命名空间声明"><a href="#3-3-WPF-和-XAML-命名空间声明" class="headerlink" title="3.3 WPF 和 XAML 命名空间声明"></a>3.3 WPF 和 XAML 命名空间声明</h3><p>在许多 XAML ⽂件的根标记中的命名空间声明内，通常可看到两个 XML 命名空间声明。 **第⼀个声明默认映射整个 WPF 客户端/框架 **，XAML规定你可以有一个命名空间不加名字</p>
+<blockquote>
+<p>XAML 命名空间：xmlns=”<a target="_blank" rel="noopener" href="http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;">http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</a></p>
+</blockquote>
+<p>第⼆个声明映射单独的 XAML 命名空间，（通常）将其映射到 x: 前缀。</p>
+<blockquote>
+<p>xmlns:x=”<a target="_blank" rel="noopener" href="http://schemas.microsoft.com/winfx/2006/xaml&quot;">http://schemas.microsoft.com/winfx/2006/xaml&quot;</a></p>
+</blockquote>
+<p>这些声明之间的关系是 x: 前缀映射⽀持作为 xaml 语⾔定义⼀部分的内部函数，⽽ WPF 是⼀种将 xaml ⽤作语⾔的实现，并为 xaml 定义了其对象的词汇。  </p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Window</span> <span class="token attr-name"><span class="token namespace">x:</span>Class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WPFExample.MainWindow<span class="token punctuation">"</span></span>
+        <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml/presentation<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/expression/blend/2008<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>mc</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.openxmlformats.org/markup-compatibility/2006<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>local</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clr-namespace:WPFExample<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">mc:</span>Ignorable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d<span class="token punctuation">"</span></span>
+        <span class="token attr-name">Title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MainWindow<span class="token punctuation">"</span></span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>450<span class="token punctuation">"</span></span> <span class="token attr-name">Width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>800<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Window</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果你想为第一个默认的名称空间加名字也可以，例如命名为n，改成如下格式即可</p>
+<p><img src="/images/WPF/image-20221115102315216.png"></p>
+<h3 id="3-4-在XAML中为对象属性赋值"><a href="#3-4-在XAML中为对象属性赋值" class="headerlink" title="3.4 在XAML中为对象属性赋值"></a>3.4 在XAML中为对象属性赋值</h3><h4 id="3-4-1-Attribute-Value-形式"><a href="#3-4-1-Attribute-Value-形式" class="headerlink" title="3.4.1 Attribute=Value 形式"></a>3.4.1 Attribute=Value 形式</h4><p>字符串形式赋值</p>
+<blockquote>
+<p>形如 Title=”MainWindow” Height=”450” Width=”800” 这样的形式</p>
+</blockquote>
+<p>适用于最简单的赋值</p>
+<h4 id="3-4-2-属性标签"><a href="#3-4-2-属性标签" class="headerlink" title="3.4.2 属性标签"></a>3.4.2 属性标签</h4><p>对象类名+属性名，使用属性赋值可以进行复杂的赋值</p>
+<p>例如想在Button的Content属性中添加一个Image</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button.Content</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Image</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Image</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button.Content</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果想要让Rectangle获得渐变的效果，就不能使用形如<code>Fill=&quot;Red&quot;</code>的格式</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Rectangle</span> <span class="token attr-name">Width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">Stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Blue<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Rectangle.Fill</span><span class="token punctuation">></span></span>
+               <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>LinearGradientBrush</span><span class="token punctuation">></span></span>
+                   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>LinearGradientBrush.StartPoint</span><span class="token punctuation">></span></span>
+                       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Point</span> <span class="token attr-name">X</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">Y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>LinearGradientBrush.StartPoint</span><span class="token punctuation">></span></span>
+                   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>LinearGradientBrush.EndPoint</span><span class="token punctuation">></span></span>
+                       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Point</span> <span class="token attr-name">X</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">Y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>LinearGradientBrush.EndPoint</span><span class="token punctuation">></span></span>
+                   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>LinearGradientBrush.GradientStops</span><span class="token punctuation">></span></span>
+                       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStopCollection</span><span class="token punctuation">></span></span>
+                           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStop</span> <span class="token attr-name">Offset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0.2<span class="token punctuation">"</span></span> <span class="token attr-name">Color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LightBlue<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStop</span> <span class="token attr-name">Offset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0.7<span class="token punctuation">"</span></span> <span class="token attr-name">Color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>DarkBlue<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStop</span> <span class="token attr-name">Offset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0<span class="token punctuation">"</span></span> <span class="token attr-name">Color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Blue<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>GradientStopCollection</span><span class="token punctuation">></span></span>
+                   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>LinearGradientBrush.GradientStops</span><span class="token punctuation">></span></span>
+               <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>LinearGradientBrush</span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Rectangle.Fill</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Rectangle</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p> <strong>使用属性标签的弊端是让代码看起来有些臃肿，解决方向</strong></p>
+<ol>
+<li>能使用<code>Attribute=Value</code>的形式就使用<code>Attribute=Value</code>的形式</li>
+<li>如果你需要的属性值是默认值就不需要写出来了</li>
+</ol>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Rectangle</span> <span class="token attr-name">Width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">Stroke</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Blue<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Rectangle.Fill</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>LinearGradientBrush</span> <span class="token attr-name">StartPoint</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0,0<span class="token punctuation">"</span></span> <span class="token attr-name">EndPoint</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1,1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>LinearGradientBrush.GradientStops</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStopCollection</span><span class="token punctuation">></span></span>
+                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStop</span> <span class="token attr-name">Offset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0.2<span class="token punctuation">"</span></span> <span class="token attr-name">Color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LightBlue<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStop</span> <span class="token attr-name">Offset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0.7<span class="token punctuation">"</span></span> <span class="token attr-name">Color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>DarkBlue<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>GradientStop</span> <span class="token attr-name">Offset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.0<span class="token punctuation">"</span></span> <span class="token attr-name">Color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Blue<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>GradientStopCollection</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>LinearGradientBrush.GradientStops</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>LinearGradientBrush</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Rectangle.Fill</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Rectangle</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p> 甚至由于0,0 1,1就是StartPoint和EndPoint的默认值，可以直接不写</p>
+</blockquote>
+<h4 id="3-4-3-标签扩展"><a href="#3-4-3-标签扩展" class="headerlink" title="3.4.3 标签扩展"></a>3.4.3 标签扩展</h4><p>XAML中的标签扩展并不多</p>
+<p>例如想在TextBlock中显示Hello WPF!</p>
+<blockquote>
+<p><TextBlock height="24" width="120" background="LightBlue" text="Hello WPF!"> 可以直接这么写</TextBlock></p>
+</blockquote>
+<p>也可以使用标签扩展，需要引入<code>xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;</code>，同时添加<code>&lt;Window.Resources&gt;</code></p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Window</span> <span class="token attr-name"><span class="token namespace">x:</span>Class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Lesson_02C.Window1<span class="token punctuation">"</span></span>
+        <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml/presentation<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/expression/blend/2008<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>mc</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.openxmlformats.org/markup-compatibility/2006<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>sys</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clr-namespace:System;assembly=mscorlib<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>local</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clr-namespace:Lesson_02C<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">mc:</span>Ignorable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d<span class="token punctuation">"</span></span>
+        <span class="token attr-name">Title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Window1<span class="token punctuation">"</span></span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>450<span class="token punctuation">"</span></span> <span class="token attr-name">Width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>800<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Window.Resources</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">sys:</span>String</span> <span class="token attr-name"><span class="token namespace">x:</span>Key</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stringHello<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Hello WPF!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">sys:</span>String</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Window.Resources</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBlock</span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>24<span class="token punctuation">"</span></span> <span class="token attr-name">Width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>120<span class="token punctuation">"</span></span> <span class="token attr-name">Background</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LightBlue<span class="token punctuation">"</span></span>
+                   <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>&#123;StaticResource ResourceKey=stringHello&#125;<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Window</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Text中的<code>ResourceKey=</code>也可以省略，但是为了代码的可读性建议不要省略</p>
+<pre class="line-numbers language-xaml" data-language="xaml"><code class="language-xaml">&lt;Grid Margin&#x3D;&quot;4&quot;&gt;
+       &lt;Grid.RowDefinitions&gt;
+           &lt;RowDefinition Height&#x3D;&quot;24&quot;&#x2F;&gt;
+           &lt;RowDefinition Height&#x3D;&quot;4&quot;&#x2F;&gt;
+           &lt;RowDefinition Height&#x3D;&quot;24&quot;&#x2F;&gt;
+       &lt;&#x2F;Grid.RowDefinitions&gt;
+       &lt;TextBox x:Name&#x3D;&quot;tb&quot; Text&#x3D;&quot;&#123;Binding ElementName&#x3D;sld,Path&#x3D;Value&#125;&quot;&#x2F;&gt;
+       &lt;Slider x:Name&#x3D;&quot;sld&quot; Grid.Row&#x3D;&quot;2&quot; Value&#x3D;&quot;50&quot; Maximum&#x3D;&quot;100&quot; Minimum&#x3D;&quot;0&quot; &#x2F;&gt;
+   &lt;&#x2F;Grid&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/images/WPF/image-20221115145112954.png"></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/desktop/wpf/introduction-to-wpf?view=netframeworkdesktop-4.8">WPF 介绍</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jb51.net/article/238802.htm">WPF简介与基础开发</a></li>
+<li>刘铁猛《深入浅出WPF》</li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iY411w7zD?p=2&vd_source=794a7fc718885ad84490c05351dcf216">2022年WPF入门教程详解</a></li>
 </ol>
 
                 
@@ -1053,7 +1215,7 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">142.2k</span>
+                        class="white-color">143.5k</span>
             
             
             
