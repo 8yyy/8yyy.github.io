@@ -396,21 +396,21 @@ C#语言简介怎样编写程序和程序语言的选择
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-21
+                    2022-11-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    42.6k
+                    42.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    194 分
+                    193 分
                 </div>
                 
 
@@ -833,7 +833,7 @@ C#语言简介怎样编写程序和程序语言的选择
 <ul>
 <li>对象和实例是一回事</li>
 <li>“飞机”与”一架飞机”有何区别？天上有(一架)飞机——必须是实例飞，概念是不能飞的</li>
-<li>有些类是不能实例化的，比如”数学”(Math class)，我们不能说”一个数字”</li>
+<li>有些类是不能实例化的，比如”数学”(Math class)，我们不能说”一个数学”</li>
 <li>“可数名词与不可数名词”</li>
 </ul>
 </li>
@@ -2192,40 +2192,50 @@ class Calculator
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
-<li><p>运行结果如下：</p>
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">Deer
+Deer&#39;s wife
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child
+Deer &amp; Deer&#39;s wife&#39;s child<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="7-3-操作符的优先级"><a href="#7-3-操作符的优先级" class="headerlink" title="7.3 操作符的优先级"></a>7.3 操作符的优先级</h3><ul>
+<li>可以使用圆括号提高被括起来表达式的优先级</li>
+<li>圆括号可以嵌套</li>
+<li>不像数学里有方括号和花括号，在C#语言里<code>[]</code>与<code>&#123;&#125;</code>有专门的用途</li>
+</ul>
+<h3 id="7-4-同级操作符的运算顺序"><a href="#7-4-同级操作符的运算顺序" class="headerlink" title="7.4 同级操作符的运算顺序"></a>7.4 同级操作符的运算顺序</h3><ul>
+<li><p>除了带有赋值功能的操作符，同优先级操作符都是由左向右进行运算</p>
 </li>
-<li><p>```<br>Deer<br>Deer’s wife<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child<br>Deer &amp; Deer’s wife’s child</p>
-<pre class="line-numbers language-none"><code class="language-none">
-### 7.3 操作符的优先级
-
-- 可以使用圆括号提高被括起来表达式的优先级
-- 圆括号可以嵌套
-- 不像数学里有方括号和花括号，在C#语言里&#96;[]&#96;与&#96;&#123;&#125;&#96;有专门的用途
-
-### 7.4 同级操作符的运算顺序
-
-- 除了带有赋值功能的操作符，同优先级操作符都是由左向右进行运算
-
-- 带有赋值功能的操作符的运算顺序都是由右向左
-
-  - ![](&#x2F;images&#x2F;%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0&#x2F;image-20220910095610510.png)
-
-  - 例如 x &#x3D; 3 + 4 + 5
-
-  - 顺序1： 3+4
-
-  - 顺序2： 7+5
-
-  - 顺序3： x&#x3D;12
-
-   &#96;&#96;&#96;csharp
-    int x &#x3D; 100;
-    int y &#x3D; 200;
-    int z &#x3D; 300;
-    x +&#x3D; y +&#x3D; z;
-    Console.WriteLine(x); &#x2F;&#x2F;600
-    Console.WriteLine(y); &#x2F;&#x2F;500
-    Console.WriteLine(z); &#x2F;&#x2F;300<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>带有赋值功能的操作符的运算顺序都是由右向左</p>
+<ul>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220910095610510.png"></p>
+</li>
+<li><p>例如 x = 3 + 4 + 5</p>
+</li>
+<li><p>顺序1： 3+4</p>
+</li>
+<li><p>顺序2： 7+5</p>
+</li>
+<li><p>顺序3： x=12</p>
+</li>
+</ul>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">int</span></span> x <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+<span class="token class-name"><span class="token keyword">int</span></span> y <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+<span class="token class-name"><span class="token keyword">int</span></span> z <span class="token operator">=</span> <span class="token number">300</span><span class="token punctuation">;</span>
+x <span class="token operator">+=</span> y <span class="token operator">+=</span> z<span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//600</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//500</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//300</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>与数学运算不同，计算机语言的同优先级运算没有”结合律”</p>
 <ul>
 <li>3+4+5只能理解为Add(Add(3+4),5)不能理解为Add(3,Add(4,5))</li>
@@ -2328,72 +2338,101 @@ class Calculator
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">System
+System.Int32
+Int32
+
+CompareTo
+CompareTo
+Equals
+Equals
+GetHashCode
+ToString
+ToString
+ToString
+ToString
+TryFormat
+Parse
+Parse
+Parse
+Parse
+Parse
+TryParse
+TryParse
+TryParse
+TryParse
+GetTypeCode
+GetType
+21<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p><code>default</code>操作符</p>
+</li>
+<li><p>从 C# 7.1 开始，当编译器可以推断表达式类型时，可以使用 <code>default</code> 文本生成类型的默认值。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">Operator</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//结构体类型</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> x <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">(</span><span class="token type-expression class-name"><span class="token keyword">int</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">//引用类型</span>
+            <span class="token class-name">Student</span> stu <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">(</span><span class="token type-expression class-name">Student</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>stu<span class="token operator">==</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">//枚举类型</span>
+            <span class="token class-name">Level</span> level <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">(</span><span class="token type-expression class-name">Level</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>level<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Level2</span> level2 <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">(</span><span class="token type-expression class-name">Level2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>level2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+   
+    <span class="token keyword">enum</span> <span class="token class-name">Level</span>
+    <span class="token punctuation">&#123;</span>
+        Low<span class="token punctuation">,</span>        <span class="token comment">//0</span>
+        Mid<span class="token punctuation">,</span>        <span class="token comment">//1</span>
+        High        <span class="token comment">//2</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">//设计枚举类型，最好要给一个0，否则容易出错</span>
+    <span class="token keyword">enum</span> <span class="token class-name">Level2</span>
+    <span class="token punctuation">&#123;</span>
+        Low<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>        
+        Mid<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>        
+        High<span class="token operator">=</span><span class="token number">2</span>        
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">class</span> <span class="token class-name">Student</span>
+    <span class="token punctuation">&#123;</span>
+        
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>运行结果如下：</p>
 </li>
-<li><p>```<br>System<br>System.Int32<br>Int32</p>
-<p>CompareTo<br>CompareTo<br>Equals<br>Equals<br>GetHashCode<br>ToString<br>ToString<br>ToString<br>ToString<br>TryFormat<br>Parse<br>Parse<br>Parse<br>Parse<br>Parse<br>TryParse<br>TryParse<br>TryParse<br>TryParse<br>GetTypeCode<br>GetType<br>21</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- &#96;default&#96;操作符
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">0
+True
+Low
+Mid<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-- 从 C# 7.1 开始，当编译器可以推断表达式类型时，可以使用 &#96;default&#96; 文本生成类型的默认值。
+<ul>
+<li><code>var</code>关键字用于声明隐式的变量，编译器可以推断出隐式变量类型</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">var x &#x3D; 10;
+&#x2F;&#x2F;x &#x3D; &quot;s&quot;;这一段在C#是不被允许的,在上一条语句中C#已经知道x是int32类型的
+Console.WriteLine(x.GetType().Name);	&#x2F;&#x2F;结果为int32<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-  &#96;&#96;&#96;csharp
-  using System;
-  using System.Collections.Generic;
-  
-  namespace Operator
-  &#123;
-      class Program
-      &#123;
-          static void Main(string[] args)
-          &#123;
-              &#x2F;&#x2F;结构体类型
-              int x &#x3D; default(int);
-              Console.WriteLine(x);
-  
-              &#x2F;&#x2F;引用类型
-              Student stu &#x3D; default(Student);
-              Console.WriteLine(stu&#x3D;&#x3D;null);
-  
-              &#x2F;&#x2F;枚举类型
-              Level level &#x3D; default(Level);
-              Console.WriteLine(level);
-              Level2 level2 &#x3D; default(Level2);
-              Console.WriteLine(level2);
-          &#125;
-      &#125;
-  
-     
-      enum Level
-      &#123;
-          Low,        &#x2F;&#x2F;0
-          Mid,        &#x2F;&#x2F;1
-          High        &#x2F;&#x2F;2
-      &#125;
-  
-      &#x2F;&#x2F;设计枚举类型，最好要给一个0，否则容易出错
-      enum Level2
-      &#123;
-          Low&#x3D;1,        
-          Mid&#x3D;0,        
-          High&#x3D;2        
-      &#125;
-      
-      class Student
-      &#123;
-          
-      &#125;
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>运行结果如下：</p>
-</li>
-<li><p>```<br>0<br>True<br>Low<br>Mid</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- &#96;var&#96;关键字用于声明隐式的变量，编译器可以推断出隐式变量类型
-
-- &#96;&#96;&#96;
-  var x &#x3D; 10;
-  &#x2F;&#x2F;x &#x3D; &quot;s&quot;;这一段在C#是不被允许的,在上一条语句中C#已经知道x是int32类型的
-  Console.WriteLine(x.GetType().Name);	&#x2F;&#x2F;结果为int32<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<ul>
 <li><p><code>new</code>操作符</p>
 <ul>
 <li><p>在内存中创建类型的实例，并调用它的实例构造器 <code>new Form();</code></p>
@@ -2419,29 +2458,28 @@ class Calculator
            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>
            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>运行结果如下：</p>
+ <pre class="line-numbers language-none"><code class="language-none">Mr.Okay
+10
+&lt;&gt;f__AnonymousType0&#96;2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li><p>&lt;&gt;f__AnonymousType0`2</p>
 <ul>
-<li><p>```<br>Mr.Okay<br>10<br>&lt;&gt;f__AnonymousType0`2</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- &lt;&gt;f__AnonymousType0&#96;2
-
-  - &lt;&gt;f__AnonymousType 这是一个约定的前缀
-  - 0 指的是我在程序创建的第一个匿名类
-  - &#96;2 指的是这个类型是个**泛型类**，需要2个参数来构成它
-
-- &#96;new&#96;操作符在使用的时候一定要小心
-
-  - 一但你在一个类调用了&#96;new&#96;操作符，你在编写的类型与调用的类型，就形成了&#96;紧耦合&#96;
-
-  - 例如
-
-    &#96;&#96;&#96;csharp
-    class Program
-        &#123;
-            static void Main(string[] args)
-            &#123;
-                Form myForm &#x3D; new Form();
-            &#125;
-        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>&lt;&gt;f__AnonymousType 这是一个约定的前缀</li>
+<li>0 指的是我在程序创建的第一个匿名类</li>
+<li>`2 指的是这个类型是个<strong>泛型类</strong>，需要2个参数来构成它</li>
+</ul>
+</li>
+<li><p><code>new</code>操作符在使用的时候一定要小心</p>
+<ul>
+<li><p>一但你在一个类调用了<code>new</code>操作符，你在编写的类型与调用的类型，就形成了<code>紧耦合</code></p>
+</li>
+<li><p>例如</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Form</span> myForm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Form</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>Program类就依赖在了Form类上，一但Form类出现问题，Program类也会出现问题</p>
 </li>
 <li><p>依赖注入模式</p>
@@ -2491,82 +2529,84 @@ class Calculator
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
-<li><p>运行结果如下：</p>
-</li>
-<li><p>```<br>I’m a student.<br>I’m a CSstudent.</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- &#96;checked&#96;操作符与&#96;unchecked&#96;操作符
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">I&#39;m a student.
+I&#39;m a CSstudent.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li><p><code>checked</code>操作符与<code>unchecked</code>操作符</p>
+<ul>
+<li>C#默认是<code>unchecked</code>操作符</li>
+</ul>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Text</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Windows<span class="token punctuation">.</span>Forms</span><span class="token punctuation">;</span>
 
-  - C#默认是&#96;unchecked&#96;操作符
+<span class="token keyword">namespace</span> <span class="token namespace">OperatorsExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name"><span class="token keyword">uint</span></span> x <span class="token operator">=</span> <span class="token keyword">uint</span><span class="token punctuation">.</span>MaxValue<span class="token punctuation">;</span> <span class="token comment">//无符号整形的最大值</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> binStr <span class="token operator">=</span> Convert<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//以二进制的形式表示</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>binStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">try</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token class-name"><span class="token keyword">uint</span></span> y <span class="token operator">=</span> <span class="token keyword">checked</span><span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//超过了最大值</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token class-name">OverflowException</span> ex<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"There's overflow!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-   &#96;&#96;&#96;csharp
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    
-    namespace OperatorsExample
-    &#123;
-        class Program
-        &#123;
-            static void Main(string[] args)
-            &#123;
-                uint x &#x3D; uint.MaxValue; &#x2F;&#x2F;无符号整形的最大值
-                Console.WriteLine(x);
-                string binStr &#x3D; Convert.ToString(x, 2); &#x2F;&#x2F;以二进制的形式表示
-                Console.WriteLine(binStr);
-                try
-                &#123;
-                    uint y &#x3D; checked(x + 1);  &#x2F;&#x2F;超过了最大值
-                    Console.WriteLine(y);
-                &#125;
-                catch(OverflowException ex)
-                &#123;
-                    Console.WriteLine(&quot;There&#39;s overflow!&quot;);
-                &#125;
-            &#125;
-        &#125;
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>运行结果如下：</p>
-</li>
-<li><p>```<br>4294967295<br>11111111111111111111111111111111<br>There’s overflow!</p>
-<pre class="line-numbers language-none"><code class="language-none">
-- 与&#96;new&#96;类似，&#96;checked&#96;与&#96;unchecked&#96;还有上下文用法
+<ul>
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">4294967295
+11111111111111111111111111111111
+There&#39;s overflow!<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-   &#96;&#96;&#96;csharp
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    
-    namespace OperatorsExample
-    &#123;
-        class Program
-        &#123;
-            static void Main(string[] args)
-            &#123;
-                uint x &#x3D; uint.MaxValue; &#x2F;&#x2F;无符号整形的最大值
-                Console.WriteLine(x);
-                string binStr &#x3D; Convert.ToString(x, 2); &#x2F;&#x2F;以二进制的形式表示
-                Console.WriteLine(binStr);
-                checked
-                &#123;
-                    try
-                    &#123;
-                        uint y &#x3D; x + 1;  &#x2F;&#x2F;超过了最大值
-                        Console.WriteLine(y);
-                    &#125;
-                    catch (OverflowException ex)
-                    &#123;
-                        Console.WriteLine(&quot;There&#39;s overflow!&quot;);
-                    &#125;
-                &#125;
-            &#125;
-        &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<ul>
+<li><p>与<code>new</code>类似，<code>checked</code>与<code>unchecked</code>还有上下文用法</p>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Text</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Windows<span class="token punctuation">.</span>Forms</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">OperatorsExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name"><span class="token keyword">uint</span></span> x <span class="token operator">=</span> <span class="token keyword">uint</span><span class="token punctuation">.</span>MaxValue<span class="token punctuation">;</span> <span class="token comment">//无符号整形的最大值</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> binStr <span class="token operator">=</span> Convert<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//以二进制的形式表示</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>binStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">checked</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">try</span>
+                <span class="token punctuation">&#123;</span>
+                    <span class="token class-name"><span class="token keyword">uint</span></span> y <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment">//超过了最大值</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">OverflowException</span> ex<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"There's overflow!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 </li>
 <li><p><code>delegate</code>操作符</p>
@@ -2723,23 +2763,21 @@ class Calculator
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
-<li><p>运行结果如下：</p>
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">12345678
+-12345679
+00000000101111000110000101001110
+11111111010000111001111010110001<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 </li>
-<li><p>```<br>12345678<br>-12345679<br>00000000101111000110000101001110<br>11111111010000111001111010110001</p>
-<pre class="line-numbers language-none"><code class="language-none">
-    
-
-- 强制类型转化操作符&#96;(T)x&#96;
-
-  - 隐式（implicit）类型转换
-
-    - 不丢失精度的转换
-
-      - &#96;&#96;&#96;
-        int a &#x3D; 10;
-        long b &#x3D; a;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<li><p>强制类型转化操作符<code>(T)x</code></p>
 <ul>
+<li><p>隐式（implicit）类型转换</p>
+<ul>
+<li><p>不丢失精度的转换</p>
+ <pre class="line-numbers language-none"><code class="language-none">int a &#x3D; 10;
+long b &#x3D; a;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 <li><p>子类向父类的转换</p>
  <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
 
@@ -2886,7 +2924,7 @@ class Calculator
 </li>
 <li><p>C#所有存在的类都有四种方法</p>
 <ul>
-<li><img src="../images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220911095744482.png"></li>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220911095744482.png"></li>
 <li>具体可以通过<code>object o; o.</code>进行查看</li>
 <li>ToString/GetType/GetHashCode/Equals</li>
 </ul>
@@ -2934,118 +2972,121 @@ class Calculator
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
-<li><p>运行结果如下：</p>
+<li>运行结果如下：</li>
+</ul>
+ <pre class="line-numbers language-none"><code class="language-none">00000000000000000000000000000111
+00000000000000000000000000001110
+7
+14<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p>当在没有溢出的情况下，左移就是乘2，右移就是除2</p>
 </li>
-<li><p>```<br>00000000000000000000000000000111<br>00000000000000000000000000001110<br>7<br>14</p>
-<pre class="line-numbers language-none"><code class="language-none">
-  - 当在没有溢出的情况下，左移就是乘2，右移就是除2
-
-  - 左移无论你是正数还是负数，补进来的数都是0
-
-  - 右移如果你操作的是正数，最高位补进来的数是0，如果你操作的是负数，最高位补进来的数是1
-
-- &#96;unicode&#96;向下兼容&#96;ascii&#96;、
-
-- &#96;is&#96;和&#96;as&#96;操作符
-
-  - 类型检验操作符
-
-  - &#96;is&#96;操作符检验的结果是布尔类型
-
-   &#96;&#96;&#96;csharp
-    using System;
-    
-    namespace ConversionExample
-    &#123;
-        class Program
-        &#123;
-            static void Main(string[] args)
-            &#123;
-                Teacher t &#x3D; new Teacher();
-                var res1 &#x3D; t is Teacher;
-                Teacher t1 &#x3D; null;
-                var res2 &#x3D; t1 is Teacher;
-                var res3 &#x3D; t is Human;
-                var res4 &#x3D; t is Animal;
-                var res5 &#x3D; t is object;
-                Console.WriteLine(res1);
-                &#x2F;&#x2F;True
-                Console.WriteLine(res2);
-                &#x2F;&#x2F;False
-                Console.WriteLine(res3);
-                &#x2F;&#x2F;True，因为teacher是Human的派生类
-                Console.WriteLine(res4);
-                &#x2F;&#x2F;True，因为teacher是Human的派生类，而Human是Animal的派生类
-                Console.WriteLine(res5);
-                &#x2F;&#x2F;True，因为object是所有类的基类
-            &#125;
-        &#125;
-    
-        class Animal
-        &#123;
-            public void Eat()
-            &#123;
-                Console.WriteLine(&quot;Eating...&quot;);
-            &#125;
-        &#125;
-    
-        class Human : Animal
-        &#123;
-            public void Think()
-            &#123;
-                Console.WriteLine(&quot;Who I am?&quot;);
-            &#125;
-        &#125;
-    
-        class Teacher : Human
-        &#123;
-            public void Teach()
-            &#123;
-                Console.WriteLine(&quot;I teach&quot;);
-            &#125;
-        &#125;
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p><code>as</code>操作符</p>
+<li><p>左移无论你是正数还是负数，补进来的数都是0</p>
 </li>
-<li><p>```<br>object o = new Teacher();</p>
-<pre><code>     Teacher t = o as Teacher;
-     if (t != null)
-     &#123;
-         t.Teach();
-     &#125;
-</code></pre>
-<pre class="line-numbers language-none"><code class="language-none">
-  
+<li><p>右移如果你操作的是正数，最高位补进来的数是0，如果你操作的是负数，最高位补进来的数是1</p>
+</li>
+</ul>
+</li>
+<li><p><code>unicode</code>向下兼容<code>ascii</code>、</p>
+</li>
+<li><p><code>is</code>和<code>as</code>操作符</p>
+<ul>
+<li><p>类型检验操作符</p>
+</li>
+<li><p><code>is</code>操作符检验的结果是布尔类型</p>
+</li>
+</ul>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
 
-- 逻辑&#96;&amp;&#96;与操作符、&#96;|&#96;或操作符、&#96;^&#96;异或操作符
+<span class="token keyword">namespace</span> <span class="token namespace">ConversionExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Teacher</span> t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Teacher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> res1 <span class="token operator">=</span> t <span class="token keyword">is</span> <span class="token class-name">Teacher</span><span class="token punctuation">;</span>
+            <span class="token class-name">Teacher</span> t1 <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> res2 <span class="token operator">=</span> t1 <span class="token keyword">is</span> <span class="token class-name">Teacher</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> res3 <span class="token operator">=</span> t <span class="token keyword">is</span> <span class="token class-name">Human</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> res4 <span class="token operator">=</span> t <span class="token keyword">is</span> <span class="token class-name">Animal</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> res5 <span class="token operator">=</span> t <span class="token keyword">is</span> <span class="token class-name"><span class="token keyword">object</span></span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>res1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//True</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>res2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//False</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>res3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//True，因为teacher是Human的派生类</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>res4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//True，因为teacher是Human的派生类，而Human是Animal的派生类</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>res5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//True，因为object是所有类的基类</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
 
-  - 操作二进制数据、图片等
+    <span class="token keyword">class</span> <span class="token class-name">Animal</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Eating..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
 
-- 条件&#96;&amp;&amp;&#96;与操作符、&#96;||&#96;或操作符
+    <span class="token keyword">class</span> <span class="token class-name">Human</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">Animal</span></span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Think</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Who I am?"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
 
-  - 短路效应
+    <span class="token keyword">class</span> <span class="token class-name">Teacher</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">Human</span></span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Teach</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"I teach"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-     &#96;&#96;&#96;csharp
-      using System;
-      
-      namespace ConversionExample
-      &#123;
-          class Program
-          &#123;
-              static void Main(string[] args)
-              &#123;
-                  int x &#x3D; 3;
-                  int y &#x3D; 4;
-                  int a &#x3D; 3;
-                  if (x &gt; y &amp;&amp; a++ &gt; 3)
-                  &#123;
-                      Console.WriteLine(&quot;Hello&quot;);
-                  &#125;
-                  Console.WriteLine(a);
-              &#125;
-          &#125;
-      
-      &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><code>as</code>操作符</li>
+</ul>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">object</span></span> o <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Teacher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token class-name">Teacher</span> t <span class="token operator">=</span> o <span class="token keyword">as</span> <span class="token class-name">Teacher</span><span class="token punctuation">;</span>
+         <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+         <span class="token punctuation">&#123;</span>
+             t<span class="token punctuation">.</span><span class="token function">Teach</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>逻辑<code>&amp;</code>与操作符、<code>|</code>或操作符、<code>^</code>异或操作符</p>
+<ul>
+<li>操作二进制数据、图片等</li>
+</ul>
+</li>
+<li><p>条件<code>&amp;&amp;</code>与操作符、<code>||</code>或操作符</p>
+<ul>
+<li><p>短路效应</p>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">ConversionExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> x <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">></span> y <span class="token operator">&amp;&amp;</span> a<span class="token operator">++</span> <span class="token operator">></span> <span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
 <li><p>结果为3</p>
@@ -3087,17 +3128,13 @@ class Calculator
 </ul>
 </li>
 <li><p>可空类型</p>
-<ul>
-<li>```<br>Nullable<int> x = null;<pre><code>     x = 100;
-     Console.WriteLine(x);
-     Console.WriteLine(x.HasValue);
-</code></pre>
-<pre class="line-numbers language-none"><code class="language-none">
-- &#96;&#96;&#96;
-  100
-  True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></int></li>
-</ul>
-</li>
+ <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">Nullable<span class="token punctuation">&lt;</span><span class="token keyword">int</span><span class="token punctuation">></span></span> x <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+         x <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+         Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>HasValue<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+ <pre class="line-numbers language-none"><code class="language-none">100
+True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ul>
 <h2 id="8-表达式，语句详解"><a href="#8-表达式，语句详解" class="headerlink" title="8. 表达式，语句详解"></a>8. 表达式，语句详解</h2><h3 id="8-1-表达式的定义"><a href="#8-1-表达式的定义" class="headerlink" title="8.1 表达式的定义"></a>8.1 表达式的定义</h3><h4 id="8-1-1-什么是表达式-Expressions"><a href="#8-1-1-什么是表达式-Expressions" class="headerlink" title="8.1.1 什么是表达式(Expressions)"></a>8.1.1 什么是表达式(Expressions)</h4><ul>
 <li>《Programming Languages:Principles and Paradigms》这本书是这样定义的表达式<ul>
@@ -3956,6 +3993,7 @@ Execution has Error!
 <span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>  运行结果如下</p>
  <pre class="line-numbers language-none"><code class="language-none">System.Int32[]
 True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
@@ -4885,7 +4923,7 @@ True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span
 </li>
 <li><p>引用参数为了改变变量的值，所以需要先进行赋值，而输出参数是为了通过这个参数向外输出，原来的值必然被丢弃，所以不要求先赋值</p>
 </li>
-<li><p><img src="../images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220916195204303.png"></p>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220916195204303.png"></p>
 </li>
 <li><p>tyrparse是一个带有输出的方法</p>
 <ul>
@@ -10653,7 +10691,7 @@ True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">143.5k</span>
+                        class="white-color">143.4k</span>
             
             
             
