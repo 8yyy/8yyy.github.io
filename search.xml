@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Fox</title>
+      <link href="/2022/11/17/Fox/"/>
+      <url>/2022/11/17/Fox/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>bilibili麦扣<a href="https://space.bilibili.com/370283072?spm_id_from=333.337.0.0">M_Studio</a>老师的Unity教程，经典小狐狸打卡</p><h2 id="Asset-Store"><a href="#Asset-Store" class="headerlink" title="Asset Store"></a>Asset Store</h2><blockquote><p>Window –&gt; Asset Store</p></blockquote><p>目前只能访问网页端，打开页面如下</p><p><img src="/images/Fox/image-20221117111058142.png"></p><h2 id="Pixels-Per-Unit（PPU）"><a href="#Pixels-Per-Unit（PPU）" class="headerlink" title="Pixels Per Unit（PPU）"></a>Pixels Per Unit（PPU）</h2><p>每个Unity单位显示多少个像素。默认100也就意味着每1个unity单位显示100像素。这会让里面出现的东西显示的非常小，不适合创作，所以我们采用16</p><p><img src="/images/Fox/image-20221117135312255.png"></p><h2 id="Tileemap"><a href="#Tileemap" class="headerlink" title="Tileemap"></a>Tileemap</h2><p><strong>Tilemap</strong> 组件是一个存储和处理<a href="https://docs.unity.cn/cn/2018.4/Manual/Tilemap-TileAsset.html">瓦片资源</a>以便创建 2D 关卡的系统。</p><p>新版的Unity存在多个选项，选择第一个即可</p><blockquote><p>Hierarchy右键 –&gt; 2D Object –&gt; Tilemap –&gt; Rectangular</p></blockquote><p><img src="/images/Fox/image-20221117140114167.png"></p><h3 id="创建瓦片"><a href="#创建瓦片" class="headerlink" title="创建瓦片"></a>创建瓦片</h3><blockquote><p>Window -&gt; 2d -&gt; Tile Palette</p></blockquote><p><img src="/images/Fox/image-20221117140427880.png"></p><p>新版的SunnyLand 作者已经帮你切割好了</p><p>然后可以直接通过拖动Tile Palette里的元素绘制地图，简单绘制如下，有点抽象</p><p><img src="/images/Fox/image-20221117142153072.png"></p><p>如果你想让你的地图显示的完整点，可以通过修改<code>Main Camera</code>的<code>Size</code>实现</p><p><img src="/images/Fox/image-20221117142312777.png"></p><h2 id="Sorting-Layer"><a href="#Sorting-Layer" class="headerlink" title="Sorting Layer"></a>Sorting Layer</h2><p>在Unity中，2D的界面中一旦放入多个图像就需要对这些图像进行分层，以此区分哪个图显示在前哪个图显示在后。分层设置一般在<strong>Render（渲染器）</strong>的组件中<strong>Sorting Layer</strong>属性中设置。</p><p>一般操作过程就是添加<code>Add Sorting Layer...</code></p><p>越下面显示越前</p><p>当然也可以使用Order in Layer，数字越大显示越前面</p><h2 id="Input-Manager"><a href="#Input-Manager" class="headerlink" title="Input Manager"></a>Input Manager</h2><p>在 <strong>Input Manager</strong> 窗口中可以为项目定义输入轴及其关联操作。要访问该窗口，请从 Unity 的主菜单中转到 <strong>Edit &gt; Project Settings</strong>，然后从右侧的导航选择 <strong>Input Manager</strong>。</p><p><img src="/images/Fox/image-20221117155228601.png"></p><p>在2D中需要锁定刚体的Z，防止Player移动过程中旋转</p><blockquote><p>Rigidbody 2D –&gt; Constraints –&gt; FreezeRotation Z打勾</p></blockquote><p>当你在游戏试玩过程中更改的参数，结束运行时不会保存</p><blockquote><p>可以通过运行时右上角三点的 Copy Component复制，然后运行结束后选择Paste Component Values粘贴</p></blockquote><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol><li><a href="https://docs.unity.cn/cn/2018.4/Manual/class-Tilemap.html">Unity手册</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> test </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Fox </tag>
+            
+            <tag> Demo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>WPF</title>
       <link href="/2022/11/13/WPF/"/>
       <url>/2022/11/13/WPF/</url>
