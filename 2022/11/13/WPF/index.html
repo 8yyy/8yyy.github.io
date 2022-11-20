@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="WPF, 8yyy&#39;s blog">
+    <meta name="keywords" content="WPF入门, 8yyy&#39;s blog">
     <meta name="description" content="1. WPF 概述使用 Windows Presentation Foundation (WPF)，你可以创建适用于 Windows 且具有非凡视觉效果的桌面客户端应用程序。
 WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在充分利">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>WPF | 8yyy&#39;s blog</title>
+    <title>WPF入门 | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -243,7 +243,7 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">WPF</h1>
+                    <h1 class="description center-align post-title">WPF入门</h1>
                 </div>
             </div>
         </div>
@@ -391,21 +391,21 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-17
+                    2022-11-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    10 分
                 </div>
                 
 
@@ -441,7 +441,8 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
 <p>5、易于部署</p>
 <p>WPF除了可以使用传统的Windows Installer以及ClickOnce方式来发布我们的桌面应用程序之外，还可以将我们的应用程序稍加改动发布为基于浏览器的应用程序。</p>
 <p>6、基于数据驱动，数据是核心</p>
-<h2 id="3-初步了解XAML"><a href="#3-初步了解XAML" class="headerlink" title="3. 初步了解XAML"></a>3. 初步了解XAML</h2><p><strong>XAML 是一种基于 XML 的标记语言</strong>，以声明形式实现应用程序的外观。 通常用它创建窗口、对话框、页和用户控件，并填充控件、形状和图形。</p>
+<h2 id="3-初步了解XAML"><a href="#3-初步了解XAML" class="headerlink" title="3. 初步了解XAML"></a>3. 初步了解XAML</h2><p>读作’zanmo’</p>
+<p><strong>XAML 是一种基于 XML 的标记语言</strong>，以声明形式实现应用程序的外观。 通常用它创建窗口、对话框、页和用户控件，并填充控件、形状和图形。</p>
 <p>XAML ⽂件是通常具有 .xaml 扩展名的 XML ⽂件。 可通过任何 XML 编码对⽂件进⾏编码，但通常以 UTF-8 编码。  </p>
 <blockquote>
 <p>Ctrl+K+C 快速注释</p>
@@ -463,31 +464,31 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
 
 <h3 id="3-2-XAML根元素"><a href="#3-2-XAML根元素" class="headerlink" title="3.2 XAML根元素"></a>3.2 XAML根元素</h3><p>⼀个 XAML ⽂件只能有⼀个根元素，这样才能同时作为格式正确的 XML ⽂件和有效的 XAML ⽂件。 对于典型 WPF ⽅案，可使⽤在 WPF 应⽤模型中具有突出意义的根元素（例如，⻚⾯的 Window 或 Page）  </p>
 <p>Window</p>
-<pre class="line-numbers language-xaml" data-language="xaml"><code class="language-xaml">&lt;Window x:Class&#x3D;&quot;WPFExample.MainWindow&quot;
-        xmlns&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&#x2F;presentation&quot;
-        xmlns:x&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&quot;
-        xmlns:d&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;expression&#x2F;blend&#x2F;2008&quot;
-        xmlns:mc&#x3D;&quot;http:&#x2F;&#x2F;schemas.openxmlformats.org&#x2F;markup-compatibility&#x2F;2006&quot;
-        xmlns:local&#x3D;&quot;clr-namespace:WPFExample&quot;
-        mc:Ignorable&#x3D;&quot;d&quot;
-        Title&#x3D;&quot;MainWindow&quot; Height&#x3D;&quot;450&quot; Width&#x3D;&quot;800&quot;&gt;
-    &lt;Grid&gt;
-    &lt;&#x2F;Grid&gt;
-&lt;&#x2F;Window&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Window</span> <span class="token attr-name"><span class="token namespace">x:</span>Class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WPFExample.MainWindow<span class="token punctuation">"</span></span>
+        <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml/presentation<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/expression/blend/2008<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>mc</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.openxmlformats.org/markup-compatibility/2006<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">xmlns:</span>local</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clr-namespace:WPFExample<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">mc:</span>Ignorable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d<span class="token punctuation">"</span></span>
+        <span class="token attr-name">Title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MainWindow<span class="token punctuation">"</span></span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>450<span class="token punctuation">"</span></span> <span class="token attr-name">Width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>800<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Window</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>Page</p>
-<pre class="line-numbers language-xaml" data-language="xaml"><code class="language-xaml">&lt;Page x:Class&#x3D;&quot;WPFExample.Page1&quot;
-      xmlns&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&#x2F;presentation&quot;
-      xmlns:x&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;winfx&#x2F;2006&#x2F;xaml&quot;
-      xmlns:mc&#x3D;&quot;http:&#x2F;&#x2F;schemas.openxmlformats.org&#x2F;markup-compatibility&#x2F;2006&quot; 
-      xmlns:d&#x3D;&quot;http:&#x2F;&#x2F;schemas.microsoft.com&#x2F;expression&#x2F;blend&#x2F;2008&quot; 
-      xmlns:local&#x3D;&quot;clr-namespace:WPFExample&quot;
-      mc:Ignorable&#x3D;&quot;d&quot; 
-      d:DesignHeight&#x3D;&quot;450&quot; d:DesignWidth&#x3D;&quot;800&quot;
-      Title&#x3D;&quot;Page1&quot;&gt;
-    &lt;Grid&gt;  
-    &lt;&#x2F;Grid&gt;
-&lt;&#x2F;Page&gt;
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Page</span> <span class="token attr-name"><span class="token namespace">x:</span>Class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WPFExample.Page1<span class="token punctuation">"</span></span>
+      <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml/presentation<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">xmlns:</span>x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/winfx/2006/xaml<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">xmlns:</span>mc</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.openxmlformats.org/markup-compatibility/2006<span class="token punctuation">"</span></span> 
+      <span class="token attr-name"><span class="token namespace">xmlns:</span>d</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/expression/blend/2008<span class="token punctuation">"</span></span> 
+      <span class="token attr-name"><span class="token namespace">xmlns:</span>local</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clr-namespace:WPFExample<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">mc:</span>Ignorable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d<span class="token punctuation">"</span></span> 
+      <span class="token attr-name"><span class="token namespace">d:</span>DesignHeight</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>450<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">d:</span>DesignWidth</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>800<span class="token punctuation">"</span></span>
+      <span class="token attr-name">Title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Page1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span><span class="token punctuation">></span></span>  
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Page</span><span class="token punctuation">></span></span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <blockquote>
@@ -608,22 +609,119 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>Text中的<code>ResourceKey=</code>也可以省略，但是为了代码的可读性建议不要省略</p>
-<pre class="line-numbers language-xaml" data-language="xaml"><code class="language-xaml">&lt;Grid Margin&#x3D;&quot;4&quot;&gt;
-       &lt;Grid.RowDefinitions&gt;
-           &lt;RowDefinition Height&#x3D;&quot;24&quot;&#x2F;&gt;
-           &lt;RowDefinition Height&#x3D;&quot;4&quot;&#x2F;&gt;
-           &lt;RowDefinition Height&#x3D;&quot;24&quot;&#x2F;&gt;
-       &lt;&#x2F;Grid.RowDefinitions&gt;
-       &lt;TextBox x:Name&#x3D;&quot;tb&quot; Text&#x3D;&quot;&#123;Binding ElementName&#x3D;sld,Path&#x3D;Value&#125;&quot;&#x2F;&gt;
-       &lt;Slider x:Name&#x3D;&quot;sld&quot; Grid.Row&#x3D;&quot;2&quot; Value&#x3D;&quot;50&quot; Maximum&#x3D;&quot;100&quot; Minimum&#x3D;&quot;0&quot; &#x2F;&gt;
-   &lt;&#x2F;Grid&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid</span> <span class="token attr-name">Margin</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Grid.RowDefinitions</span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RowDefinition</span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>24<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RowDefinition</span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>4<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RowDefinition</span> <span class="token attr-name">Height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>24<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid.RowDefinitions</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBox</span> <span class="token attr-name"><span class="token namespace">x:</span>Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tb<span class="token punctuation">"</span></span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>&#123;Binding ElementName=sld,Path=Value&#125;<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Slider</span> <span class="token attr-name"><span class="token namespace">x:</span>Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sld<span class="token punctuation">"</span></span> <span class="token attr-name">Grid.Row</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span> <span class="token attr-name">Value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span> <span class="token attr-name">Maximum</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">Minimum</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Grid</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><img src="/images/WPF/image-20221115145112954.png"></p>
+<h2 id="4-x名称空间及常用元素"><a href="#4-x名称空间及常用元素" class="headerlink" title="4.  x名称空间及常用元素"></a>4.  x名称空间及常用元素</h2><h3 id="4-1-x名称空间的由来和作用"><a href="#4-1-x名称空间的由来和作用" class="headerlink" title="4.1 x名称空间的由来和作用"></a>4.1 x名称空间的由来和作用</h3><blockquote>
+<p>x:Class  是对x名称空间的使用</p>
+<p>xmlns:x 是对x名称空间的声明</p>
+</blockquote>
+<p>x名称空间专门用于解析和分析xaml文档</p>
+<p>x名称空间里的成员是专门为<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=XAML&spm=1001.2101.3001.7020">XAML</a>编译器看的，用来引导XAML编译器把XAML编译成CLR代码，因此x是XAML的首字母。通过x空间的成员告诉编译器怎么编译XAML，生成什么类名，属性的可访问性等。</p>
+<h3 id="4-2-x名称空间里都有些什么"><a href="#4-2-x名称空间里都有些什么" class="headerlink" title="4.2 x名称空间里都有些什么"></a>4.2 x名称空间里都有些什么</h3><p align="center"><b>x名称空间中包含的工具</b></p>
+
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">种类（在XAML中出现的形式）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">x:Array</td>
+<td align="center">标签扩展</td>
+</tr>
+<tr>
+<td align="center">x:Class</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:ClassModifier</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Code</td>
+<td align="center">XAML指令元素</td>
+</tr>
+<tr>
+<td align="center">x:FieldModifier</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Key</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Name</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Shared</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Static</td>
+<td align="center">标签扩展</td>
+</tr>
+<tr>
+<td align="center">x:Subclass</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Type</td>
+<td align="center">标签扩展</td>
+</tr>
+<tr>
+<td align="center">x:TypeArguments</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Uid</td>
+<td align="center">Attribute</td>
+</tr>
+<tr>
+<td align="center">x:Data</td>
+<td align="center">XAML指令元素</td>
+</tr>
+<tr>
+<td align="center">x:Null</td>
+<td align="center">标签扩展</td>
+</tr>
+</tbody></table>
+<h3 id="4-3-x-Class"><a href="#4-3-x-Class" class="headerlink" title="4.3 x:Class"></a>4.3 x:Class</h3><p>用来告诉XAML编译器把XAML标签的编译结果与后台代码的哪个类合并，只能用于根节点，并且根节点的类型要与后台代码的类保持一致。</p>
+<h3 id="4-4-x-ClassModifier"><a href="#4-4-x-ClassModifier" class="headerlink" title="4.4 x:ClassModifier"></a>4.4 x:ClassModifier</h3><p>用来告诉XAML编译器把XAML标签编译成的<strong>类具有怎样的访问级别</strong>，必须具有x:Class Attribute的标签才能应用，并且与指定的后端代码访问级别一致。</p>
+<h3 id="4-5-x-Name"><a href="#4-5-x-Name" class="headerlink" title="4.5 x:Name"></a>4.5 x:Name</h3><p>用来告诉XAML编译器<strong>把创建的对象指向到指定的变量名，这样可以直接在代码中引用该对象</strong>。如果标签具有Name属性，同时把Name属性赋值为x:Name指定的值。<strong>为了增强代码的统一性，全部使用x:Name来指定对象的变量名</strong>。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//返回一个包含控件内容的对象</span>
+         <span class="token class-name">Grid</span> g <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>Content <span class="token keyword">as</span> <span class="token class-name">Grid</span><span class="token punctuation">;</span>
+         <span class="token class-name">Button</span> b <span class="token operator">=</span> g<span class="token punctuation">.</span>Children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token keyword">as</span> <span class="token class-name">Button</span><span class="token punctuation">;</span>
+         b<span class="token punctuation">.</span>Content <span class="token operator">=</span> <span class="token string">"WPF"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="4-6-x-FieldModifier"><a href="#4-6-x-FieldModifier" class="headerlink" title="4.6 x:FieldModifier"></a>4.6 x:FieldModifier</h3><p>用来告诉XAML编译器由该标签生成的<strong>类的字段的访问级别</strong>，默认为internal。</p>
+<h2 id="5-MVVM入门与提高"><a href="#5-MVVM入门与提高" class="headerlink" title="5. MVVM入门与提高"></a>5. MVVM入门与提高</h2><p>必要知识的准备</p>
+<ul>
+<li>熟悉Data Binding 和 Dependency Property</li>
+<li>了解WPF中的命令(知道ICommand接口即可)</li>
+<li>熟悉Lambda表达</li>
+</ul>
+<blockquote>
+<p>大致对应书上的第六章、第七章还有第九章的9.2.1</p>
+</blockquote>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/desktop/wpf/introduction-to-wpf?view=netframeworkdesktop-4.8">WPF 介绍</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jb51.net/article/238802.htm">WPF简介与基础开发</a></li>
 <li>刘铁猛《深入浅出WPF》</li>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iY411w7zD?p=2&vd_source=794a7fc718885ad84490c05351dcf216">2022年WPF入门教程详解</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/jefflee/p/5806041.html">《深入浅出WPF》学习笔记之x名称空间详解</a></li>
 </ol>
 
                 
@@ -912,8 +1010,8 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/test/" class="post-category">
-                                    test
+                            <a href="/categories/Unity/" class="post-category">
+                                    Unity
                                 </a>
                             
                             
@@ -1217,7 +1315,7 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">143.8k</span>
+                        class="white-color">146.1k</span>
             
             
             
