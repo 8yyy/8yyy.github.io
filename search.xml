@@ -5,6 +5,33 @@
     
     <entry>
       <title>test</title>
+      <link href="/2022/12/18/ExcelToDataGridViewAndSqlServer/"/>
+      <url>/2022/12/18/ExcelToDataGridViewAndSqlServer/</url>
+      
+        <content type="html"><![CDATA[<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218142841079.png"></p><p>需求如下：有一个文本框textBox1，一个按钮button1，一个dataGridView1控件。点击textBox1选择文件，将Excel路径添加到文本框内，然后点击导入，将Excel内的数据导入到dataGridView1和Sql Server数据库内。</p><p>OleDbConnection 提示错误如下</p><p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218143548825.png" alt="image-20221218143548825"></p><p>需要安装一个OleDb这个依赖</p><p>解决方案：</p><p>在visual studio 工具栏搜索：程序包管理器控制台，然后执行</p><pre class="line-numbers language-none"><code class="language-none">Install-Package System.Data.OleDb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218143655478.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CSharp </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> winform </tag>
+            
+            <tag> excel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>test</title>
       <link href="/2022/12/18/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/"/>
       <url>/2022/12/18/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/</url>
       
@@ -180,9 +207,9 @@
       
         <tags>
             
-            <tag> CSharp </tag>
-            
             <tag> DataStructure </tag>
+            
+            <tag> CSharp </tag>
             
         </tags>
       
@@ -286,9 +313,9 @@
       
         <tags>
             
-            <tag> Reflection </tag>
-            
             <tag> Interface </tag>
+            
+            <tag> Reflection </tag>
             
         </tags>
       
@@ -313,11 +340,11 @@
       
         <tags>
             
-            <tag> CSharp </tag>
-            
             <tag> SQL Server </tag>
             
             <tag> VS </tag>
+            
+            <tag> CSharp </tag>
             
         </tags>
       

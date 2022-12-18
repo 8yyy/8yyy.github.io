@@ -4,11 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于CSharp变量中的下划线, 8yyy&#39;s blog">
-    <meta name="description" content="之前我一直以为在C#中所有私有private成员都需要加下划线，今天特意去搜了搜。
-其中一种解释下划线只是一个约定而已。因此，每个人的使用总是有些不同。这是我对两种语言的理解:
-在C++中，下划线通常表示私有(private)成员变量。
-在">
+    <meta name="keywords" content="test, 8yyy&#39;s blog">
+    <meta name="description" content="
+需求如下：有一个文本框textBox1，一个按钮button1，一个dataGridView1控件。点击textBox1选择文件，将Excel路径添加到文本框内，然后点击导入，将Excel内的数据导入到dataGridView1和Sql ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于CSharp变量中的下划线 | 8yyy&#39;s blog</title>
+    <title>test | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -240,12 +238,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/images/%E5%85%B3%E4%BA%8ECSharp%E5%8F%98%E9%87%8F%E4%B8%AD%E7%9A%84%E4%B8%8B%E5%88%92%E7%BA%BF/xhx.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于CSharp变量中的下划线</h1>
+                    <h1 class="description center-align post-title">test</h1>
                 </div>
             </div>
         </div>
@@ -361,8 +359,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E4%B8%8B%E5%88%92%E7%BA%BF/">
-                                <span class="chip bg-color">下划线</span>
+                            <a href="/tags/winform/">
+                                <span class="chip bg-color">winform</span>
+                            </a>
+                        
+                            <a href="/tags/excel/">
+                                <span class="chip bg-color">excel</span>
                             </a>
                         
                     </div>
@@ -386,21 +388,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-21
+                    2022-12-18
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-22
+                    2022-12-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    400
+                    108
                 </div>
                 
 
@@ -430,71 +432,16 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>之前我一直以为在C#中所有私有private成员都需要加下划线，今天特意去搜了搜。</p>
-<h2 id="其中一种解释"><a href="#其中一种解释" class="headerlink" title="其中一种解释"></a>其中一种解释</h2><p>下划线只是一个约定而已。因此，每个人的使用总是有些不同。这是我对两种语言的理解:</p>
-<p>在C++中，下划线通常表示私有(private)成员变量。</p>
-<p>在C#中，我通常看到它仅在<strong>定义公共(public)属性的基础私有(private)成员变量</strong>时使用。其他私有(private)成员变量将没有下划线。</p>
-<h2 id="下划线优势"><a href="#下划线优势" class="headerlink" title="下划线优势"></a>下划线优势</h2><ul>
-<li>自然区分字段和参数，或字段和属性</li>
-<li>可省略this限定符</li>
-</ul>
-<h2 id="演示代码"><a href="#演示代码" class="headerlink" title="演示代码"></a>演示代码</h2><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+                <p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218142841079.png"></p>
+<p>需求如下：有一个文本框textBox1，一个按钮button1，一个dataGridView1控件。点击textBox1选择文件，将Excel路径添加到文本框内，然后点击导入，将Excel内的数据导入到dataGridView1和Sql Server数据库内。</p>
+<p>OleDbConnection 提示错误如下</p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218143548825.png" alt="image-20221218143548825"></p>
+<p>需要安装一个OleDb这个依赖</p>
+<p>解决方案：</p>
+<p>在visual studio 工具栏搜索：程序包管理器控制台，然后执行</p>
+<pre class="line-numbers language-none"><code class="language-none">Install-Package System.Data.OleDb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<span class="token comment">// 私有字段命名</span>
-<span class="token keyword">namespace</span> <span class="token namespace">_001_PrivateFieldNaming</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token comment">// 常规方式</span>
-    <span class="token keyword">class</span> <span class="token class-name">Normal</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 根据C#命名规则</span>
-        <span class="token comment">// - private字段，必须遵循camel方式</span>
-        <span class="token comment">// - protected字段，可根据个人喜好任选camel或Pascal方式</span>
-        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">;</span>
-        <span class="token keyword">protected</span> <span class="token keyword">readonly</span> <span class="token class-name"><span class="token keyword">int</span></span> Y<span class="token punctuation">;</span>
-
-        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> Z <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-
-        <span class="token keyword">public</span> <span class="token function">Normal</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>
-            Y <span class="token operator">=</span> y<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-
-        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Method</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">)</span> <span class="token operator">=></span> Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">></span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token comment">// 建议方式</span>
-    <span class="token keyword">class</span> <span class="token class-name">Suggestion</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 差异1：</span>
-        <span class="token comment">// - private字段命名，首字母采用下划线</span>
-        <span class="token comment">// - protected字段套用此方式后，与属性自然区分</span>
-        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name"><span class="token keyword">int</span></span> _x<span class="token punctuation">;</span>
-        <span class="token keyword">protected</span> <span class="token keyword">readonly</span> <span class="token class-name"><span class="token keyword">int</span></span> _y<span class="token punctuation">;</span>
-
-        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> Z <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-
-        <span class="token comment">// 差异2：</span>
-        <span class="token comment">// - 构造器中，自然区分字段与参数，无需this</span>
-        <span class="token keyword">public</span> <span class="token function">Suggestion</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">int</span></span> y<span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            _x <span class="token operator">=</span> x<span class="token punctuation">;</span>
-            _y <span class="token operator">=</span> y<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-
-        <span class="token comment">// 差异3：</span>
-        <span class="token comment">// - 方法中，自然区分字段与参数，无需this</span>
-        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Method</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">)</span> <span class="token operator">=></span> Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>_x <span class="token operator">></span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a target="_blank" rel="noopener" href="https://www.lmlphp.com/user/151296/article/item/3425493/">c# - 命名约定-C++和C#变量中的下划线</a></p>
-<p>2.<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ece11a785679">C#private字段的命名风格</a></p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218143655478.png"></p>
 
                 
             </div>
@@ -521,7 +468,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://8yyy.github.io/2022/10/21/%E5%85%B3%E4%BA%8ECSharp%E5%8F%98%E9%87%8F%E4%B8%AD%E7%9A%84%E4%B8%8B%E5%88%92%E7%BA%BF/">http://8yyy.github.io/2022/10/21/%E5%85%B3%E4%BA%8ECSharp%E5%8F%98%E9%87%8F%E4%B8%AD%E7%9A%84%E4%B8%8B%E5%88%92%E7%BA%BF/</a>
+                    <a href="http://8yyy.github.io/2022/12/18/ExcelToDataGridViewAndSqlServer/">http://8yyy.github.io/2022/12/18/ExcelToDataGridViewAndSqlServer/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -559,8 +506,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E4%B8%8B%E5%88%92%E7%BA%BF/">
-                                    <span class="chip bg-color">下划线</span>
+                                <a href="/tags/winform/">
+                                    <span class="chip bg-color">winform</span>
+                                </a>
+                            
+                                <a href="/tags/excel/">
+                                    <span class="chip bg-color">excel</span>
                                 </a>
                             
                         </div>
@@ -756,16 +707,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/10/22/CSharpMultithreading/">
+                <a href="/2022/12/18/ExcelToDataGridViewAndSqlServer/">
                     <div class="card-image">
                         
-                        <img src="/images/CSharpMultithreading/Multithreadingjpg.jpg" class="responsive-img" alt="CSharpMultithreading">
                         
-                        <span class="card-title">CSharpMultithreading</span>
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/10.jpg" class="responsive-img" alt="test">
+                        
+                        <span class="card-title">test</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -775,9 +728,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -790,11 +743,16 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Multithreading/">
-                        <span class="chip bg-color">Multithreading</span>
+                    <a href="/tags/winform/">
+                        <span class="chip bg-color">winform</span>
+                    </a>
+                    
+                    <a href="/tags/excel/">
+                        <span class="chip bg-color">excel</span>
                     </a>
                     
                 </div>
@@ -808,12 +766,12 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/10/20/CSharpReflection/">
+                <a href="/2022/12/18/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/">
                     <div class="card-image">
                         
-                        <img src="/images/CSharpReflection/RE.jpeg" class="responsive-img" alt="CSharpReflection">
+                        <img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218112428865.png" class="responsive-img" alt="test">
                         
-                        <span class="card-title">CSharpReflection</span>
+                        <span class="card-title">test</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -824,7 +782,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-18
                             </span>
                         <span class="publish-author">
                             
@@ -841,8 +799,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Reflection/">
-                        <span class="chip bg-color">Reflection</span>
+                    <a href="/tags/winform-Folder/">
+                        <span class="chip bg-color">winform - Folder</span>
                     </a>
                     
                 </div>
