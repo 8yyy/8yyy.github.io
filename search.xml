@@ -4,7 +4,32 @@
   
     
     <entry>
-      <title>test</title>
+      <title>Github+Hexo博客使用：使用私有库备份博客</title>
+      <link href="/2022/12/18/HexoBlogChangeComputer/"/>
+      <url>/2022/12/18/HexoBlogChangeComputer/</url>
+      
+        <content type="html"><![CDATA[<h2 id="已配置好环境的情况迁移"><a href="#已配置好环境的情况迁移" class="headerlink" title="已配置好环境的情况迁移"></a>已配置好环境的情况迁移</h2><p>由于我已经在两台电脑中来回迁移好几次了，所以环境已经配好了，只需要将所有文件全部复制过来：以下文件+.ssh文件夹下的id_rsa和id_rsa.pub文件（在C盘的用户文件夹下）</p><p><img src="/images/HexoBlogChangeComputer/image-20221218154708042.png"></p><p>然后<code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code>即可</p><h2 id="使用私有库备份博客"><a href="#使用私有库备份博客" class="headerlink" title="使用私有库备份博客"></a>使用私有库备份博客</h2><p><strong>创建一个仓库用来存放备份文件，名字随便，勾选README。</strong></p><p><img src="/images/HexoBlogChangeComputer/image-20221218175639497.png"></p><p><strong>复制仓库地址，运行Git将仓库clone到本地。</strong></p><pre class="line-numbers language-none"><code class="language-none">git clone git@github.com:8yyy&#x2F;Back-Up-Blog.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>然后把你所有源文件一个不漏全部搬到该文件夹中<br><strong>删除theme内主题的.git文件</strong>（有些主题可能没有</p><p>首先输入</p><blockquote><p>git add .</p></blockquote><p>记得有一个点<br>这里是把文件加入暂存区</p><blockquote><p>git commit -m “随便输点什么”</p></blockquote><p>将暂存区里的改动给提交到本地的版本库<br>最后输入</p><blockquote><p>git push origin 你的分支名称</p></blockquote><p>来上传至github</p><pre class="line-numbers language-none"><code class="language-none">git add .git commit  -m  &quot;backup&quot;git push origin main <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol><li> <a href="https://zhuanlan.zhihu.com/p/127027266">使用GitHub备份Hexo博客源文件</a></li><li> <a href="https://blog.csdn.net/Copanko/article/details/105461777">新建私密仓库来备份你的hexo源文件</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 博客 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>从Excel导入数据到datagridview和数据库</title>
       <link href="/2022/12/18/ExcelToDataGridViewAndSqlServer/"/>
       <url>/2022/12/18/ExcelToDataGridViewAndSqlServer/</url>
       
@@ -31,11 +56,11 @@
     
     
     <entry>
-      <title>test</title>
+      <title>WinForm选择文件夹的方式</title>
       <link href="/2022/12/18/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/"/>
       <url>/2022/12/18/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/</url>
       
-        <content type="html"><![CDATA[<p><img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218112428865.png" alt="image-20221218112428865"></p><p>如图Form1，我有一个按钮控件button1和一个文本框控件textBox1，我点击按钮可以浏览文件夹，选择文件夹后路径显式在文本框内。（当然直接点击文本框显式选择路径可能更好）</p><h2 id="使用System-Windows-Forms-FolderBrowserDialog-类来选择文件夹"><a href="#使用System-Windows-Forms-FolderBrowserDialog-类来选择文件夹" class="headerlink" title="使用System.Windows.Forms.FolderBrowserDialog 类来选择文件夹"></a>使用System.Windows.Forms.FolderBrowserDialog 类来选择文件夹</h2><p><a href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.folderbrowserdialog?f1url=?appId=Dev16IDEF1&l=ZH-CN&k=k(System.Windows.Forms.FolderBrowserDialog);k(DevLang-csharp)&rd=true&view=windowsdesktop-7.0">FolderBrowserDialog 类</a></p><p>提示用户选择文件夹。</p><p>代码如下：</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">FolderBrowserDialog</span> folderBrowserDialog <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">FolderBrowserDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>folderBrowserDialog<span class="token punctuation">.</span>SelectedPath <span class="token operator">=</span> <span class="token string">@"C:\";folderBrowserDialog.Description = "</span>请选择文件夹所在的目录"<span class="token punctuation">;</span><span class="token keyword">if</span> <span class="token punctuation">(</span>folderBrowserDialog<span class="token punctuation">.</span><span class="token function">ShowDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> DialogResult<span class="token punctuation">.</span>OK<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token keyword">this</span><span class="token punctuation">.</span>textBox1<span class="token punctuation">.</span>Text <span class="token operator">=</span> folderBrowserDialog<span class="token punctuation">.</span>SelectedPath<span class="token punctuation">;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>代码分析如下：</p><p>FolderBrowserDialog() 该类只有这一个构造函数。</p><p>SelectedPath属性用于获取或设置用户选定的路径。</p><p>Description属性用于选择文件夹时的描述。</p><p>ShowDialog()方法用于运行通用对话框。</p><p>运行效果如下：</p><p>点击按钮，运行通用对话框</p><p><img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218134700957.png"></p><p>点击选择文件夹后，文本框内显示路径</p><p><img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218134755825.png"></p><p>还有一种方法是使用 Ookii.dll 实现文件夹选择，但在现在效果是一样的，所以不再演示了。</p><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol><li> <a href="https://blog.csdn.net/qq_27461747/article/details/107369363">C# winform 选择文件夹的两种方式</a></li></ol>]]></content>
+        <content type="html"><![CDATA[<p><img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218112428865.png"></p><p>如图Form1，我有一个按钮控件button1和一个文本框控件textBox1，我点击按钮可以浏览文件夹，选择文件夹后路径显式在文本框内。（当然直接点击文本框显式选择路径可能更好）</p><h2 id="使用System-Windows-Forms-FolderBrowserDialog-类来选择文件夹"><a href="#使用System-Windows-Forms-FolderBrowserDialog-类来选择文件夹" class="headerlink" title="使用System.Windows.Forms.FolderBrowserDialog 类来选择文件夹"></a>使用System.Windows.Forms.FolderBrowserDialog 类来选择文件夹</h2><p><a href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.folderbrowserdialog?f1url=?appId=Dev16IDEF1&l=ZH-CN&k=k(System.Windows.Forms.FolderBrowserDialog);k(DevLang-csharp)&rd=true&view=windowsdesktop-7.0">FolderBrowserDialog 类</a></p><p>提示用户选择文件夹。</p><p>代码如下：</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">FolderBrowserDialog</span> folderBrowserDialog <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">FolderBrowserDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>folderBrowserDialog<span class="token punctuation">.</span>SelectedPath <span class="token operator">=</span> <span class="token string">@"C:\";folderBrowserDialog.Description = "</span>请选择文件夹所在的目录"<span class="token punctuation">;</span><span class="token keyword">if</span> <span class="token punctuation">(</span>folderBrowserDialog<span class="token punctuation">.</span><span class="token function">ShowDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> DialogResult<span class="token punctuation">.</span>OK<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token keyword">this</span><span class="token punctuation">.</span>textBox1<span class="token punctuation">.</span>Text <span class="token operator">=</span> folderBrowserDialog<span class="token punctuation">.</span>SelectedPath<span class="token punctuation">;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>代码分析如下：</p><p>FolderBrowserDialog() 该类只有这一个构造函数。</p><p>SelectedPath属性用于获取或设置用户选定的路径。</p><p>Description属性用于选择文件夹时的描述。</p><p>ShowDialog()方法用于运行通用对话框。</p><p>运行效果如下：</p><p>点击按钮，运行通用对话框</p><p><img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218134700957.png"></p><p>点击选择文件夹后，文本框内显示路径</p><p><img src="/images/WinForm%E9%80%89%E6%8B%A9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/image-20221218134755825.png"></p><p>还有一种方法是使用 Ookii.dll 实现文件夹选择，但在现在效果是一样的，所以不再演示了。</p><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol><li> <a href="https://blog.csdn.net/qq_27461747/article/details/107369363">C# winform 选择文件夹的两种方式</a></li></ol>]]></content>
       
       
       <categories>
