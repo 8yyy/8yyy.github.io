@@ -5,9 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Github+Hexo博客使用：用github actions自动化布署hexo博客, 8yyy&#39;s blog">
-    <meta name="description" content="已配置好环境的情况迁移由于我已经在两台电脑中来回迁移好几次了，所以环境已经配好了，只需要将所有文件全部复制过来：以下文件+.ssh文件夹下的id_rsa和id_rsa.pub文件（在C盘的用户文件夹下）
-
-然后hexo clean &amp;amp">
+    <meta name="description" content="前言由于网上能搜到的资料都是去年或者前年的，导致问题很多，终于心态炸了好几次。。。
+已配置好环境的情况迁移由于我已经在两台电脑中来回迁移好几次了，所以环境已经配好了，只需要将所有文件全部复制过来：以下文件+.ssh文件夹下的id_rsa和i">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -392,14 +391,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-12-19
+                    2022-12-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2k
                 </div>
                 
 
@@ -429,51 +428,18 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="已配置好环境的情况迁移"><a href="#已配置好环境的情况迁移" class="headerlink" title="已配置好环境的情况迁移"></a>已配置好环境的情况迁移</h2><p>由于我已经在两台电脑中来回迁移好几次了，所以环境已经配好了，只需要将所有文件全部复制过来：以下文件+.ssh文件夹下的id_rsa和id_rsa.pub文件（在C盘的用户文件夹下）</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于网上能搜到的资料都是去年或者前年的，导致问题很多，终于心态炸了好几次。。。</p>
+<h2 id="已配置好环境的情况迁移"><a href="#已配置好环境的情况迁移" class="headerlink" title="已配置好环境的情况迁移"></a>已配置好环境的情况迁移</h2><p>由于我已经在两台电脑中来回迁移好几次了，所以环境已经配好了，只需要将所有文件全部复制过来：以下文件+.ssh文件夹下的id_rsa和id_rsa.pub文件（在C盘的用户文件夹下）</p>
 <p><img src="/images/HexoBlogChangeComputer/image-20221218154708042.png"></p>
 <p>然后<code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code>即可</p>
-<h2 id="使用私有库备份博客"><a href="#使用私有库备份博客" class="headerlink" title="使用私有库备份博客"></a>使用私有库备份博客</h2><p><strong>创建一个仓库用来存放备份文件，名字随便，不要勾选README。我这图里勾选了</strong></p>
-<p><img src="/images/HexoBlogChangeComputer/image-20221218175639497.png"></p>
-<p><strong>复制仓库地址，运行Git将仓库clone到本地。</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">git clone git@github.com:8yyy&#x2F;Back-Up-Blog.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>然后把你所有源文件一个不漏全部搬到该文件夹中<br><strong>删除theme内主题的.git文件</strong>（有些主题可能没有</p>
-<p>新建一个.gitignoren文件，文件内容为</p>
-<pre class="line-numbers language-none"><code class="language-none">.DS_Store
-Thumbs.db
-db.json
-.log
-node_modules&#x2F;
-public&#x2F;
-.deploy&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>首先输入</p>
-<blockquote>
-<p>git add .</p>
-</blockquote>
-<p>记得有一个点<br>这里是把文件加入暂存区</p>
-<blockquote>
-<p>git commit -m “随便输点什么”</p>
-</blockquote>
-<p>将暂存区里的改动给提交到本地的版本库<br>最后输入</p>
-<blockquote>
-<p>git push origin 你的分支名称</p>
-</blockquote>
-<p>来上传至github</p>
-<pre class="line-numbers language-none"><code class="language-none">git add .
-git commit  -m  &quot;backup&quot;
-git push origin main <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u012195214/article/details/72721065">https://blog.csdn.net/u012195214/article/details/72721065</a></p>
-<p>这里我试了几次都失败了，后面也没再试了，找了半天找了个看起来完全符合我的需求的教程</p>
 <h2 id="用github-actions自动化布署hexo博客"><a href="#用github-actions自动化布署hexo博客" class="headerlink" title="用github actions自动化布署hexo博客"></a>用github actions自动化布署hexo博客</h2><p>常规的hexo使用方式如下：<br>写markdown文件保存-&gt;<code>hexo generate</code>生成文件-&gt;<code>hexo deploy</code>部署到github仓库-&gt;把源文件备份到博客仓库的source分支或者备份到一个私有仓库</p>
 <p>利用<code>Github-Actions</code>+<code>Powershell脚本</code>可以把写博客的流程简化为：<br>写markdown文件保存-&gt;打开powershell，输入<code>pushhexo</code>指令完成上面的所有步骤</p>
 <h3 id="1-前提"><a href="#1-前提" class="headerlink" title="1 前提"></a>1 前提</h3><p>后面的所有内容都假设你已经能正常用<code>hexo deploy</code>布署博客，这表示你的环境已经满足下面几点要求：</p>
 <ul>
-<li>有github.io对应的仓库</li>
-<li>安装了git且设置了秘钥，能执行常规操作</li>
+<li>安装了git且设置了<code>秘钥</code>（即存放在用户下.ssh文件夹下的id_rsa和id_ras.pub这两个文件）</li>
+<li>创建 <code>xxx.github.io</code> 仓库用来存放静态博客页面</li>
 </ul>
-<h3 id="2-创建一个备份仓库"><a href="#2-创建一个备份仓库" class="headerlink" title="2 创建一个备份仓库"></a>2 创建一个备份仓库</h3><p>因为配置文件中有一些敏感信息，所以我选择创建一个<strong>私有仓库</strong>，过程不表，假设命名为<code>hexo</code>。<br>这里要注意，如果我们安装了主题，并且是从github上clone下来的，那么主题文件夹中（比如themes/next/)会有名为<code>.git</code>的隐藏文件夹用于git同步，需要把它删除，因为我们备份到私有仓库的时候是把主题文件一起备份的(这样才能在自动化部署中保留主题)，嵌套的git仓库会报错，当然删除以后就不能用<code>git pull</code>的方式更新主题了。</p>
+<h3 id="2-创建一个备份仓库"><a href="#2-创建一个备份仓库" class="headerlink" title="2 创建一个备份仓库"></a>2 创建一个备份仓库</h3><p>因为配置文件中有一些敏感信息，所以我选择创建一个<strong>私有仓库</strong>，过程不表，假设命名为<code>Back-up-Hexo</code>。<br>这里要注意，如果我们安装了主题，并且是从github上clone下来的，那么主题文件夹中（比如themes/next/)会有名为<code>.git</code>的隐藏文件夹用于git同步，需要把它删除，因为我们备份到私有仓库的时候是把主题文件一起备份的(这样才能在自动化部署中保留主题)，嵌套的git仓库会报错，当然删除以后就不能用<code>git pull</code>的方式更新主题了。</p>
 <p>把本地的博客文件夹上传到<code>hexo</code>私有仓库，并保证<code>.gitignore</code>文件中包含以下几项，<strong>避免</strong>以前手动生成及部署过的文件也作为源文件上传：</p>
 <ul>
 <li>node_modules/</li>
@@ -481,55 +447,76 @@ git push origin main <span aria-hidden="true" class="line-numbers-rows"><span></
 <li>.deploy*/</li>
 </ul>
 <p><img src="/images/HexoBlogChangeComputer/image-20221219154725390.png"></p>
-<h3 id="3-创建Github-Actions脚本"><a href="#3-创建Github-Actions脚本" class="headerlink" title="3 创建Github Actions脚本"></a>3 创建Github Actions脚本</h3><blockquote>
-<p>​        简单来说，GitHub Actions 可以提供一台无法直接访问的 Azure ，通过 .github/workflows/*.yml 执行所写的指令。 Azure 可以提供 Ubuntu 、 Windows 等环境。</p>
+<h3 id="3-设置秘钥"><a href="#3-设置秘钥" class="headerlink" title="3 设置秘钥"></a>3 设置秘钥</h3><p>将<code>id_rsa</code>这个SSH生成的密钥添加到私有仓库的<code>Actions secrets</code>，我这里命名为<code>HEXO_DEPLOY_PRI</code></p>
+<h3 id="4-创建Github-Actions脚本"><a href="#4-创建Github-Actions脚本" class="headerlink" title="4 创建Github Actions脚本"></a>4 创建Github Actions脚本</h3><blockquote>
+<p>​        简单来说，GitHub Actions 可以提供一台无法直接访问的 Azure ，通过 .github/workflows/*.yml 执行所写的指令。 Azure 可以提供 Ubuntu 、 Windows 等环境。当我们运行 Jobs 时，它会创建一个容器 (runner)，容器支持：Ubuntu、Windows 和 MacOS 等系统，在容器中我们可以安装软件，利用安装的软件帮我们处理一些数据，然后把处理好的数据推送到某个地方。</p>
 </blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">blog <span class="token punctuation">(</span>repository<span class="token punctuation">)</span>
+└── .github
+    └── workflows
+        └── deploy.yml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>创建一个<code>.github/workflows/pages.yml</code>文件(没有目录就先创建目录），这里参考的<a target="_blank" rel="noopener" href="https://hexo.io/docs/github-pages.html">hexo官方的脚本</a>并稍作修改：</p>
 <p>创建<code>.github</code>文件夹的方法是创建一个名为<code>.github.</code>的文件夹即可</p>
-<pre class="line-numbers language-none"><code class="language-none">name: Pages #脚本名称
+<pre class="line-numbers language-none"><code class="language-none">name: CI  #这个可以随便命名
 
 on:
   push:
     branches:
-      - main
- ＃目前仓库默认的branche为main
+      - main  # 推到哪的分支，现在基本都是main，老的可能是master，其他还可能是自己创的分支
+
+env:
+  GIT_USER: 8yyy
+  GIT_EMAIL: 1410868939@qq.com
+  DEPLOY_REPO: 8yyy&#x2F;8yyy.github.io
+  DEPLOY_BRANCH: main
 
 jobs:
-  pages:
-    runs-on: ubuntu-latest #虚拟环境
+  build:
+    name: Build on node $&#123;&#123; matrix.node_version &#125;&#125; and $&#123;&#123; matrix.os &#125;&#125;
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [16.x]
+
     steps:
-      - uses: actions&#x2F;checkout@v2 #uses指令就是用的其它的现成的脚本
-      - name: Use Node.js 12.x ＃name只是提供一个名称
-        uses: actions&#x2F;setup-node@v1
-        with:                     ＃可以用with提供参数信息
-          node-version: &#39;12.x&#39;
-      - name: Cache NPM dependencies
-        uses: actions&#x2F;cache@v2
+      - name: Checkout
+        uses: actions&#x2F;checkout@v3
+
+      - name: Checkout deploy repo
+        uses: actions&#x2F;checkout@v3
         with:
-          path: node_modules
-          key: $&#123;&#123; runner.OS &#125;&#125;-npm-cache
-          restore-keys: |
-            $&#123;&#123; runner.OS &#125;&#125;-npm-cache
-      - name: Install Dependencies
-        run: npm install
+          repository: $&#123;&#123; env.DEPLOY_REPO &#125;&#125;
+          ref: $&#123;&#123; env.DEPLOY_BRANCH &#125;&#125;
+          path: .deploy_git
 
-      ＃上面的操作都是为了准备环境
-
-
-      - name: Build ＃生成
-        run: npm run build ＃这里需要保证你博客根目录下的package.json文件中有这个脚本，没有的话添加一下&quot;build&quot;: &quot;hexo generate&quot;
-        
-      - name: Deploy
-        uses: peaceiris&#x2F;actions-gh-pages@v3　＃这是一个自动化部署到github pages的脚本
+      - name: Use Node.js $&#123;&#123; matrix.node_version &#125;&#125;
+        uses: actions&#x2F;setup-node@v3
         with:
-          personal_token: $&#123;&#123; secrets.HEXO_DEPLOY &#125;&#125; ＃HEXO_DEPLOY这个名称跟源文件仓库中设置的要对应
-          external_repository: 8yyy&#x2F;8yyy.github.io  ＃添加部署的目标仓库，也就是github.io对应的仓库，由＂用户名／仓库名＂的方式指定
-          publish_dir: .&#x2F;public ＃需要发布的文件目录，hexo generate生成的就是.&#x2F;public
-          publish_branch: main  # deploying branch 部署的分支，对应我们的external_repository<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+          node-version: $&#123;&#123; matrix.node_version &#125;&#125;
 
-<p>上面指令用注释进行了简单的说明，列一下需要修改的几个地方： － personal_token：如果设定的秘钥名称不是<code>HEXO_DEPLOY</code>，那么这里也需要修改 － external_repository：改成你自己的源文件备份仓库</p>
-<h3 id="4-创建和设置秘钥"><a href="#4-创建和设置秘钥" class="headerlink" title="4 创建和设置秘钥"></a>4 创建和设置秘钥</h3><p>我选择的是personal_token，生成方式用文字说明： 在github点击右上角头像-&gt;Settings-&gt;Developer settings-&gt;Personal access tokens-&gt;Generate new token，这里随便起一个名字就行，选上<code>repo</code>的所有权限和<code>workflow</code>权限，点击生成，复制秘钥，这个秘钥只显示一次，如果没有保存，重新生成一即可。</p>
-<p>设置秘钥： 选择你备份源文件的私有仓库(hexo)-&gt;Settings-&gt;Secrets-&gt;New repository secret,这里命名为<code>HEXO_DEPLOY</code>，跟前面脚本中的名字对应，把秘钥内容复制进去保存。</p>
+      - name: Configuration environment
+        env:
+          HEXO_DEPLOY_PRI: $&#123;&#123;secrets.HEXO_DEPLOY_PRI&#125;&#125;
+        run: |
+          sudo timedatectl set-timezone &quot;Asia&#x2F;Shanghai&quot;
+          mkdir -p ~&#x2F;.ssh&#x2F;
+          echo &quot;$HEXO_DEPLOY_PRI&quot; &gt; ~&#x2F;.ssh&#x2F;id_rsa
+          chmod 600 ~&#x2F;.ssh&#x2F;id_rsa
+          ssh-keyscan github.com &gt;&gt; ~&#x2F;.ssh&#x2F;known_hosts
+          git config --global user.name $GIT_USER
+          git config --global user.email $GIT_EMAIL
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Deploy hexo
+        run: |
+          npm run deploy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面指令只需要对env进行修改即可，其他需要修改的内容我已经改好了</p>
 <h3 id="5-写Powershell脚本进一步简化操作"><a href="#5-写Powershell脚本进一步简化操作" class="headerlink" title="5 写Powershell脚本进一步简化操作"></a>5 写Powershell脚本进一步简化操作</h3><p>上面的步骤完成以后，我们仍然需要手动的执行<code>git add,git commit,git push</code>这些操作，这里借助<code>powershell</code>脚本实现简化。</p>
 <p>先找开<code>powershell</code>，执行<code>$profile</code>,会显示配置文件位置，打开这个配置文件，添加下面的内容：</p>
 <pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token comment">#hexo 备份到github</span>
@@ -538,7 +525,7 @@ jobs:
     <span class="token variable">$hexopath</span>=<span class="token string">"仓库目录"</span><span class="token punctuation">;</span>
     <span class="token function">Set-Location</span> <span class="token variable">$hexopath</span><span class="token punctuation">;</span>
     git add <span class="token punctuation">.</span><span class="token operator">/</span><span class="token punctuation">;</span>
-    git commit <span class="token operator">-</span>m <span class="token string">"script backup"</span><span class="token punctuation">;</span>
+    git commit <span class="token operator">-</span>m <span class="token string">"backup"</span><span class="token punctuation">;</span>
     git push<span class="token punctuation">;</span>
     <span class="token function">Set-Location</span> <span class="token variable">$currpath</span><span class="token punctuation">;</span>
     <span class="token function">Write-Output</span> <span class="token string">"Push hexo files to github successfully"</span><span class="token punctuation">;</span>
@@ -551,7 +538,25 @@ jobs:
 </blockquote>
 <p>其中<code>$hexopath=&quot;C:\Users\xxx\Documents\GitHub\blog&quot;;</code>这一行需要修改路径为你的博客根目录，保存后需要重启powershell才能生效。</p>
 <p>到这里，我们就可以在<code>powershell</code>中输入<code>pushehxo</code>实现一键备份和部署了。</p>
-<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6 总结"></a>6 总结</h3><p>用<code>Github Action</code>实现自动部署，不仅可以简化部署流程，还可以免去本地渲染的机器性能开销。在文章数量越来越多的时候（几百或者几千），hexo渲染就会越来越慢，甚至卡死，利用<code>Github Actions</code>的话，本地只需要负责io传输就行了，渲染由github完成。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6 总结"></a>6 总结</h3><p>由于网上参考的资料几乎都是去年或者前年的东西，导致问题百出，搞了好几天心态炸了好几次。终于搞完了!芜湖~！</p>
+<h4 id="总觉下部署的时候出现的问题"><a href="#总觉下部署的时候出现的问题" class="headerlink" title="总觉下部署的时候出现的问题"></a>总觉下部署的时候出现的问题</h4><p><strong>1.Run Failed  .github/workflows/pages.yml: No jobs were run</strong></p>
+<p>这是第一天出现的问题，搞了半天搞不好，甚至于对<a target="_blank" rel="noopener" href="https://www.fewth.com/%E7%94%A8github-actions%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B8%83%E7%BD%B2hexo%E5%8D%9A%E5%AE%A2-%E4%BB%8E%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E5%88%B0%E5%85%AC%E5%85%B1%E4%BB%93%E5%BA%93/#:~:text=%E5%86%99markdown%E6%96%87%E4%BB%B6%E4%BF%9D%E5%AD%98-%3E%20hexo%20generate%20%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6-%3E%20hexo%20deploy,%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%BB%93%E5%BA%93-%3E%E6%8A%8A%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD%E5%88%B0%E5%8D%9A%E5%AE%A2%E4%BB%93%E5%BA%93%E7%9A%84source%E5%88%86%E6%94%AF%E6%88%96%E8%80%85%E5%A4%87%E4%BB%BD%E5%88%B0%E4%B8%80%E4%B8%AA%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%20%E5%88%A9%E7%94%A8%20Github-Actions%20%2B%20Powershell%E8%84%9A%E6%9C%AC%20%E5%8F%AF%E4%BB%A5%E6%8A%8A%E5%86%99%E5%8D%9A%E5%AE%A2%E7%9A%84%E6%B5%81%E7%A8%8B%E7%AE%80%E5%8C%96%E4%B8%BA%EF%BC%9A">用github actions自动化布署hexo博客-从私有仓库到公共仓库</a>作者发了邮件，搞这一段的时候真的心态爆炸了好几次。然后第二天尝试了好几次决定换一个写法，现在想来用这个现在应该不适用了，虽然明明去年还是可用的。至于原因可以看下面的内容</p>
+<p><strong>2.Please update the following actions to use Node.js 16: actions/checkout@v2, actions/setup-node@v1</strong></p>
+<p>前面还有一段Node.js 12 actions are deprecated.</p>
+<p>不能不感叹技术更新迭代的真快，明明去年还可以用Node.js 12，今天就只能改用Node.js 16了，上面作者用的就是Node.js 12，还有Actions基本都是v1和v2，所以根本用不了了，当然Run Failed的问题和这些都没有关系，至于是什么原因到现在还不了解。需要将所有Actions改为v3版本，例如actions/checkout@v3，actions/setup-node@v3</p>
+<p><strong>3.branch 默认分支改为了 main</strong></p>
+<p>Push the files of your Hexo folder to the default branch of your repository. The default branch is usually <strong>main</strong>, older repository may use <strong>master</strong> branch.</p>
+<p>Github账号默认的主分支从2020年10月1日起已经由<strong>master改为了main</strong></p>
+<p>所以on的写法改为了</p>
+<pre class="line-numbers language-none"><code class="language-none">on:
+  push:
+    branches:
+      - main<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从网上能找到的资料几乎都是master，这个需要特别注意，不过我一开始就注意到了这个问题。</p>
+<p><strong>4.关于windows powershell的问题</strong></p>
+<p>这个我在创建过程中已经写出来了</p>
+<p>用<code>Github Action</code>实现自动部署，不仅可以简化部署流程，还可以免去本地渲染的机器性能开销。在文章数量越来越多的时候（几百或者几千），hexo渲染就会越来越慢，甚至卡死，利用<code>Github Actions</code>的话，本地只需要负责io传输就行了，渲染由github完成。</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/127027266">使用GitHub备份Hexo博客源文件</a></li>
 <li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/Copanko/article/details/105461777">新建私密仓库来备份你的hexo源文件</a></li>
@@ -559,6 +564,7 @@ jobs:
 <li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24881591/article/details/115221873">https://blog.csdn.net/qq_24881591/article/details/115221873</a></li>
 <li> <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_signing?view=powershell-7.3&amp;viewFallbackFrom=powershell-7.1">https://learn.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_signing?view=powershell-7.3&amp;viewFallbackFrom=powershell-7.1</a></li>
 <li> <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">GitHub Actions 入门教程</a></li>
+<li> <a target="_blank" rel="noopener" href="https://sanonz.github.io/2020/deploy-a-hexo-blog-from-github-actions/">利用 Github Actions 自动部署 Hexo 博客</a></li>
 </ol>
 
                 
@@ -1154,7 +1160,7 @@ jobs:
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">167.2k</span>
+                        class="white-color">167.3k</span>
             
             
             
