@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="从Excel导入数据到datagridview和数据库, 8yyy&#39;s blog">
+    <meta name="keywords" content="从Excel导入数据到datagridview和Sql Server数据库, 8yyy&#39;s blog">
     <meta name="description" content="
 需求如下：有一个文本框textBox1，一个按钮button1，一个dataGridView1控件。点击textBox1选择文件，将Excel路径添加到文本框内，然后点击导入，将Excel内的数据导入到dataGridView1和Sql ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>从Excel导入数据到datagridview和数据库 | 8yyy&#39;s blog</title>
+    <title>从Excel导入数据到datagridview和Sql Server数据库 | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -238,12 +238,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/ExcelToDataGridViewAndSqlServer/0b55b319ebc4b745b9d67be8c5fc1e178b82158a')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">从Excel导入数据到datagridview和数据库</h1>
+                    <h1 class="description center-align post-title">从Excel导入数据到datagridview和Sql Server数据库</h1>
                 </div>
             </div>
         </div>
@@ -395,21 +395,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-12-18
+                    2022-12-21
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    108
+                    630
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -434,6 +434,51 @@
             <div id="articleContent">
                 <p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218142841079.png"></p>
 <p>需求如下：有一个文本框textBox1，一个按钮button1，一个dataGridView1控件。点击textBox1选择文件，将Excel路径添加到文本框内，然后点击导入，将Excel内的数据导入到dataGridView1和Sql Server数据库内。</p>
+<h2 id="0-点击-textBox1-获取文件"><a href="#0-点击-textBox1-获取文件" class="headerlink" title="0. 点击 textBox1 获取文件"></a>0. 点击 textBox1 获取文件</h2><p>只要需要用到 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.openfiledialog?f1url=?appId=Dev16IDEF1&l=ZH-CN&k=k(System.Windows.Forms.OpenFileDialog);k(Designer_Microsoft.DotNet.DesignTools.Client.Designers.DocumentProxyDesigner);k(NonVisualSelection);k(DevLang-csharp)&rd=true&view=windowsdesktop-7.0">openFileDialog</a> 控件</p>
+<p>定义：显示一个标准对话框，提示用户打开文件。 </p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">string</span></span> fileName <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+      <span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">textBox1_Click</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token comment">//打开文件，获取到文件存储路径，并保存在textBox中</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>openFileDialog1<span class="token punctuation">.</span><span class="token function">ShowDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>textBox1<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>openFileDialog1<span class="token punctuation">.</span>FileName<span class="token punctuation">;</span>
+
+          <span class="token comment">//导入文件，读取文件的路径，并将其导入到DataGridView中</span>
+          fileName <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>textBox1<span class="token punctuation">.</span>Text<span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+<p>Excel表如下：</p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221164850778.png"></p>
+<h2 id="1-Excel数据导入-DataGridView"><a href="#1-Excel数据导入-DataGridView" class="headerlink" title="1. Excel数据导入 DataGridView"></a>1. Excel数据导入 DataGridView</h2><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>textBox1<span class="token punctuation">.</span>Text <span class="token operator">!=</span> <span class="token string">""</span><span class="token punctuation">)</span>
+         <span class="token punctuation">&#123;</span>
+             <span class="token keyword">try</span>
+             <span class="token punctuation">&#123;</span>
+                 <span class="token class-name"><span class="token keyword">string</span></span> strCon <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$" Provider = Microsoft.Jet.OLEDB.4.0 ; Data Source = </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">fileName</span><span class="token punctuation">&#125;</span></span><span class="token string"> ;Extended Properties=Excel 4.0"</span></span><span class="token punctuation">;</span>
+                 <span class="token class-name">OleDbConnection</span> myConn <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">OleDbConnection</span><span class="token punctuation">(</span>strCon<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 <span class="token class-name"><span class="token keyword">string</span></span> strCom <span class="token operator">=</span> <span class="token string">" SELECT * FROM [Sheet1$] "</span><span class="token punctuation">;</span>
+                 <span class="token comment">//Sheet1为对应Excel表名</span>
+                 <span class="token class-name">OleDbDataAdapter</span> myCommand <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">OleDbDataAdapter</span><span class="token punctuation">(</span>strCom<span class="token punctuation">,</span> myConn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 <span class="token class-name">DataTable</span> dt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DataTable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 myCommand<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>dt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 <span class="token keyword">this</span><span class="token punctuation">.</span>dataGridView1<span class="token punctuation">.</span>DataSource <span class="token operator">=</span> dt<span class="token punctuation">;</span>
+
+             <span class="token punctuation">&#125;</span>
+             <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span>
+             <span class="token punctuation">&#123;</span>
+                 MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span>Message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token punctuation">&#125;</span>
+         <span class="token punctuation">&#125;</span>
+         <span class="token keyword">else</span>
+         <span class="token punctuation">&#123;</span>
+             MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"请选择Excel文件"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>OleDbConnection 提示错误如下</p>
 <p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218143548825.png" alt="image-20221218143548825"></p>
 <p>需要安装一个OleDb这个依赖</p>
@@ -442,6 +487,47 @@
 <pre class="line-numbers language-none"><code class="language-none">Install-Package System.Data.OleDb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221218143655478.png"></p>
+<p>OLE DB（OLEDB）是微软的战略性的通向不同的数据源的低级<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3/10418844?fromModule=lemma_inlink">应用程序接口</a>。OLE DB不仅包括微软资助的标准数据接口开放数据库连通性（ODBC）的结构化查询语言（SQL）能力，还具有面向其他非<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/SQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B?fromModule=lemma_inlink">SQL数据类型</a>的通路。</p>
+<p>OLE 全称 Object Link and embed，即对象连接与嵌入。</p>
+<p>OleDbConneetion连接支持OLE DB的数据库，如Access，Excel；</p>
+<p>报错如下：</p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221164229634.png"></p>
+<p><strong>这个是微软JET数据引擎的兼容性问题。解决方法，只能是让程序编译成32位版运行。</strong></p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221164628003.png"></p>
+<p>再点击运行，运行效果如下：</p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221165307439.png"></p>
+<p>Sql Server数据库表如下：</p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221170139785.png"></p>
+<blockquote>
+<p> 表的列数须和Excel表匹配</p>
+</blockquote>
+<h2 id="2-Excel数据导入-Sql-Server数据库"><a href="#2-Excel数据导入-Sql-Server数据库" class="headerlink" title="2.Excel数据导入 Sql Server数据库"></a>2.Excel数据导入 Sql Server数据库</h2><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">SqlConnection</span> con <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlConnection</span><span class="token punctuation">(</span><span class="token string">@"Data Source=.\sqlexpress;Initial Catalog=test;Integrated Security=true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> dataGridView1<span class="token punctuation">.</span>Rows<span class="token punctuation">.</span>Count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>dataGridView1<span class="token punctuation">.</span>Rows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Cells<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name">SqlCommand</span> cmd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cmd<span class="token punctuation">.</span>Connection <span class="token operator">=</span> con<span class="token punctuation">;</span>
+        <span class="token comment">//插入的数据为数据库对应列数,列数须匹配</span>
+        cmd<span class="token punctuation">.</span>CommandText <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"INSERT INTO tb(A,B,C,D) VALUES('</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">dataGridView1<span class="token punctuation">.</span>Rows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Cells<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">dataGridView1<span class="token punctuation">.</span>Rows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Cells<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">dataGridView1<span class="token punctuation">.</span>Rows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Cells<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">','</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">dataGridView1<span class="token punctuation">.</span>Rows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Cells<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">')"</span></span><span class="token punctuation">;</span>
+        con<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cmd<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        con<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"导入成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221171647750.png"></p>
+<p><img src="/images/ExcelToDataGridViewAndSqlServer/image-20221221171659107.png"></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Zohar974/article/details/125223497">Winform：Excel数据导入DataGridView，DataGridView数据导入数据库</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/TheFlyPenguin/article/details/121921561">C#连接OleDbConnection操作数据库</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/OLE%20DB/4331851?fr=aladdin">OLE DB</a></li>
+</ol>
 
                 
             </div>
@@ -1034,7 +1120,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">167.3k</span>
+                        class="white-color">167.8k</span>
             
             
             
