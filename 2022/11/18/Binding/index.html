@@ -404,11 +404,6 @@ Data Binding 在WPF中的位置一般情况下，应用程序会具有三层结�
                 
 
                 
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-12-09
-                </div>
-                
 
                 
                 <div class="info-break-policy">
@@ -2268,7 +2263,7 @@ odp.ConstructorParameters.Add(arg2);
 
         var selection = window.getSelection();
         // if the selection is short let's not annoy our users.
-        if (('' + selection).length < Number.parseInt('1')) {
+        if (('' + selection).length < Number.parseInt('50')) {
             return;
         }
 

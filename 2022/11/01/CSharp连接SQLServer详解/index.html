@@ -398,11 +398,6 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
                 
 
                 
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-01
-                </div>
-                
 
                 
                 <div class="info-break-policy">
@@ -989,7 +984,7 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
 
         var selection = window.getSelection();
         // if the selection is short let's not annoy our users.
-        if (('' + selection).length < Number.parseInt('1')) {
+        if (('' + selection).length < Number.parseInt('50')) {
             return;
         }
 

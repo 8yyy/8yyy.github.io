@@ -389,11 +389,6 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
                 
 
                 
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-18
-                </div>
-                
 
                 
                 <div class="info-break-policy">
@@ -1095,7 +1090,7 @@ WPF 的核心是一个与分辨率无关且基于矢量的呈现引擎，旨在�
 
         var selection = window.getSelection();
         // if the selection is short let's not annoy our users.
-        if (('' + selection).length < Number.parseInt('1')) {
+        if (('' + selection).length < Number.parseInt('50')) {
             return;
         }
 
