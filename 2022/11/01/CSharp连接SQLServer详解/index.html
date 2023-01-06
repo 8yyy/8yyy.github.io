@@ -402,14 +402,14 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.7k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    7 分
                 </div>
                 
 
@@ -503,7 +503,7 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
 <p><strong>注解：</strong></p>
 <ol>
 <li>上面的key表示一个DataGirdView中单元格关联的值，就是指选中的那一行，可以不管</li>
-<li><code>SqlCommand</code>表示要对 SQL Server 数据库执行的一个 Transact-SQL 语句或存储过程</li>
+<li><code>SqlCommand</code>表示要对 SQL Server 数据库执行的<strong>一个</strong> Transact-SQL 语句或存储过程</li>
 <li>上面使用的是<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.data.sqlclient.sqlcommand.-ctor?view=netframework-4.7.2#system-data-sqlclient-sqlcommand-ctor(system-string-system-data-sqlclient-sqlconnection)">SqlCommand(String, SqlConnection)</a>，第一个参数表示一个 Transact-SQL 语句或存储过程，用字符串表示，第二个参数表示数据库连接类的变量</li>
 <li><code>ExecuteNonQuery()方法</code>表示完成Transact-SQL 语句的执行</li>
 <li>后面的Populate() 和 Reset() 两个方法不需要理解</li>
@@ -602,6 +602,38 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
 </ul>
 </li>
 </ul>
+<h2 id="3-简单的小例子"><a href="#3-简单的小例子" class="headerlink" title="3. 简单的小例子"></a>3. 简单的小例子</h2><p>需求是把 TransactionTb1 的相关记录显示到 dataGridView 控件中。</p>
+<p>代码如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">SqlConnection</span> Con <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlConnection</span><span class="token punctuation">(</span><span class="token string">@"Data Source=.\sqlexpress;Initial Catalog=ATMDb;Integrated Security=True"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//首先需要定义一个数据库连接的变量</span>
+         <span class="token keyword">try</span>
+         <span class="token punctuation">&#123;</span>
+             Con<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token comment">//打开数据库的连接</span>
+             <span class="token class-name"><span class="token keyword">string</span></span> query <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"select * from TransactionTb1 where AccNum = </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">Acc</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">;</span>
+             <span class="token comment">//定义一个T-SQL语句</span>
+             <span class="token class-name">SqlCommand</span> cmd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommand</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> Con<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token comment">//SqlCommand表示要对 SQL Server 数据库执行的一个 T-SQL 语句或存储过程</span>
+             <span class="token class-name">SqlDataAdapter</span> sda <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlDataAdapter</span><span class="token punctuation">(</span>cmd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token class-name">SqlCommandBuilder</span> scmb<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlCommandBuilder</span><span class="token punctuation">(</span>sda<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token class-name">DataSet</span> ds <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DataSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             sda<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>ds<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             GDV<span class="token punctuation">.</span>DataSource <span class="token operator">=</span> ds<span class="token punctuation">.</span>Tables<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+             Con<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token comment">//关闭数据库的连接</span>
+         <span class="token punctuation">&#125;</span>
+         <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span>
+         <span class="token punctuation">&#123;</span>
+             MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span>Message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>SqlCommandBuilder 类</p>
+<p>自动生成用于协调通过关联的 SQL Server 数据库对 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.data.dataset?view=netframework-4.8">DataSet</a> 所做更改的单表命令</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">SqlDataAdapter</span> sda <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">SqlDataAdapter</span><span class="token punctuation">(</span>cmd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">DataSet</span> ds <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DataSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+sda<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>ds<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>通过 SqlCommand 对象执行 T-SQL 语句，从数据源中检索数据，并将检索到的结果填充到 DataSet 对象中。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/framework/data/adonet/">MSDN ADO.NET</a></li>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/framework/data/adonet/sql/linq/">MSDN LINQ to SQL</a></li>
@@ -838,28 +870,6 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
 
     
 
-    
-    <div class="livere-card card" data-aos="fade-up">
-    <!-- 来必力City版安装代码 -->
-    <div id="lv-container" class="card-content" data-id="city" data-uid="MTAyMC81NzM3NC8zMzgzOA==">
-        <script type="text/javascript">
-            (function (d, s) {
-                let j, e = d.getElementsByTagName(s)[0];
-                if (typeof LivereTower === 'function') {
-                    return;
-                }
-
-                j = d.createElement(s);
-                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-                j.async = true;
-
-                e.parentNode.insertBefore(j, e);
-            })(document, 'script');
-        </script>
-        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
-    </div>
-    <!-- City版安装代码已完成 -->
-</div>
     
 
     
@@ -1196,7 +1206,7 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2022</span>
+                <span id="year">2019-2023</span>
             
             <a href="/about" target="_blank">8yyy</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
@@ -1204,7 +1214,7 @@ ADO.NET 是一组向 .NET Framework 程序员公开数据访问服务的类。 A
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">167.8k</span>
+                        class="white-color">169.2k</span>
             
             
             
