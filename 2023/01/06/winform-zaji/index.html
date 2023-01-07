@@ -45,7 +45,7 @@ https://tool.520101.com/diannao/ico/
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.jpg" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">8yyy&#39;s blog</span>
                 </a>
@@ -133,7 +133,7 @@ https://tool.520101.com/diannao/ico/
 
     <div class="mobile-head bg-color">
         
-        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.jpg" class="logo-img circle responsive-img">
         
         <div class="logo-name">8yyy&#39;s blog</div>
         <div class="logo-desc">
@@ -240,7 +240,7 @@ https://tool.520101.com/diannao/ico/
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/winform-zaji/dog.jpeg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -395,14 +395,14 @@ https://tool.520101.com/diannao/ico/
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    7 分
                 </div>
                 
 
@@ -652,7 +652,108 @@ https://tool.520101.com/diannao/ico/
 <p><img src="/images/winform-zaji/image-20230106174330211.png"></p>
 <p>黑点的控件会根据白点的控件大小进行更改</p>
 <p>可以使用 Ctrl 选择白点还是黑点控件,然后互点控件还可以改变黑白点</p>
+<h3 id="1-8-RichTextBox-控件"><a href="#1-8-RichTextBox-控件" class="headerlink" title="1.8 RichTextBox 控件"></a>1.8 RichTextBox 控件</h3><h4 id="1-8-1-RichTextBox-ScrollBars-属性"><a href="#1-8-1-RichTextBox-ScrollBars-属性" class="headerlink" title="1.8.1 RichTextBox.ScrollBars 属性"></a>1.8.1 RichTextBox.ScrollBars 属性</h4><p>获取或设置 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.richtextbox?view=netframework-4.8">RichTextBox</a> 控件中显示的滚动条类型。</p>
+<table>
+<thead>
+<tr>
+<th>Both（默认）</th>
+<th>3</th>
+<th>在需要时同时显示水平滚动条和垂直滚动条。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ForcedBoth</td>
+<td>19</td>
+<td>始终同时显示水平滚动条和垂直滚动条。</td>
+</tr>
+<tr>
+<td>ForcedHorizontal</td>
+<td>17</td>
+<td>始终显示水平滚动条。</td>
+</tr>
+<tr>
+<td>ForcedVertical</td>
+<td>18</td>
+<td>始终显示垂直滚动条。</td>
+</tr>
+<tr>
+<td>Horizontal</td>
+<td>1</td>
+<td>仅在文本比控件的宽度长时显示水平滚动条。</td>
+</tr>
+<tr>
+<td>None</td>
+<td>0</td>
+<td>不显示滚动条。</td>
+</tr>
+<tr>
+<td>Vertical</td>
+<td>2</td>
+<td>仅在文本比控件的高度长时显示垂直滚动条。</td>
+</tr>
+</tbody></table>
+<h4 id="1-8-2-TextBoxBase-WordWrap-属性"><a href="#1-8-2-TextBoxBase-WordWrap-属性" class="headerlink" title="1.8.2 TextBoxBase.WordWrap 属性"></a>1.8.2 TextBoxBase.WordWrap 属性</h4><p>指示多行文本框控件在必要时是否自动换行到下一行的开始。</p>
+<p>和ScrollBars 属性配合使用</p>
+<h4 id="1-8-3-设置文本字体"><a href="#1-8-3-设置文本字体" class="headerlink" title="1.8.3 设置文本字体"></a>1.8.3 设置文本字体</h4><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">richTextBox1<span class="token punctuation">.</span>SelectionFont <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Font</span><span class="token punctuation">(</span><span class="token string">"楷体"</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> FontStyle<span class="token punctuation">.</span>Bold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+richTextBox1<span class="token punctuation">.</span>ForeColor <span class="token operator">=</span> Color<span class="token punctuation">.</span>Red<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
+<p>效果如下</p>
+<p><img src="/images/winform-zaji/image-20230107150004459.png"></p>
+<h4 id="1-8-4-设置文本超链接访问"><a href="#1-8-4-设置文本超链接访问" class="headerlink" title="1.8.4 设置文本超链接访问"></a>1.8.4 设置文本超链接访问</h4><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">richTextBox1<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token string">"www.baidu.com"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>设置 richTextBox1 的 LinkClicked 事件如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">richTextBox1_LinkClicked</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">LinkClickedEventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    System<span class="token punctuation">.</span>Diagnostics<span class="token punctuation">.</span>Process<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>LinkText<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>System.Diagnostics 命名空间</strong></p>
+<p>​        提供允许你与系统进程、事件日志和性能计数器进行交互的类。</p>
+<p><strong>Process 类</strong></p>
+<p>​        提供对本地和远程进程的访问权限并使你能够启动和停止本地系统进程。</p>
+<p><strong>Start 方法</strong></p>
+<p>​        启动进程资源并将其与 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.diagnostics.process?view=netframework-4.8">Process</a> 组件关联。</p>
+<p><strong>LinkClickedEventArgs.LinkText 属性</strong></p>
+<p>​        获取正在单击的链接的文本。</p>
+<h3 id="1-9-ComboBox-控件"><a href="#1-9-ComboBox-控件" class="headerlink" title="1.9 ComboBox 控件"></a>1.9 ComboBox 控件</h3><h4 id="1-9-1-DropDownStyle-属性"><a href="#1-9-1-DropDownStyle-属性" class="headerlink" title="1.9.1 DropDownStyle 属性"></a>1.9.1 DropDownStyle 属性</h4><p>获取或设置指定组合框样式的值。</p>
+<p>ComboBoxStyle 枚举</p>
+<table>
+<thead>
+<tr>
+<th>DropDown</th>
+<th>1</th>
+<th>通过单击下箭头指定显示列表，并指定文本部分可编辑。 这表示用户可以输入新的值，而不仅限于选择列表中现有的值。 使用此设置时，<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-append">Append</a> 的 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.combobox.autocompletemode?view=netframework-4.8#system-windows-forms-combobox-autocompletemode">AutoCompleteMode</a> 值的作用与 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-suggestappend">SuggestAppend</a> 值相同。 这是默认样式。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DropDownList</td>
+<td>2</td>
+<td>通过单击下箭头指定显示列表，并指定文本部分不可编辑。 这表示用户不能输入新的值。 只能选择列表中已有的值。 只有在 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.combobox.autocompletemode?view=netframework-4.8#system-windows-forms-combobox-autocompletemode">AutoCompleteMode</a> 为 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-suggest">Suggest</a> 或 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-suggestappend">SuggestAppend</a> 时才会显示列表。</td>
+</tr>
+<tr>
+<td>Simple</td>
+<td>0</td>
+<td>指定列表始终可见，并指定文本部分可编辑。 这表示用户可以输入新的值，而不仅限于选择列表中现有的值。</td>
+</tr>
+</tbody></table>
+<p>DropDown</p>
+<p><img src="/images/winform-zaji/image-20230107151354830.png" alt="DropDown样式"></p>
+<p>DropDownList</p>
+<p><img src="/images/winform-zaji/image-20230107151452795.png" alt="DropDownList样式，不可编辑"></p>
+<p>Simple</p>
+<p><img src="/images/winform-zaji/image-20230107151556325.png" alt="Simple样式"></p>
+<h4 id="1-9-2-编辑项"><a href="#1-9-2-编辑项" class="headerlink" title="1.9.2 编辑项"></a>1.9.2 编辑项</h4><p>可通过点击左上角 -&gt; 编辑项 进行操作，每行一个</p>
+<p><img src="/images/winform-zaji/image-20230107152039700.png" alt="编辑项"></p>
+<p>也可通过代码的形式添加项</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">comboBox1<span class="token punctuation">.</span>Items<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token string">"4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="1-10-Panel-容器"><a href="#1-10-Panel-容器" class="headerlink" title="1.10 Panel 容器"></a>1.10 Panel 容器</h3><p>面板控件 Panel 是一个包含其他控件的控件。 可以使用 Panel 来组合控件的集合，例如一组 RadioButton 控件。</p>
+<p>除了Panel外，容器还有GroupBox/TabControl等，都可以用于存放其他控件。</p>
+<h3 id="1-11-MenuStrip-控件"><a href="#1-11-MenuStrip-控件" class="headerlink" title="1.11 MenuStrip 控件"></a>1.11 MenuStrip 控件</h3><p>菜单栏控件。</p>
+<p><img src="/images/winform-zaji/image-20230107170912022.png"></p>
+<h3 id="1-12-ToolStrip-控件"><a href="#1-12-ToolStrip-控件" class="headerlink" title="1.12 ToolStrip 控件"></a>1.12 ToolStrip 控件</h3><p>工具栏控件。默认有8种</p>
+<p><img src="/images/winform-zaji/image-20230107171024318.png"></p>
+<h3 id="1-13-StatusStrip-控件"><a href="#1-13-StatusStrip-控件" class="headerlink" title="1.13 StatusStrip 控件"></a>1.13 StatusStrip 控件</h3>
                 
             </div>
             <hr/>
@@ -899,8 +1000,7 @@ https://tool.520101.com/diannao/ico/
                 <a href="/2023/01/06/winform-zaji/">
                     <div class="card-image">
                         
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/images/winform-zaji/dog.jpeg" class="responsive-img" alt="">
                         
                         <span class="card-title"></span>
                     </div>
@@ -1221,7 +1321,7 @@ https://tool.520101.com/diannao/ico/
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">169.2k</span>
+                        class="white-color">169.9k</span>
             
             
             
