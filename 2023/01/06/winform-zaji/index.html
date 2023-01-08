@@ -1,0 +1,1561 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="winform核心技术, 8yyy&#39;s blog">
+    <meta name="description" content="1. 认识窗体和常见控件1.1 Icon属性用于设置窗体左上角图标
+可以选择搜索ICO图标在线生成，将.jpg，.png等文件转化为.ico
+https://tool.520101.com/diannao/ico/
+1.2 FormBord">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>winform核心技术 | 8yyy&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">8yyy&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">8yyy&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/winform-zaji/dog.jpeg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">winform核心技术</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/winform/">
+                                <span class="chip bg-color">winform</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Net/" class="post-category">
+                                .Net
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-01-06
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    7 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1-认识窗体和常见控件"><a href="#1-认识窗体和常见控件" class="headerlink" title="1. 认识窗体和常见控件"></a>1. 认识窗体和常见控件</h2><h3 id="1-1-Icon属性"><a href="#1-1-Icon属性" class="headerlink" title="1.1 Icon属性"></a>1.1 Icon属性</h3><p>用于设置窗体左上角图标</p>
+<p>可以选择搜索ICO图标在线生成，将.jpg，.png等文件转化为.ico</p>
+<p><a target="_blank" rel="noopener" href="https://tool.520101.com/diannao/ico/">https://tool.520101.com/diannao/ico/</a></p>
+<h3 id="1-2-FormBorderStyle属性"><a href="#1-2-FormBorderStyle属性" class="headerlink" title="1.2 FormBorderStyle属性"></a>1.2 FormBorderStyle属性</h3><p>指定窗体的边框样式。</p>
+<table>
+<thead>
+<tr>
+<th>Fixed3D</th>
+<th>2</th>
+<th>固定的三维边框。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FixedDialog</td>
+<td>3</td>
+<td>固定的对话框样式的粗边框。</td>
+</tr>
+<tr>
+<td>FixedSingle</td>
+<td>1</td>
+<td>固定的单行边框。</td>
+</tr>
+<tr>
+<td>FixedToolWindow</td>
+<td>5</td>
+<td>不可调整大小的工具窗口边框。 工具窗口不会显示在任务栏中也不会显示在当用户按 Alt+Tab 时出现的窗口中。 尽管指定 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.formborderstyle?view=netframework-4.8#system-windows-forms-formborderstyle-fixedtoolwindow">FixedToolWindow</a> 的窗体通常不显示在任务栏中，还是必须确保 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.form.showintaskbar?view=netframework-4.8#system-windows-forms-form-showintaskbar">ShowInTaskbar</a> 属性设置为 <code>false</code>，因为其默认值为 <code>true</code>。</td>
+</tr>
+<tr>
+<td>None</td>
+<td>0</td>
+<td>无边框。</td>
+</tr>
+<tr>
+<td>Sizable</td>
+<td>4</td>
+<td>可调整大小的边框。</td>
+</tr>
+<tr>
+<td>SizableToolWindow</td>
+<td>6</td>
+<td>可调整大小的工具窗口边框。 工具窗口不会显示在任务栏中也不会显示在当用户按 Alt+Tab 时出现的窗口中。</td>
+</tr>
+</tbody></table>
+<h4 id="1-2-1-Fixed3D"><a href="#1-2-1-Fixed3D" class="headerlink" title="1.2.1 Fixed3D"></a>1.2.1 Fixed3D</h4><p>固定的三维边框</p>
+<p><img src="/images/winform-zaji/image-20230106105852038.png"></p>
+<h4 id="1-2-2-FixedDialog"><a href="#1-2-2-FixedDialog" class="headerlink" title="1.2.2 FixedDialog"></a>1.2.2 FixedDialog</h4><p>固定的对话框样式的粗边框</p>
+<p><img src="/images/winform-zaji/image-20230106105933836.png"></p>
+<h4 id="1-2-3-FixedSingle"><a href="#1-2-3-FixedSingle" class="headerlink" title="1.2.3 FixedSingle"></a>1.2.3 FixedSingle</h4><p>固定的单行边框</p>
+<p><img src="/images/winform-zaji/image-20230106110058739.png"></p>
+<h4 id="1-2-4-FixedToolWindow"><a href="#1-2-4-FixedToolWindow" class="headerlink" title="1.2.4 FixedToolWindow"></a>1.2.4 FixedToolWindow</h4><p>不可调整大小的工具窗口边框</p>
+<p><img src="/images/winform-zaji/image-20230106110127436.png"></p>
+<h4 id="1-2-5-None"><a href="#1-2-5-None" class="headerlink" title="1.2.5 None"></a>1.2.5 None</h4><p>无边框</p>
+<p><img src="/images/winform-zaji/image-20230106110150767.png"></p>
+<h4 id="1-2-6-Sizable"><a href="#1-2-6-Sizable" class="headerlink" title="1.2.6 Sizable"></a>1.2.6 Sizable</h4><p>可调整大小的边框，默认</p>
+<p><img src="/images/winform-zaji/image-20230106110226892.png"></p>
+<h4 id="1-2-7-SizableToolWindow"><a href="#1-2-7-SizableToolWindow" class="headerlink" title="1.2.7 SizableToolWindow"></a>1.2.7 SizableToolWindow</h4><p>可调整大小的工具窗口边框</p>
+<p><img src="/images/winform-zaji/image-20230106110309777.png"></p>
+<h3 id="1-3-StartPosition属性"><a href="#1-3-StartPosition属性" class="headerlink" title="1.3 StartPosition属性"></a>1.3 StartPosition属性</h3><p>获取或设置运行时窗体的起始位置。</p>
+<table>
+<thead>
+<tr>
+<th>CenterParent</th>
+<th>4</th>
+<th>窗体在其父窗体中居中。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CenterScreen</td>
+<td>1</td>
+<td>窗体在当前显示窗口中居中，其尺寸在窗体大小中指定。</td>
+</tr>
+<tr>
+<td>Manual</td>
+<td>0</td>
+<td>窗体的位置由 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.control.location?view=netframework-4.8#system-windows-forms-control-location">Location</a> 属性确定。</td>
+</tr>
+<tr>
+<td>WindowsDefaultBounds</td>
+<td>3</td>
+<td>窗体定位在 Windows 默认位置，其边界也由 Windows 默认决定。</td>
+</tr>
+<tr>
+<td>WindowsDefaultLocation</td>
+<td>2</td>
+<td>窗体定位在 Windows 默认位置，其尺寸在窗体大小中指定。</td>
+</tr>
+</tbody></table>
+<h3 id="1-4-MessageBox-Show-方法"><a href="#1-4-MessageBox-Show-方法" class="headerlink" title="1.4 MessageBox.Show 方法"></a>1.4 MessageBox.Show 方法</h3><p>返回一个DialogResult的枚举对象</p>
+<h4 id="1-4-1-DialogResult-枚举"><a href="#1-4-1-DialogResult-枚举" class="headerlink" title="1.4.1 DialogResult 枚举"></a>1.4.1 DialogResult 枚举</h4><table>
+<thead>
+<tr>
+<th>Abort</th>
+<th>3</th>
+<th>对话框的返回值是 <code>Abort</code>（通常从标签为“中止”的按钮发送）。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cancel</td>
+<td>2</td>
+<td>对话框的返回值是 <code>Cancel</code>（通常从标签为“取消”的按钮发送）。</td>
+</tr>
+<tr>
+<td>Ignore</td>
+<td>5</td>
+<td>对话框的返回值是 <code>Ignore</code>（通常从标签为“忽略”的按钮发送）。</td>
+</tr>
+<tr>
+<td>No</td>
+<td>7</td>
+<td>对话框的返回值是 <code>No</code>（通常从标签为“否”的按钮发送）。</td>
+</tr>
+<tr>
+<td>None</td>
+<td>0</td>
+<td>从对话框返回了 <code>Nothing</code>。 这表明有模式对话框继续运行。</td>
+</tr>
+<tr>
+<td>OK</td>
+<td>1</td>
+<td>对话框的返回值是 <code>OK</code>（通常从标签为“确定”的按钮发送）。</td>
+</tr>
+<tr>
+<td>Retry</td>
+<td>4</td>
+<td>对话框的返回值是 <code>Retry</code>（通常从标签为“重试”的按钮发送）。</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>6</td>
+<td>对话框的返回值是 <code>Yes</code>（通常从标签为“是”的按钮发送）。</td>
+</tr>
+</tbody></table>
+<p>示例</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Form1_FormClosing</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">FormClosingEventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">DialogResult</span> a <span class="token operator">=</span> MessageBox<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token string">"你正在关闭窗体"</span><span class="token punctuation">,</span> <span class="token string">"提示消息框"</span><span class="token punctuation">,</span> MessageBoxButtons<span class="token punctuation">.</span>YesNoCancel<span class="token punctuation">,</span> MessageBoxIcon<span class="token punctuation">.</span>Error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">==</span> DialogResult<span class="token punctuation">.</span>Yes<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> e<span class="token punctuation">.</span>Cancel <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token punctuation">&#123;</span> e<span class="token punctuation">.</span>Cancel <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>点击关闭窗口提示</p>
+<p><img src="/images/winform-zaji/image-20230106113301604.png"></p>
+<h3 id="1-5-IsMdiContainer属性"><a href="#1-5-IsMdiContainer属性" class="headerlink" title="1.5 IsMdiContainer属性"></a>1.5 IsMdiContainer属性</h3><p>获取或设置一个值，该值指示窗体是否为多文档界面 (MDI) 子窗体的容器。</p>
+<blockquote>
+<p>注意窗体不能既是 MDI 子级，又是 MDI 父级。</p>
+</blockquote>
+<p>所以我们设置 Form1 的<code>IsMdiContainer</code>属性为 True，Form2、Form3、Form4 的<code>IsMdiContainer</code>属性为False，我们在 Form1 窗体里同时加载 Form2、Form3、Form4 子窗体</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Load_Three_Forms</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Form2</span> form2<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Form2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            form2<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            form2<span class="token punctuation">.</span>MdiParent <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+
+            <span class="token class-name">Form3</span> form3<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Form3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            form3<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            form3<span class="token punctuation">.</span>MdiParent <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+
+            <span class="token class-name">Form4</span> form4<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Form4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            form4<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            form4<span class="token punctuation">.</span>MdiParent <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Form.MdiParent 属性 获取或设置此窗体的当前多文档界面 (MDI) 父窗体。</p>
+<p>效果如下</p>
+<p><img src="/images/winform-zaji/image-20230106164225874.png"></p>
+<h4 id="1-5-1-Form-LayoutMdi-MdiLayout-方法"><a href="#1-5-1-Form-LayoutMdi-MdiLayout-方法" class="headerlink" title="1.5.1 Form.LayoutMdi(MdiLayout) 方法"></a>1.5.1 Form.LayoutMdi(MdiLayout) 方法</h4><ul>
+<li>在 MDI 父窗体内排列多文档界面 (MDI) 子窗体。</li>
+</ul>
+<p><strong>MdiLayout 枚举</strong></p>
+<ul>
+<li>指定 MDI 父窗口中多文档界面 (MDI) 子窗口的布局。</li>
+</ul>
+<p><strong>字段如下</strong></p>
+<table>
+<thead>
+<tr>
+<th>ArrangeIcons</th>
+<th>3</th>
+<th>所有 MDI 子图标均排列在 MDI 父窗体的工作区内。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cascade</td>
+<td>0</td>
+<td>所有 MDI 子窗口均<strong>层叠</strong>在 MDI 父窗体的工作区内。</td>
+</tr>
+<tr>
+<td>TileHorizontal</td>
+<td>1</td>
+<td>所有 MDI 子窗口均<strong>水平平铺</strong>在 MDI 父窗体的工作区内。</td>
+</tr>
+<tr>
+<td>TileVertical</td>
+<td>2</td>
+<td>所有 MDI 子窗口均<strong>垂直平铺</strong>在 MDI 父窗体的工作区内。</td>
+</tr>
+</tbody></table>
+<p>默认的加载窗体就是层叠的，只不过设置为Cascade后会放大点</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token function">LayoutMdi</span><span class="token punctuation">(</span>MdiLayout<span class="token punctuation">.</span>TileHorizontal<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>水平平铺</p>
+<p><img src="/images/winform-zaji/image-20230106165229192.png"></p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token function">LayoutMdi</span><span class="token punctuation">(</span>MdiLayout<span class="token punctuation">.</span>Cascade<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>层叠</p>
+<p><img src="/images/winform-zaji/image-20230106165250991.png"></p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token function">LayoutMdi</span><span class="token punctuation">(</span>MdiLayout<span class="token punctuation">.</span>TileVertical<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>垂直平铺</p>
+<p><img src="/images/winform-zaji/image-20230106165302161.png"></p>
+<h3 id="1-6-继承的窗体"><a href="#1-6-继承的窗体" class="headerlink" title="1.6 继承的窗体"></a>1.6 继承的窗体</h3><p>如果我们想新建一个窗体，继承Form1的内容</p>
+<blockquote>
+<p>添加 -&gt; 新建项 -&gt; Windows Forms -&gt; 继承的窗体</p>
+</blockquote>
+<p><img src="/images/winform-zaji/image-20230106170125132.png" alt="新建继承的窗体"></p>
+<p>选择Form1，点击确定</p>
+<p><img src="/images/winform-zaji/image-20230106170139719.png" alt="继承选取器"></p>
+<p>Form5效果如下</p>
+<p><img src="/images/winform-zaji/image-20230106170242147.png" alt="创建的窗体Form5"></p>
+<p><strong>继承下来的控件默认都是锁定的</strong></p>
+<blockquote>
+<p>原因是控件默认Modifiers属性都是 Private 的,如果我们想让继承的控件也能做更改,那么我们需要将继承的父窗体控件的Modifiers属性设置为 Public.</p>
+</blockquote>
+<h3 id="1-7-调整控件的大小"><a href="#1-7-调整控件的大小" class="headerlink" title="1.7 调整控件的大小"></a>1.7 调整控件的大小</h3><p><img src="/images/winform-zaji/image-20230106174009864.png" alt="使宽度相同/使高度相同/使大小相同"></p>
+<p><img src="/images/winform-zaji/image-20230106174330211.png"></p>
+<p>黑点的控件会根据白点的控件大小进行更改</p>
+<p>可以使用 Ctrl 选择白点还是黑点控件,然后互点控件还可以改变黑白点</p>
+<h3 id="1-8-RichTextBox-控件"><a href="#1-8-RichTextBox-控件" class="headerlink" title="1.8 RichTextBox 控件"></a>1.8 RichTextBox 控件</h3><h4 id="1-8-1-RichTextBox-ScrollBars-属性"><a href="#1-8-1-RichTextBox-ScrollBars-属性" class="headerlink" title="1.8.1 RichTextBox.ScrollBars 属性"></a>1.8.1 RichTextBox.ScrollBars 属性</h4><p>获取或设置 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.richtextbox?view=netframework-4.8">RichTextBox</a> 控件中显示的滚动条类型。</p>
+<table>
+<thead>
+<tr>
+<th>Both（默认）</th>
+<th>3</th>
+<th>在需要时同时显示水平滚动条和垂直滚动条。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ForcedBoth</td>
+<td>19</td>
+<td>始终同时显示水平滚动条和垂直滚动条。</td>
+</tr>
+<tr>
+<td>ForcedHorizontal</td>
+<td>17</td>
+<td>始终显示水平滚动条。</td>
+</tr>
+<tr>
+<td>ForcedVertical</td>
+<td>18</td>
+<td>始终显示垂直滚动条。</td>
+</tr>
+<tr>
+<td>Horizontal</td>
+<td>1</td>
+<td>仅在文本比控件的宽度长时显示水平滚动条。</td>
+</tr>
+<tr>
+<td>None</td>
+<td>0</td>
+<td>不显示滚动条。</td>
+</tr>
+<tr>
+<td>Vertical</td>
+<td>2</td>
+<td>仅在文本比控件的高度长时显示垂直滚动条。</td>
+</tr>
+</tbody></table>
+<h4 id="1-8-2-TextBoxBase-WordWrap-属性"><a href="#1-8-2-TextBoxBase-WordWrap-属性" class="headerlink" title="1.8.2 TextBoxBase.WordWrap 属性"></a>1.8.2 TextBoxBase.WordWrap 属性</h4><p>指示多行文本框控件在必要时是否自动换行到下一行的开始。</p>
+<p>和ScrollBars 属性配合使用</p>
+<h4 id="1-8-3-设置文本字体"><a href="#1-8-3-设置文本字体" class="headerlink" title="1.8.3 设置文本字体"></a>1.8.3 设置文本字体</h4><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">richTextBox1<span class="token punctuation">.</span>SelectionFont <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Font</span><span class="token punctuation">(</span><span class="token string">"楷体"</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> FontStyle<span class="token punctuation">.</span>Bold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+richTextBox1<span class="token punctuation">.</span>ForeColor <span class="token operator">=</span> Color<span class="token punctuation">.</span>Red<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>效果如下</p>
+<p><img src="/images/winform-zaji/image-20230107150004459.png"></p>
+<h4 id="1-8-4-设置文本超链接访问"><a href="#1-8-4-设置文本超链接访问" class="headerlink" title="1.8.4 设置文本超链接访问"></a>1.8.4 设置文本超链接访问</h4><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">richTextBox1<span class="token punctuation">.</span>Text <span class="token operator">=</span> <span class="token string">"www.baidu.com"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>设置 richTextBox1 的 LinkClicked 事件如下</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">richTextBox1_LinkClicked</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">LinkClickedEventArgs</span> e<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    System<span class="token punctuation">.</span>Diagnostics<span class="token punctuation">.</span>Process<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>LinkText<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>System.Diagnostics 命名空间</strong></p>
+<p>​        提供允许你与系统进程、事件日志和性能计数器进行交互的类。</p>
+<p><strong>Process 类</strong></p>
+<p>​        提供对本地和远程进程的访问权限并使你能够启动和停止本地系统进程。</p>
+<p><strong>Start 方法</strong></p>
+<p>​        启动进程资源并将其与 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.diagnostics.process?view=netframework-4.8">Process</a> 组件关联。</p>
+<p><strong>LinkClickedEventArgs.LinkText 属性</strong></p>
+<p>​        获取正在单击的链接的文本。</p>
+<h3 id="1-9-ComboBox-控件"><a href="#1-9-ComboBox-控件" class="headerlink" title="1.9 ComboBox 控件"></a>1.9 ComboBox 控件</h3><h4 id="1-9-1-DropDownStyle-属性"><a href="#1-9-1-DropDownStyle-属性" class="headerlink" title="1.9.1 DropDownStyle 属性"></a>1.9.1 DropDownStyle 属性</h4><p>获取或设置指定组合框样式的值。</p>
+<p>ComboBoxStyle 枚举</p>
+<table>
+<thead>
+<tr>
+<th>DropDown</th>
+<th>1</th>
+<th>通过单击下箭头指定显示列表，并指定文本部分可编辑。 这表示用户可以输入新的值，而不仅限于选择列表中现有的值。 使用此设置时，<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-append">Append</a> 的 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.combobox.autocompletemode?view=netframework-4.8#system-windows-forms-combobox-autocompletemode">AutoCompleteMode</a> 值的作用与 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-suggestappend">SuggestAppend</a> 值相同。 这是默认样式。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DropDownList</td>
+<td>2</td>
+<td>通过单击下箭头指定显示列表，并指定文本部分不可编辑。 这表示用户不能输入新的值。 只能选择列表中已有的值。 只有在 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.combobox.autocompletemode?view=netframework-4.8#system-windows-forms-combobox-autocompletemode">AutoCompleteMode</a> 为 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-suggest">Suggest</a> 或 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.forms.autocompletemode?view=netframework-4.8#system-windows-forms-autocompletemode-suggestappend">SuggestAppend</a> 时才会显示列表。</td>
+</tr>
+<tr>
+<td>Simple</td>
+<td>0</td>
+<td>指定列表始终可见，并指定文本部分可编辑。 这表示用户可以输入新的值，而不仅限于选择列表中现有的值。</td>
+</tr>
+</tbody></table>
+<p>DropDown</p>
+<p><img src="/images/winform-zaji/image-20230107151354830.png" alt="DropDown样式"></p>
+<p>DropDownList</p>
+<p><img src="/images/winform-zaji/image-20230107151452795.png" alt="DropDownList样式，不可编辑"></p>
+<p>Simple</p>
+<p><img src="/images/winform-zaji/image-20230107151556325.png" alt="Simple样式"></p>
+<h4 id="1-9-2-编辑项"><a href="#1-9-2-编辑项" class="headerlink" title="1.9.2 编辑项"></a>1.9.2 编辑项</h4><p>可通过点击左上角 -&gt; 编辑项 进行操作，每行一个</p>
+<p><img src="/images/winform-zaji/image-20230107152039700.png" alt="编辑项"></p>
+<p>也可通过代码的形式添加项</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">comboBox1<span class="token punctuation">.</span>Items<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token string">"4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="1-10-Panel-容器"><a href="#1-10-Panel-容器" class="headerlink" title="1.10 Panel 容器"></a>1.10 Panel 容器</h3><p>面板控件 Panel 是一个包含其他控件的控件。 可以使用 Panel 来组合控件的集合，例如一组 RadioButton 控件。</p>
+<p>除了Panel外，容器还有GroupBox/TabControl等，都可以用于存放其他控件。</p>
+<h3 id="1-11-MenuStrip-控件"><a href="#1-11-MenuStrip-控件" class="headerlink" title="1.11 MenuStrip 控件"></a>1.11 MenuStrip 控件</h3><p>菜单栏控件。</p>
+<p><img src="/images/winform-zaji/image-20230107170912022.png"></p>
+<h3 id="1-12-ToolStrip-控件"><a href="#1-12-ToolStrip-控件" class="headerlink" title="1.12 ToolStrip 控件"></a>1.12 ToolStrip 控件</h3><p>工具栏控件。默认有8种</p>
+<p><img src="/images/winform-zaji/image-20230107171024318.png"></p>
+<h3 id="1-13-StatusStrip-控件"><a href="#1-13-StatusStrip-控件" class="headerlink" title="1.13 StatusStrip 控件"></a>1.13 StatusStrip 控件</h3>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">8yyy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://8yyy.github.io/2023/01/06/winform-zaji/">http://8yyy.github.io/2023/01/06/winform-zaji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">8yyy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/winform/">
+                                    <span class="chip bg-color">winform</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/01/06/winform-zaji/">
+                    <div class="card-image">
+                        
+                        <img src="/images/winform-zaji/dog.jpeg" class="responsive-img" alt="winform核心技术">
+                        
+                        <span class="card-title">winform核心技术</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Net/" class="post-category">
+                                    .Net
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/winform/">
+                        <span class="chip bg-color">winform</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/12/19/Github-repository/">
+                    <div class="card-image">
+                        
+                        <img src="/images/Github-repository/u=757735590,3938109259&fm=253&fmt=auto&app=138&f=PNG" class="responsive-img" alt="Github仓库建立及配置">
+                        
+                        <span class="card-title">Github仓库建立及配置</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" class="post-category">
+                                    工具使用
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Github/">
+                        <span class="chip bg-color">Github</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('50')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 8yyy&#39;s blog<br />'
+            + '文章作者: 8yyy<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7668596917"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">8yyy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">169.9k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/8yyy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1410868939@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1410868939" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1410868939" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
