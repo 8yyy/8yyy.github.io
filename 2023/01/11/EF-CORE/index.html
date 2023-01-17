@@ -404,14 +404,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    11 分
                 </div>
                 
 
@@ -564,6 +564,8 @@
 <li><strong>Entity client Data Provider: <strong>主要职责是将L2E或Entity Sql转换成数据库可以识别的Sql查询语句，它通过</strong>ADO.Net Data Provider</strong>向数据库发送或者索取数据。</li>
 <li>**ADO.Net Data Provider: **使用标准的Ado.net与数据库通信。</li>
 </ul>
+<p>EF Core 是通过一个模型进行数据库访问的。模型由实体类和表示与数据库中的会话组成的，以及允许你查询和保存数据派生的上下文。</p>
+<p>既可以从现有数据库生成模型，也可以使用EF 迁移来完成从模型生成数据库，也就是Database First 和 Code First。</p>
 <h2 id="2-安装-Entity-Framework-Core"><a href="#2-安装-Entity-Framework-Core" class="headerlink" title="2. 安装 Entity Framework Core"></a>2. 安装 Entity Framework Core</h2><h3 id="Visual-Studio-NuGet-包管理器对话框"><a href="#Visual-Studio-NuGet-包管理器对话框" class="headerlink" title="Visual Studio NuGet 包管理器对话框"></a>Visual Studio NuGet 包管理器对话框</h3><ul>
 <li>从 Visual Studio 菜单中选择“项目”&gt;“管理 NuGet 包”</li>
 <li>单击“浏览”或“更新”选项卡</li>
@@ -594,10 +596,81 @@
 <h3 id="3-3-Database-Provider-数据库提供程序"><a href="#3-3-Database-Provider-数据库提供程序" class="headerlink" title="3.3 Database Provider / 数据库提供程序"></a>3.3 Database Provider / 数据库提供程序</h3><p>EF Core 是“数据库无关”的，这意味着每个要“接入”它的数据库厂商或任何的第三方都要提供它们的“数据库提供程序”以让 EF Core 可以使用它们。</p>
 <p>微软提供了包括 SQL Server、Azure SQL Database、SQL Server Express、SQL Server Express LocalDB、SQLite 以及 In Memory 在内的“官方”数据库提供程序。</p>
 <p>配置数据库提供程序首先要确定数据库提供程序包已经安装在项目中，然后只需要在 Context 的 OnConfiguring 方法中添加对应的配置方法（SqlServer 为 UseSqlServer）即可。</p>
+<h2 id="4-ASP-NET-Core-使用-EF-Core"><a href="#4-ASP-NET-Core-使用-EF-Core" class="headerlink" title="4. ASP.NET Core 使用 EF Core"></a>4. ASP.NET Core 使用 EF Core</h2><p>在 ASP.NET Core 中通过 EF Core 访问数据库，需要以下几个步骤：</p>
+<h3 id="4-1-安装-Entity-Framework-Core-相关的包"><a href="#4-1-安装-Entity-Framework-Core-相关的包" class="headerlink" title="4.1 安装 Entity Framework Core 相关的包"></a>4.1 安装 Entity Framework Core 相关的包</h3><p>需要安装如下三个包。 NuGet 安装包的方法这里就不展开了。</p>
+<p><img src="/images/EF-CORE/image-20230115113540436.png" alt="EF Core相关的包"></p>
+<h3 id="4-2-在Models文件夹创建实体类和上下文类"><a href="#4-2-在Models文件夹创建实体类和上下文类" class="headerlink" title="4.2 在Models文件夹创建实体类和上下文类"></a>4.2 在Models文件夹创建实体类和上下文类</h3><h4 id="4-2-1-创建实体类"><a href="#4-2-1-创建实体类" class="headerlink" title="4.2.1 创建实体类"></a>4.2.1 创建实体类</h4><p>实体类Blog</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Blog</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> BlogId <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Url <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">virtual</span> <span class="token return-type class-name">List<span class="token punctuation">&lt;</span>Post<span class="token punctuation">></span></span> Posts <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>实体类Post</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Post</span>
+   <span class="token punctuation">&#123;</span>
+       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> PostId <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Title <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Content <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> BlogId <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+       <span class="token keyword">public</span> <span class="token return-type class-name">Blog</span> Blog <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-2-2-创建上下文类"><a href="#4-2-2-创建上下文类" class="headerlink" title="4.2.2 创建上下文类"></a>4.2.2 创建上下文类</h4><p>上下文类BlogContext</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlogContext</span><span class="token punctuation">:</span><span class="token type-list"><span class="token class-name">DbContext</span></span>
+    <span class="token punctuation">&#123;</span>
+    <span class="token comment">/*将我们的BlogDbContext的配置传递给DbContext
+
+BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数。 这是将 AddDbContext 的上下文配置传递到 DbContext 的方式
+    */</span>
+        <span class="token keyword">public</span> <span class="token function">BlogContext</span><span class="token punctuation">(</span><span class="token class-name">DbContextOptions<span class="token punctuation">&lt;</span>BlogContext<span class="token punctuation">></span></span> options<span class="token punctuation">)</span>
+            <span class="token punctuation">:</span> <span class="token keyword">base</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>Blog<span class="token punctuation">></span></span> Blog <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>Post<span class="token punctuation">></span></span> Post <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>注：<a target="_blank" rel="noopener" href="https://www.shaoqun.com/s/%E6%95%B0%E6%8D%AE%E5%BA%93.aspx">数据库</a>上下文类是为给定数据模型协调 EF Core 功能的主类。 上下文派生自 Microsoft.EntityFrameworkCore.DbContext。 上下文指定数据模型中包含哪些实体。</p>
+</blockquote>
+<p>我们需要通过上下文中的DbSet属性将我们的模型加入上下文中，并且公开它们</p>
+<p>由于一个实体集包含多个实体，因此许多开发人员更倾向于使用复数形式的 DBSet 属性名称</p>
+<ul>
+<li>将为每个实体集创建一个 DbSet属性。 在 EF Core 术语中：<ul>
+<li>实体集通常对应数据库表。</li>
+<li>实体对应表中的行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-appsettings-json配置数据库连接字符串"><a href="#4-3-appsettings-json配置数据库连接字符串" class="headerlink" title="4.3 appsettings.json配置数据库连接字符串"></a>4.3 appsettings.json配置数据库连接字符串</h3><p>使用 Windows 身份验证</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123;
+  &quot;Logging&quot;: &#123;
+    &quot;LogLevel&quot;: &#123;
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;
+    &#125;
+  &#125;,
+  &quot;AllowedHosts&quot;: &quot;*&quot;,
+  &#x2F;&#x2F;配置连接字符串
+  &quot;ConnectionStrings&quot;: &#123;
+    &quot;SqlServer&quot;: &quot;Data Source&#x3D;.\\sqlexpress;Initial Catalog&#x3D;DormitoryDB;Integrated Security&#x3D;True&quot;
+  &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-4-注册上下文对象依赖注入服务，连接数据库"><a href="#4-4-注册上下文对象依赖注入服务，连接数据库" class="headerlink" title="4.4 注册上下文对象依赖注入服务，连接数据库"></a>4.4 注册上下文对象依赖注入服务，连接数据库</h3><p>在这一块我发现网上的教程几乎都是<code>在Startup.cs中ConfigureServices方法中注册数据库上下文</code>，但是对于 .NET 6 项目，现在已经找不到 Startup.cs 文件。默认情况下，此文件已经被删除，并且 Program.cs 是配置依赖注入服务和 Middleware 的新位置。</p>
+<p>可参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/537282897">.NET 6 项目找不到 Startup.cs 文件怎么办？一文教你在 .NET 6 项目中使用 Startup.cs</a></p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/ef/core/">MSDN Entity Framework Core</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161107452">EF Core / 基础_从建库到增删改查</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X54y1j7HV/?spm_id_from=333.337.search-card.all.click&vd_source=794a7fc718885ad84490c05351dcf216">EFCore简介</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/stone0823/article/details/119427050">asp.net core练手小项目(04) - EF Core 连接 Sql Server 数据库</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/afei-24/p/11012886.html">EF Core 简单使用介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Lzysnd/article/details/121566888">ASP.NET Core 使用 EF Core</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.shaoqun.com/a/1649447.html">EFCore 6.0入门看这篇就够了</a></li>
 </ol>
 
                 
@@ -838,17 +911,16 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/01/11/EF-CORE/">
+                <a href="/2023/01/17/meijuhediedai/">
                     <div class="card-image">
                         
-                        <img src="/images/EF-CORE/1.jpg" class="responsive-img" alt="EF Core基础">
+                        <img src="/images/meijuhediedai/run.jpg" class="responsive-img" alt="复习下C#中的枚举器和迭代器">
                         
-                        <span class="card-title">EF Core基础</span>
+                        <span class="card-title">复习下C#中的枚举器和迭代器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -858,27 +930,26 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-11
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-17
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/NET/" class="post-category">
-                                    .NET
+                            <a href="/categories/CSharp/" class="post-category">
+                                    CSharp
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/EF-Core/">
-                        <span class="chip bg-color">EF Core</span>
+                    <a href="/tags/Enumerator-Iterator/">
+                        <span class="chip bg-color">Enumerator - Iterator</span>
                     </a>
                     
                 </div>
@@ -1167,7 +1238,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">172.1k</span>
+                        class="white-color">176.4k</span>
             
             
             
