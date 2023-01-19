@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/Linq/caihong.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -403,14 +403,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    6.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    24 分
                 </div>
                 
 
@@ -698,8 +698,245 @@
 <pre class="line-numbers language-none"><code class="language-none">Student taking History:Carson
 Student taking History:Fleming<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
+<h3 id="6-6-查询主体中的from…let…where片段"><a href="#6-6-查询主体中的from…let…where片段" class="headerlink" title="6.6 查询主体中的from…let…where片段"></a>6.6 查询主体中的from…let…where片段</h3><p>可选的from…let…where部分是查询主体的第一部分，可以由任意数量的3个子句来组合–from子句、let子句和where子句。</p>
+<h4 id="6-6-1-from-子句"><a href="#6-6-1-from-子句" class="headerlink" title="6.6.1 from 子句"></a>6.6.1 from 子句</h4><p>查询表达式从必需的from子句开始，后面跟查询主体。主体本身可以从任何数量的其他from子句开始，每个from子句都指定了一个额外的源数据集合并引入了要在之后运算的迭代变量，所有from子句的语法和含义都一样。</p>
+<p>from示例如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> groupA <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>	
+    <span class="token class-name"><span class="token keyword">var</span></span> groupB <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
+    <span class="token class-name"><span class="token keyword">var</span></span> someInts <span class="token operator">=</span> <span class="token keyword">from</span> a <span class="token keyword">in</span> groupA		<span class="token comment">//必须的第一个from子句</span>
+                   <span class="token keyword">from</span> b <span class="token keyword">in</span> groupB	    <span class="token comment">//查询主体的第一个子句</span>
+                   <span class="token keyword">where</span> <span class="token class-name">a</span> <span class="token operator">></span> <span class="token number">4</span> <span class="token operator">&amp;&amp;</span> b <span class="token operator">&lt;</span> <span class="token number">8</span>
+                   <span class="token keyword">select</span> <span class="token keyword">new</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> sum <span class="token operator">=</span> a <span class="token operator">+</span> b <span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">//匿名对象</span>
 
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> someInts<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>注意：<code>var groupA = new[] &#123; 3,4,5,6&#125;;</code>    写法等价于 <code>int[] groupA = new int[] &#123; 3, 4, 5, 6 &#125;;</code></p>
+</blockquote>
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123; a &#x3D; 5, b &#x3D; 6, sum &#x3D; 11 &#125;
+&#123; a &#x3D; 5, b &#x3D; 7, sum &#x3D; 12 &#125;
+&#123; a &#x3D; 6, b &#x3D; 6, sum &#x3D; 12 &#125;
+&#123; a &#x3D; 6, b &#x3D; 7, sum &#x3D; 13 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="6-6-2-let-子句"><a href="#6-6-2-let-子句" class="headerlink" title="6.6.2 let 子句"></a>6.6.2 let 子句</h4><p>使用 <code>let</code> 子句可将表达式（如方法调用）的结果存储在新范围变量中。 </p>
+<p><strong>let 子句接收一个表达式的运算并且把它赋值给一个需要在其他运算中使用的标识符。</strong>let 子句的语法如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">let</span> Identifier <span class="token operator">=</span> Expression<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>示例如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> groupA <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> groupB <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> someInts <span class="token operator">=</span> <span class="token keyword">from</span> a <span class="token keyword">in</span> groupA
+                   <span class="token keyword">from</span> b <span class="token keyword">in</span> groupB
+                   <span class="token keyword">let</span> sum <span class="token operator">=</span> a <span class="token operator">+</span> b  <span class="token comment">//在新的变量中保存结果</span>
+                   <span class="token keyword">where</span> <span class="token class-name">sum</span> <span class="token operator">==</span> <span class="token number">12</span>
+                   <span class="token keyword">select</span> <span class="token keyword">new</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> sum <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> someInts<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123; a &#x3D; 3, b &#x3D; 9, sum &#x3D; 12 &#125;
+&#123; a &#x3D; 4, b &#x3D; 8, sum &#x3D; 12 &#125;
+&#123; a &#x3D; 5, b &#x3D; 7, sum &#x3D; 12 &#125;
+&#123; a &#x3D; 6, b &#x3D; 6, sum &#x3D; 12 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="6-6-3-where-子句"><a href="#6-6-3-where-子句" class="headerlink" title="6.6.3 where 子句"></a>6.6.3 where 子句</h4><p><strong>where子句根据之后的运算来筛选指定项。</strong>从源数据中筛选出元素。</p>
+<p>只要是在from…let…where部分中，查询表达式可以有多个where。</p>
+<p>上面的示例中几乎都使用了 where 子句，下面来演示下多个 where 子句：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> groupA <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> groupB <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> someInts <span class="token operator">=</span> <span class="token keyword">from</span> a <span class="token keyword">in</span> groupA
+                   <span class="token keyword">from</span> b <span class="token keyword">in</span> groupB
+                   <span class="token keyword">let</span> sum <span class="token operator">=</span> a <span class="token operator">+</span> b  
+                   <span class="token keyword">where</span> <span class="token class-name">sum</span> <span class="token operator">==</span> <span class="token number">12</span>
+                   <span class="token keyword">where</span> <span class="token class-name">a</span> <span class="token operator">></span> <span class="token number">4</span>
+                   <span class="token keyword">select</span> <span class="token keyword">new</span> <span class="token punctuation">&#123;</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> sum <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> someInts<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123; a &#x3D; 5, b &#x3D; 7, sum &#x3D; 12 &#125;
+&#123; a &#x3D; 6, b &#x3D; 6, sum &#x3D; 12 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="6-7-orderby-子句"><a href="#6-7-orderby-子句" class="headerlink" title="6.7 orderby 子句"></a>6.7 orderby 子句</h3><p>使用 <code>orderby</code> 子句可按升序或降序对结果进行排序。 还可以指定次要排序顺序。 </p>
+<p>orderby子句语法如下图。可选的ascending和descending关键字设置了排序方向。表达式通常是项的一个字段。该字段不一定非得是数值字段，也可以是字符串这样的可排序类型。</p>
+<ul>
+<li>orderby 子句默认是升序</li>
+<li>可以有任意多子句，它们必须用逗号分隔</li>
+</ul>
+<p><img src="/images/Linq/759721-20170315104106166-1771384804.jpg" alt="img"></p>
+<p>例：对学生的姓氏是主要排序，然后对其名是次要排序</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Orderby</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> students <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Jones"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Mary"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">19</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"History"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Smith"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Bob"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"CompSci"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Smith"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Cesar"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"CompSci"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Fleming"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Carol"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">21</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"History"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Fleming"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Debra"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">21</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"History"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> query <span class="token operator">=</span> <span class="token keyword">from</span> student <span class="token keyword">in</span> students
+                <span class="token keyword">orderby</span> student<span class="token punctuation">.</span>LName<span class="token punctuation">,</span> student<span class="token punctuation">.</span>FName <span class="token comment">//进行排序</span>
+                <span class="token keyword">select</span> student<span class="token punctuation">;</span>
+
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> query<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">item<span class="token punctuation">.</span>LName</span><span class="token punctuation">&#125;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">item<span class="token punctuation">.</span>FName</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Fleming Carol
+Fleming Debra
+Jones Mary
+Smith Bob
+Smith Cesar<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-8-select…group子句"><a href="#6-8-select…group子句" class="headerlink" title="6.8 select…group子句"></a>6.8 select…group子句</h3><p>查询表达式必须以 <code>group</code> 子句或 <code>select</code> 子句结尾。</p>
+<p>select…group 部分由两种类型的子句组成—— select 子句和 gropu..by 子句。select…group部分之前的部分指定了数据源和要选择的对象。</p>
+<ul>
+<li>select 子句指定应该选择所选对象的哪些部分。它可以指定下面的任意一项<ul>
+<li>整个数据项</li>
+<li>数据项的一个字段</li>
+<li>数据项的几个字段组成的新对象（或类似其他值）</li>
+</ul>
+</li>
+</ul>
+<p>例子如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Select</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> students <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Jones"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Mary"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">19</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"History"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Smith"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Bob"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"CompSci"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Smith"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Cesar"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"CompSci"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> query1 <span class="token operator">=</span> <span class="token keyword">from</span> student <span class="token keyword">in</span> students
+                 <span class="token keyword">where</span> <span class="token class-name">student</span><span class="token punctuation">.</span>Age <span class="token operator">></span><span class="token number">19</span>
+                 <span class="token keyword">select</span> student<span class="token punctuation">;</span>       <span class="token comment">//选择整个数据项</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> query2 <span class="token operator">=</span> <span class="token keyword">from</span> student <span class="token keyword">in</span> students
+                 <span class="token keyword">where</span> <span class="token class-name">student</span><span class="token punctuation">.</span>Age <span class="token operator">></span> <span class="token number">19</span>
+                 <span class="token keyword">select</span> student<span class="token punctuation">.</span>LName<span class="token punctuation">;</span>       <span class="token comment">//选择数据线的一个字段</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> query3 <span class="token operator">=</span> <span class="token keyword">from</span> student <span class="token keyword">in</span> students
+                 <span class="token keyword">where</span> <span class="token class-name">student</span><span class="token punctuation">.</span>Age <span class="token operator">></span> <span class="token number">19</span>
+                 <span class="token keyword">select</span> <span class="token keyword">new</span> <span class="token punctuation">&#123;</span> student<span class="token punctuation">.</span>LName<span class="token punctuation">,</span> student<span class="token punctuation">.</span>FName <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>      <span class="token comment">//选择数据线的几个字段</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>group…by子句是可选的，用来指定选择的项如何分组</li>
+</ul>
+<h3 id="6-9-查询中的匿名类型"><a href="#6-9-查询中的匿名类型" class="headerlink" title="6.9 查询中的匿名类型"></a>6.9 查询中的匿名类型</h3><p>查询结果可以由原始集合的项、原始集合中项的字段或匿名类型组成。</p>
+<p>可以通过<strong>在 select 子中把希望在类型中包括的字段以逗号分隔，并以大括号进行包围来创建匿名类型</strong>。例如，要只选择学生姓名和主修课，可以使用如下的语法：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">select</span> <span class="token keyword">new</span> <span class="token punctuation">&#123;</span>s<span class="token punctuation">.</span>LName<span class="token punctuation">,</span>s<span class="token punctuation">.</span>FName<span class="token punctuation">,</span>s<span class="token punctuation">.</span>Major<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="6-10-group-子句"><a href="#6-10-group-子句" class="headerlink" title="6.10 group 子句"></a>6.10 group 子句</h3><p><code>group</code> 子句返回一个 <strong>IGrouping&lt; Tkey,TElement &gt;</strong> 对象序列，这些对象包含零个或多个与该组的键值匹配的项。 例如，可以按照每个字符串中的第一个字母对字符串序列进行分组。 在这种情况下，第一个字母就是键，类型为 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/char">char</a>，并且存储在每个 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.linq.igrouping-2">IGrouping</a> 对象的 <code>Key</code> 属性中。 编译器可推断键的类型。</p>
+<ul>
+<li>如果项包含在查询的结果中，它们就可以根据某个字段的值进行分组。作为分组依据的属性叫做 <strong>键</strong>（key）</li>
+<li>group子句返回的不是原始数据源中项的枚举，而是返回可以枚举已经形成的项的分组的可枚举类型，即对象序列</li>
+<li>分组本身是可枚举类型，它们可以枚举实际的项</li>
+</ul>
+<p>如下代码演示了根据学生的主修课程进行分组：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Groupby</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token class-name"><span class="token keyword">var</span></span> students <span class="token operator">=</span> <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+          <span class="token punctuation">&#123;</span>
+              <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Jones"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Mary"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">19</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"History"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+              <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Smith"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Bob"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"CompSci"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+              <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Fleming"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Carol"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">21</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"History"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+              <span class="token keyword">new</span><span class="token punctuation">&#123;</span>LName<span class="token operator">=</span><span class="token string">"Smith"</span><span class="token punctuation">,</span>FName<span class="token operator">=</span><span class="token string">"Cesar"</span><span class="token punctuation">,</span>Age<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">,</span>Major<span class="token operator">=</span><span class="token string">"CompSci"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+          <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+          <span class="token class-name"><span class="token keyword">var</span></span> query <span class="token operator">=</span> <span class="token keyword">from</span> student <span class="token keyword">in</span> students
+                      <span class="token keyword">group</span> student <span class="token keyword">by</span> student<span class="token punctuation">.</span>Major<span class="token punctuation">;</span><span class="token comment">//student.Major即键key</span>
+ 
+
+          <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> g <span class="token keyword">in</span> query<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>g<span class="token punctuation">.</span>Key<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出分组键</span>
+              <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> s <span class="token keyword">in</span> g<span class="token punctuation">)</span>	   <span class="token comment">//枚举分组中的项</span>
+              <span class="token punctuation">&#123;</span>
+                  Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"   </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">s<span class="token punctuation">.</span>LName</span><span class="token punctuation">&#125;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">s<span class="token punctuation">.</span>FName</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">History
+   Jones Mary
+   Fleming Carol
+CompSci
+   Smith Bob
+   Smith Cesar<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/images/Linq/image-20230119163348385.png"></p>
+<h3 id="6-11-查询延续：into-子句"><a href="#6-11-查询延续：into-子句" class="headerlink" title="6.11 查询延续：into 子句"></a>6.11 查询延续：into 子句</h3><p>可以在 <code>select</code> 或 <code>group</code> 子句中使用 <code>into</code> 关键字创建存储查询的临时标识符。 如果在分组或选择操作之后必须对查询执行其他查询操作，则可以这样做。</p>
+<p>查询延续子句可以接受查询的一部分结果并赋予一个名字，从而可以在查询的另一部分中使用。</p>
+<p>示例如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Into</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> words<span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token string">"apples"</span><span class="token punctuation">,</span> <span class="token string">"blueberries"</span><span class="token punctuation">,</span> <span class="token string">"oranges"</span><span class="token punctuation">,</span> <span class="token string">"bananas"</span><span class="token punctuation">,</span> <span class="token string">"apricots"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+          <span class="token class-name"><span class="token keyword">var</span></span> wordGroup <span class="token operator">=</span> <span class="token keyword">from</span> w <span class="token keyword">in</span> words
+                          <span class="token keyword">group</span> w <span class="token keyword">by</span> w<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token keyword">into</span> fruitGroup   <span class="token comment">//根据水果英文首字母进行分类，存入fruitGroup</span>
+                          <span class="token keyword">where</span> <span class="token class-name">fruitGroup</span><span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">2</span>     <span class="token comment">//如果一个分类由2个以上</span>
+                          <span class="token keyword">select</span> <span class="token keyword">new</span> <span class="token punctuation">&#123;</span> FirstLetter <span class="token operator">=</span> fruitGroup<span class="token punctuation">.</span>Key<span class="token punctuation">,</span> Words <span class="token operator">=</span> fruitGroup<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">//创建一个匿名类型，存储水果英文的键和水果的数量</span>
+
+          <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> wordGroup<span class="token punctuation">)</span>
+          <span class="token punctuation">&#123;</span>
+              Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">item<span class="token punctuation">.</span>FirstLetter</span><span class="token punctuation">&#125;</span></span><span class="token string"> has </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">item<span class="token punctuation">.</span>Words</span><span class="token punctuation">&#125;</span></span><span class="token string"> elements."</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">a has 2 elements.
+b has 2 elements.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="7-标准查询运算符"><a href="#7-标准查询运算符" class="headerlink" title="7. 标准查询运算符"></a>7. 标准查询运算符</h2><p>标准查询运算符由一系列API方法组成，API 能让我们查询任何 .NET 数组或集合。<br>标准查询运算符的重要特性如下：</p>
+<ul>
+<li>被查询的集合对象叫做序列，它必须实现<code>IEnumerable&lt;T&gt;</code>接口。</li>
+<li>标准查询运算符使用方法语法。</li>
+<li>一些运算符返回IEnumerable对象（或其他序列），而其他的一些运算符返回标量。返回标量的运算符立即执行，并返回一个值</li>
+<li>很多操作都以一个谓词作为参数。谓词是一个方法，它以对象为参数，根据对象是否满足某条件而返回 true 或 false</li>
+</ul>
+<p>例：Sum和Count运算符的使用</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> numbers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> <span class="token punctuation">&#123;</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token class-name"><span class="token keyword">int</span></span> total <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name"><span class="token keyword">int</span></span> howMany <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Total: &#123;0&#125;,Count: &#123;1&#125;"</span><span class="token punctuation">,</span> total<span class="token punctuation">,</span> howMany<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Total: 12,Count: 3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><em>标准查询运算符</em> 是组成 LINQ 模式的方法。 这些方法中的大多数都作用于序列；其中序列指其类型实现 <code>IEnumerable&lt; T &gt;</code>接口或 <code> IQueryable &lt; T &gt;</code>接口的对象，包括List&lt;&gt;、Dictionary&lt;&gt;、Stack&lt;&gt;、Array等。 标准查询运算符提供包括筛选、投影、聚合、排序等在内的查询功能。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/linq/standard-query-operators-overview">标准查询运算符概述 (C#)</a></p>
+<p><img src="/images/Linq/759721-20170315104112463-1147653819.jpg"></p>
+<h3 id="7-1-标准查询运算符的签名"><a href="#7-1-标准查询运算符的签名" class="headerlink" title="7.1 标准查询运算符的签名"></a>7.1 标准查询运算符的签名</h3><p><code>System.Linq.Enumerable</code> 类声明了标准查询运算符方法。这些方法不仅是一些方法，它们是扩展了<code>IEnumerable&lt;T&gt;</code>泛型类的扩展方法。</p>
+<p>扩展方法是公共的静态方法，尽管定义在一个类中，但目的是为另一个类（第一个形参）增加功能。该参数前必须有关键字this。</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li>《C#图解教程》</li>
 <li>  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/moonache/p/6552843.html">C#图解教程 第十九章 LINQ</a></li>
@@ -952,8 +1189,7 @@ Student taking History:Fleming<span aria-hidden="true" class="line-numbers-rows"
                 <a href="/2023/01/18/Linq/">
                     <div class="card-image">
                         
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/0.jpg" class="responsive-img" alt="CSharp 中的 LINQ">
+                        <img src="/images/Linq/caihong.jpg" class="responsive-img" alt="CSharp 中的 LINQ">
                         
                         <span class="card-title">CSharp 中的 LINQ</span>
                     </div>
@@ -1278,7 +1514,7 @@ Student taking History:Fleming<span aria-hidden="true" class="line-numbers-rows"
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">180.1k</span>
+                        class="white-color">182.5k</span>
             
             
             
