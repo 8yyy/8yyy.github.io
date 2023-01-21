@@ -403,14 +403,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    10.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    24 分
+                    44 分
                 </div>
                 
 
@@ -935,12 +935,487 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
 <p><em>标准查询运算符</em> 是组成 LINQ 模式的方法。 这些方法中的大多数都作用于序列；其中序列指其类型实现 <code>IEnumerable&lt; T &gt;</code>接口或 <code> IQueryable &lt; T &gt;</code>接口的对象，包括List&lt;&gt;、Dictionary&lt;&gt;、Stack&lt;&gt;、Array等。 标准查询运算符提供包括筛选、投影、聚合、排序等在内的查询功能。</p>
 <p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/linq/standard-query-operators-overview">标准查询运算符概述 (C#)</a></p>
 <p><img src="/images/Linq/759721-20170315104112463-1147653819.jpg"></p>
-<h3 id="7-1-标准查询运算符的签名"><a href="#7-1-标准查询运算符的签名" class="headerlink" title="7.1 标准查询运算符的签名"></a>7.1 标准查询运算符的签名</h3><p><code>System.Linq.Enumerable</code> 类声明了标准查询运算符方法。这些方法不仅是一些方法，它们是扩展了<code>IEnumerable&lt;T&gt;</code>泛型类的扩展方法。</p>
+<h3 id="7-1-标准查询运算符的签名"><a href="#7-1-标准查询运算符的签名" class="headerlink" title="7.1 标准查询运算符的签名"></a>7.1 标准查询运算符的签名</h3><p><code>System.Linq.Enumerable</code> 类声明了标准查询运算符方法。这些方法不仅仅是普通方法，它们是扩展了<code>IEnumerable&lt;T&gt;</code>泛型类的扩展方法。</p>
 <p>扩展方法是公共的静态方法，尽管定义在一个类中，但目的是为另一个类（第一个形参）增加功能。该参数前必须有关键字this。</p>
+<p><img src="/images/Linq/image-20230119194801983.png"></p>
+<p>示例：使用Count 和 First 运算符：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> intArray <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+          <span class="token comment">//方法语法</span>
+          <span class="token class-name"><span class="token keyword">var</span></span> count1 <span class="token operator">=</span> Enumerable<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span>intArray<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token class-name"><span class="token keyword">var</span></span> firstNum1 <span class="token operator">=</span> Enumerable<span class="token punctuation">.</span><span class="token function">First</span><span class="token punctuation">(</span>intArray<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          <span class="token comment">//扩展语法</span>
+          <span class="token class-name"><span class="token keyword">var</span></span> count2 <span class="token operator">=</span> intArray<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token class-name"><span class="token keyword">var</span></span> firstNum2 <span class="token operator">=</span> intArray<span class="token punctuation">.</span><span class="token function">First</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"Count:</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">count1</span><span class="token punctuation">&#125;</span></span><span class="token string">,FirstNumber</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">firstNum1</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"Count:</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">count2</span><span class="token punctuation">&#125;</span></span><span class="token string">,FirstNumber</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">firstNum2</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Count:5,FirstNumber1
+Count:5,FirstNumber1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>分析代码如下：</p>
+<ul>
+<li>Count 运算符返回序列中所有元素的个数。</li>
+<li>First 运算符返回序列中的第一个元素。</li>
+<li>在代码中，前两次使用的运算符都是直接调用的，和普通方法差不多，<strong>数组作为参数。</strong></li>
+<li>之后的两行代码使用扩展方法语法来调用运算符，就好像它们是数组的方法成员一样一，<strong>数组作为被扩展的对象</strong>。</li>
+<li>方法语法调用和扩展语法调用在语义上是完全相等的，只是语法不同。</li>
+</ul>
+<h3 id="7-2-查询表达式和标准查询运算符"><a href="#7-2-查询表达式和标准查询运算符" class="headerlink" title="7.2 查询表达式和标准查询运算符"></a>7.2 查询表达式和标准查询运算符</h3><p>标准查询运算符是进行查询的一组方法。编译器把每个查询表达式翻译成标准查询运算符的形式。</p>
+<p>查询表达式和方法语法可以组合：</p>
+<p><img src="/images/Linq/image-20230119200240402.png"></p>
+<h3 id="7-3-将委托作为参数"><a href="#7-3-将委托作为参数" class="headerlink" title="7.3 将委托作为参数"></a>7.3 将委托作为参数</h3><p>每个运算符的第一个参数是<code>IEnumerable&lt;T&gt;</code>对象的引用，之后的参数可以是任何类型。很多运算符接受泛型委托作为参数。</p>
+<p><strong>泛型委托用于给运算符提供用户自定义代码</strong>。为了解释这一点，我们首先从演示 Count 运算符的几种使用方式的示例开始。Count 运算符被重载且有两种形式，第一种之前示例中用过，它有一个参数，返回集合中元素的个数。签名如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> <span class="token generic-method"><span class="token function">Count</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>T<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token class-name">IEnumerable<span class="token punctuation">&lt;</span>T<span class="token punctuation">></span></span> source<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后，假设我们希望计算数组中奇数元素的总数。Count 方法必须能够检测整数是否为奇数。<br>我们需要使用Count方法的第二种形式。如下所示，它接受一个泛型委托作为第二个参数。调用时，我们提供一个接受单个 T 类型的输入参数并返回布尔值的委托对象。委托代码的返回值必须指定元素是否包含在总数中。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> <span class="token generic-method"><span class="token function">Count</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>T<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token keyword">this</span> IEnumerable<span class="token operator">&lt;</span>T<span class="token operator">></span> source，<span class="token class-name">Func<span class="token punctuation">&lt;</span>T<span class="token punctuation">,</span><span class="token keyword">bool</span><span class="token punctuation">></span></span> predicate<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>代码如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+      <span class="token punctuation">&#123;</span>
+          <span class="token class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> intArray <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+          <span class="token class-name"><span class="token keyword">var</span></span> countOdd <span class="token operator">=</span> intArray<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span>n <span class="token operator">=></span> n <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"Count of odd numbers:</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">countOdd</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输入结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Count of odd numbers:2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="7-4-LINQ-预定义的委托类型"><a href="#7-4-LINQ-预定义的委托类型" class="headerlink" title="7.4 LINQ 预定义的委托类型"></a>7.4 LINQ 预定义的委托类型</h3><p>和前面示例中的Count运算符差不多，很多LINQ运算符需要我们提供代码来指示运算符如何执行它的操作。我们通过委托对象作为参数来实现。</p>
+<p>LINQ定义了两套泛型委托类型与标准查询运算符一起使用，即<code>Func委托</code>和<code>Action委托</code>，各有17个成员。</p>
+<ul>
+<li>我们用作实参的委托对象必须是这些类型或这些形式之一</li>
+<li>TR代表返回值，并且总是在类型参数列表中的最后一个</li>
+</ul>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">delegate</span> <span class="token return-type class-name">TR</span> <span class="token generic-method"><span class="token function">Func</span><span class="token generic class-name"><span class="token punctuation">&lt;</span><span class="token keyword">in</span> T1<span class="token punctuation">,</span><span class="token keyword">in</span> T2<span class="token punctuation">,</span><span class="token keyword">out</span> TR<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token class-name">T1</span> a1<span class="token punctuation">,</span><span class="token class-name">T2</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 ↑               ↑              ↑
+              返回类型         类型参数        方法参数<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>注意返回类型参数有out关键字，使之可以<strong>协变，即可以接受声明的类型或从这个类型派生的类型</strong>。输入参数有in关键字，使之可以逆变，即你可以接受声明的类型或从这个类型派生的类型。</p>
+<h3 id="7-5-使用委托类型的示例"><a href="#7-5-使用委托类型的示例" class="headerlink" title="7.5 使用委托类型的示例"></a>7.5 使用委托类型的示例</h3><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">class</span> <span class="token class-name">Program</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">bool</span></span> <span class="token function">IsOdd</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> x<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> x<span class="token operator">%</span><span class="token number">2</span><span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> intArray<span class="token operator">=</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> <span class="token punctuation">&#123;</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+        Func<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">bool</span><span class="token operator">></span>myDel<span class="token operator">=</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">Func<span class="token punctuation">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">bool</span><span class="token punctuation">></span></span><span class="token punctuation">(</span>IsOdd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword">var</span></span> countOdd<span class="token operator">=</span>intArray<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span>myDel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Count of odd numbers: &#123;0&#125;"</span><span class="token punctuation">,</span>countOdd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="8-LINQ-to-XML"><a href="#8-LINQ-to-XML" class="headerlink" title="8. LINQ to XML"></a>8. LINQ to XML</h2><p>可扩展标记语言（XML）是存储和交换数据的重要方法。LINQ 为语言增加了一些特性，使得 XML 用起来比 XPath 和 XSLT 容易得多。</p>
+<ul>
+<li>可以使用单一语句自顶向下创建 XML 树</li>
+<li>可以不使用包含树的 XML 文档的情况下在内存中创建并操作 XML</li>
+<li>可以不使用 Text 子节点来创建和操作字符串节点</li>
+<li>搜索 XML树时，不需要遍历它。只需要查询树并让它返回想要的结果</li>
+</ul>
+<h3 id="8-1-标记语言"><a href="#8-1-标记语言" class="headerlink" title="8.1 标记语言"></a>8.1 标记语言</h3><p><strong>标记语言</strong>（markup language）是文档中的一组标签，它提供有关文档的信息并组织其内容。即标记标签不是文档的数据——它们包含关于数据的数据。有关数据的数据称为<strong>元数据</strong>。</p>
+<p>标记语言是被定义的一组标签，旨在传递有关文档内容的特定类型的元数据。例如，HTML 是众所周知的标记语言。标签中的元数据包含了 Web 页面如何在浏览器中呈现已经如何使用超链接在页面中导航的信息。</p>
+<p>大多数标记语言包含一组预定义的标签，而 XML 中仅有少量预定义标签，其他由程序员定义，来表示特定文档类型需要的任何元数据。只要数据的读者和编写者都知道标签的含义，标签就可以包含任何设计者希望的有用信息。</p>
+<h3 id="8-2-XML-基础"><a href="#8-2-XML-基础" class="headerlink" title="8.2 XML 基础"></a>8.2 XML 基础</h3><p>XML文档中的数据包含了一个 XML 树，XML 树主要由嵌套元素组成。</p>
+<p><strong>元素</strong>是 XML 树的基本要素。每个元素都有名字且包含数据，一些元素还包含其他嵌套元素。元素由开始和关闭标签进行划分。任何元素包含的数据都必须介于开始和关闭标签之间。</p>
+<ul>
+<li>开始标签 <code>&lt;ElementName&gt;</code></li>
+<li>结束标签 <code>&lt;/ElementName&gt;</code></li>
+<li>无内容的单个标签 <code>&lt;ElementName/&gt;</code></li>
+</ul>
+<p>例：</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">   开始标签        内容        结束标签
+      ↓            ↓            ↓
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EmployeeName</span><span class="token punctuation">></span></span>Sally Jones<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>EmployeeName</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PhoneNumber</span><span class="token punctuation">/></span></span>  ←没有内容的元素<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>有关XML的重要事项：</p>
+<ul>
+<li>XML文档必须有一个根元素包含所有其他元素</li>
+<li>XML标签必须合理嵌套</li>
+<li>与HTML标签不同，XML标签是区分大小写的</li>
+<li>XML特性是名字/值的配对，它包含了元素的额外元数据。特性的值部分必须包含在引号内，单引号双引号皆可</li>
+<li>XML文档中的空格是有效的。这与把空格作为当个空格输出的HTML不同</li>
+</ul>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Employees</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Employee</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Name</span><span class="token punctuation">></span></span>Bob Smith<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Name</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PhoneNumber</span><span class="token punctuation">></span></span>408-555-1000<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PhoneNumber</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>CellPhone</span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Employee</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Employee</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Name</span><span class="token punctuation">></span></span>Sally Jones<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Name</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PhoneNumber</span><span class="token punctuation">></span></span>415-555-2000<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PhoneNumber</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PhoneNumber</span><span class="token punctuation">></span></span>415-555-2001<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PhoneNumber</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Employee</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Employees</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/images/Linq/759721-20170315104114526-1931773787.jpg"></p>
+<h3 id="8-3-XML-类"><a href="#8-3-XML-类" class="headerlink" title="8.3 XML 类"></a>8.3 XML 类</h3><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/standard/linq/linq-xml-classes-overview">LINQ to XML 类概述</a></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xattribute">XAttribute</a> 表示一个 XML 属性。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xdocument">XDocument</a> 表示一个 XML 文档。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xelement">XElement</a> 表示一个 XML 元素。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xnode">XNode</a> 是一个抽象类，它表示 XML 树的节点。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xcomment">XComment</a> 表示一个 XML 注释。</li>
+</ul>
+<p>LINQ to XML可以以两种方式用于 XML：</p>
+<ul>
+<li>第一种是作为简化的 XML 操作 API。</li>
+<li>第二种是 LINQ 查询工具。</li>
+</ul>
+<p>LINQ to XML API 由很多表示 XML 树组件的类组成。我们主要使用3个类，XElement、XAttribute和 XDocument。</p>
+<p>下图演示了用于构造 XML 树的类以及它们如何被嵌套。</p>
+<ul>
+<li>可作为 XDocument 节点的直接子节点。<ul>
+<li>下面的节点类型，最多有一个：XDeclaration 节点、XDocumentType 节点以及XElement 节点。</li>
+<li>任何数量的 XProcessingInstruction 节点。</li>
+</ul>
+</li>
+<li>如果在 XDocument 中有最高级别的 XElement 节点，那么它就是XML树中其他元素的根。</li>
+<li>根元素可以包含任意数量的 XElement、XComment 或 XProcessingInstruction 节点，在任何级别上嵌套</li>
+</ul>
+<p><img src="/images/Linq/759721-20170315104115713-1359858360.jpg"></p>
+<p>除了 XAttribute 类，大多数用于创建 XML 树的类都从一个叫做 XNode 的类继承，一般在书中也叫做 “XNodes”。</p>
+<h4 id="8-3-1-创建、保存、加载和显示-XML-文档"><a href="#8-3-1-创建、保存、加载和显示-XML-文档" class="headerlink" title="8.3.1 创建、保存、加载和显示 XML 文档"></a>8.3.1 创建、保存、加载和显示 XML 文档</h4><p>从创建一个简单的包含一个 Employees 节点的 XML 树开始，两个子节点包含两个职员的名字。</p>
+<ul>
+<li>树使用一条语句来创建，并同时在适当的位置创建所有的嵌套元素，这叫作函数式构造( functional construction )。</li>
+<li>每一个元素由对象创建表达式在适当的位置创建，使用了节点类型的构造函数。</li>
+</ul>
+<p>创建树之后，代码使用 XDocument 的 Save方法把它保存在一个叫作 EmployeesFile.xml 的文件中。然后，再使用 XDocument 的 Load 静态方法把 XML 树从文件中重新读回，并把树赋值给一个新的 XDocument 对象。最后，使用 WriteLine 把新的 Document 对象保存的树结构显示出来。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Xml<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>      <span class="token comment">//引入Linq命名空间</span>
+<span class="token keyword">namespace</span> <span class="token namespace">XMLExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">internal</span> <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">XDocument</span> employees1 <span class="token operator">=</span>  
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>      <span class="token comment">//创建 XML 文档</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employees"</span><span class="token punctuation">,</span>   <span class="token comment">//创建根元素</span>
+                        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">,</span> <span class="token string">"Bob Smith"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//创建元素</span>
+                        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">,</span><span class="token string">"8yyy"</span><span class="token punctuation">)</span>         <span class="token comment">//创建元素</span>
+                <span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            employees1<span class="token punctuation">.</span><span class="token function">Save</span><span class="token punctuation">(</span><span class="token string">"EmployeesFile.xml"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">//保存到文件</span>
+
+            <span class="token comment">//将保存的文件加载到新变量中</span>
+            <span class="token class-name">XDocument</span> employees2 <span class="token operator">=</span> XDocument<span class="token punctuation">.</span><span class="token function">Load</span><span class="token punctuation">(</span><span class="token string">"EmployeesFile.xml"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>employees2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;Employees&gt;
+  &lt;Name&gt;Bob Smith&lt;&#x2F;Name&gt;
+  &lt;Name&gt;8yyy&lt;&#x2F;Name&gt;
+&lt;&#x2F;Employees&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="8-3-2-创建-XML-树"><a href="#8-3-2-创建-XML-树" class="headerlink" title="8.3.2 创建 XML 树"></a>8.3.2 创建 XML 树</h4><p>在之前的示例中，我们已经知道了能通过使用 XDocument 和 XElement 的构造函数在内存中创建一个XML文档。在这里，对于两个构造函数:</p>
+<ul>
+<li>第一个参数都是对象名</li>
+<li>第二个参数以及之后的参数含了 XML 树的节点。构造函数的第二个参数是一个 params 参数，也就是说可以有任意多的参数。</li>
+</ul>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Xml<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>      <span class="token comment">//引入Linq命名空间</span>
+<span class="token keyword">namespace</span> <span class="token namespace">XMLExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">internal</span> <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">XDocument</span> employeeDoc <span class="token operator">=</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>      <span class="token comment">//创建文档</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employees"</span><span class="token punctuation">,</span>    <span class="token comment">//创建根元素</span>
+                        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employee"</span><span class="token punctuation">,</span>	<span class="token comment">//第一个employee元素</span>
+                            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">,</span><span class="token string">"Bob Smith"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">,</span> <span class="token string">"400-555-1000"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+                        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employee"</span><span class="token punctuation">,</span>	<span class="token comment">////第二个employee元素</span>
+                            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">,</span> <span class="token string">"8yyy"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">,</span> <span class="token string">"400-555-1000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">,</span> <span class="token string">"400-555-1000"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">)</span>
+                 <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>employeeDoc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;Employees&gt;
+  &lt;Employee&gt;
+    &lt;Name&gt;Bob Smith&lt;&#x2F;Name&gt;
+    &lt;PhoneNumber&gt;400-555-1000&lt;&#x2F;PhoneNumber&gt;
+  &lt;&#x2F;Employee&gt;
+  &lt;Employee&gt;
+    &lt;Name&gt;8yyy&lt;&#x2F;Name&gt;
+    &lt;PhoneNumber&gt;400-555-1000&lt;&#x2F;PhoneNumber&gt;
+    &lt;PhoneNumber&gt;400-555-1000&lt;&#x2F;PhoneNumber&gt;
+  &lt;&#x2F;Employee&gt;
+&lt;&#x2F;Employees&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="8-3-3-使用-XML-树的值"><a href="#8-3-3-使用-XML-树的值" class="headerlink" title="8.3.3 使用 XML 树的值"></a>8.3.3 使用 XML 树的值</h4><p>当我们遍历XML树来获取或修改值时才体现了XML的强大。下表给出了用于获取数据的主要方法。</p>
+<p><img src="/images/Linq/759721-20170315104118416-2120525438.jpg"></p>
+<p>关于上表，需要注意的一些事项如下：</p>
+<ul>
+<li><strong>Nodes</strong> Nodes方法返回<code>IEnumerable&lt;object&gt;</code>类型的对象，因为返回的节点可能是不同的类型，比如XElement、XComment等。我们可以使用以类型作为参数的方法<code>OfType(type)</code>来指定返回某类型的节点。例如，如下代码只能获取 XComment 节点<ul>
+<li><code>IEnumerable&lt;XComment&gt; comments = xd.Nodes().OfType&lt;XComment&gt;();</code></li>
+</ul>
+</li>
+<li><strong>Elements</strong> 由于获取 XElement 是非常普遍的需求，就出现了<code>Nodes.OfType(XElement)()</code>表达式的简短形式–Elements方法<ul>
+<li>无参数的Elements方法返回所有子XElements</li>
+<li>单个name参数的Elements方法返回具有这个名字的子XElements。例如，如下代码返回具有名字PhoneNumber的子XElement节点</li>
+<li><code>IEnumerable&lt;XElement&gt; empPhones=emp.Elements(&quot;PhoneNumber&quot;);</code></li>
+</ul>
+</li>
+<li><strong>Element</strong> 这个方法只获取当前节点的第一个子XElement。如果无参数，获取第一个XElement节点，如果带一个参数，获取第一个具有此名字的子XElement</li>
+<li><strong>Descendants和Ancestors</strong> 这些方法和Elements以及Parent方法差不多，只不过它们不返回直接的子元素和父元素，而是忽略嵌套级别，包括所有之下或者之上的节点</li>
+</ul>
+<p>如下代码演示了 Element 和 Elements 方法：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ElementAndElements</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">XDocument</span> employeeDoc <span class="token operator">=</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>      <span class="token comment">//创建文档</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employees"</span><span class="token punctuation">,</span>    <span class="token comment">//创建根元素</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employee"</span><span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">,</span> <span class="token string">"Bob Smith"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">,</span> <span class="token string">"400-555-1000"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Employee"</span><span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">,</span> <span class="token string">"8yyy"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">,</span> <span class="token string">"400-555-1000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">,</span> <span class="token string">"400-555-1000"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+         <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 获取第一个名为"Employees"的子XElement</span>
+    <span class="token class-name">XElement</span> root <span class="token operator">=</span> employeeDoc<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"Employees"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//返回所有的子XElement，即"Employee"</span>
+    <span class="token class-name">IEnumerable<span class="token punctuation">&lt;</span>XElement<span class="token punctuation">></span></span> employees <span class="token operator">=</span> root<span class="token punctuation">.</span><span class="token function">Elements</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> emp <span class="token keyword">in</span> employees<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token comment">//获取第一个名为"Name"的子XElement</span>
+        <span class="token class-name">XElement</span> empNameNode <span class="token operator">=</span> emp<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>empNameNode<span class="token punctuation">.</span>Value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				
+        <span class="token comment">//返回所有名为"PhoneNumber"的子XElement</span>
+        <span class="token class-name">IEnumerable<span class="token punctuation">&lt;</span>XElement<span class="token punctuation">></span></span> empPhones <span class="token operator">=</span> emp<span class="token punctuation">.</span><span class="token function">Elements</span><span class="token punctuation">(</span><span class="token string">"PhoneNumber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> phone <span class="token keyword">in</span> empPhones<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"    </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">phone<span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Bob Smith
+    400-555-1000
+8yyy
+    400-555-1000
+    400-555-1000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="8-3-4-增加节点以及操作-XML"><a href="#8-3-4-增加节点以及操作-XML" class="headerlink" title="8.3.4 增加节点以及操作 XML"></a>8.3.4 增加节点以及操作 XML</h4><p>我们可以使用 <strong>Add</strong> 方法为现有元素增加子元素。 Add 方法允许我们在一次方法调用中增加任意多个元素，不管增加的节点类型是什么。</p>
+<p>如下代码创建一个简单的 XML 树，用 Add 方法为根元素增加单个节点。之后，再次使用 Add 方法增加三个元素： 两个 XElements 和一个 XComment。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">AddElement</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">XDocument</span> xd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>       <span class="token comment">//创建一个 XML文档</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">,</span>        <span class="token comment">//创建 根元素</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"first"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Original tree"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>xd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">XElement</span> rt <span class="token operator">=</span> xd<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取名为root的第一个元素</span>
+
+    rt<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"second"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">//添加一个名为second的子元素</span>
+
+    rt<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"third"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>               <span class="token comment">//连续添加三个子元素</span>
+           <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XComment</span><span class="token punctuation">(</span><span class="token string">"Important Comment"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+           <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"fourth"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Modified tree"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>xd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Original tree
+&lt;root&gt;
+  &lt;first &#x2F;&gt;
+&lt;&#x2F;root&gt;
+
+Modified tree
+&lt;root&gt;
+  &lt;first &#x2F;&gt;
+  &lt;second &#x2F;&gt;
+  &lt;third &#x2F;&gt;
+  &lt;!--Important Comment--&gt;
+  &lt;fourth &#x2F;&gt;
+&lt;&#x2F;root&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>下图是操作 XML 的方法</p>
+<p><img src="/images/Linq/759721-20170315104120526-445884173.jpg"></p>
+<h4 id="8-3-5-使用-XML-特性"><a href="#8-3-5-使用-XML-特性" class="headerlink" title="8.3.5 使用 XML 特性"></a>8.3.5 使用 XML 特性</h4><p><strong>特性即属性，特性提供了有关 XElement 节点的额外信息，它放在 XML 元素的开始标签中。</strong></p>
+<p>属性是与元素关联的名称/值对。 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xattribute">XAttribute</a> 类表示 XML 属性。</p>
+<table>
+<thead>
+<tr>
+<th align="left">构造函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>XAttribute(XName name, object content)</code></td>
+<td align="left">创建一个 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xattribute">XAttribute</a> 对象。 <code>name</code> 参数指定属性的名称；<code>content</code> 指定属性的内容。</td>
+</tr>
+</tbody></table>
+<p><strong>属性不是节点</strong>：</p>
+<ul>
+<li>属性与元素之间有些区别。 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xattribute">XAttribute</a> 对象不是 XML 树中的节点。 它们是与 XML 元素关联的名称/值对。 与文档对象模型 (DOM) 相比，这更加贴切地反映了 XML 结构。 虽然 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xattribute">XAttribute</a> 对象实际上不是 XML 树的节点，但使用 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xattribute">XAttribute</a> 对象与使用 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.xml.linq.xelement">XElement</a> 对象非常相似。</li>
+<li>这一区别仅对编写在节点级使用 XML 树的代码的开发人员特别重要。 许多开发人员不会关心这种区别。</li>
+</ul>
+<p>当我们以函数方法构造 <strong>XML</strong> 树时，只需在 XElement 的构造函数中包含 XAttribute 构造函数来增加特性。XAttribute 构造函数有两种形式一种是接受 name 和 value，另一种是接受现有 XAttribute 的引用。</p>
+<p>例：为root增加两个特性。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">AddXAttribute</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">XDocument</span> xd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">,</span> <span class="token string">"red"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">//为根节点root添加第一个属性color，值为red</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">,</span> <span class="token string">"large"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">//为根节点root添加第二个属性size，值为large</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"first"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"second"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>xd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;root color&#x3D;&quot;red&quot; size&#x3D;&quot;large&quot;&gt;
+  &lt;first &#x2F;&gt;
+  &lt;second &#x2F;&gt;
+&lt;&#x2F;root&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>要从一个 XElement 节点获取特性</strong>可以使用 Attribute 方法，提供特性名称作为参数即可。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">XElement</span> rt <span class="token operator">=</span> xd<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取元素</span>
+<span class="token class-name">XAttribute</span> color <span class="token operator">=</span> rt<span class="token punctuation">.</span><span class="token function">Attribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取特性</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"color is </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">color<span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>移除特性</strong>，可以使用 Remove 方法，或在它的父节点中使用 SetAttributeValue 方法把特性值设为 null。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">XElement</span> rt <span class="token operator">=</span> xd<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取元素</span>
+rt<span class="token punctuation">.</span><span class="token function">Attribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">//移除color特性</span>
+rt<span class="token punctuation">.</span><span class="token function">SetAttributeValue</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//移除size特性</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>增加特性或改变特性的值</strong>，可以使用 SetAttributeValue 方法。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">XElement</span> rt <span class="token operator">=</span> xd<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取元素</span>
+rt<span class="token punctuation">.</span><span class="token function">SetAttributeValue</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">,</span> <span class="token string">"medium"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//改变特性值</span>
+rt<span class="token punctuation">.</span><span class="token function">SetAttributeValue</span><span class="token punctuation">(</span><span class="token string">"width"</span><span class="token punctuation">,</span> <span class="token string">"narrow"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//添加特性</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="8-3-6-其他类型的节点"><a href="#8-3-6-其他类型的节点" class="headerlink" title="8.3.6 其他类型的节点"></a>8.3.6 其他类型的节点</h4><p><strong>XComment</strong></p>
+<p>XML注释由<code>&lt;!--和--&gt;</code>记号间的文本组成。记号间的文本会被XML解析器忽略。我们可以使用XComment类向一个XML文档插入文本。如下面代码所示： </p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">new</span> <span class="token constructor-invocation class-name">XComment</span><span class="token punctuation">(</span><span class="token string">"This is a comment"</span><span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这段代码产生如下XML文档：<br>        <code>&lt;!--This is a comment--&gt;</code></p>
+<p><strong>XDeclaration</strong></p>
+<p>XML文档从包含XML使用的版本号、字符编码类型以及文档是否依赖外部引用的一行开始。这是有关XML的信息，因此它其实是有关数据的元数据。这叫做XML声明，可以使用XDeclaration类来插入，如下代码给出了XDeclaration的示例：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDeclaration</span><span class="token punctuation">(</span><span class="token string">"1.0"</span><span class="token punctuation">,</span><span class="token string">"uff-8"</span><span class="token punctuation">,</span><span class="token string">"yes"</span><span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这段代码产生如下XML文档：<br>        <code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8 &quot; standalone=&quot;yes&quot;?&gt; </code></p>
+<p><strong>XProcessingInstruction</strong></p>
+<p>XML处理指令用于提供XML文档如何被使用和翻译的额外数据，最常见的就是把处理指令用于关联XML文档和一个样式表。</p>
+<p>我们可以使用 XProcessingInstruction 构造函数来包含处理指令。它接受两个字符串参数：目标和数据串。如歌处理指令接受多个数据参数，这些参数必须包含在 XProcessingInstruction 构造函数的第二个字符串参数中，如下的构造函数代码所示</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">new</span> <span class="token constructor-invocation class-name">XProcessingInstruction</span><span class="token punctuation">(</span><span class="token string">"xml-stylesheet"</span><span class="token punctuation">,</span><span class="token string">@"href=""stories"",type=""text/css"""</span><span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这段代码产生如下XML文档：<br>        <code>&lt;?xml-stylesheet href=&quot;stories.css&quot; type=&quot;text/css&quot;?&gt;</code></p>
+<blockquote>
+<p>注意：如果把字符串放在@里，则2个双引号表示一个双引号</p>
+</blockquote>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">XDocument</span> xd<span class="token operator">=</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>
+    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDeclaration</span><span class="token punctuation">(</span><span class="token string">"1.0"</span><span class="token punctuation">,</span><span class="token string">"utf-8"</span><span class="token punctuation">,</span><span class="token string">"yes"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XComment</span><span class="token punctuation">(</span><span class="token string">"This is a comment"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XProcessingInstruction</span><span class="token punctuation">(</span><span class="token string">"xml-stylesheet"</span><span class="token punctuation">,</span><span class="token string">@"href=""stories"",type=""text/css"""</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"root"</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"first"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"second"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>代码会产生如下的输出文件。然而如果使用<code>WriteLine(xd)</code>,声明语句不会被打印出来。<br><img src="/images/Linq/759721-20170315104123276-576581633.jpg" alt="img"></p>
+<h4 id="8-3-7-使用-LINQ-to-XML-的-LINQ-查询"><a href="#8-3-7-使用-LINQ-to-XML-的-LINQ-查询" class="headerlink" title="8.3.7 使用 LINQ to XML 的 LINQ 查询"></a>8.3.7 使用 LINQ to XML 的 LINQ 查询</h4><p>现在，我们可以把 LINQ XML API 和 LINQ 查询表达式组合为简单而强大的 XML 树搜索。</p>
+<p>示例如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">CreateXMLTree</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">XDocument</span> xd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XDocument</span><span class="token punctuation">(</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"MyElements"</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"first"</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">,</span> <span class="token string">"red"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">,</span> <span class="token string">"small"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"second"</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">,</span> <span class="token string">"red"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">,</span> <span class="token string">"midium"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XElement</span><span class="token punctuation">(</span><span class="token string">"third"</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">,</span> <span class="token string">"blue"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token constructor-invocation class-name">XAttribute</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">,</span> <span class="token string">"large"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>xd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xd<span class="token punctuation">.</span><span class="token function">Save</span><span class="token punctuation">(</span><span class="token string">"SimpleSample.xml"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;MyElements&gt;
+  &lt;first color&#x3D;&quot;red&quot; size&#x3D;&quot;small&quot; &#x2F;&gt;
+  &lt;second color&#x3D;&quot;red&quot; size&#x3D;&quot;midium&quot; &#x2F;&gt;
+  &lt;third color&#x3D;&quot;blue&quot; size&#x3D;&quot;large&quot; &#x2F;&gt;
+&lt;&#x2F;MyElements&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>简单的 LINQ 查询：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">SimpleLINQ</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">XDocument</span> xd <span class="token operator">=</span> XDocument<span class="token punctuation">.</span><span class="token function">Load</span><span class="token punctuation">(</span><span class="token string">"SimpleSample.xml"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//加载文档</span>
+    <span class="token class-name">XElement</span> rt <span class="token operator">=</span> xd<span class="token punctuation">.</span><span class="token function">Element</span><span class="token punctuation">(</span><span class="token string">"MyElements"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//获取根元素</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> xyz <span class="token operator">=</span> <span class="token keyword">from</span> e <span class="token keyword">in</span> rt<span class="token punctuation">.</span><span class="token function">Elements</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token keyword">where</span> <span class="token class-name">e</span><span class="token punctuation">.</span>Name<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Length <span class="token operator">==</span> <span class="token number">5</span>
+              <span class="token keyword">select</span> e<span class="token punctuation">;</span>
+
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> x <span class="token keyword">in</span> xyz<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"Name:</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">x<span class="token punctuation">.</span>Name</span><span class="token punctuation">&#125;</span></span><span class="token string"> Color:</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">x<span class="token punctuation">.</span><span class="token function">Attribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string"> size:</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">x<span class="token punctuation">.</span><span class="token function">Attribute</span><span class="token punctuation">(</span><span class="token string">"size"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上述代码使用了简单的 LINQ 查询来从 XML 树中选择节点的子集，然后以各种方式进行显示。这段代码做了如下的事情：</p>
+<ul>
+<li>它从XML树中选择那些名字有 5个字符的元素。由于这些元素的名字是 first、second和 third，只有 first 和 third 这两个名字符合搜索标准，因此这些节点被选中。</li>
+<li>它格式化并显示了所选节点，包括节点名以及特性值。注意，特性使用Attribute 方法来获取，特性的值使用 Value 属性来获取。</li>
+</ul>
+<p>运行结果如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">Name:first Color:red size:small
+Name:third Color:blue size:large<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li>《C#图解教程》</li>
 <li>  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/moonache/p/6552843.html">C#图解教程 第十九章 LINQ</a></li>
 <li>  <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/csharp/linq/">MSDN 语言集成查询(LINQ)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lingxin/p/6084815.html">LinQ to SQL用法详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bootwiki.com/linq/linq-sql.html">https://www.bootwiki.com/linq/linq-sql.html</a></li>
 </ol>
 
                 
@@ -1514,7 +1989,7 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">182.5k</span>
+                        class="white-color">187.3k</span>
             
             
             
