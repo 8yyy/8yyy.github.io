@@ -1,0 +1,1941 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="黑马MySQL学习笔记(一)基础篇, 8yyy&#39;s blog">
+    <meta name="description" content="前言虽然之前简单的接触MySQL，但还没有系统的学习过MySQL，所以准备好好学习下。
+这是根据B站视频教程：黑马程序员 MySQL数据库入门到精通，从mysql安装到mysql高级、mysql优化全囊括 做的学习笔记。
+MySQL 课程介">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>黑马MySQL学习笔记(一)基础篇 | 8yyy&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: 100% 100%;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">8yyy&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">8yyy&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/hmmysql/xk.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">黑马MySQL学习笔记(一)基础篇</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MySQL/">
+                                <span class="chip bg-color">MySQL</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/SQL/" class="post-category">
+                                SQL
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-01-27
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    17 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>虽然之前简单的接触MySQL，但还没有系统的学习过MySQL，所以准备好好学习下。</p>
+<p>这是根据B站视频教程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kr4y1i7ru/?spm_id_from=333.337.search-card.all.click&vd_source=794a7fc718885ad84490c05351dcf216">黑马程序员 MySQL数据库入门到精通，从mysql安装到mysql高级、mysql优化全囊括</a> 做的学习笔记。</p>
+<h2 id="MySQL-课程介绍"><a href="#MySQL-课程介绍" class="headerlink" title="MySQL 课程介绍"></a>MySQL 课程介绍</h2><h3 id="基础篇（初级工程师）"><a href="#基础篇（初级工程师）" class="headerlink" title="基础篇（初级工程师）"></a>基础篇（初级工程师）</h3><ul>
+<li>MySQL 概述</li>
+<li>SQL</li>
+<li>函数</li>
+<li>约束</li>
+<li>多表查询</li>
+<li>事务</li>
+</ul>
+<h3 id="进阶篇（中级工程师）"><a href="#进阶篇（中级工程师）" class="headerlink" title="进阶篇（中级工程师）"></a>进阶篇（中级工程师）</h3><ul>
+<li>存储引擎</li>
+<li>索引</li>
+<li>SQL优化</li>
+<li>视图/存储过程/触发器</li>
+<li>锁</li>
+<li>InnoDB核心</li>
+<li>MySQL管理</li>
+</ul>
+<h3 id="运维篇（高级工程师）"><a href="#运维篇（高级工程师）" class="headerlink" title="运维篇（高级工程师）"></a>运维篇（高级工程师）</h3><ul>
+<li>日志</li>
+<li>主从分离</li>
+<li>分库分表</li>
+<li>读写分离</li>
+</ul>
+<h2 id="1-MySQL概述"><a href="#1-MySQL概述" class="headerlink" title="1. MySQL概述"></a>1. MySQL概述</h2><table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="left">全称</th>
+<th align="left">简称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">数据库</td>
+<td align="left">存储数据的仓库，数据是有组织的进行存储</td>
+<td align="left">DataBase(DB)</td>
+</tr>
+<tr>
+<td align="center">数据库管理系统</td>
+<td align="left">操纵和管理数据库的大型软件</td>
+<td align="left">DataBase Management System (DBMS)</td>
+</tr>
+<tr>
+<td align="center">SQL</td>
+<td align="left">操作关系型数据库的编程语言，定义了一套操作关系型数据库统一标准</td>
+<td align="left">Structured Query Language (SOL)</td>
+</tr>
+</tbody></table>
+<h3 id="1-1-MySQL数据库"><a href="#1-1-MySQL数据库" class="headerlink" title="1.1 MySQL数据库"></a>1.1 MySQL数据库</h3><p>MySQL官方提供了2个不同的版本：</p>
+<ul>
+<li>社区版<ul>
+<li>免费，但不提供任何技术支持</li>
+</ul>
+</li>
+<li>商业版<ul>
+<li>收费，可以试用30天，官方提供技术支持的</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-MySQL安装"><a href="#1-2-MySQL安装" class="headerlink" title="1.2 MySQL安装"></a>1.2 MySQL安装</h3><p>本课程采用MySQL Community Server 8.0.26（目前的最新版本是8.0.32）</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/windows/installer/8.0.html">https://dev.mysql.com/downloads/windows/installer/8.0.html</a></p>
+<p><img src="/images/hmmysql/image-20230127110920201.png" alt="image-20230127110920201"><br>为了保证和课程的一致性，我选择先下载旧版本。</p>
+<p><img src="/images/hmmysql/image-20230127111407760.png" alt="选择默认开发者模式"><br>之后基本都是Next或Execute即可。</p>
+<p><img src="/images/hmmysql/image-20230127112324623.png" alt="设置密码为123456"></p>
+<p><img src="/images/hmmysql/image-20230127112354872.png"></p>
+<h3 id="1-3-启动与停止"><a href="#1-3-启动与停止" class="headerlink" title="1.3 启动与停止"></a>1.3 启动与停止</h3><ul>
+<li>services.msc</li>
+</ul>
+<p><img src="/images/hmmysql/image-20230127112702645.png"></p>
+<ul>
+<li>cmd 管理员</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">net start mysql80 启动
+net stop mysql80 停止<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/images/hmmysql/image-20230127112929256.png"></p>
+<blockquote>
+<p>mysql80 是安装过程中的 Windows Service Name。</p>
+</blockquote>
+<h3 id="1-4-客户端连接"><a href="#1-4-客户端连接" class="headerlink" title="1.4 客户端连接"></a>1.4 客户端连接</h3><p>方式一：MySQL 提供的客户端命令行工具</p>
+<p><img src="/images/hmmysql/image-20230127113246427.png"></p>
+<p>输入的密码为自己安装时设置的密码</p>
+<p>方式二：系统自带的命令行工具执行指令</p>
+<pre class="line-numbers language-none"><code class="language-none">mysql [-h 127.0.0.1] [-P 3306] -u -root -p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>需要先配置环境变量</p>
+<p><img src="/images/hmmysql/image-20230127114102552.png"></p>
+<h3 id="1-5-配置环境变量"><a href="#1-5-配置环境变量" class="headerlink" title="1.5 配置环境变量"></a>1.5 配置环境变量</h3><p>找到MySQL Server下的bin文件</p>
+<pre class="line-numbers language-none"><code class="language-none">C:\Program Files\MySQL\MySQL Server 8.0\bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>复制到环境变量</p>
+<p><img src="/images/hmmysql/image-20230127114023507.png"></p>
+<h3 id="1-6-MySQL-数据模型"><a href="#1-6-MySQL-数据模型" class="headerlink" title="1.6 MySQL 数据模型"></a>1.6 MySQL 数据模型</h3><p><img src="/images/hmmysql/image-20230127124105704.png"></p>
+<h2 id="2-SQL"><a href="#2-SQL" class="headerlink" title="2. SQL"></a>2. SQL</h2><h3 id="2-1-SQL-通用语法"><a href="#2-1-SQL-通用语法" class="headerlink" title="2.1 SQL 通用语法"></a>2.1 SQL 通用语法</h3><ol>
+<li>SQL 语句可以单行或多行书写，以分号结尾。</li>
+<li>SQL 语句可以使用空格/缩进来增强语句的可读性。</li>
+<li>MySQL数据库的SOL语句不区分大小写，关键字建议使用大写。</li>
+<li>注释：<ul>
+<li>单行注释：<code>-- 注释内容</code> 或 <code># 注释内容(MySQL特有)</code></li>
+<li>多行注释： <code>/* 注释内容 */</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="2-2-SQL-分类"><a href="#2-2-SQL-分类" class="headerlink" title="2.2 SQL 分类"></a>2.2 SQL 分类</h3><table>
+<thead>
+<tr>
+<th align="center">分类</th>
+<th align="left">全称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">DDL</td>
+<td align="left">Data Definition Language</td>
+<td>数据定义语言，用来定义数据库对象(数据库，表，字段)</td>
+</tr>
+<tr>
+<td align="center">DML</td>
+<td align="left">Data Manipulation Language</td>
+<td>数据操作语言，用来对数据库表中的数据进行增删改</td>
+</tr>
+<tr>
+<td align="center">DQL</td>
+<td align="left">Data Query Language</td>
+<td>数据查询语言，用来查询数据库中表的记录</td>
+</tr>
+<tr>
+<td align="center">DCL</td>
+<td align="left">Data Control Language</td>
+<td>数据控制语言，用来创建数据库用户、控制数据库的访问权限</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-DDL（数据库定义语言）"><a href="#2-3-DDL（数据库定义语言）" class="headerlink" title="2.3 DDL（数据库定义语言）"></a>2.3 DDL（数据库定义语言）</h3><h4 id="2-3-1-数据库操作"><a href="#2-3-1-数据库操作" class="headerlink" title="2.3.1 数据库操作"></a>2.3.1 数据库操作</h4><p>查询所有数据库：<br><code>SHOW DATABASES;</code></p>
+<p>查询当前数据库：<br><code>SELECT DATABASE();</code></p>
+<p>创建数据库：<br><code>CREATE DATABASE [ IF NOT EXISTS ] 数据库名 [ DEFAULT CHARSET 字符集] [COLLATE 排序规则 ];</code></p>
+<p>删除数据库：<br><code>DROP DATABASE [ IF EXISTS ] 数据库名;</code></p>
+<p>使用数据库：<br><code>USE 数据库名;</code></p>
+<blockquote>
+<p>UTF8字符集长度为3字节，有些符号占4字节，所以推荐用utf8mb4字符集，支持4个字节。</p>
+</blockquote>
+<h4 id="2-3-2-表操作"><a href="#2-3-2-表操作" class="headerlink" title="2.3.2 表操作"></a>2.3.2 表操作</h4><ul>
+<li>查询</li>
+</ul>
+<p>查询当前数据库所有表：<br><code>SHOW TABLES;</code></p>
+<p>查询表结构：<br><code>DESC 表名;</code></p>
+<p>查询指定表的建表语句：<br><code>SHOW CREATE TABLE 表名;</code></p>
+<ul>
+<li>创建</li>
+</ul>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">CREATE TABLE 表名(
+	字段1 字段1类型 [COMMENT 字段1注释],
+	字段2 字段2类型 [COMMENT 字段2注释],
+	字段3 字段3类型 [COMMENT 字段3注释],
+	...
+	字段n 字段n类型 [COMMENT 字段n注释]
+)[ COMMENT 表注释 ];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>示例，创建如下表：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>age</th>
+<th>gender</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>8yyy</td>
+<td>18</td>
+<td>男</td>
+</tr>
+<tr>
+<td>2</td>
+<td>张三</td>
+<td>19</td>
+<td>男</td>
+</tr>
+<tr>
+<td>3</td>
+<td>李四</td>
+<td>20</td>
+<td>男</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">mysql&gt; CREATE DATABASE EY;
+Query OK, 1 row affected (0.01 sec)
+
+mysql&gt; USE EY;
+Database changed
+mysql&gt; CREATE TABLE TB_USER(
+    -&gt; id int comment &#39;编号&#39;,
+    -&gt; name varchar(50) comment &#39;姓名&#39;,
+    -&gt; age int comment &#39;年龄&#39;,
+    -&gt; gender varchar(1) comment &#39;性别&#39;
+    -&gt; ) comment &#39;用户表&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>修改</li>
+</ul>
+<p>添加字段：<br><code>ALTER TABLE 表名 ADD 字段名 类型(长度) [COMMENT 注释] [约束];</code></p>
+<p>例：<code>ALTER TABLE EMP ADD NICKNAME VARCHAR(20) COMMENT &#39;昵称&#39;;</code></p>
+<p>修改数据类型：<br><code>ALTER TABLE 表名 MODIFY 字段名 新数据类型(长度);</code></p>
+<p>修改字段名和字段类型：<br><code>ALTER TABLE 表名 CHANGE 旧字段名 新字段名 类型(长度) [COMMENT 注释] [约束];</code></p>
+<p>例：将EMP表的NICKNAME字段修改为USERNAME，类型为VARCHAR(30)<br><code>ALTER TABLE EMP CHANGE NICKNAME USERNAME VARCHAR(30) COMMENT &#39;用户名&#39;;</code></p>
+<p>删除字段：<br><code>ALTER TABLE 表名 DROP 字段名;</code></p>
+<p>修改表名：<br><code>ALTER TABLE 表名 RENAME TO 新表名;</code></p>
+<ul>
+<li>删除</li>
+</ul>
+<p>删除表：<br><code>DROP TABLE [IF EXISTS] 表名;</code></p>
+<p>删除表，并重新创建该表：<br><code>TRUNCATE TABLE 表名;</code></p>
+<blockquote>
+<p>在删除表时，表中的全部数据也会被删除。</p>
+</blockquote>
+<p>删除数据：<br><code>DELETE FROM 表名 [ WHERE 条件 ];</code></p>
+<h4 id="2-3-3-数据类型"><a href="#2-3-3-数据类型" class="headerlink" title="2.3.3 数据类型"></a>2.3.3 数据类型</h4><blockquote>
+<p>MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</p>
+</blockquote>
+<ul>
+<li>数值类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">大小</th>
+<th align="left">范围（有符号）</th>
+<th align="left">范围（无符号）</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">TINYINT</td>
+<td align="left">1 Bytes</td>
+<td align="left">(-128，127)</td>
+<td align="left">(0，255)</td>
+<td align="left">小整数值</td>
+</tr>
+<tr>
+<td align="left">SMALLINT</td>
+<td align="left">2 Bytes</td>
+<td align="left">(-32 768，32 767)</td>
+<td align="left">(0，65 535)</td>
+<td align="left">大整数值</td>
+</tr>
+<tr>
+<td align="left">MEDIUMINT</td>
+<td align="left">3 Bytes</td>
+<td align="left">(-8 388 608，8 388 607)</td>
+<td align="left">(0，16 777 215)</td>
+<td align="left">大整数值</td>
+</tr>
+<tr>
+<td align="left">INT或INTEGER</td>
+<td align="left">4 Bytes</td>
+<td align="left">(-2 147 483 648，2 147 483 647)</td>
+<td align="left">(0，4 294 967 295)</td>
+<td align="left">大整数值</td>
+</tr>
+<tr>
+<td align="left">BIGINT</td>
+<td align="left">8 Bytes</td>
+<td align="left">(-9,223,372,036,854,775,808，9 223 372 036 854 775 807)</td>
+<td align="left">(0，18 446 744 073 709 551 615)</td>
+<td align="left">极大整数值</td>
+</tr>
+<tr>
+<td align="left">FLOAT</td>
+<td align="left">4 Bytes</td>
+<td align="left">(-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38)</td>
+<td align="left">0，(1.175 494 351 E-38，3.402 823 466 E+38)</td>
+<td align="left">单精度 浮点数值</td>
+</tr>
+<tr>
+<td align="left">DOUBLE</td>
+<td align="left">8 Bytes</td>
+<td align="left">(-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
+<td align="left">0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
+<td align="left">双精度 浮点数值</td>
+</tr>
+<tr>
+<td align="left">DECIMAL</td>
+<td align="left">对DECIMAL(M,D) ，如果M&gt;D，为M+2否则为D+2</td>
+<td align="left">依赖于M和D的值</td>
+<td align="left">依赖于M和D的值</td>
+<td align="left">小数值</td>
+</tr>
+</tbody></table>
+<ul>
+<li>字符串类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">大小</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">CHAR</td>
+<td align="left">0-255 bytes</td>
+<td align="left">定长字符串</td>
+</tr>
+<tr>
+<td align="left">VARCHAR</td>
+<td align="left">0-65535 bytes</td>
+<td align="left">变长字符串</td>
+</tr>
+<tr>
+<td align="left">TINYBLOB</td>
+<td align="left">0-255 bytes</td>
+<td align="left">不超过 255 个字符的二进制字符串</td>
+</tr>
+<tr>
+<td align="left">TINYTEXT</td>
+<td align="left">0-255 bytes</td>
+<td align="left">短文本字符串</td>
+</tr>
+<tr>
+<td align="left">BLOB</td>
+<td align="left">0-65 535 bytes</td>
+<td align="left">二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td align="left">TEXT</td>
+<td align="left">0-65 535 bytes</td>
+<td align="left">长文本数据</td>
+</tr>
+<tr>
+<td align="left">MEDIUMBLOB</td>
+<td align="left">0-16 777 215 bytes</td>
+<td align="left">二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td align="left">MEDIUMTEXT</td>
+<td align="left">0-16 777 215 bytes</td>
+<td align="left">中等长度文本数据</td>
+</tr>
+<tr>
+<td align="left">LONGBLOB</td>
+<td align="left">0-4 294 967 295 bytes</td>
+<td align="left">二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td align="left">LONGTEXT</td>
+<td align="left">0-4 294 967 295 bytes</td>
+<td align="left">极大文本数据</td>
+</tr>
+</tbody></table>
+<ul>
+<li>日期和时间类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">大小 ( bytes)</th>
+<th align="left">范围</th>
+<th align="left">格式</th>
+<th align="left">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">DATE</td>
+<td align="left">3</td>
+<td align="left">1000-01-01/9999-12-31</td>
+<td align="left">YYYY-MM-DD</td>
+<td align="left">日期值</td>
+</tr>
+<tr>
+<td align="left">TIME</td>
+<td align="left">3</td>
+<td align="left">‘-838:59:59’/‘838:59:59’</td>
+<td align="left">HH:MM:SS</td>
+<td align="left">时间值或持续时间</td>
+</tr>
+<tr>
+<td align="left">YEAR</td>
+<td align="left">1</td>
+<td align="left">1901/2155</td>
+<td align="left">YYYY</td>
+<td align="left">年份值</td>
+</tr>
+<tr>
+<td align="left">DATETIME</td>
+<td align="left">8</td>
+<td align="left">‘1000-01-01 00:00:00’ 到 ‘9999-12-31 23:59:59’</td>
+<td align="left">YYYY-MM-DD hh:mm:ss</td>
+<td align="left">混合日期和时间值</td>
+</tr>
+<tr>
+<td align="left">TIMESTAMP</td>
+<td align="left">4</td>
+<td align="left">‘1970-01-01 00:00:01’ UTC 到 ‘2038-01-19 03:14:07’ UTC结束时间是第 <strong>2147483647</strong> 秒，北京时间 <strong>2038-1-19 11:14:07</strong>，格林尼治时间 2038年1月19日 凌晨 03:14:07</td>
+<td align="left">YYYY-MM-DD hh:mm:ss</td>
+<td align="left">混合日期和时间值，时间戳</td>
+</tr>
+</tbody></table>
+<p>转自：<a target="_blank" rel="noopener" href="https://www.runoob.com/mysql/mysql-data-types.html">https://www.runoob.com/mysql/mysql-data-types.html</a></p>
+<p>案例：根据需求创建表（设计合理的数据类型、长度）</p>
+<p>设计一张员工信息表，要求如下：</p>
+<ol>
+<li>编号(纯数字)</li>
+<li>员工工号(字符串类型，长度不超过10位)</li>
+<li>员工姓名(字符串类型，长度不超过10位)</li>
+<li>性别(男/女，存储一个汉字)</li>
+<li>年龄 (正常人年龄，不可能存储负数)</li>
+<li>身份证号(二代身份证号均为18位，身份证中有X这样的字符)</li>
+<li>入职时间(取值年月日即可)</li>
+</ol>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">CREATE TABLE EMP(
+	ID INT COMMENT &#39;编号&#39;,
+    WORKNO VARCHAR(10) COMMENT &#39;工号&#39;,
+    NAME VARCHAR(10) COMMENT &#39;姓名&#39;,
+    GENDER CHAR(1) COMMENT &#39;性别&#39;,
+    AGE TINYINT UNSIGNED COMMENT &#39;年龄&#39;,
+    IDCARD CHAR(18) COMMENT &#39;身份证号&#39;,
+    ENTRYDATE DATE COMMENT &#39;入职时间&#39;
+)COMMENT &#39;员工表&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-4-MySQL-图形化界面"><a href="#2-4-MySQL-图形化界面" class="headerlink" title="2.4 MySQL 图形化界面"></a>2.4 MySQL 图形化界面</h3><ol>
+<li>Sqlyog</li>
+<li>Navicat</li>
+<li>DataGrip</li>
+</ol>
+<p>其中，DataGrip 功能最为强大。</p>
+<p>目前只有收费，没有免费30天的，关于激活密钥可参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/497182604">https://zhuanlan.zhihu.com/p/497182604</a></p>
+<p>激活之后，打开创建新项目 New Project:mysql-base ，选择 ‘+’  -&gt; DataSource -&gt; MySQL</p>
+<p><img src="/images/hmmysql/image-20230127145705188.png" alt="输入用户和密码"></p>
+<p>之后选择底下的 DownLoad，下载驱动文件，点击测试，选择OK</p>
+<p><img src="/images/hmmysql/image-20230127150001945.png"></p>
+<p>可选择 <code>0 of 5</code></p>
+<p><img src="/images/hmmysql/image-20230127150022625.png" alt="选择所有数据库"></p>
+<blockquote>
+<p>在这里，schema 等同于 database。</p>
+</blockquote>
+<p><img src="/images/hmmysql/image-20230127150156830.png" alt="显示了所有数据库"></p>
+<p>图形化界面添加数据库和数据表都很简单</p>
+<p><img src="/images/hmmysql/image-20230127150945943.png"></p>
+<h3 id="2-5-DML（数据操作语言）"><a href="#2-5-DML（数据操作语言）" class="headerlink" title="2.5 DML（数据操作语言）"></a>2.5 DML（数据操作语言）</h3><ul>
+<li><strong>添加数据</strong></li>
+</ul>
+<p>指定字段：<br><code>INSERT INTO 表名 (字段名1, 字段名2, ...) VALUES (值1, 值2, ...);</code></p>
+<p>全部字段：<br><code>INSERT INTO 表名 VALUES (值1, 值2, ...);</code></p>
+<p>批量添加数据：<br><code>INSERT INTO 表名 (字段名1, 字段名2, ...) VALUES (值1, 值2, ...), (值1, 值2, ...), (值1, 值2, ...);</code><br><code>INSERT INTO 表名 VALUES (值1, 值2, ...), (值1, 值2, ...), (值1, 值2, ...);</code></p>
+<blockquote>
+<ul>
+<li>插入数据时，指定的字段顺序需要与值的顺序一一对应。</li>
+<li>字符串和日期类型数据应该包含在引号中。</li>
+<li>插入的数据大小应该在字段的规定范围内。</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>修改数据</strong></li>
+</ul>
+<p>修改数据：<br><code>UPDATE 表名 SET 字段名1 = 值1, 字段名2 = 值2, ... [ WHERE 条件 ];</code></p>
+<p>例子：</p>
+<p><code>UPDATE emp SET name = &#39;Jack&#39; WHERE id = 1;</code></p>
+<ul>
+<li><strong>删除数据</strong></li>
+</ul>
+<p><code>DELETE FROM 表名 [ WHERE 条件 ];</code></p>
+<blockquote>
+<p>DELETE 语句不能删除某一个字段的值（可以使用UPDATE）。</p>
+</blockquote>
+<h3 id="2-6-DQL（数据查询语言）"><a href="#2-6-DQL（数据查询语言）" class="headerlink" title="2.6 DQL（数据查询语言）"></a>2.6 DQL（数据查询语言）</h3><p>查询关键词：SELECT</p>
+<ul>
+<li>DQL 语法</li>
+</ul>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">SELECT
+	字段列表
+FROM
+	表名字段
+WHERE
+	条件列表
+GROUP BY
+	分组字段列表
+HAVING
+	分组后的条件列表
+ORDER BY
+	排序字段列表
+LIMIT
+	分页参数<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="2-6-1-基础查询"><a href="#2-6-1-基础查询" class="headerlink" title="2.6.1 基础查询"></a>2.6.1 基础查询</h4><p>查询多个字段：<br><code>SELECT 字段1, 字段2, 字段3, ... FROM 表名;</code><br><code>SELECT * FROM 表名;</code></p>
+<blockquote>
+<p>‘*’为通配符，不建议使用，不直观，效率低，建议罗列全部字段名。</p>
+</blockquote>
+<p>设置别名：<br><code>SELECT 字段1 [ AS 别名1 ], 字段2 [ AS 别名2 ], 字段3 [ AS 别名3 ], ... FROM 表名;</code><br><code>SELECT 字段1 [ 别名1 ], 字段2 [ 别名2 ], 字段3 [ 别名3 ], ... FROM 表名;</code></p>
+<blockquote>
+<p>设置别名 AS 可以省略，别名可以不加单引号。</p>
+</blockquote>
+<p>去除重复记录：<br><code>SELECT DISTINCT 字段列表 FROM 表名;</code></p>
+<p>转义：<br><code>SELECT * FROM 表名 WHERE name LIKE &#39;/_张三&#39; ESCAPE &#39;/&#39;</code><br>/ 之后的_不作为通配符</p>
+<h4 id="2-6-2-条件查询（WHERE）"><a href="#2-6-2-条件查询（WHERE）" class="headerlink" title="2.6.2 条件查询（WHERE）"></a>2.6.2 条件查询（WHERE）</h4><p>语法：<br><code>SELECT 字段列表 FROM 表名 WHERE 条件列表;</code></p>
+<p>条件：</p>
+<table>
+<thead>
+<tr>
+<th>比较运算符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>=</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&lt;&gt; 或 !=</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>BETWEEN … AND …</td>
+<td>在某个范围内（含最小、最大值）</td>
+</tr>
+<tr>
+<td>IN(…)</td>
+<td>在in之后的列表中的值，多选一</td>
+</tr>
+<tr>
+<td>LIKE 占位符</td>
+<td>模糊匹配（_匹配单个字符，%匹配任意个字符）</td>
+</tr>
+<tr>
+<td>IS NULL</td>
+<td>是NULL</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>逻辑运算符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AND 或 &amp;&amp;</td>
+<td>并且（多个条件同时成立）</td>
+</tr>
+<tr>
+<td>OR 或 ||</td>
+<td>或者（多个条件任意一个成立）</td>
+</tr>
+<tr>
+<td>NOT 或 !</td>
+<td>非，不是</td>
+</tr>
+</tbody></table>
+<p>例子：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">-- 年龄等于30
+select * from employee where age &#x3D; 30;
+-- 年龄小于30
+select * from employee where age &lt; 30;
+-- 小于等于
+select * from employee where age &lt;&#x3D; 30;
+-- 没有身份证
+select * from employee where idcard is null or idcard &#x3D; &#39;&#39;;
+-- 有身份证
+select * from employee where idcard;
+select * from employee where idcard is not null;
+-- 年龄不等于30
+select * from employee where age !&#x3D; 30;
+select * from employee where age &lt;&gt; 30;
+-- 年龄在20到30之间
+select * from employee where age between 20 and 30;
+select * from employee where age &gt;&#x3D; 20 and age &lt;&#x3D; 30;
+-- 下面语句不报错，但查不到任何信息
+select * from employee where age between 30 and 20;
+-- 性别为女且年龄小于30
+select * from employee where age &lt; 30 and gender &#x3D; &#39;女&#39;;
+-- 年龄等于25或30或35
+select * from employee where age &#x3D; 25 or age &#x3D; 30 or age &#x3D; 35;
+select * from employee where age in (25, 30, 35);
+-- 姓名为两个字
+select * from employee where name like &#39;__&#39;;
+-- 身份证最后为X
+select * from employee where idcard like &#39;%X&#39;;
+select * from employee where idcard like &#39;_________________X&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="2-6-3-聚合函数（COUNT-MAX-MIN-AVG-SUM）"><a href="#2-6-3-聚合函数（COUNT-MAX-MIN-AVG-SUM）" class="headerlink" title="2.6.3 聚合函数（COUNT/MAX/MIN/AVG/SUM）"></a>2.6.3 聚合函数（COUNT/MAX/MIN/AVG/SUM）</h4><p>常见聚合函数：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count</td>
+<td>统计数量</td>
+</tr>
+<tr>
+<td>max</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>min</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>avg</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>sum</td>
+<td>求和</td>
+</tr>
+</tbody></table>
+<p>语法：<br><code>SELECT 聚合函数(字段列表) FROM 表名;</code></p>
+<p>例子：</p>
+<p><code>SELECT count(id) from employee where workaddress = &quot;广东省&quot;;</code></p>
+<blockquote>
+<p>所有null值不参与所有聚合函数运算。</p>
+</blockquote>
+<h4 id="2-6-4-分组查询（GROUP-BY）"><a href="#2-6-4-分组查询（GROUP-BY）" class="headerlink" title="2.6.4 分组查询（GROUP BY）"></a>2.6.4 分组查询（GROUP BY）</h4><p>语法：<br><code>SELECT 字段列表 FROM 表名 [ WHERE 条件 ] GROUP BY 分组字段名 [ HAVING 分组后的过滤条件 ];</code></p>
+<p>where 和 having 的区别：</p>
+<ul>
+<li>执行时机不同：where是分组之前进行过滤，不满足where条件不参与分组；having是分组后对结果进行过滤。</li>
+<li>判断条件不同：where不能对聚合函数进行判断，而having可以。</li>
+</ul>
+<p>例子：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">-- 根据性别分组，统计男性和女性数量（只显示分组数量，不显示哪个是男哪个是女）
+select count(*) from employee group by gender;
+-- 根据性别分组，统计男性和女性数量
+select gender, count(*) from employee group by gender;
+-- 根据性别分组，统计男性和女性的平均年龄
+select gender, avg(age) from employee group by gender;
+-- 年龄小于45，并根据工作地址分组
+select workaddress, count(*) from employee where age &lt; 45 group by workaddress;
+-- 年龄小于45，并根据工作地址分组，获取员工数量大于等于3的工作地址
+select workaddress, count(*) address_count from employee where age &lt; 45 group by workaddress having address_count &gt;&#x3D; 3;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>执行顺序：where &gt; 聚合函数 &gt; having</li>
+<li>分组之后，查询的字段一般为聚合函数和分组字段，查询其他字段无任何意义</li>
+</ul>
+<h4 id="2-6-5-排序查询（ORDER-BY）"><a href="#2-6-5-排序查询（ORDER-BY）" class="headerlink" title="2.6.5 排序查询（ORDER BY）"></a>2.6.5 排序查询（ORDER BY）</h4><p>语法：<br><code>SELECT 字段列表 FROM 表名 ORDER BY 字段1 排序方式1, 字段2 排序方式2;</code></p>
+<p>排序方式：</p>
+<ul>
+<li>ASC: 升序（默认）</li>
+<li>DESC: 降序</li>
+</ul>
+<p>例子：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">-- 根据年龄升序排序
+SELECT * FROM employee ORDER BY age ASC;
+SELECT * FROM employee ORDER BY age;
+-- 两字段排序，根据年龄升序排序，入职时间降序排序
+SELECT * FROM employee ORDER BY age ASC, entrydate DESC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>如果是多字段排序，当第一个字段值相同时，才会根据第二个字段进行排序</p>
+</blockquote>
+<h4 id="2-6-6-分页查询（LIMIT）"><a href="#2-6-6-分页查询（LIMIT）" class="headerlink" title="2.6.6 分页查询（LIMIT）"></a>2.6.6 分页查询（LIMIT）</h4><p>语法：<br><code>SELECT 字段列表 FROM 表名 LIMIT 起始索引, 查询记录数;</code></p>
+<p>例子：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">-- 查询第一页数据，展示10条
+SELECT * FROM employee LIMIT 0,10;
+SELECT * FROM employee LIMIT 10;
+-- 查询第二页
+SELECT * FROM employee LIMIT 10,10;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li>起始索引从0开始，起始索引 = （查询页码 - 1） * 每页显示记录数</li>
+<li>分页查询是数据库的方言，不同数据库有不同实现，MySQL是LIMIT</li>
+<li>如果查询的是第一页数据，起始索引可以省略，直接简写 LIMIT 10</li>
+</ul>
+<h4 id="2-6-7-案例练习"><a href="#2-6-7-案例练习" class="headerlink" title="2.6.7 案例练习"></a>2.6.7 案例练习</h4><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">-- 1.查询年龄为20,21,22,23岁的女性员工信息
+SELECT * FROM EMP WHERE GENDER &#x3D; &#39;女&#39; AND AGE IN(20,21,22,23);
+-- 2.查询性别为男，并且年龄在 20-40 岁(含)以内的姓名为三个字的员工。
+SELECT * FROM EMP WHERE GENDER &#x3D; &#39;男&#39; AND AGE BETWEEN 20 AND 40 AND NAME LIKE &#39;___&#39;;
+-- 3.统计员工表中年龄小于60岁的，男性员工和女性员工的人数。
+SELECT GENDER,COUNT(*) FROM EMP WHERE AGE &lt; 60 GROUP BY GENDER;
+-- 4.查询所有年龄小于等于35岁员工的姓名和年龄，并对查询结果按年龄升序排序，如果年龄相同按入职时间降序排序。
+SELECT NAME,AGE FROM EMP WHERE AGE &lt;&#x3D; 35 ORDER BY AGE,ENTRYDATE DESC;
+-- 5.查询性别为男，且年龄在20-40 岁(含)以内的前5个员工信息，对查询的结果按年龄升序排序，年龄相同按入职时间升序排序
+SELECT * FROM EMP WHERE GENDER &#x3D; &#39;男&#39; AND AGE BETWEEN 20 AND 40 ORDER BY AGE,ENTRYDATE LIMIT 5;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="2-6-8-DQL执行顺序"><a href="#2-6-8-DQL执行顺序" class="headerlink" title="2.6.8 DQL执行顺序"></a>2.6.8 DQL执行顺序</h4><p>FROM -&gt; WHERE -&gt; GROUP BY -&gt; SELECT -&gt; ORDER BY -&gt; LIMIT</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">8yyy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://8yyy.github.io/2023/01/27/hmmysql/">http://8yyy.github.io/2023/01/27/hmmysql/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">8yyy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/MySQL/">
+                                    <span class="chip bg-color">MySQL</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/01/27/hmmysql/">
+                    <div class="card-image">
+                        
+                        <img src="/images/hmmysql/xk.jpg" class="responsive-img" alt="黑马MySQL学习笔记(一)基础篇">
+                        
+                        <span class="card-title">黑马MySQL学习笔记(一)基础篇</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/01/18/Linq/">
+                    <div class="card-image">
+                        
+                        <img src="/images/Linq/caihong.jpg" class="responsive-img" alt="CSharp 中的 LINQ">
+                        
+                        <span class="card-title">CSharp 中的 LINQ</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CSharp/" class="post-category">
+                                    CSharp
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/LINQ/">
+                        <span class="chip bg-color">LINQ</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('50')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 8yyy&#39;s blog<br />'
+            + '文章作者: 8yyy<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7668596917"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">8yyy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">191.3k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/8yyy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1410868939@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1410868939" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1410868939" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
