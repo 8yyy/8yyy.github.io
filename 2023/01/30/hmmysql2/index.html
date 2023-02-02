@@ -1266,9 +1266,9 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 <p><img src="/images/hmmysql2/image-20230202151157103.png"></p>
 <p>可以看到插入100万条记录一共用了10多秒，而如果用insert插入数据可能就需要几十分钟了。</p>
 <h3 id="主键优化"><a href="#主键优化" class="headerlink" title="主键优化"></a>主键优化</h3><h4 id="数据组织方式"><a href="#数据组织方式" class="headerlink" title="数据组织方式"></a>数据组织方式</h4><p>在InnoDB存储引擎中，表数据都是根据主键顺序组织存放的，这种存储方式的表称为<strong>索引组织表</strong>(index organized table <strong>IOT</strong>)。  </p>
-<p>在InnoDB引擎中，数据行Row是记录在逻辑结构 page 页中的，而每一个页的大小是固定的，默认16K。那也就意味着， 一个页中所存储的行也是有限的，如果插入的数据行row在该页存储不小，将会存储<br>到下一个页中，页与页之间会通过指针连接。  </p>
+<p>在InnoDB引擎中，数据行Row是记录在逻辑结构 page 页中的，而每一个页的大小是固定的，默认16K。那也就意味着， 一个页中所存储的行也是有限的，如果插入的数据行row在该页存储不小，将会存储到下一个页中，页与页之间会通过指针连接。  </p>
 <p><img src="/images/hmmysql2/image-20230202165518564.png"></p>
-<h4 id="页分裂"><a href="#页分裂" class="headerlink" title="页分裂"></a>页分裂</h4><p>页可以为空，也可以填充一半，也可以填充100%。<strong>每个页包含了2-N行数据</strong>(如果一行数据过大，会行<br>溢出)，根据主键排列。  </p>
+<h4 id="页分裂"><a href="#页分裂" class="headerlink" title="页分裂"></a>页分裂</h4><p>页可以为空，也可以填充一半，也可以填充100%。<strong>每个页包含了2-N行数据</strong>(如果一行数据过大，会行溢出)，根据主键排列。  </p>
 <p><img src="/images/hmmysql2/image-20230202165639525.png" alt="主键顺序插入"></p>
 <p>主键乱序插入</p>
 <p><img src="/images/hmmysql2/image-20230202165935844.png" alt="插入row50"></p>
@@ -1276,9 +1276,9 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 <p><img src="/images/hmmysql2/image-20230202170118969.png"></p>
 <p>然后将row50插入到page3，之后交换page2和page3的位置</p>
 <p><img src="/images/hmmysql2/image-20230202170209122.png" alt="重新设置链表顺序"></p>
-<h4 id="页合并"><a href="#页合并" class="headerlink" title="页合并"></a>页合并</h4><p>当删除一行记录时，实际上记录并没有被物理删除，只是记录被标记（flaged）为删除并且它的空间<br>变得允许被其他记录声明使用。  </p>
+<h4 id="页合并"><a href="#页合并" class="headerlink" title="页合并"></a>页合并</h4><p>当删除一行记录时，实际上记录并没有被物理删除，只是记录被标记（flaged）为删除并且它的空间变得允许被其他记录声明使用。  </p>
 <p><img src="/images/hmmysql2/image-20230202170527822.png"></p>
-<p>当页中删除的记录达到 MERGE_THRESHOLD（默认为页的50%），InnoDB会开始寻找最靠近的页（前<br>或后）看看是否可以将两个页合并以优化空间使用。  </p>
+<p>当页中删除的记录达到 MERGE_THRESHOLD（默认为页的50%），InnoDB会开始寻找最靠近的页（前或后）看看是否可以将两个页合并以优化空间使用。  </p>
 <p><img src="/images/hmmysql2/image-20230202170539403.png" alt="页合并"></p>
 <p><img src="/images/hmmysql2/image-20230202170600524.png" alt="插入新的数据"></p>
 <blockquote>
@@ -1292,11 +1292,11 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 </ul>
 <h3 id="order-by优化"><a href="#order-by优化" class="headerlink" title="order by优化"></a>order by优化</h3><p>MySQL的排序，有两种方式：</p>
 <ul>
-<li>Using filesort : 通过表的索引或全表扫描，读取满足条件的数据行，然后在排序缓冲区sort<br>buffer中完成排序操作，所有不是通过索引直接返回排序结果的排序都叫 FileSort 排序。</li>
-<li>Using index : 通过有序索引顺序扫描直接返回有序数据，这种情况即为 using index，不需要<br>额外排序，操作效率高。</li>
+<li>Using filesort : 通过表的索引或全表扫描，读取满足条件的数据行，然后在排序缓冲区sort buffer中完成排序操作，所有不是通过索引直接返回排序结果的排序都叫 FileSort 排序。</li>
+<li>Using index : 通过有序索引顺序扫描直接返回有序数据，这种情况即为 using index，不需要额外排序，操作效率高。</li>
 </ul>
 <blockquote>
-<p>对于以上的两种排序方式，Using index的性能高，而Using filesort的性能低，我们在优化排序<br>操作时，尽量要优化为 Using index  </p>
+<p>对于以上的两种排序方式，Using index的性能高，而Using filesort的性能低，我们在优化排序操作时，尽量要优化为 Using index 。</p>
 </blockquote>
 <p><strong>order by优化原则共四点</strong></p>
 <ul>
@@ -1390,7 +1390,7 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 </blockquote>
 <h3 id="update优化"><a href="#update优化" class="headerlink" title="update优化"></a>update优化</h3><p>begin = start transaction 都是手动开启事务</p>
 <p>没建行锁默认是表锁。</p>
-<p><strong>优化思路：避免行锁升级为表锁。</strong></p>
+<p><strong>优化思路：尽量选择主键/索引字段进行数据更新，避免行锁升级为表锁。</strong></p>
 <pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">update</span> course <span class="token keyword">set</span> name <span class="token operator">=</span> <span class="token string">'javaEE'</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span> <span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>当我们在执行删除的SQL语句时，会锁定id为1这一行的数据，然后事务提交之后，行锁释放。</p>
