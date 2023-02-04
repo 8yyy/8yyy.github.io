@@ -407,14 +407,14 @@ MySQL体系结构主要分为四层，不同存储引擎索引结构不一样。
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.6k
+                    15.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    52 分
+                    59 分
                 </div>
                 
 
@@ -857,23 +857,23 @@ PS：MySQL默认的密码复杂度为 MEDIUM，所以新密码至少为8位，�
 <li>非叶子节点仅仅起到索引数据作用，具体的数据都是在叶子节点存放的。  </li>
 </ul>
 <p>上述我们所看到的结构是标准的B+Tree的数据结构，接下来，我们再来看看<font color="red">MySQL中优化之后的<br>B+Tree。</font></p>
-<p>MySQL索引数据结构对经典的B+Tree进行了优化。<strong>在原B+Tree的基础上，增加一个指向相邻叶子节点<br>的链表指针，就形成了带有顺序指针的B+Tree</strong>，提高区间访问的性能，利于排序。  （叶子节点形成一个双向循环链表）</p>
+<p>MySQL索引数据结构对经典的B+Tree进行了优化。<strong>在原B+Tree的基础上，增加一个指向相邻叶子节点的链表指针，就形成了带有顺序指针的B+Tree</strong>，提高区间访问的性能，利于排序。  （叶子节点形成一个双向循环链表）</p>
 <p><img src="/images/hmmysql2/image-20230131143659468.png"></p>
 <h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><p>MySQL中除了支持B+Tree索引，还支持Hash索引。</p>
-<p>哈希索引就是采用一定的hash算法，将键值换算成新的hash值，映射到对应的槽位上，然后存储在<br>hash表中。  </p>
+<p>哈希索引就是采用一定的hash算法，将键值换算成新的hash值，映射到对应的槽位上，然后存储在hash表中。  </p>
 <p><img src="/images/hmmysql2/image-20230131145024552.png"></p>
-<p>如果两个(或多个)键值，映射到一个相同的槽位上，他们就产生了<strong>hash冲突（也称为hash碰撞）</strong>，可<br>以<strong>通过链表来解决</strong>。</p>
+<p>如果两个(或多个)键值，映射到一个相同的槽位上，他们就产生了<strong>hash冲突（也称为hash碰撞）</strong>，可以<strong>通过链表来解决</strong>。</p>
 <p><img src="/images/hmmysql2/image-20230131145111115.png"></p>
 <p><strong>特点：</strong></p>
 <p>A. Hash索引只能用于对等比较(=，in)，不支持范围查询（between，&gt;，&lt; ，…）</p>
 <p>B. 无法利用索引完成排序操作</p>
-<p>C. 查询效率高，通常(不存在hash冲突的情况)只需要一次检索就可以了，效率通常要高于B+tree索<br>引</p>
+<p>C. 查询效率高，通常(不存在hash冲突的情况)只需要一次检索就可以了，效率通常要高于B+tree索引</p>
 <p><strong>存储引擎支持：</strong></p>
 <p>在MySQL中，支持hash索引的是Memory存储引擎。 而InnoDB中具有自适应hash功能，hash索引是<br>InnoDB存储引擎根据B+Tree索引在指定条件下自动构建的 。</p>
 <blockquote>
 <p>思考题： 为什么InnoDB存储引擎选择使用B+tree索引结构?</p>
 <p>A. 相对于二叉树，层级更少，搜索效率高；</p>
-<p>B. 对于B-tree，无论是叶子节点还是非叶子节点，都会保存数据，这样导致一页中存储<br>的键值减少，指针跟着减少，要同样保存大量数据，只能增加树的高度，导致性能降低；</p>
+<p>B. 对于B-tree，无论是叶子节点还是非叶子节点，都会保存数据，这样导致一页中存储的键值减少，指针跟着减少，要同样保存大量数据，只能增加树的高度，导致性能降低；</p>
 <p>C. 相对Hash索引，B+tree支持范围匹配及排序操作；</p>
 </blockquote>
 <h3 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h3><p>在MySQL数据库，将索引的具体类型主要分为以下几类：主键索引、唯一索引、常规索引、全文索引。</p>
@@ -950,12 +950,12 @@ PS：MySQL默认的密码复杂度为 MEDIUM，所以新密码至少为8位，�
 <p>接来下，我们来分析一下如下的SQL语句的具体执行过程：</p>
 <p><img src="/images/hmmysql2/image-20230131151014878.png"></p>
 <ol>
-<li>由于是根据name字段进行查询，所以先根据name=’Arm’到name字段的二级索引中进行匹配查<br>找。但是在二级索引中只能查找到 Arm 对应的主键值 10。</li>
-<li>由于查询返回的数据是*，所以此时，还需要根据主键值10，到聚集索引中查找10对应的记录，最<br>终找到10对应的行row。</li>
+<li>由于是根据name字段进行查询，所以先根据name=’Arm’到name字段的二级索引中进行匹配查找。但是在二级索引中只能查找到 Arm 对应的主键值 10。</li>
+<li>由于查询返回的数据是*，所以此时，还需要根据主键值10，到聚集索引中查找10对应的记录，最终找到10对应的行row。</li>
 <li>最终拿到这一行的数据，直接返回即可。</li>
 </ol>
 <blockquote>
-<p>回表查询： 这种先到二级索引中查找数据，找到主键值，然后再到聚集索引中根据主键值，获取<br>数据的方式，就称之为回表查询。  </p>
+<p>回表查询： 这种先到二级索引中查找数据，找到主键值，然后再到聚集索引中根据主键值，获取数据的方式，就称之为回表查询。  </p>
 </blockquote>
 <p><strong>思考题：</strong></p>
 <blockquote>
@@ -967,7 +967,7 @@ PS：MySQL默认的密码复杂度为 MEDIUM，所以新密码至少为8位，�
 <p><strong>备注: id为主键，name字段创建的有索引；</strong></p>
 <p>解答：</p>
 <p>A 语句的执行性能要高于B 语句。</p>
-<p>因为A语句直接走聚集索引，直接返回数据。 而B语句需要先查询name字段的二级索引，然<br>后再查询聚集索引，也就是需要进行<strong>回表查询</strong>。  </p>
+<p>因为A语句直接走聚集索引，直接返回数据。 而B语句需要先查询name字段的二级索引，然后再查询聚集索引，也就是需要进行<strong>回表查询</strong>。  </p>
 </blockquote>
 <blockquote>
 <p>2.InnoDB主键索引的B+tree高度为多高呢?  </p>
@@ -1344,7 +1344,10 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 <h3 id="limit优化"><a href="#limit优化" class="headerlink" title="limit优化"></a>limit优化</h3><p>在数据量比较大时，如果进行limit分页查询，在查询时，越往后，分页查询效率越低。  </p>
 <p><strong>优化思路：覆盖索引+子查询</strong></p>
 <p>例如我想查询tb_sku中从200万条记录开始的10条记录，即<code>limit 2000000,10</code>,此时需要MySQL排序前2000010记录，仅仅返回 2000000 - 2000010 的记录，其他记录丢弃，查询排序的代价非常大 。  </p>
-<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">select</span> t<span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">from</span> tb_sku t <span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">select</span> id <span class="token keyword">from</span> tb_sku <span class="token keyword">order</span> <span class="token keyword">by</span> id <span class="token keyword">limit</span> <span class="token number">2000000</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span> a <span class="token keyword">where</span> t<span class="token punctuation">.</span>id <span class="token operator">=</span> a<span class="token punctuation">.</span>id<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">select</span> t<span class="token punctuation">.</span><span class="token operator">*</span>
+<span class="token keyword">from</span> tb_sku t<span class="token punctuation">,</span>
+     <span class="token punctuation">(</span><span class="token keyword">select</span> id <span class="token keyword">from</span> tb_sku <span class="token keyword">order</span> <span class="token keyword">by</span> id <span class="token keyword">limit</span> <span class="token number">2000000</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span> a
+<span class="token keyword">where</span> t<span class="token punctuation">.</span>id <span class="token operator">=</span> a<span class="token punctuation">.</span>id<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -1487,8 +1490,15 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> tb_user_view<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>2.查询每个学生所选修的课程（三张表联查），这个功能在很多的业务中都有使用到，为了简化操作，定义一个视图。</p>
-<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">view</span> tb_stu_course_view <span class="token keyword">as</span> <span class="token keyword">select</span> s<span class="token punctuation">.</span>name student_name <span class="token punctuation">,</span> s<span class="token punctuation">.</span><span class="token keyword">no</span> student_no <span class="token punctuation">,</span>c<span class="token punctuation">.</span>name course_name <span class="token keyword">from</span> student s<span class="token punctuation">,</span> student_course sc <span class="token punctuation">,</span> course c <span class="token keyword">where</span> s<span class="token punctuation">.</span>id <span class="token operator">=</span>sc<span class="token punctuation">.</span>studentid <span class="token operator">and</span> sc<span class="token punctuation">.</span>courseid <span class="token operator">=</span> c<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> tb_stu_course_view<span class="token punctuation">;</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">view</span> tb_stu_course_view <span class="token keyword">as</span>
+<span class="token keyword">select</span> s<span class="token punctuation">.</span>name student_name<span class="token punctuation">,</span> s<span class="token punctuation">.</span><span class="token keyword">no</span> student_no<span class="token punctuation">,</span> c<span class="token punctuation">.</span>name course_name
+<span class="token keyword">from</span> student s<span class="token punctuation">,</span>
+     student_course sc<span class="token punctuation">,</span>
+     course c
+<span class="token keyword">where</span> s<span class="token punctuation">.</span>id <span class="token operator">=</span> sc<span class="token punctuation">.</span>studentid
+  <span class="token operator">and</span> sc<span class="token punctuation">.</span>courseid <span class="token operator">=</span> c<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+  
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> tb_stu_course_view<span class="token punctuation">;</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -1836,12 +1846,261 @@ mysql <span class="token comment">--local-infile -u root -p</span>
 <span class="token keyword">select</span> <span class="token variable">@result</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="loop-循环"><a href="#loop-循环" class="headerlink" title="loop 循环"></a>loop 循环</h4><p>LOOP 实现简单的循环，如果不在SQL逻辑中增加退出循环的条件，可以用其来实现简单的死循环。</p>
-<p>LOOP可以配合一下两个语句使用：</p>
+<p>LOOP可以配合以下两个语句使用：</p>
 <ul>
-<li>LEAVE ：配合循环使用，退出循环。</li>
-<li>ITERATE：必须用在循环中，作用是跳过当前循环剩下的语句，直接进入下一次循环。  </li>
+<li>LEAVE ：配合循环使用，<strong>退出循环</strong>。</li>
+<li>ITERATE：必须用在循环中，作用是<strong>跳过当前循环剩下的语句，直接进入下一次循环</strong>。  </li>
 </ul>
-<h3 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h3><h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><h2 id="6-锁"><a href="#6-锁" class="headerlink" title="6. 锁"></a>6. 锁</h2><h2 id="7-InnoDB引擎"><a href="#7-InnoDB引擎" class="headerlink" title="7. InnoDB引擎"></a>7. InnoDB引擎</h2><h2 id="8-MySQL管理"><a href="#8-MySQL管理" class="headerlink" title="8. MySQL管理"></a>8. MySQL管理</h2>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token punctuation">[</span>begin_label:<span class="token punctuation">]</span> <span class="token keyword">LOOP</span>
+	<span class="token keyword">LEAVE</span> label<span class="token punctuation">;</span> <span class="token comment">-- 退出指定标记的循环体</span>
+    <span class="token keyword">ITERATE</span> label<span class="token punctuation">;</span> <span class="token comment">-- 直接进入下一次循环</span>
+    <span class="token keyword">SQL</span>逻辑<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">END</span> <span class="token keyword">LOOP</span> <span class="token punctuation">[</span>end_label<span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>案例：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 计算从1到n之间的偶数累加的值，n为传入值</span>
+<span class="token keyword">create</span> <span class="token keyword">procedure</span> p9<span class="token punctuation">(</span><span class="token operator">in</span> n <span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">out</span> result <span class="token keyword">int</span><span class="token punctuation">)</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>
+     sum:<span class="token keyword">loop</span>
+        <span class="token keyword">if</span> n<span class="token operator">&lt;=</span><span class="token number">0</span> <span class="token keyword">then</span>		<span class="token comment">-- 判断退出</span>
+            <span class="token keyword">leave</span> sum<span class="token punctuation">;</span>
+        <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> n<span class="token operator">%</span><span class="token number">2</span><span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">then</span>		<span class="token comment">-- 判断跳过</span>
+            <span class="token keyword">set</span> n :<span class="token operator">=</span> n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">iterate</span> sum<span class="token punctuation">;</span>
+        <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>
+        <span class="token keyword">set</span> total :<span class="token operator">=</span> total<span class="token operator">+</span>n<span class="token punctuation">;</span>
+        <span class="token keyword">set</span> n :<span class="token operator">=</span> n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+     <span class="token keyword">end</span> <span class="token keyword">loop</span> sum<span class="token punctuation">;</span>
+    <span class="token keyword">set</span> result :<span class="token operator">=</span> total<span class="token punctuation">;</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span>
+
+<span class="token keyword">call</span> p9<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token variable">@result</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">select</span> <span class="token variable">@result</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="游标Cursor"><a href="#游标Cursor" class="headerlink" title="游标Cursor"></a>游标Cursor</h4><p>也称为光标。游标（CURSOR）是用来<strong>存储查询结果集</strong>的数据类型 , 在存储过程和函数中可以使用游标对结果集进行循环的处理。游标的使用包括游标的声明、OPEN、FETCH 和 CLOSE，其语法分别如下。 </p>
+<ul>
+<li>声明游标</li>
+</ul>
+<p><code>DECLARE 游标名称 CURSOR FOR 查询语句 ;</code></p>
+<ul>
+<li>打开游标</li>
+</ul>
+<p><code>OPEN 游标名称 ;</code></p>
+<ul>
+<li>获取游标记录</li>
+</ul>
+<p><code>FETCH 游标名称 INTO 变量 [, 变量 ] ;</code></p>
+<ul>
+<li>关闭游标</li>
+</ul>
+<p><code>CLOSE 游标名称 ;  </code></p>
+<p>案例：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 根据传入的参数uage，来查询用户表tb_user中，所有的用户年龄小于等于uage的用户姓名（name）和专业（profession）</span>
+<span class="token comment">-- 并将用户的姓名和专业插入到所创建的一张新表(id,name,profession)中。</span>
+<span class="token keyword">create</span> <span class="token keyword">procedure</span> p10<span class="token punctuation">(</span><span class="token operator">in</span> uage <span class="token keyword">int</span><span class="token punctuation">)</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">declare</span> uname <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">-- 定义两个变量用于存放从游标中读取的数据</span>
+    <span class="token keyword">declare</span> upro <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">-- 变量需要定要在声明游标前</span>
+    <span class="token keyword">declare</span> cursor_name_pro <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name<span class="token punctuation">,</span>profession <span class="token keyword">from</span> tb_user <span class="token keyword">where</span> age <span class="token operator">&lt;=</span> uage<span class="token punctuation">;</span> <span class="token comment">-- 声明游标，存储查询结果集</span>
+
+     <span class="token comment">-- 声明条件处理程序 ： 当SQL语句执行抛出的状态码为02开头时，将关闭游标u_cursor，并退出</span>
+    <span class="token keyword">declare</span> <span class="token keyword">exit</span> <span class="token keyword">handler</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">close</span> cursor_name_pro<span class="token punctuation">;</span>
+
+    <span class="token keyword">create</span> <span class="token keyword">table</span> tb_user2<span class="token punctuation">(</span>  <span class="token comment">-- 创建表结构</span>
+        id <span class="token keyword">int</span> <span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token keyword">auto_increment</span><span class="token punctuation">,</span>
+        name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+        profession <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">open</span> cursor_name_pro<span class="token punctuation">;</span> <span class="token comment">-- 开启游标</span>
+    <span class="token keyword">while</span> <span class="token boolean">true</span> <span class="token keyword">do</span>
+        <span class="token keyword">fetch</span> cursor_name_pro <span class="token keyword">into</span> uname<span class="token punctuation">,</span>upro<span class="token punctuation">;</span>  <span class="token comment">-- 获取游标中的记录</span>
+        <span class="token keyword">insert</span> <span class="token keyword">into</span> tb_user2 <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token boolean">null</span><span class="token punctuation">,</span>uname<span class="token punctuation">,</span>upro<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">-- 插入数据到新表中</span>
+        <span class="token keyword">end</span> <span class="token keyword">while</span><span class="token punctuation">;</span>
+    <span class="token keyword">close</span> cursor_name_pro<span class="token punctuation">;</span> <span class="token comment">-- 关闭游标</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span>
+
+<span class="token keyword">call</span> p10<span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>while true</code>需要通过<strong>条件处理程序 Handler</strong>来解决。</p>
+<p>条件处理程序（Handler）可以用来定义在流程控制结构执行过程中遇到问题时相应的处理步骤。具体<br>语法为：  </p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">DECLARE</span> handler_action <span class="token keyword">HANDLER</span> <span class="token keyword">FOR</span> condition_value <span class="token punctuation">[</span><span class="token punctuation">,</span> condition_value<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> statement <span class="token punctuation">;</span>
+<span class="token comment">-- handler_action 的取值：</span>
+<span class="token comment">-- 1.CONTINUE: 继续执行当前程序</span>
+<span class="token comment">-- 2.EXIT: 终止执行当前程序</span>
+
+<span class="token comment">-- condition_value 的取值：</span>
+<span class="token comment">-- 1.SQLSTATE sqlstate_value: 状态码，如 02000</span>
+<span class="token comment">-- 2.SQLWARNING: 所有以01开头的SQLSTATE代码的简写</span>
+<span class="token comment">-- 3.NOT FOUND: 所有以02开头的SQLSTATE代码的简写</span>
+<span class="token comment">-- 4.SQLEXCEPTION: 所有没有被SQLWARNING 或 NOT FOUND捕获的SQLSTATE代码的简写</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>具体的错误状态码，可以参考官方文档：</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/declare-handler.html">https://dev.mysql.com/doc/refman/8.0/en/declare-handler.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html">https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html</a>  </p>
+<h3 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h3><p>存储函数是<strong>有返回值的存储过程</strong>，存储函数的<strong>参数只能是IN类型的</strong>。具体语法如下：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">FUNCTION</span> 存储函数名称 <span class="token punctuation">(</span><span class="token punctuation">[</span> 参数列表 <span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">RETURNS</span> <span class="token keyword">type</span> <span class="token punctuation">[</span>characteristic <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
+<span class="token keyword">BEGIN</span>
+    <span class="token comment">-- SQL语句</span>
+    <span class="token keyword">RETURN</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+<span class="token keyword">END</span> <span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>characteristic说明:</p>
+<ul>
+<li>DETERMINISTIC：  相同的输入参数总是产生相同的结果。</li>
+<li>NO SQL：不包含 SOL 语句。</li>
+<li>READS SOL DATA：包含读取数据的语句，但不包含写入数据的语句。</li>
+</ul>
+<p>案例：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 计算从1累加到n的值，n为传入的参数值</span>
+<span class="token keyword">create</span> <span class="token keyword">function</span> fun1<span class="token punctuation">(</span>n <span class="token keyword">int</span><span class="token punctuation">)</span>
+<span class="token keyword">returns</span> <span class="token keyword">int</span> <span class="token keyword">deterministic</span>  <span class="token comment">-- 8.0版本以上必须指定characteristic</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> n<span class="token operator">></span><span class="token number">0</span> <span class="token keyword">do</span>
+        <span class="token keyword">set</span> total :<span class="token operator">=</span> total<span class="token operator">+</span>n<span class="token punctuation">;</span>
+        <span class="token keyword">set</span> n :<span class="token operator">=</span> n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span> <span class="token keyword">while</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> total<span class="token punctuation">;</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span>
+
+<span class="token keyword">select</span> fun1<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>存储函数应用场景比较少，因为能用存储函数的都可以用存储过程替代。</p>
+</blockquote>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><h4 id="触发器的介绍"><a href="#触发器的介绍" class="headerlink" title="触发器的介绍"></a>触发器的介绍</h4><p>触发器是与表有关的数据库对象，指<strong>在insert/update/delete之前(BEFORE)或之后(AFTER)，触发并执行触发器中定义的SQL语句集合</strong>。触发器的这种特性可以协助应用在数据库端确保数据的完整性, 日志记录 , 数据校验等操作 。</p>
+<p>使用别名OLD和NEW来引用触发器中发生变化的记录内容，这与其他的数据库是相似的。现在触发器还只支持行级触发，不支持语句级触发。  </p>
+<table>
+<thead>
+<tr>
+<th>触发器类型</th>
+<th>NEW 和 OLD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INSERT 型触发器</td>
+<td>NEW 表示将要或者已经新增的数据</td>
+</tr>
+<tr>
+<td>UPDATE 型触发器</td>
+<td>OLD 表示修改之前的数据 , NEW 表示将要或已经修改后的数据</td>
+</tr>
+<tr>
+<td>DELETE 型触发器</td>
+<td>OLD 表示将要或者已经删除的数据</td>
+</tr>
+</tbody></table>
+<h4 id="触发器语法"><a href="#触发器语法" class="headerlink" title="触发器语法"></a>触发器语法</h4><ul>
+<li>创建</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TRIGGER</span> trigger_name
+BEFORE<span class="token operator">/</span><span class="token keyword">AFTER</span> <span class="token keyword">INSERT</span><span class="token operator">/</span><span class="token keyword">UPDATE</span><span class="token operator">/</span><span class="token keyword">DELETE</span>
+<span class="token keyword">ON</span> tbl_name <span class="token keyword">FOR EACH ROW</span> <span class="token comment">-- 行级触发器</span>
+<span class="token keyword">BEGIN</span>
+	trigger_stmt <span class="token punctuation">;</span>
+<span class="token keyword">END</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>查看</li>
+</ul>
+<p><code>SHOW TRIGGERS ;  </code></p>
+<ul>
+<li>删除</li>
+</ul>
+<p><code>DROP TRIGGER [schema_name.]trigger_name ; </code> 如果没有指定 schema_name，默认为当前数据库 。</p>
+<h4 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h4><ul>
+<li>数据准备</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 创建日志表</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> user_logs<span class="token punctuation">(</span>
+  id <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">auto_increment</span><span class="token punctuation">,</span>
+  operation <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">comment</span> <span class="token string">'操作类型, insert/update/delete'</span><span class="token punctuation">,</span>
+  operate_time <span class="token keyword">datetime</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">comment</span> <span class="token string">'操作时间'</span><span class="token punctuation">,</span>
+  operate_id <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">comment</span> <span class="token string">'操作的ID'</span><span class="token punctuation">,</span>
+  operate_params <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span> <span class="token keyword">comment</span> <span class="token string">'操作参数'</span><span class="token punctuation">,</span>
+  <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">(</span><span class="token identifier"><span class="token punctuation">`</span>id<span class="token punctuation">`</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token keyword">engine</span><span class="token operator">=</span><span class="token keyword">innodb</span> <span class="token keyword">default</span> <span class="token keyword">charset</span><span class="token operator">=</span>utf8<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过触发器记录 tb_user 表的数据变更日志，将变更日志插入到日志表user_logs中, 包含增加,修改 , 删除 ;</p>
+<ul>
+<li>insert 插入数据触发器</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">trigger</span> tb_user_insert_trigger
+    <span class="token keyword">after</span> <span class="token keyword">insert</span>
+    <span class="token keyword">on</span> tb_user
+    <span class="token keyword">for each row</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">insert</span> <span class="token keyword">into</span> user_logs
+    <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token boolean">null</span><span class="token punctuation">,</span> <span class="token string">'insert'</span><span class="token punctuation">,</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> new<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+            concat<span class="token punctuation">(</span><span class="token string">'插入的数据内容为:id='</span><span class="token punctuation">,</span> new<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token string">',name='</span><span class="token punctuation">,</span> new<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token string">', phone='</span><span class="token punctuation">,</span> NEW<span class="token punctuation">.</span>phone<span class="token punctuation">,</span> <span class="token string">', email='</span><span class="token punctuation">,</span> NEW<span class="token punctuation">.</span>email<span class="token punctuation">,</span>
+                   <span class="token string">',profession='</span><span class="token punctuation">,</span> NEW<span class="token punctuation">.</span>profession<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 插入数据</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> tb_user<span class="token punctuation">(</span>id<span class="token punctuation">,</span> name<span class="token punctuation">,</span> phone<span class="token punctuation">,</span> email<span class="token punctuation">,</span> profession<span class="token punctuation">,</span> age<span class="token punctuation">,</span> gender<span class="token punctuation">,</span> <span class="token keyword">status</span><span class="token punctuation">,</span> createtime<span class="token punctuation">)</span>
+<span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token number">25</span><span class="token punctuation">,</span><span class="token string">'二皇子'</span><span class="token punctuation">,</span><span class="token string">'18809091212'</span><span class="token punctuation">,</span><span class="token string">'erhuangzi@163.com'</span><span class="token punctuation">,</span><span class="token string">'软件工程'</span><span class="token punctuation">,</span><span class="token number">23</span><span class="token punctuation">,</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<p><img src="/images/hmmysql2/image-20230204164946475.png"></p>
+<ul>
+<li>update 修改数据触发器</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">trigger</span> tb_user_update_trigger
+    <span class="token keyword">after</span> <span class="token keyword">update</span>
+    <span class="token keyword">on</span> tb_user
+    <span class="token keyword">for each row</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">insert</span> <span class="token keyword">into</span> user_logs<span class="token punctuation">(</span>id<span class="token punctuation">,</span> operation<span class="token punctuation">,</span> operate_time<span class="token punctuation">,</span> operate_id<span class="token punctuation">,</span> operate_params<span class="token punctuation">)</span>
+    <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token boolean">null</span><span class="token punctuation">,</span> <span class="token string">'update'</span><span class="token punctuation">,</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> new<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+            concat<span class="token punctuation">(</span><span class="token string">'更新之前的数据: id='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token string">',name='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token string">', phone='</span><span class="token punctuation">,</span>
+                   old<span class="token punctuation">.</span>phone<span class="token punctuation">,</span> <span class="token string">', email='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>email<span class="token punctuation">,</span> <span class="token string">', profession='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>profession<span class="token punctuation">,</span>
+                   <span class="token string">' | 更新之后的数据: id='</span><span class="token punctuation">,</span> new<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token string">',name='</span><span class="token punctuation">,</span> new<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token string">', phone='</span><span class="token punctuation">,</span>
+                   NEW<span class="token punctuation">.</span>phone<span class="token punctuation">,</span> <span class="token string">', email='</span><span class="token punctuation">,</span> NEW<span class="token punctuation">.</span>email<span class="token punctuation">,</span> <span class="token string">', profession='</span><span class="token punctuation">,</span> NEW<span class="token punctuation">.</span>profession<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 测试数据</span>
+<span class="token keyword">update</span> tb_user <span class="token keyword">set</span> age <span class="token operator">=</span> <span class="token number">32</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">;</span>
+<span class="token keyword">update</span> tb_user <span class="token keyword">set</span> age <span class="token operator">=</span> <span class="token number">8</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<p><img src="/images/hmmysql2/image-20230204165510983.png"></p>
+<ul>
+<li>delete 删除数据触发器</li>
+</ul>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">trigger</span> tb_user_delete_trigger
+    <span class="token keyword">after</span> <span class="token keyword">delete</span>
+    <span class="token keyword">on</span> tb_user
+    <span class="token keyword">for each row</span>
+<span class="token keyword">begin</span>
+    <span class="token keyword">insert</span> <span class="token keyword">into</span> user_logs<span class="token punctuation">(</span>id<span class="token punctuation">,</span> operation<span class="token punctuation">,</span> operate_time<span class="token punctuation">,</span> operate_id<span class="token punctuation">,</span> operate_params<span class="token punctuation">)</span>
+    <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token boolean">null</span><span class="token punctuation">,</span> <span class="token string">'delete'</span><span class="token punctuation">,</span> <span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+            concat<span class="token punctuation">(</span><span class="token string">'删除之前的数据: id='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token string">',name='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>name<span class="token punctuation">,</span> <span class="token string">', phone='</span><span class="token punctuation">,</span>
+                   old<span class="token punctuation">.</span>phone<span class="token punctuation">,</span> <span class="token string">', email='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>email<span class="token punctuation">,</span> <span class="token string">', profession='</span><span class="token punctuation">,</span> old<span class="token punctuation">.</span>profession<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 测试数据</span>
+<span class="token keyword">delete</span> <span class="token keyword">from</span> tb_user <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<p><img src="/images/hmmysql2/image-20230204165613595.png"></p>
+<h2 id="6-锁"><a href="#6-锁" class="headerlink" title="6. 锁"></a>6. 锁</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>介绍</li>
+</ul>
+<p>锁是计算机协调多个进程或线程并发访问某一资源的机制。在数据库中，除传统的计算资（CPU、RAM、I/O）的争用以外，数据也是一种供许多用户共享的资源。如何保证数据并发访问的一致性、有<br>效性是所有数据库必须解决的一个问题，锁冲突也是影响数据库并发访问性能的一个重要因素。从这个<br>角度来说，锁对数据库而言显得尤其重要，也更加复杂。</p>
+<ul>
+<li>分类</li>
+</ul>
+<p>MySQL中的锁，按照锁的粒度分，分为以下三类：</p>
+<ol>
+<li>全局锁：锁定数据库中的所有表。</li>
+<li>表级锁：每次操作锁住整张表。</li>
+<li>行级锁：每次操作锁住对应的行数据  </li>
+</ol>
+<h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><h3 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h3><h3 id="行级锁"><a href="#行级锁" class="headerlink" title="行级锁"></a>行级锁</h3><h2 id="7-InnoDB引擎"><a href="#7-InnoDB引擎" class="headerlink" title="7. InnoDB引擎"></a>7. InnoDB引擎</h2><h2 id="8-MySQL管理"><a href="#8-MySQL管理" class="headerlink" title="8. MySQL管理"></a>8. MySQL管理</h2>
                 
             </div>
             <hr/>
@@ -2411,7 +2670,7 @@ mysql <span class="token comment">--local-infile -u root -p</span>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">212.2k</span>
+                        class="white-color">214k</span>
             
             
             
