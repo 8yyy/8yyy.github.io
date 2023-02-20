@@ -407,14 +407,14 @@ Repository na">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    672
+                    883
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    3 分
                 </div>
                 
 
@@ -452,9 +452,30 @@ Repository na">
 <p>下拉菜单中有多种语言及框架，看你的需要进行选择。</p>
 <h3 id="Choose-a-license"><a href="#Choose-a-license" class="headerlink" title="Choose a license"></a>Choose a license</h3><p>这个下拉菜单意思是给你的代码仓库<strong>添加一个许可证</strong>，你可以根据需求进行选择。比如我添加一个开源许可证，当别人浏览我的代码仓库时，别人也可以进行修改我仓库中的项目。</p>
 <p>随后会生成包含许可协议内容的LICENSE文件，用来表明你的仓库内容的许可协议。</p>
+<h2 id="将本地文件上传到仓库"><a href="#将本地文件上传到仓库" class="headerlink" title="将本地文件上传到仓库"></a>将本地文件上传到仓库</h2><ol>
+<li>把github上面的仓库克隆到本地</li>
+</ol>
+<p>git clone <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#104;&#117;&#x62;&#46;&#99;&#111;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#104;&#117;&#x62;&#46;&#99;&#111;&#109;</a>:xxx/xxx.git，推荐使用SSH的形式</p>
+<p>使用git bash</p>
+<ol start="2">
+<li><p>把需要上传的文件拷贝到刚下载的新文件夹内</p>
+</li>
+<li><p>接下来依次输入以下代码即可完成其他剩余操作：</p>
+<ol>
+<li><p>git add . （注：别忘记后面的.，此操作是把Test文件夹下面的文件都添加进来）</p>
+</li>
+<li><p>git commit -m “提交信息” （注：“提交信息”里面换成你需要，如“first commit”）</p>
+</li>
+<li><p>git push origin main (其中origin是仓库名，main是分支名) </p>
+</li>
+</ol>
+<p>​    git push 不指定远程仓库名和分支名。(当你只有一个分支的时候可以简写为这种形式)</p>
+</li>
+</ol>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44722674/article/details/117200397">github仓库建立及配置教程新手教程</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43729943/article/details/103915046">如何在GitHub上创建自己的仓库？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/stc1247679496/article/details/104269657">git如何上传本地文件到github仓库（超详细教程）</a> </li>
 </ol>
 
                 
@@ -1022,7 +1043,7 @@ Repository na">
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">216.5k</span>
+                        class="white-color">218k</span>
             
             
             

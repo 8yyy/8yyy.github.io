@@ -4,10 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="EF Core基础, 8yyy&#39;s blog">
-    <meta name="description" content="1. 简介EF Core 既 Entity Framework Core，是轻量化、可扩展、开源和跨平台的 .NET 平台 O/RM 数据访问技术。它最主要的功能是可以实现以下两点：
+    <meta name="keywords" content="DataGrip 数据库备份, 8yyy&#39;s blog">
+    <meta name="description" content="MySQL备份例如，我要备份my-oa这个数据库
 
-使 .NET 开发人员能够使用 .NET 对象处理数据">
+右键数据库名 –》 import/Export –》 Export with ‘mysqldump’
+
+设置如下，其中Path to mysqldump需要自己设置
+
+Out path是自">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +23,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>EF Core基础 | 8yyy&#39;s blog</title>
+    <title>DataGrip 数据库备份 | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -249,12 +253,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/images/EF-CORE/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">EF Core基础</h1>
+                    <h1 class="description center-align post-title">DataGrip 数据库备份</h1>
                 </div>
             </div>
         </div>
@@ -370,8 +374,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/EF-Core/">
-                                <span class="chip bg-color">EF Core</span>
+                            <a href="/tags/MySQL/">
+                                <span class="chip bg-color">MySQL</span>
                             </a>
                         
                     </div>
@@ -382,8 +386,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/NET/" class="post-category">
-                                .NET
+                            <a href="/categories/%E6%8A%80%E5%B7%A7/" class="post-category">
+                                技巧
                             </a>
                         
                     </div>
@@ -395,7 +399,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-01-11
+                    2022-10-17
                 </div>
                 
 
@@ -404,14 +408,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    167
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    1 分
                 </div>
                 
 
@@ -434,244 +438,26 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>EF Core 既 Entity Framework Core，是轻量化、可扩展、开源和跨平台的 .NET 平台 O/RM 数据访问技术。它最主要的功能是可以实现以下两点：</p>
+                <h2 id="MySQL备份"><a href="#MySQL备份" class="headerlink" title="MySQL备份"></a>MySQL备份</h2><p>例如，我要备份my-oa这个数据库</p>
+<p><img src="/images/mysql-export-restore/image-20230209134530040.png" alt="数据库"></p>
+<p>右键数据库名 –》 import/Export –》 Export with ‘mysqldump’</p>
+<p><img src="/images/mysql-export-restore/image-20230209134717476.png"></p>
+<p>设置如下，其中Path to mysqldump需要自己设置</p>
 <ul>
-<li>使 .NET 开发人员能够使用 .NET 对象处理数据库。</li>
-<li>无需再像通常那样编写大部分数据访问代码(sql或其他查询语句)。</li>
+<li>Out path是自己需要备份的位置，可以自己设置路径及文件名</li>
+<li>如果只需要表结构不需要备份数据可以在”my_oa”前加 <code>-d </code></li>
 </ul>
-<p>EF Core 支持多个数据库引擎，请参阅<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/ef/core/providers/">数据库提供程序</a>了解详细信息。</p>
-<blockquote>
-<p>O/RM（对象关系映射）</p>
-<p>它解决了对象和关系型数据库之间的数据交互问题。</p>
-<ul>
-<li>O-Object对象</li>
-<li>R-Relational关系</li>
-<li>M-Mapping映射</li>
-</ul>
-<p>使用面向对象编程时，数据很多时候都存储在对象里面，具体来说是存储在对象的各个属性（也称成员变量）中。例如有一个 User 类，它的 id、username、password、email 属性都可以用来记录用户信息。当我们需要把对象中的数据存储到数据库时，按照传统思路，就得手动编写 SQL 语句，将对象的属性值提取到 SQL 语句中，然后再调用相关方法执行 SQL 语句。</p>
-<p>而有了 ORM 技术以后，只要提前配置好对象和数据库之间的映射关系，ORM 就可以自动生成 SQL 语句，并将对象中的数据自动存储到数据库中，整个过程不需要人工干预。</p>
-<p>转自<a target="_blank" rel="noopener" href="http://c.biancheng.net/hibernate/orm.html">http://c.biancheng.net/hibernate/orm.html</a></p>
-</blockquote>
-<h3 id="1-1-有关LINQ-to-SQL-和-EF-的区别"><a href="#1-1-有关LINQ-to-SQL-和-EF-的区别" class="headerlink" title="1.1 有关LINQ to SQL 和 EF 的区别"></a>1.1 有关LINQ to SQL 和 EF 的区别</h3><p>LINQ to SQL和Entity Framework都是一种包含LINQ功能的对象关系映射技术。他们之间的本质区别在于EF对<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9E%B6%E6%9E%84&spm=1001.2101.3001.7020">数据库架构</a>和我们查询的类型实行了更好的解耦。使用EF，我们查询的对象不再是完全对应数据库架构的C#类，而是更高层的抽象：Entity Data Model。这为我们提供了额外的灵活性，但是在性能和简单性上面也会有所损失。</p>
-<p>LINQ to SQL和Entity Framework各有所长，LINQ to SQL是一个轻量级的ORM框架，旨在为Microsoft SQL Server数据库提供快速的应用程序开发，其优点是易于使用、简单、高性能。而Entity Framework的优点在于：其为创建数据库架构和实体类之间的映射提供了更好的灵活性，它还通过提供程序支持除了SQL Server之外的第三方数据库。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>LINQ to SQL</th>
-<th>Entity Framework</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>复杂度</td>
-<td>相对不复杂</td>
-<td>相对比较复杂</td>
-</tr>
-<tr>
-<td>模型</td>
-<td>域模型(Domain <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=model&spm=1001.2101.3001.7020">model</a>)</td>
-<td>概念数据模型(Conceptual data model)</td>
-</tr>
-<tr>
-<td>数据库服务器</td>
-<td>SQL Server</td>
-<td>多种数据库产品</td>
-</tr>
-<tr>
-<td>开发时间</td>
-<td>快速应用开发</td>
-<td>需要较长时间，但支持更多特性</td>
-</tr>
-<tr>
-<td>继承</td>
-<td>困难</td>
-<td>容易</td>
-</tr>
-<tr>
-<td>文件类型</td>
-<td>DBML文件</td>
-<td>EDMX,CDSL,MSL,SSDL文件</td>
-</tr>
-<tr>
-<td>复杂类型支持</td>
-<td>不支持</td>
-<td>支持</td>
-</tr>
-<tr>
-<td>查询能力</td>
-<td>通过DataContext</td>
-<td>ESQL,对象服务, Entity Client</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>第一次查询较慢</td>
-<td>第一次查询也较慢，但总体优与LINQ to SQL</td>
-</tr>
-<tr>
-<td>完善</td>
-<td>不再出新版本</td>
-<td>还出新版本</td>
-</tr>
-<tr>
-<td>从模型生成数据库</td>
-<td>支持</td>
-<td>不支持</td>
-</tr>
-</tbody></table>
-<p>转自<a target="_blank" rel="noopener" href="https://www.cnblogs.com/sdya/p/3693267.html">https://www.cnblogs.com/sdya/p/3693267.html</a></p>
-<ul>
-<li><p>LINQ to SQL是对数据库设计的ORM（对象映射）方案；</p>
-<p>EF是一种ORM实体框架，不仅支持SQL SERVER也支持<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Oracle&spm=1001.2101.3001.7020">Oracle</a>等；</p>
-</li>
-<li><p>LINQ to SQL直接与数据库打交道；</p>
-<p>EF需要通过中间的（Entity Data Model, EDM）更新数据；</p>
-</li>
-</ul>
-<p>转自<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35520046/article/details/117521597">https://blog.csdn.net/qq_35520046/article/details/117521597</a></p>
-<h3 id="1-2-EF出现之前访问数据库过程对比"><a href="#1-2-EF出现之前访问数据库过程对比" class="headerlink" title="1.2 EF出现之前访问数据库过程对比"></a>1.2 EF出现之前访问数据库过程对比</h3><ul>
-<li>单纯采用ADO.NET技术</li>
-</ul>
-<p>打开一个数据库的连接，创建一个DataSet来获取或提交数据到数据库，通过将DataSet中的数据和.NET对象相互转换来满足业务需求。</p>
-<p><img src="/images/EF-CORE/image-20230113151601963.png" alt="ADO.NET基本过程"></p>
-<ul>
-<li>而使用EF实体框架后，可以使开发人员能够通过领域对象来处理数据，而无需关注此数据的基础数据库。</li>
-</ul>
-<blockquote>
-<p>实体框架使开发人员可以采用特定于域的对象和属性（例如客户和客户地址）的形式使用数据，而不必自己考虑存储这些数据的基础数据库表和列。</p>
-</blockquote>
-<p><img src="/images/EF-CORE/image-20230113152210375.png" alt="EF基本过程"></p>
-<h3 id="1-3-EF本质"><a href="#1-3-EF本质" class="headerlink" title="1.3 EF本质"></a>1.3 EF本质</h3><ol>
-<li>对象关系映射器（O/RM）</li>
-<li>工作在业务实体（域类）和数据库之间</li>
-<li>保存实体属性中的数据到数据库，也可以从数据库中检测数据并自动将其转换为实体对象。</li>
-</ol>
-<p><img src="/images/EF-CORE/image-20230113152657627.png" alt="image-20230113152657627"></p>
-<p>UI层调用业务逻辑层，业务逻辑层和数据库之间是数据层，EF就在数据层。</p>
-<p><img src="/images/EF-CORE/image-20230113152923752.png" alt="EF组成图示"></p>
-<blockquote>
-<p>可以看见最底层仍然通过ADO.NET实现通讯。</p>
-</blockquote>
-<ul>
-<li><strong>EDM(实体数据模型)</strong><ul>
-<li><strong>概念模型 (entity) :</strong> 概念模型包含了模型类和它们之间的关系。 这将是独立于数据库表设计。</li>
-<li>**存储模型(data): **存储模型是数据库设计模型,包括表、视图、存储过程、以及它们之间的关系和钥匙。</li>
-<li>**映射(mapping): **映射由概念模型如何映射到存储模型的信息组成。</li>
-</ul>
-</li>
-<li>**LINQ To Entity (L2E) : **L2E是一种查询实体对象的语言， 返回在概念模型中定义的实体。</li>
-<li><strong>Entity SQL:</strong> Entity SQL是一个类似于L2E的查询语言。 然而,它比L2E更加复杂。</li>
-<li><strong>Object Services(对象服务): <strong>对象服务是访问数据库中的数据并返回数据的主要入口点。它负责数据实例化，把</strong>Entity Client Data Provider</strong> (下一层)的数据转换成实体对象。</li>
-<li><strong>Entity client Data Provider: <strong>主要职责是将L2E或Entity Sql转换成数据库可以识别的Sql查询语句，它通过</strong>ADO.Net Data Provider</strong>向数据库发送或者索取数据。</li>
-<li>**ADO.Net Data Provider: **使用标准的Ado.net与数据库通信。</li>
-</ul>
-<p>EF Core 是通过一个模型进行数据库访问的。模型由实体类和表示与数据库中的会话组成的，以及允许你查询和保存数据派生的上下文。</p>
-<p>既可以从现有数据库生成模型，也可以使用EF 迁移来完成从模型生成数据库，也就是Database First 和 Code First。</p>
-<h2 id="2-安装-Entity-Framework-Core"><a href="#2-安装-Entity-Framework-Core" class="headerlink" title="2. 安装 Entity Framework Core"></a>2. 安装 Entity Framework Core</h2><h3 id="Visual-Studio-NuGet-包管理器对话框"><a href="#Visual-Studio-NuGet-包管理器对话框" class="headerlink" title="Visual Studio NuGet 包管理器对话框"></a>Visual Studio NuGet 包管理器对话框</h3><ul>
-<li>从 Visual Studio 菜单中选择“项目”&gt;“管理 NuGet 包”</li>
-<li>单击“浏览”或“更新”选项卡</li>
-<li>若要安装或更新 SQL Server 提供程序，请选择 <code>Microsoft.EntityFrameworkCore.SqlServer</code> 包并确认。</li>
-</ul>
-<p><img src="/images/EF-CORE/image-20230111200345173.png" alt="安装SQL SERVER数据库提供包"></p>
-<h2 id="3-基础概念"><a href="#3-基础概念" class="headerlink" title="3. 基础概念"></a>3. 基础概念</h2><h3 id="3-1-Context-上下文"><a href="#3-1-Context-上下文" class="headerlink" title="3.1 Context/上下文"></a>3.1 Context/上下文</h3><p>一个 Context 是一个继承自 <strong>DbContext</strong> 的非抽象类。这个类的功能首先是<strong>公开所有实体的集合</strong>，操作这些集合可以在存储中读取或保存数据，除此之外 Context <strong>保存数据的模型</strong>。在使用前需要正确配置各个实体的模型以及其他必要的配置。</p>
-<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlogContext</span><span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">DbContext</span></span>
-
-<span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>Blog<span class="token punctuation">></span></span> Blogs <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>Post<span class="token punctuation">></span></span> Posts <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>BlogImage<span class="token punctuation">></span></span> Images <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>Context 以 DbSet <T> 属性的形式公开实体的集合，上面代码中的 Blog，Post，BlogImage 便是实体类型。Context 的另一个重要的功能就是<strong>跟踪对实体的更改</strong>，以便我们在保存更改时，它知道该如何处理。</T></p>
-<p>Context 跟踪的每个实体所处的以下状态之一：<strong>未更改/added，已修改/modified，已添加/added，已删除/deleted</strong>或<strong>已分离/detached</strong>。可以将上下文视为沙箱，我们可以在其中对实体集合进行更改，然后通过一次保存操作应用这些更改。</p>
-<h3 id="3-2-DbContext-类型的基础方法"><a href="#3-2-DbContext-类型的基础方法" class="headerlink" title="3.2 DbContext 类型的基础方法"></a>3.2 DbContext 类型的基础方法</h3><p>EF Core 的 DbContext 类型包含一些会在特定时候调用的基础方法：</p>
-<ul>
-<li><code>OnConfiguring 方法</code>：当 context 需要配置它的 provider 和 链接字符串的时候，该方法会被调用，这为开发者提供了介入的入口。</li>
-<li><code>OnModelCreating 方法</code>：在 EF Core 组装数据模型时会被自动调用，你将会在这个方法里添加构建模型的代码。</li>
-<li><code>SaveChanges 方法</code>：当我们希望将修改保存到数据库时进行调用。 返回为受保存操作影响的记录数。</li>
-</ul>
-<h3 id="3-3-Database-Provider-数据库提供程序"><a href="#3-3-Database-Provider-数据库提供程序" class="headerlink" title="3.3 Database Provider / 数据库提供程序"></a>3.3 Database Provider / 数据库提供程序</h3><p>EF Core 是“数据库无关”的，这意味着每个要“接入”它的数据库厂商或任何的第三方都要提供它们的“数据库提供程序”以让 EF Core 可以使用它们。</p>
-<p>微软提供了包括 SQL Server、Azure SQL Database、SQL Server Express、SQL Server Express LocalDB、SQLite 以及 In Memory 在内的“官方”数据库提供程序。</p>
-<p>配置数据库提供程序首先要确定数据库提供程序包已经安装在项目中，然后只需要在 Context 的 OnConfiguring 方法中添加对应的配置方法（SqlServer 为 UseSqlServer）即可。</p>
-<h2 id="4-ASP-NET-Core-使用-EF-Core"><a href="#4-ASP-NET-Core-使用-EF-Core" class="headerlink" title="4. ASP.NET Core 使用 EF Core"></a>4. ASP.NET Core 使用 EF Core</h2><p>在 ASP.NET Core 中通过 EF Core 访问数据库，需要以下几个步骤：</p>
-<h3 id="4-1-安装-Entity-Framework-Core-相关的包"><a href="#4-1-安装-Entity-Framework-Core-相关的包" class="headerlink" title="4.1 安装 Entity Framework Core 相关的包"></a>4.1 安装 Entity Framework Core 相关的包</h3><p>需要安装如下三个包。 NuGet 安装包的方法这里就不展开了。</p>
-<p><img src="/images/EF-CORE/image-20230115113540436.png" alt="EF Core相关的包"></p>
-<h3 id="4-2-在Models文件夹创建实体类和上下文类"><a href="#4-2-在Models文件夹创建实体类和上下文类" class="headerlink" title="4.2 在Models文件夹创建实体类和上下文类"></a>4.2 在Models文件夹创建实体类和上下文类</h3><h4 id="4-2-1-创建实体类"><a href="#4-2-1-创建实体类" class="headerlink" title="4.2.1 创建实体类"></a>4.2.1 创建实体类</h4><p>实体类Blog</p>
-<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Blog</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> BlogId <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-    <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Url <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-    <span class="token keyword">public</span> <span class="token keyword">virtual</span> <span class="token return-type class-name">List<span class="token punctuation">&lt;</span>Post<span class="token punctuation">></span></span> Posts <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>实体类Post</p>
-<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Post</span>
-   <span class="token punctuation">&#123;</span>
-       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> PostId <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Title <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Content <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-       <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> BlogId <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-       <span class="token keyword">public</span> <span class="token return-type class-name">Blog</span> Blog <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-   <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="4-2-2-创建上下文类"><a href="#4-2-2-创建上下文类" class="headerlink" title="4.2.2 创建上下文类"></a>4.2.2 创建上下文类</h4><p>上下文类BlogContext</p>
-<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlogContext</span><span class="token punctuation">:</span><span class="token type-list"><span class="token class-name">DbContext</span></span>
-    <span class="token punctuation">&#123;</span>
-    <span class="token comment">/*将我们的BlogDbContext的配置传递给DbContext
-
-BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数。 这是将 AddDbContext 的上下文配置传递到 DbContext 的方式
-    */</span>
-        <span class="token keyword">public</span> <span class="token function">BlogContext</span><span class="token punctuation">(</span><span class="token class-name">DbContextOptions<span class="token punctuation">&lt;</span>BlogContext<span class="token punctuation">></span></span> options<span class="token punctuation">)</span>
-            <span class="token punctuation">:</span> <span class="token keyword">base</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-        <span class="token punctuation">&#125;</span>
-
-        <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>Blog<span class="token punctuation">></span></span> Blog <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-        <span class="token keyword">public</span> <span class="token return-type class-name">DbSet<span class="token punctuation">&lt;</span>Post<span class="token punctuation">></span></span> Post <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<blockquote>
-<p>注：<a target="_blank" rel="noopener" href="https://www.shaoqun.com/s/%E6%95%B0%E6%8D%AE%E5%BA%93.aspx">数据库</a>上下文类是为给定数据模型协调 EF Core 功能的主类。 上下文派生自 Microsoft.EntityFrameworkCore.DbContext。 上下文指定数据模型中包含哪些实体。</p>
-</blockquote>
-<p>我们需要通过上下文中的DbSet属性将我们的模型加入上下文中，并且公开它们</p>
-<p>由于一个实体集包含多个实体，因此许多开发人员更倾向于使用复数形式的 DBSet 属性名称</p>
-<ul>
-<li>将为每个实体集创建一个 DbSet属性。 在 EF Core 术语中：<ul>
-<li>实体集通常对应数据库表。</li>
-<li>实体对应表中的行。</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-3-appsettings-json配置数据库连接字符串"><a href="#4-3-appsettings-json配置数据库连接字符串" class="headerlink" title="4.3 appsettings.json配置数据库连接字符串"></a>4.3 appsettings.json配置数据库连接字符串</h3><p>使用 Windows 身份验证</p>
-<pre class="line-numbers language-none"><code class="language-none">&#123;
-  &quot;Logging&quot;: &#123;
-    &quot;LogLevel&quot;: &#123;
-      &quot;Default&quot;: &quot;Information&quot;,
-      &quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;
-    &#125;
-  &#125;,
-  &quot;AllowedHosts&quot;: &quot;*&quot;,
-  &#x2F;&#x2F;配置连接字符串
-  &quot;ConnectionStrings&quot;: &#123;
-    &quot;SqlServer&quot;: &quot;Data Source&#x3D;.\\sqlexpress;Initial Catalog&#x3D;DormitoryDB;Integrated Security&#x3D;True&quot;
-  &#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="4-4-注册上下文对象依赖注入服务，连接数据库"><a href="#4-4-注册上下文对象依赖注入服务，连接数据库" class="headerlink" title="4.4 注册上下文对象依赖注入服务，连接数据库"></a>4.4 注册上下文对象依赖注入服务，连接数据库</h3><p>在这一块我发现网上的教程几乎都是<code>在Startup.cs中ConfigureServices方法中注册数据库上下文</code>，但是对于 .NET 6 项目，现在已经找不到 Startup.cs 文件。默认情况下，此文件已经被删除，并且 Program.cs 是配置依赖注入服务和 Middleware 的新位置。</p>
-<p>可参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/537282897">.NET 6 项目找不到 Startup.cs 文件怎么办？一文教你在 .NET 6 项目中使用 Startup.cs</a></p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/ef/core/">MSDN Entity Framework Core</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161107452">EF Core / 基础_从建库到增删改查</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X54y1j7HV/?spm_id_from=333.337.search-card.all.click&vd_source=794a7fc718885ad84490c05351dcf216">EFCore简介</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/stone0823/article/details/119427050">asp.net core练手小项目(04) - EF Core 连接 Sql Server 数据库</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/afei-24/p/11012886.html">EF Core 简单使用介绍</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Lzysnd/article/details/121566888">ASP.NET Core 使用 EF Core</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.shaoqun.com/a/1649447.html">EFCore 6.0入门看这篇就够了</a></li>
-</ol>
+<p><img src="/images/mysql-export-restore/image-20230209134902533.png"></p>
+<p>直接点击Run即可，<code>mysqldump process finished</code>表示导出完成</p>
+<p><img src="/images/mysql-export-restore/image-20230209135328783.png"></p>
+<p>然后可以去文件夹查看文件</p>
+<p><img src="/images/mysql-export-restore/image-20230209135445679.png"></p>
+<h2 id="MySQL还原"><a href="#MySQL还原" class="headerlink" title="MySQL还原"></a>MySQL还原</h2><p>需要新建一个数据库用于还原，例如<code>restoremy_oa</code></p>
+<p><img src="/images/mysql-export-restore/image-20230209135551175.png"></p>
+<p>右键刚才创建的数据库，点击<code>Restore with &#39;mysql&#39;</code></p>
+<p><img src="/images/mysql-export-restore/image-20230209135717271.png"></p>
+<p>选择好文件和路径，Run即可还原成功</p>
+<p><img src="/images/mysql-export-restore/image-20230209135847188.png"></p>
 
                 
             </div>
@@ -698,7 +484,7 @@ BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://8yyy.github.io/2023/01/11/EF-CORE/">http://8yyy.github.io/2023/01/11/EF-CORE/</a>
+                    <a href="http://8yyy.github.io/2022/10/17/mysql-export-restore/">http://8yyy.github.io/2022/10/17/mysql-export-restore/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -736,8 +522,8 @@ BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/EF-Core/">
-                                    <span class="chip bg-color">EF Core</span>
+                                <a href="/tags/MySQL/">
+                                    <span class="chip bg-color">MySQL</span>
                                 </a>
                             
                         </div>
@@ -915,12 +701,12 @@ BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数�
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/01/17/meijuhediedai/">
+                <a href="/2022/10/17/test/">
                     <div class="card-image">
                         
-                        <img src="/images/meijuhediedai/run.jpg" class="responsive-img" alt="复习下C#中的枚举器和迭代器">
+                        <img src="/images/test/run.jpg" class="responsive-img" alt="test">
                         
-                        <span class="card-title">复习下C#中的枚举器和迭代器</span>
+                        <span class="card-title">test</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -931,8 +717,60 @@ BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数�
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-17
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-17
                         </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/test/" class="post-category">
+                                    test
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/test/">
+                        <span class="chip bg-color">test</span>
+                    </a>
+                    
+                    <a href="/tags/light/">
+                        <span class="chip bg-color">light</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/10/16/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/">
+                    <div class="card-image">
+                        
+                        <img src="/images/%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98/tank.jpeg" class="responsive-img" alt="坦克大战">
+                        
+                        <span class="card-title">坦克大战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -948,60 +786,8 @@ BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Enumerator/">
-                        <span class="chip bg-color">Enumerator</span>
-                    </a>
-                    
-                    <a href="/tags/Iterator/">
-                        <span class="chip bg-color">Iterator</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2023/01/06/winform-zaji/">
-                    <div class="card-image">
-                        
-                        <img src="/images/winform-zaji/dog.jpeg" class="responsive-img" alt="winform核心技术">
-                        
-                        <span class="card-title">winform核心技术</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-06
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Net/" class="post-category">
-                                    .Net
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/winform/">
-                        <span class="chip bg-color">winform</span>
+                    <a href="/tags/WinForm/">
+                        <span class="chip bg-color">WinForm</span>
                     </a>
                     
                 </div>
@@ -1242,7 +1028,7 @@ BlogContext 类必须公开具有 DbContextOptions 参数的公共构造函数�
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">216.5k</span>
+                        class="white-color">218k</span>
             
             
             
