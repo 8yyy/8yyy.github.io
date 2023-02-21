@@ -404,7 +404,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.8k
+                    3.9k
                 </div>
                 
 
@@ -637,15 +637,22 @@
 <p><code>-Connection &lt;String&gt; </code><br>指定数据库的连接字符串。</p>
 <p><code>-Provider &lt;String&gt; </code><br>指定要使用的提供程序。例如，Microsoft.EntityFrameworkCore.SqlServer。</p>
 <p><code>-OutputDir &lt;String&gt; </code><br>指定用于输出类的目录。如果省略，则使用顶级项目目录。</p>
+<p><code>-ContextDir &lt;String&gt; </code>  </p>
+<p>要在其中放置文件的目录 DbContext 。 路径相对于项目目录。</p>
 <p><code>-Context &lt;String&gt; </code><br>指定生成的DbContext类的名称。</p>
 <p><code>-Schemas &lt;String&gt; </code><br>指定要为其生成类的模式。</p>
 <p><code>-Tables &lt;String&gt; </code><br>指定要为其生成类的表。</p>
-<p><code>-DataAnnotations [&lt;SwitchParameter&gt;] </code><br>使用DataAnnotation属性在可能的情况下配置模型。如果省略，输出代码将仅使用流畅的API。</p>
+<p><code>-DataAnnotations [&lt;SwitchParameter&gt;] </code><br>使用DataAnnotation属性在可能的情况下配置模型。如果省略，输出代码将仅使用流畅的API。（也就说加上-DataAnnotations采用<code>数据注解</code>的方式进行模型配置，不加则会采用解耦的FluentAPI）</p>
 <p><code>-Force [&lt;SwitchParameter&gt;] </code><br>强制脚手架覆盖现有文件。否则，只有在没有输出文件被覆盖的情况下，代码才会继续。</p>
 <p><code>-Project &lt;String&gt; </code><br>指定要使用的项目。如果省略，则使用默认项目。</p>
 <p><code>-StartupProject &lt;String&gt; </code><br>指定要使用的启动项目。如果省略，则使用解决方案的启动项目。</p>
 <p><code>-Environment &lt;String&gt; </code><br>指定要使用的环境。如果省略，则使用“开发”。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zh1303300/article/details/107787182">https://blog.csdn.net/zh1303300/article/details/107787182</a></p>
+<p>示例：</p>
+<pre class="line-numbers language-none"><code class="language-none">Scaffold-DbContext &quot;Data Source&#x3D;.\sqlexpress;Initial Catalog&#x3D;ShenzhouCarRentalDBase;Integrated Security&#x3D;True&quot; Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -ContextDir Context -Context CarRentalDbContext -Force<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
 <h3 id="3-5-分析下这三个包"><a href="#3-5-分析下这三个包" class="headerlink" title="3.5 分析下这三个包"></a>3.5 分析下这三个包</h3><p>首先需要下载三个包，这三个包目前都不是最新版本的</p>
 <p><img src="/images/EFCore/image-20230218151352632.png"></p>
 <blockquote>
@@ -687,7 +694,7 @@
 <li>通过调用ToList()/ToArray()等方法，但使用 ToList 将通过创建列表来进行缓冲，因此也会占用额外的内存。但是通过AsEnumerable方法不会。</li>
 </ul>
 <p>3.尽管客户端评估由于方法无法在数据库上执行，所有数据都将被拉取到内存中，然后在客户端应用过滤。这就会导致内存过高，造成性能下降。</p>
-<h2 id="4-学习"><a href="#4-学习" class="headerlink" title="4.学习"></a>4.学习</h2><ol>
+<h2 id="4-学习"><a href="#4-学习" class="headerlink" title="4. 学习"></a>4. 学习</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xieyunhappy/article/details/112075402?spm=1001.2014.3001.5502">EFCore 从入门到精通-1（总览)</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xieyunhappy/article/details/112093495?spm=1001.2014.3001.5502">EFCore 从入门到精通-2（初体验)</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xieyunhappy/article/details/124407203?spm=1001.2014.3001.5502">EFCore 从入门到精通-3（模型创建)</a></li>
@@ -1277,7 +1284,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">218k</span>
+                        class="white-color">219.6k</span>
             
             
             
