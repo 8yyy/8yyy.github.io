@@ -408,14 +408,14 @@ IQueryable&amp;lt;T&gt; Query&amp;lt;T&gt;(Expression&amp;lt;Func&amp;lt;T, bool
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    18 分
                 </div>
                 
 
@@ -518,7 +518,8 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
 <p><img src="/images/Expression-Trees/image-20230222134642191.png"></p>
 <p>然后我们在LINQPad中查看表达式树</p>
 <p><img src="/images/Expression-Trees/image-20230222134054937.png"></p>
-<h2 id="手动拼接表达式树"><a href="#手动拼接表达式树" class="headerlink" title="手动拼接表达式树"></a>手动拼接表达式树</h2><h3 id="（）-》-5"><a href="#（）-》-5" class="headerlink" title="（）=》 5"></a>（）=》 5</h3><p>现在有一个非常简单的表达式()=&gt;5，我们如何进行手动拼接呢？</p>
+<h2 id="手动拼接表达式树"><a href="#手动拼接表达式树" class="headerlink" title="手动拼接表达式树"></a>手动拼接表达式树</h2><p>手动拼接表达式可以写出非常复杂的表达式。</p>
+<h3 id="（）-》-5"><a href="#（）-》-5" class="headerlink" title="（）=》 5"></a>（）=》 5</h3><p>现在有一个非常简单的表达式()=&gt;5，我们如何进行手动拼接呢？</p>
 <p><code>Expression&lt;Func&lt;int&gt;&gt; funcExp = () =&gt; 5;</code></p>
 <p>首先我们可以去LINQPad中查看表达式树，如下</p>
 <p><img src="/images/Expression-Trees/image-20230222135309934.png" alt="()=&gt;5表达式树"></p>
@@ -687,15 +688,16 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
         <span class="token punctuation">&#123;</span>
             
         <span class="token punctuation">&#125;</span>
-        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name">Tout</span> <span class="token function">Mapper</span><span class="token punctuation">(</span><span class="token class-name">Tin</span> t<span class="token punctuation">)</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token return-type class-name">Tout</span> <span class="token function">Mapper</span><span class="token punctuation">(</span><span class="token class-name">Tin</span> t<span class="token punctuation">)</span>
         <span class="token punctuation">&#123;</span>
-            <span class="token class-name">ParameterExpression</span> parameterExp <span class="token operator">=</span> Expression<span class="token punctuation">.</span><span class="token function">Parameter</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">Tin</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"p"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">ParameterExpression</span> parameterExp <span class="token operator">=</span> Expression<span class="token punctuation">.</span><span class="token function">Parameter</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">Tin</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"p"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//Tin类型的参数p </span>
             <span class="token class-name">List<span class="token punctuation">&lt;</span>MemberBinding<span class="token punctuation">></span></span> memberBindings <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>MemberBinding<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token comment">//绑定属性</span>
             <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> item <span class="token keyword">in</span> <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">Tout</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetProperties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
             <span class="token punctuation">&#123;</span>
-                <span class="token class-name">MemberExpression</span> member <span class="token operator">=</span> Expression<span class="token punctuation">.</span><span class="token function">Property</span><span class="token punctuation">(</span>parameterExp<span class="token punctuation">,</span> <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">Tin</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetProperty</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//p.(item.Name)</span>
+                <span class="token class-name">MemberExpression</span> member <span class="token operator">=</span> Expression<span class="token punctuation">.</span><span class="token function">Property</span><span class="token punctuation">(</span>parameterExp<span class="token punctuation">,</span> <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">Tin</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetProperty</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//p.Id,p.Name,p.Age</span>
                 <span class="token class-name">MemberBinding</span> memberBinding <span class="token operator">=</span> Expression<span class="token punctuation">.</span><span class="token function">Bind</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> member<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">//将Tout的成员与p.Id,p.Name,p.Age分别绑定</span>
                 memberBindings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>memberBinding<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">&#125;</span>
             <span class="token comment">//绑定字段</span>
@@ -713,7 +715,7 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
             <span class="token keyword">return</span> <span class="token function">func</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>之后回到Program.cs</p>
 <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
@@ -727,10 +729,257 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
     Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">newStudent<span class="token punctuation">.</span>Id</span><span class="token punctuation">&#125;</span></span><span class="token string">,</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">newStudent<span class="token punctuation">.</span>Name</span><span class="token punctuation">&#125;</span></span><span class="token string">,</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">newStudent<span class="token punctuation">.</span>Age</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>注释：</p>
+<p><code>MemberBinding 类</code>提供表示绑定的类派生自的基类，这些绑定用于对新创建对象的成员进行初始化。</p>
+<p><code>Expression.Bind 方法</code> 创建一个表示成员初始化的 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.linq.expressions.memberassignment?view=net-7.0">MemberAssignment</a>。</p>
+<p><code>MemberInitExpression 类</code> 表示调用构造函数并初始化新对象的一个或多个成员。</p>
+<p><img src="/images/Expression-Trees/image-20230223101105773.png"></p>
+<p>你可以选择cw一下<code>funcExp</code>：</p>
+<p><code>p =&gt; new NewStudent() &#123;Id = p.Id, Name = p.Name, Age = p.Age&#125;</code></p>
+<h2 id="表达式树与EF框架–SQL语句解析-查询条件"><a href="#表达式树与EF框架–SQL语句解析-查询条件" class="headerlink" title="表达式树与EF框架–SQL语句解析(查询条件)"></a>表达式树与EF框架–SQL语句解析(查询条件)</h2><p>表达式树主要用于查询条件。</p>
+<p>使用DB First演示，首先创建一张简单的表</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">database</span> StudentDB<span class="token punctuation">;</span>
+<span class="token keyword">use</span> StudentDB<span class="token punctuation">;</span>
 
+<span class="token keyword">create</span> <span class="token keyword">table</span> Student<span class="token punctuation">(</span>
+	Id <span class="token keyword">int</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">primary</span> <span class="token keyword">key</span><span class="token punctuation">,</span>
+	Name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+	Age <span class="token keyword">int</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">,</span>
+	Address <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> Student<span class="token punctuation">;</span>
 
+<span class="token keyword">insert</span> <span class="token keyword">into</span> Student <span class="token keyword">Values</span><span class="token punctuation">(</span><span class="token string">'8yyy'</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token punctuation">,</span><span class="token string">'杭州'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token string">'张三'</span><span class="token punctuation">,</span><span class="token number">25</span><span class="token punctuation">,</span><span class="token string">'湖南'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token string">'李四'</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token string">'北京'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token string">'王五'</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">,</span><span class="token string">'上海'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>由于是使用EF演示，所以使用的.NET框架是.NET Framework 4.7.2</p>
+<p>首先需要创建ADO.NET实体数据模型</p>
+<p>过程比较简单，会生成如下内容</p>
+<p><img src="/images/Expression-Trees/image-20230223103403482.png"></p>
+<p><img src="/images/Expression-Trees/image-20230223103343653.png"></p>
+<p>从这也可以看出EF还不使用<code>null</code>!</p>
+<p><img src="/images/Expression-Trees/image-20230223103500857.png"></p>
+<p>其中最重要的就是Model1.Context.tt下的StudentDBEntities1类，这是一个上下文类，继承自<code>DbContext</code></p>
+<p><img src="/images/Expression-Trees/image-20230223145429521.png"></p>
+<p>例如我们想查询Student表中Id大于2且家住杭州的的学生信息</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">EFExample<span class="token punctuation">.</span>EF</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">EFExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">internal</span> <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//创建上下文对象</span>
+            <span class="token class-name">StudentDBEntities1</span> sdb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">StudentDBEntities1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//使用Linq</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> query <span class="token operator">=</span> sdb<span class="token punctuation">.</span>Student<span class="token punctuation">.</span><span class="token function">Where</span><span class="token punctuation">(</span>b <span class="token operator">=></span> b<span class="token punctuation">.</span>Id<span class="token operator">></span><span class="token number">2</span><span class="token operator">&amp;&amp;</span>b<span class="token punctuation">.</span>Address<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span><span class="token string">"杭州"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">ReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中<code>b =&gt; b.Id&gt;2&amp;&amp;b.Address.Contains(&quot;杭州&quot;)</code>是一个Lamdba表达式</p>
+<p>我们可以输出query查看结果，可以看到将表达式转化成了SQL语句</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span>
+    <span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Id<span class="token punctuation">]</span> <span class="token keyword">AS</span> <span class="token punctuation">[</span>Id<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Name<span class="token punctuation">]</span> <span class="token keyword">AS</span> <span class="token punctuation">[</span>Name<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Age<span class="token punctuation">]</span> <span class="token keyword">AS</span> <span class="token punctuation">[</span>Age<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Address<span class="token punctuation">]</span> <span class="token keyword">AS</span> <span class="token punctuation">[</span>Address<span class="token punctuation">]</span>
+    <span class="token keyword">FROM</span> <span class="token punctuation">[</span>dbo<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Student<span class="token punctuation">]</span> <span class="token keyword">AS</span> <span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span>
+    <span class="token keyword">WHERE</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Id<span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">AND</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>Extent1<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token punctuation">[</span>Address<span class="token punctuation">]</span> <span class="token operator">LIKE</span> <span class="token string">'%杭州%'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们在来看下这两个语句</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">Expression<span class="token punctuation">&lt;</span>Func<span class="token punctuation">&lt;</span>Student<span class="token punctuation">,</span> <span class="token keyword">bool</span><span class="token punctuation">></span><span class="token punctuation">></span></span> exp <span class="token operator">=</span> b <span class="token operator">=></span> b<span class="token punctuation">.</span>Id <span class="token operator">></span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> b<span class="token punctuation">.</span>Address<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span><span class="token string">"杭州"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>我们知道输出的结果是<code>b =&gt; b.Id &gt; 2 &amp;&amp; b.Address.Contains(&quot;杭州&quot;)</code></p>
+<p>而这不是我们想要的结果，我们想要的结果是将这个Lamdba表达式转化为SQL语句</p>
+<p>类似于<code>([Extent1].[Id] &gt; 2) AND ([Extent1].[Address] LIKE &#39;%杭州%&#39;)</code></p>
+<p>为此我们需要了解ExpressionVisitor 类</p>
+<p><code>ExpressionVisitor 类</code>表示表达式树的访问者或重写者。</p>
+<p><img src="/images/Expression-Trees/image-20230223195704447.png"></p>
+<p>其中<code>Visit</code>是一个主管，你给它一个表达式，它会进行分配，比如说二元表达式会分配给<code>VisitBinary</code></p>
+<p>常量表达式会分配给<code>VisitConstant</code>，成员表达式会分配给<code>VisitMember</code></p>
+<blockquote>
+<p><code>Ctrl + M + O</code>: 折叠所有方法</p>
+<p><code>Ctrl + M + M</code>: 折叠或者展开当前方法</p>
+<p><code>Ctrl + M + L</code>: 展开所有方法</p>
+</blockquote>
+<p><img src="/images/Expression-Trees/image-20230223213127285.png"></p>
+<p><img src="/images/Expression-Trees/image-20230223213146167.png"></p>
+<p>具体代码如下：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>ComponentModel<span class="token punctuation">.</span>Design</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq<span class="token punctuation">.</span>Expressions</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Text</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">EFExample<span class="token punctuation">.</span>LinqToSql</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConditionVisitor</span><span class="token punctuation">:</span><span class="token type-list"><span class="token class-name">ExpressionVisitor</span></span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">private</span> <span class="token class-name">Stack<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">></span></span> stringStack<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Stack<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">//返回栈里的条件字符串</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> <span class="token function">Condition</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> condition <span class="token operator">=</span> <span class="token keyword">string</span><span class="token punctuation">.</span><span class="token function">Concat</span><span class="token punctuation">(</span>stringStack<span class="token punctuation">.</span><span class="token function">ToArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            stringStack<span class="token punctuation">.</span><span class="token function">Clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> condition<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//([Extent1].[Id] > 2) AND ([Extent1].[Address] LIKE '%杭州%')</span>
+        <span class="token comment">//二元表达式</span>
+        <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">Expression</span> <span class="token function">VisitBinary</span><span class="token punctuation">(</span><span class="token class-name">BinaryExpression</span> node<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">base</span><span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Right<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//解析右边</span>
+            stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token operator">+</span>node<span class="token punctuation">.</span>NodeType<span class="token punctuation">.</span><span class="token function">ToSQLOperator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">base</span><span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Left<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//解析左边</span>
+            stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">"("</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//([Extent1].[Id] > 2) AND ([Extent1].[Address] LIKE '%杭州%')</span>
+        <span class="token comment">//成员表达式</span>
+        <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">Expression</span> <span class="token function">VisitMember</span><span class="token punctuation">(</span><span class="token class-name">MemberExpression</span> node<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$" [</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">node<span class="token punctuation">.</span>Member<span class="token punctuation">.</span>Name</span><span class="token punctuation">&#125;</span></span><span class="token string">] "</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//([Extent1].[Id] > 2) AND ([Extent1].[Address] LIKE '%杭州%')</span>
+        <span class="token comment">//常量表达式</span>
+        <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">Expression</span> <span class="token function">VisitConstant</span><span class="token punctuation">(</span><span class="token class-name">ConstantExpression</span> node<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Type</span> type <span class="token operator">=</span> node<span class="token punctuation">.</span>Value<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name"><span class="token keyword">string</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">||</span> type<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token type-expression class-name">DateTime</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment">//如果是字符或者日期，需要加单引号</span>
+            <span class="token punctuation">&#123;</span>
+                stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">node<span class="token punctuation">.</span>Value</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//成员入栈不要有空格</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">&#123;</span>
+                stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//([Extent1].[Id] > 2) AND ([Extent1].[Address] LIKE '%杭州%')</span>
+        <span class="token comment">//方法表达式</span>
+        <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">Expression</span> <span class="token function">VisitMethodCall</span><span class="token punctuation">(</span><span class="token class-name">MethodCallExpression</span> node<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">Visit</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Object<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//左边：方法所在的对象，返回是成员表达式--》跳转到VisitMember</span>
+            <span class="token function">Visit</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Arguments<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//右边：方法参数，返回常量表达式--》VisitConstant</span>
+
+            <span class="token comment">//获取入栈数据，为方法解析做参数（参数和字段名）</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> right<span class="token operator">=</span>stringStack<span class="token punctuation">.</span><span class="token function">Pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//'杭州'</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> left <span class="token operator">=</span> stringStack<span class="token punctuation">.</span><span class="token function">Pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//Adress</span>
+
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span>Method<span class="token punctuation">.</span>Name<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">case</span> <span class="token string">"Contains"</span><span class="token punctuation">:</span>
+                    stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">left</span><span class="token punctuation">&#125;</span></span><span class="token string"> LIKE '%</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">right<span class="token punctuation">.</span><span class="token function">Replace</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">%'"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Equals"</span><span class="token punctuation">:</span>
+                    stringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">left</span><span class="token punctuation">&#125;</span></span><span class="token string">=</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">right</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">default</span><span class="token punctuation">:</span>
+                    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">NotSupportedException</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>NodeType<span class="token operator">+</span><span class="token string">"不支持！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>SQLOperator类</code>用于将表达式树节点的节点类型转换成SQL运算符</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq<span class="token punctuation">.</span>Expressions</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Text</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">EFExample<span class="token punctuation">.</span>LinqToSql</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">internal</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">SQLOperator</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> <span class="token function">ToSQLOperator</span><span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token class-name">ExpressionType</span> type<span class="token punctuation">)</span><span class="token comment">//扩展方法</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>Add<span class="token punctuation">:</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>AndAlso<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">"AND"</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>OrElse<span class="token punctuation">:</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>Or<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">"OR"</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>Not<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">"NOT"</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>NotEqual<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">"&lt;>"</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>GreaterThan<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">">"</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>GreaterThanOrEqual<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">">="</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>LessThan<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">"&lt;"</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>LessThanOrEqual<span class="token punctuation">:</span>
+                         <span class="token keyword">return</span> <span class="token string">"&lt;="</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>Equal<span class="token punctuation">:</span>
+                    <span class="token keyword">return</span> <span class="token string">"="</span><span class="token punctuation">;</span>
+                <span class="token keyword">default</span><span class="token punctuation">:</span>
+                    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Exception</span><span class="token punctuation">(</span><span class="token string">"不支持该方法"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>回到Program进行调试输出</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Collections<span class="token punctuation">.</span>Generic</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Data<span class="token punctuation">.</span>Entity<span class="token punctuation">.</span>Infrastructure<span class="token punctuation">.</span>DependencyResolution</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq<span class="token punctuation">.</span>Expressions</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Text</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">EFExample<span class="token punctuation">.</span>EF</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">EFExample<span class="token punctuation">.</span>LinqToSql</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">EFExample</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">internal</span> <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">//创建上下文对象</span>
+            <span class="token class-name">StudentDBEntities1</span> sdb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">StudentDBEntities1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> query <span class="token operator">=</span> sdb<span class="token punctuation">.</span>Student<span class="token punctuation">.</span><span class="token function">Where</span><span class="token punctuation">(</span>b <span class="token operator">=></span> b<span class="token punctuation">.</span>Id<span class="token operator">></span><span class="token number">2</span><span class="token operator">&amp;&amp;</span>b<span class="token punctuation">.</span>Address<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span><span class="token string">"杭州"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Expression<span class="token punctuation">&lt;</span>Func<span class="token punctuation">&lt;</span>Student<span class="token punctuation">,</span> <span class="token keyword">bool</span><span class="token punctuation">></span><span class="token punctuation">></span></span> exp <span class="token operator">=</span> b <span class="token operator">=></span> b<span class="token punctuation">.</span>Id <span class="token operator">></span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> b<span class="token punctuation">.</span>Address<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span><span class="token string">"杭州"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+
+            <span class="token class-name">ConditionVisitor</span> conditionVisitor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">ConditionVisitor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            conditionVisitor<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//调用父类的Visit方法</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>conditionVisitor<span class="token punctuation">.</span><span class="token function">Condition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">ReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果如下：</p>
+<p><img src="/images/Expression-Trees/image-20230224102108924.png"></p>
+<p>上述代码需要参照LINQPAD给出的表达式树图，进行断点调试理解。</p>
+<h2 id="表达式树的永久性"><a href="#表达式树的永久性" class="headerlink" title="表达式树的永久性"></a>表达式树的永久性</h2><p>表达式树应具有永久性。 这意味着如果你想修改某个表达式树，则必须复制该表达式树然后替换其中的节点来创建一个新的表达式树。 你可以使用表达式树访问者遍历现有表达式树。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/expression-trees/">https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/expression-trees/</a></li>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-US/dotnet/csharp/programming-guide/concepts/expression-trees/">https://learn.microsoft.com/en-US/dotnet/csharp/programming-guide/concepts/expression-trees/</a></li>
@@ -1304,7 +1553,7 @@ Console<span class="token punctuation">.</span><span class="token function">Writ
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">222.1k</span>
+                        class="white-color">223.5k</span>
             
             
             
