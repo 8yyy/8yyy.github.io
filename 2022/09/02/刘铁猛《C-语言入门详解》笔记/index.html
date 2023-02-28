@@ -408,14 +408,14 @@ C#语言简介怎样编写程序和程序语言的选择
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    42.7k
+                    43.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    194 分
+                    197 分
                 </div>
                 
 
@@ -6552,7 +6552,7 @@ Main thread 9<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
 </li>
 </ul>
 </li>
-<li><p>事件的功能 = 通知 + 可选的事件参数（即详细信息）</p>
+<li><p>事件的功能 = 通知 + 可选的事件参数Event Args（即详细信息）</p>
 </li>
 <li><p><font color="FF5555">使用</font>：用于对象或类间的动作协调与信息传递（消息同送）</p>
 </li>
@@ -6610,22 +6610,47 @@ Main thread 9<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
 </li>
 </ul>
 <ul>
-<li>事件模型的五个组成部分<ol>
-<li>事件的拥有者（event source，对象）<ul>
+<li><p>事件模型的五个组成部分</p>
+<ol>
+<li><p>事件的拥有者（event source，对象）</p>
+</li>
+<li><p>事件成员（event，成员）</p>
+<ul>
 <li>事件不会主动发生</li>
-<li>当用户点击一个按钮，是用户的鼠标向计算机硬件发送了一个电讯号，硬件之所以能工作，全靠操作系统来协调管理。当Windows侦听到由鼠标发过来的电讯号，它就会查看一下鼠标指针在屏幕上的当前位置，实际上在Windows操作系统启动的时候，它就一直在追踪鼠标指针在屏幕上的位置，这个是所有图形用户操作系统最基本的功能之一。当Windows发现这个鼠标指针的位置由一个按钮，而且包含这个按钮的窗口处于激活状态的时候，它就会通知这个按钮，你被这个用户按下了，这时候按钮的内部逻辑就被执行了。</li>
+<li>当用户点击一个按钮，是用户的鼠标向计算机硬件发送了一个电讯号，硬件之所以能工作，全靠操作系统来协调管理。当Windows侦听到由鼠标发过来的电讯号，它就会查看一下鼠标指针在屏幕上的当前位置，实际上在Windows操作系统启动的时候，它就一直在追踪鼠标指针在屏幕上的位置，这个是所有图形用户操作系统最基本的功能之一。当Windows发现这个鼠标指针的位置有一个按钮，而且包含这个按钮的窗口处于激活状态的时候，它就会通知这个按钮，你被这个用户按下了，这时候按钮的内部逻辑就被执行了。</li>
 <li>用户按按钮，是用户的操作通过windows操作系统调用了按钮的内部逻辑，最终还是按钮的内部逻辑触发了click事件</li>
 </ul>
 </li>
-<li> 事件成员（event，成员）</li>
-<li> 事件的响应者（event subscriber，对象）</li>
-<li> 事件处理器（event handler ，成员）——本质上是一个回调方法</li>
-<li> 事件订阅——把事件处理器与事件关联在一起，本质上是一种以委托类型为基础的”约定“</li>
-<li> <img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220918200959915.png"></li>
-<li> <img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220918201025294.png"></li>
-</ol>
+<li><p>事件的响应者（event subscriber，对象）</p>
+<ul>
+<li><p>被通知的对象或类</p>
+</li>
+<li><p>从代码上来看事件的响应者就是订阅了事件的对象或者类</p>
 </li>
 </ul>
+</li>
+<li><p>事件处理器（event handler ，成员）——本质上是一个回调方法</p>
+</li>
+<li><p>事件订阅——把事件处理器与事件关联在一起，本质上是一种以委托类型为基础的”约定“</p>
+</li>
+<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220918200959915.png"></p>
+</li>
+</ol>
+<p>1星的是标准的事件模型，是MVC/MVP的雏形。</p>
+<ol>
+<li> <img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220918201025294.png"></li>
+</ol>
+<p>2星的事件的拥有者同时也是事件的响应者，也很常见。</p>
+<p>3星的事件的拥有者是事件的响应者的成员，也是最常见的。<strong>是Windows平台默认的事件订阅和事件处理结构</strong>。</p>
+<p>例如Winform窗口和button按钮，button是form窗口的字段成员，button按钮有一个click事件，一旦点击button，button就会通知窗口我被用户点击了，窗口就会响应你所准备的内容。</p>
+</li>
+</ul>
+<blockquote>
+<p>对于一个类/对象，最重要的成员是属性，方法，事件。</p>
+<p>属性：存储数据</p>
+<p>方法：逻辑处理/算法</p>
+<p>事件：通知能力</p>
+</blockquote>
 <ul>
 <li><p>注意</p>
 <ul>
@@ -6895,20 +6920,58 @@ Sing!
         <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>运行结果是当你点击button1，textbox1的内容为Hello</p>
+<li><p>运行结果是</p>
+</li>
+<li><p>当你点击button1，textbox1的内容为Hello</p>
 <ul>
 <li>当你点击button2，textbox1的内容为World</li>
 </ul>
 </li>
 </ul>
-<h3 id="12-3-深入理解事件"><a href="#12-3-深入理解事件" class="headerlink" title="12.3 深入理解事件"></a>12.3 深入理解事件</h3><h3 id="12-4-事件的声明"><a href="#12-4-事件的声明" class="headerlink" title="12.4 事件的声明"></a>12.4 事件的声明</h3><ul>
+<blockquote>
+<p>如果约束一致，事件处理器可重用。</p>
+<p>一个事件可以挂接多个事件处理器，例如第一个例子，Elapsed事件可以挂接boy.Action和girl.Action。</p>
+<p>一个事件处理器可以被多个事件挂接，例如ButtonClick事件处理器可以被三个按钮的click事件所挂接，原因是约束一致。</p>
+</blockquote>
+<h3 id="12-3-深入理解事件"><a href="#12-3-深入理解事件" class="headerlink" title="12.3 深入理解事件"></a>12.3 深入理解事件</h3><ul>
+<li><strong>EventArgs 类</strong></li>
+</ul>
+<p>表示包含事件数据的类的基类，并提供用于不包含事件数据的事件的值。</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EventArgs</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">//</span>
+    <span class="token comment">// 摘要:</span>
+    <span class="token comment">//     Provides a value to use with events that do not have event data.</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">readonly</span> <span class="token class-name">EventArgs</span> Empty<span class="token punctuation">;</span>
+
+    <span class="token comment">//</span>
+    <span class="token comment">// 摘要:</span>
+    <span class="token comment">//     Initializes a new instance of the System.EventArgs class.</span>
+    <span class="token keyword">public</span> <span class="token function">EventArgs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中Empty字段表示 提供要用于没有事件数据的事件的值。</p>
+<ul>
+<li><strong>EventHandler 委托</strong></li>
+</ul>
+<p>表示将用于处理不具有事件数据的事件的方法。</p>
+<p><code>public delegate void EventHandler(object? sender, EventArgs e);</code></p>
+<p>其中sender就是数据源，e不包含事件数据。</p>
+<p>使用默认的EventHandler简略声明事件，也可以使用invoke()；</p>
+<p>例如：</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token class-name">EventHandler</span> ExpandEvent<span class="token punctuation">;</span><span class="token comment">//折叠展开事件</span>
+ExpandEvent<span class="token punctuation">?.</span><span class="token function">Invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span>EventArgs<span class="token punctuation">.</span>Empty<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="12-4-事件的声明"><a href="#12-4-事件的声明" class="headerlink" title="12.4 事件的声明"></a>12.4 事件的声明</h3><ul>
 <li><p>事件的声明</p>
 <ul>
 <li><p>完整声明</p>
 <ul>
 <li><p>事件是基于委托的有两层意思</p>
 <ul>
-<li>第一层意思：事件需要委托类型来做一个约束。约束既规定事件能发送什么样的消息给响应者，也规定事件响应者能收到什么样的事件消息。这就决定了事件响应者的事件处理器，必须能够和这个约束匹配上，才能够订阅这个事件。</li>
+<li>第一层意思：事件需要委托类型来做一个约束。约束既规定事件能发送什么样的消息给响应者，也规定事件响应者能收到什么样的事件消息。这就决定了事件响应者的事件处理器，必须能够和这个约束匹配上，才能够订阅这个事件。（例如下面的Waiter.Action就是和OrderEventHandler匹配的）</li>
 <li>第二层意思：当事件响应者向事件拥有者提供了能够匹配这个事件的事件处理器之后，需要把事件处理器保存或者记录下来。能够记录或者说引用方法的任务，只有委托类型的实例能够做到。</li>
 </ul>
 </li>
@@ -6993,7 +7056,7 @@ Sing!
                 <span class="token class-name">OrderEventArgs</span> e <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">OrderEventArgs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 e<span class="token punctuation">.</span>DishName <span class="token operator">=</span> <span class="token string">"Kongpao Chicken"</span><span class="token punctuation">;</span>
                 e<span class="token punctuation">.</span>Size <span class="token operator">=</span> <span class="token string">"large"</span><span class="token punctuation">;</span>
-                <span class="token keyword">this</span><span class="token punctuation">.</span>orderEventHandler<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>orderEventHandler<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//触发事件</span>
             <span class="token punctuation">&#125;</span>
         <span class="token punctuation">&#125;</span>
 
@@ -7047,16 +7110,15 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
 <li><p>五大部分分别如下：</p>
 <ul>
 <li>1.事件的拥有者 customer(Customer类型的成员)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>2.事件成员 Order事件(Customer类型的事件Order)</p>
-<ul>
+<li>2.事件成员 Order事件(Customer类型的事件Order)</li>
 <li>3.事件的响应者 waiter(Waiter类的变量)</li>
 <li>4.事件的订阅 +=操作符</li>
 <li>5.事件的处理器 Action方法(Waiter类的方法)</li>
 </ul>
+</li>
+</ul>
+<p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20230226162125736.png" alt="我们尝试用事件来代替委托字段"></p>
+<p>会报错，报错的原因是<img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20230226162223894.png"></p>
 </li>
 <li><p>简略声明（字段式声明，field-like）</p>
  <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
@@ -7135,7 +7197,7 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
                   Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
               <span class="token punctuation">&#125;</span>
   
-              <span class="token comment">//这里用事件的名字取代了字段的名字</span>
+              <span class="token comment">//当将事件简略声明后，这里用事件的名字取代了委托字段的名字却不会报错了</span>
               <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>Order <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>  <span class="token comment">//微软在设计这个语法糖的时候造成了这个语法的前后不一致</span>
               <span class="token punctuation">&#123;</span>
                   <span class="token class-name">OrderEventArgs</span> e <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">OrderEventArgs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -7178,10 +7240,19 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
-<li><p>这里用事件的名字取代了字段的名字，微软在设计这个语法糖的时候造成了这个语法的前后不一致</p>
-</li>
-<li><p><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220921154819013.png"></p>
-</li>
+<li>这里用事件的名字取代了字段的名字，这在事件的完整声明中会报错，但是在简略声明中却不报错了，可见微软在设计这个语法糖的时候造成了这个语法的前后不一致</li>
+</ul>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//当将事件简略声明后，这里用事件的名字取代了委托字段的名字却不会报错了</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>Order <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>  <span class="token comment">//微软在设计这个语法糖的时候造成了这个语法的前后不一致</span>
+<span class="token punctuation">&#123;</span>
+   <span class="token class-name">OrderEventArgs</span> e <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">OrderEventArgs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   e<span class="token punctuation">.</span>DishName <span class="token operator">=</span> <span class="token string">"Kongpao Chicken"</span><span class="token punctuation">;</span>
+   e<span class="token punctuation">.</span>Size <span class="token operator">=</span> <span class="token string">"large"</span><span class="token punctuation">;</span>
+   <span class="token keyword">this</span><span class="token punctuation">.</span>Order<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/image-20220921154819013.png"></li>
 </ul>
 </li>
 </ul>
@@ -7240,7 +7311,7 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     <span class="token comment">//事件的拥有者类Customer顾客</span>
     <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Customer</span>
     <span class="token punctuation">&#123;</span>
-        <span class="token keyword">public</span> <span class="token class-name">OrderEventHandler</span> Order<span class="token punctuation">;</span>   <span class="token comment">//去掉event之后成了字段,event抑制外部滥用</span>
+        <span class="token keyword">public</span> <span class="token class-name">OrderEventHandler</span> Order<span class="token punctuation">;</span>   <span class="token comment">//去掉event之后成了委托字段,event抑制外部滥用</span>
 
         <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">double</span></span> Bill <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>    <span class="token comment">//点单付费</span>
         <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PayTheBill</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -7307,11 +7378,27 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>从上面这段程序中我们可以看到，customer在没有点菜的情况下被badGuy强制点了两个菜，可见委托是可以被滥用的，而加上event成为事件之后，badGuy就没办法invoke指定具体的事件拥有者和事件的参数信息了，因为事件只能出现在+=/-=的左边。</p>
+</li>
+</ul>
+<blockquote>
+<p>再次提醒大家:在Customer类内部能够使用Order事件去做非空比较以及调用Order.Invoke方法纯属不得已而为之，因为使用事件的简化声明时，我们没有手动声明一个委托类型的字段。这是微软编译器语法糖所造成的语法冲突和前后不一致。</p>
+</blockquote>
+<ul>
 <li><p>所以<font color="red">事件的本质</font>是委托字段的一个包装器</p>
 <ul>
 <li>这个包装器对委托字段的访问起<font color="red">限制作用</font>，相当于一个“蒙版”</li>
 <li>封装（encapsulation）的一个重要功能就是隐藏</li>
 <li>事件<font color="red">对外界</font>隐藏了委托实例的大部分功能，<font color="red">仅暴露添加/移除事件处理器的功能</font></li>
+</ul>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token class-name">OrderEventHandler</span> OrderEventHandler<span class="token punctuation">;</span> <span class="token comment">//委托字段</span>
+<span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token return-type class-name">OrderEventHandler</span> Order
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">add</span> <span class="token punctuation">&#123;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>OrderEventHandler <span class="token operator">+=</span> <span class="token keyword">value</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">//事件添加器</span>
+    <span class="token keyword">remove</span> <span class="token punctuation">&#123;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>OrderEventHandler <span class="token operator">-=</span> <span class="token keyword">value</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">//事件移除器</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
 <li>添加/移除事件处理器的时候可以直接使用方法名，这是委托实例所不具备的功能</li>
 </ul>
 </li>
@@ -7349,14 +7436,11 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
 
     <span class="token punctuation">&#125;</span>
 
-    <span class="token comment">//委托isClass</span>
     <span class="token comment">//public delegate void OrderEventHandler(Customer customer, OrderEventArgs e);</span>
-    <span class="token comment">//第一个参数表明事件的拥有者，这里是Customer</span>
-
-    <span class="token comment">//事件的拥有者类Customer顾客</span>
+    
     <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Customer</span>
     <span class="token punctuation">&#123;</span>
-        <span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token class-name">EventHandler</span> Order<span class="token punctuation">;</span>   <span class="token comment">//事件的简略声明，field-like</span>
+        <span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token class-name">EventHandler</span> Order<span class="token punctuation">;</span>   <span class="token comment">//通用事件声明</span>
 
         <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">double</span></span> Bill <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>    <span class="token comment">//点单付费</span>
         <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PayTheBill</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -7425,30 +7509,32 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
         <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+</li>
+</ul>
 </li>
 <li><p>FooEventHandler委托的参数一般有两个（由Win32 API演化而来，历史悠久）</p>
 <ul>
-<li>第一个是object类型，名字为sender，实际上就是事件的拥有者、事件的source<ul>
+<li><p>第一个是object类型，名字为sender，实际上就是事件的拥有者、事件的source</p>
+<ul>
 <li>用于保存触发事件的对象的引用</li>
 </ul>
 </li>
-<li>第二个是EventArgs类的派生类，类名一般为FooEventArgs，参数名为e。也就是前面讲过的事件参数<ul>
+<li><p>第二个是EventArgs类的派生类，类名一般为FooEventArgs，参数名为e。也就是前面讲过的事件参数</p>
+<ul>
 <li>用来保存状态信息，指明什么类型适用于该应用程序</li>
-</ul>
-</li>
 <li>虽然没有官方的说法，但我们可以把委托的参数列表看作是事件发生后发给给事件响应者的<font color="red">“事件消息”</font></li>
 </ul>
 </li>
 <li><p>触发Foo事件的方法一般命名为OnFoo，即“因何引发”、<font color="red">“事出有因”</font></p>
-<ul>
+</li>
 <li><p>访问级别为protected，不能用public，不然又成了可以“借刀杀人了”</p>
 <ul>
 <li>之前我们写的think方法违反了.net规定的原则，即一个方法只能做一件事</li>
 </ul>
  <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Think</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-   <span class="token punctuation">&#123;</span>
+ <span class="token punctuation">&#123;</span>
        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
        <span class="token punctuation">&#123;</span>
            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Let me think"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -7469,8 +7555,6 @@ I will pay $15<span aria-hidden="true" class="line-numbers-rows"><span></span><s
        <span class="token punctuation">&#125;</span>
    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-</li>
-</ul>
 </li>
 </ul>
 </li>
@@ -10692,7 +10776,7 @@ True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">223.5k</span>
+                        class="white-color">226.7k</span>
             
             
             

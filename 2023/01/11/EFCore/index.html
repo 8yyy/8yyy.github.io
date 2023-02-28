@@ -404,14 +404,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.9k
+                    4.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    15 分
                 </div>
                 
 
@@ -567,16 +567,29 @@
 <li><strong>Entity client Data Provider: <strong>主要职责是将L2E或Entity Sql转换成数据库可以识别的Sql查询语句，它通过</strong>ADO.Net Data Provider</strong>向数据库发送或者索取数据。</li>
 <li>**ADO.Net Data Provider: **使用标准的Ado.net与数据库通信。</li>
 </ul>
+<h3 id="1-4-EF的创建"><a href="#1-4-EF的创建" class="headerlink" title="1.4 EF的创建"></a>1.4 EF的创建</h3><p>使用EF进行数据库开发的时候有两个东西建：建数据库(T_Persons)，建模型类(Person)。EF的三种创建方法：</p>
+<p><code>DataBase First（数据库优先）</code>：先创建数据库表，然后自动生成EDM文件，EDM文件生成模型类。简单展示一下DataBase First 的使用。</p>
+<p><code>Code First（代码优先）</code>：程序员自己写模型类，然后自动生成数据库。没有Edm。</p>
+<p>Model First（模型优先）：先创建Edm文件，Edm文件自动生成模型类和数据库；(EFCore中不存在)</p>
 <p>EF Core 是通过一个模型进行数据库访问的。模型由实体类和表示与数据库中的会话组成的，以及允许你查询和保存数据派生的上下文。</p>
 <p>既可以从现有数据库生成模型，也可以使用EF迁移来完成从模型生成数据库，也就是<code>Database First</code> 和 <code>Code First</code>(意味着，EF Core 将基于你定义的 C# 类创建数据库表和架构)。</p>
 <p>除非你的数据库已经存在，否则不推荐使用反向工程来通过数据库创建模型，一般推荐使用<strong>Code First</strong>模式，即代码先行的原则。</p>
+<p><strong>三种创建的区别</strong></p>
+<ol>
+<li>DataBase First 简单、方便，但是当项目大了之后会非常痛苦；</li>
+<li>Code First 入门门槛高，但是适合于大项目。</li>
+<li>Model First…… (不需要考虑)</li>
+</ol>
+<h3 id="1-5-EF原理及对象"><a href="#1-5-EF原理及对象" class="headerlink" title="1.5 EF原理及对象"></a>1.5 EF原理及对象</h3><p><a target="_blank" rel="noopener" href="https://wanghanghang.blog.csdn.net/article/details/106239545">https://wanghanghang.blog.csdn.net/article/details/106239545</a></p>
 <h2 id="2-安装-Entity-Framework-Core"><a href="#2-安装-Entity-Framework-Core" class="headerlink" title="2. 安装 Entity Framework Core"></a>2. 安装 Entity Framework Core</h2><h3 id="Visual-Studio-NuGet-包管理器对话框"><a href="#Visual-Studio-NuGet-包管理器对话框" class="headerlink" title="Visual Studio NuGet 包管理器对话框"></a>Visual Studio NuGet 包管理器对话框</h3><ul>
 <li>从 Visual Studio 菜单中选择“项目”&gt;“管理 NuGet 包”</li>
 <li>单击“浏览”或“更新”选项卡</li>
 <li>若要安装或更新 SQL Server 提供程序，请选择 <code>Microsoft.EntityFrameworkCore</code> 包并确认。</li>
 </ul>
 <p><img src="/images/EF-CORE/image-20230111200345173.png" alt="安装SQL SERVER数据库提供包"></p>
-<h2 id="3-基础概念"><a href="#3-基础概念" class="headerlink" title="3. 基础概念"></a>3. 基础概念</h2><h3 id="3-1-Context-上下文"><a href="#3-1-Context-上下文" class="headerlink" title="3.1 Context/上下文"></a>3.1 Context/上下文</h3><p>一个 Context 是一个继承自 <strong>DbContext</strong> 的非抽象类。这个类的功能首先是<strong>公开所有实体的集合</strong>，操作这些集合可以在存储中读取或保存数据，除此之外 Context <strong>保存数据的模型</strong>。在使用前需要正确配置各个实体的模型以及其他必要的配置。</p>
+<h2 id="3-基础概念"><a href="#3-基础概念" class="headerlink" title="3. 基础概念"></a>3. 基础概念</h2><p>Entity实体</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1670871">EF 相见恨晚的Attach方法</a></p>
+<h3 id="3-1-Context-上下文"><a href="#3-1-Context-上下文" class="headerlink" title="3.1 Context/上下文"></a>3.1 Context/上下文</h3><p>一个 Context 是一个继承自 <strong>DbContext</strong> 的非抽象类。这个类的功能首先是<strong>公开所有实体的集合</strong>，操作这些集合可以在存储中读取或保存数据，除此之外 Context <strong>保存数据的模型</strong>。在使用前需要正确配置各个实体的模型以及其他必要的配置。</p>
 <pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlogContext</span><span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">DbContext</span></span>
 
 <span class="token punctuation">&#123;</span>
@@ -617,7 +630,7 @@
 <p><code>OnModelCreating 方法</code>：在 EF Core 组装数据模型时会被自动调用，你将会在这个方法里添加构建模型的代码。</p>
 <p>模型配置主要分为两种方法：</p>
 <ul>
-<li>FluentAPI</li>
+<li>FluentAPI（推荐使用）</li>
 <li>数据注解</li>
 </ul>
 <p>上述方法中的两种约定配置，可以混用，但是不推荐。</p>
@@ -713,6 +726,7 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Lzysnd/article/details/121566888">ASP.NET Core 使用 EF Core</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.shaoqun.com/a/1649447.html">EFCore 6.0入门看这篇就够了</a></li>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/ef/core/get-started/winforms">Windows 窗体入门</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/chonbi/article/details/106200656?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167721986116800213016155%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167721986116800213016155&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-106200656-null-null.142%5Ev73%5Econtrol_1,201%5Ev4%5Eadd_ask,239%5Ev2%5Einsert_chatgpt&utm_term=EF&spm=1018.2226.3001.4187">EF(一) – EF简介</a></li>
 </ol>
 
                 
@@ -1284,7 +1298,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">223.5k</span>
+                        class="white-color">226.7k</span>
             
             
             

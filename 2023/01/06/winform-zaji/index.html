@@ -405,14 +405,14 @@ https://tool.520101.com/diannao/ico/
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    10 分
                 </div>
                 
 
@@ -763,7 +763,137 @@ richTextBox1<span class="token punctuation">.</span>ForeColor <span class="token
 <p><img src="/images/winform-zaji/image-20230107170912022.png"></p>
 <h3 id="1-12-ToolStrip-控件"><a href="#1-12-ToolStrip-控件" class="headerlink" title="1.12 ToolStrip 控件"></a>1.12 ToolStrip 控件</h3><p>工具栏控件。默认有8种</p>
 <p><img src="/images/winform-zaji/image-20230107171024318.png"></p>
-<h3 id="1-13-StatusStrip-控件"><a href="#1-13-StatusStrip-控件" class="headerlink" title="1.13 StatusStrip 控件"></a>1.13 StatusStrip 控件</h3>
+<h3 id="1-13-StatusStrip-控件"><a href="#1-13-StatusStrip-控件" class="headerlink" title="1.13 StatusStrip 控件"></a>1.13 StatusStrip 控件</h3><p>状态栏控件。通常处于窗体的最底层，用于显示窗体上的对象的相关信息，或者显示应用程序的信息。</p>
+<p>包含：StatusLabel、progressBar、DropDownButton、splitButton控件。可以显示文本、图标或者同时显示这两者。</p>
+<h3 id="1-14-Split-Container控件"><a href="#1-14-Split-Container控件" class="headerlink" title="1.14 Split Container控件"></a>1.14 Split Container控件</h3><p>Windows 窗体 <code>SplitContainer</code> 控件可视为一个复合控件；它是由可移动条隔开的两个面板。 当鼠标指针位于条上方时，指针将改变形状以表示条可移动。</p>
+<p>Dock属性：定义要绑定到容器的控件边框</p>
+<p>FixedPanel：指示在事件调整大小期间，某个 SplitContainer 面板的大小保持不变吧</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/desktop/winforms/controls/splitcontainer-control-overview-windows-forms?view=netframeworkdesktop-4.8">https://learn.microsoft.com/zh-cn/dotnet/desktop/winforms/controls/splitcontainer-control-overview-windows-forms?view=netframeworkdesktop-4.8</a></p>
+<h3 id="1-15-FlowLayoutPanel-控件"><a href="#1-15-FlowLayoutPanel-控件" class="headerlink" title="1.15 FlowLayoutPanel 控件"></a>1.15 FlowLayoutPanel 控件</h3><p><code>FlowLayoutPanel</code> 控件沿水平或纵排方向排列其内容。 可从一行到下一行，或从一列到下列进行内容换行。 还可以剪切内容，而不是进行换行。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/desktop/winforms/controls/flowlayoutpanel-control-windows-forms?view=netframeworkdesktop-4.8">https://learn.microsoft.com/zh-cn/dotnet/desktop/winforms/controls/flowlayoutpanel-control-windows-forms?view=netframeworkdesktop-4.8</a></p>
+<h3 id="1-16-用户控件"><a href="#1-16-用户控件" class="headerlink" title="1.16 用户控件"></a>1.16 用户控件</h3><p>可使用 Windows 窗体开发和实现新的控件。 可以创建新的用户控件，通过继承来修改现有控件，并编写可自行进行绘制的自定义控件。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/desktop/winforms/controls/custom?view=netdesktop-7.0">https://learn.microsoft.com/zh-cn/dotnet/desktop/winforms/controls/custom?view=netdesktop-7.0</a></p>
+<h3 id="1-17-PictureBox-控件"><a href="#1-17-PictureBox-控件" class="headerlink" title="1.17 PictureBox 控件"></a>1.17 PictureBox 控件</h3><p>Author属性：定义某个绑定到的容器的边缘。当控件锚定到某个边缘时，与指定边缘最接近的控件边缘与指定边缘的距离保持不变。</p>
+<p>ImageLocation属性：从中加载图像的磁盘或Web位置</p>
+<p>需要注意的是，通过设置 <code>Image</code> 属性和 <code>ImageLocation</code> 属性来显示图像的方式有所不同。<code>Image</code> 属性是在内存中加载图像，而 <code>ImageLocation</code> 属性则是在控件中引用图像的文件路径。如果您需要对图像进行修改或处理，则应该使用 <code>Image</code> 属性来加载图像。如果您只需要简单地显示图像，则可以使用 <code>ImageLocation</code> 属性。</p>
+<p>SizeMode：控制PictureBox将如何处理图像位置和控件大小。</p>
+<h2 id="2-WinForm-控件命名规范"><a href="#2-WinForm-控件命名规范" class="headerlink" title="2. WinForm 控件命名规范"></a>2. WinForm 控件命名规范</h2><h3 id="2-1-标准控件"><a href="#2-1-标准控件" class="headerlink" title="2.1. 标准控件"></a>2.1. 标准控件</h3><table>
+<thead>
+<tr>
+<th>NO.</th>
+<th>控件类型简写</th>
+<th>控件类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>btn</td>
+<td>Button</td>
+</tr>
+<tr>
+<td>2</td>
+<td>chk</td>
+<td>CheckBox</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ckl</td>
+<td>CheckedListBox</td>
+</tr>
+<tr>
+<td>4</td>
+<td>cmb</td>
+<td>ComboBox</td>
+</tr>
+<tr>
+<td>5</td>
+<td>dtp</td>
+<td>DateTimePicker</td>
+</tr>
+<tr>
+<td>6</td>
+<td>lbl</td>
+<td>Label</td>
+</tr>
+<tr>
+<td>7</td>
+<td>llb</td>
+<td>LinkLabel</td>
+</tr>
+<tr>
+<td>8</td>
+<td>lst</td>
+<td>ListBox</td>
+</tr>
+<tr>
+<td>9</td>
+<td>lvw</td>
+<td>ListView</td>
+</tr>
+<tr>
+<td>10</td>
+<td>mtx</td>
+<td>MaskedTextBox</td>
+</tr>
+<tr>
+<td>11</td>
+<td>cdr</td>
+<td>MonthCalendar</td>
+</tr>
+<tr>
+<td>12</td>
+<td>icn</td>
+<td>NotifyIcon</td>
+</tr>
+<tr>
+<td>13</td>
+<td>nud</td>
+<td>NumeircUpDown</td>
+</tr>
+<tr>
+<td>14</td>
+<td>pic</td>
+<td>PictureBox</td>
+</tr>
+<tr>
+<td>15</td>
+<td>prg(pgb)</td>
+<td>ProgressBar</td>
+</tr>
+<tr>
+<td>16</td>
+<td>rdo</td>
+<td>RadioButton</td>
+</tr>
+<tr>
+<td>17</td>
+<td>rtx</td>
+<td>RichTextBox</td>
+</tr>
+<tr>
+<td>18</td>
+<td>txt, tb</td>
+<td>TextBox</td>
+</tr>
+<tr>
+<td>19</td>
+<td>tip</td>
+<td>ToolTip</td>
+</tr>
+<tr>
+<td>20</td>
+<td>tvw</td>
+<td>TreeView</td>
+</tr>
+<tr>
+<td>21</td>
+<td>wbs</td>
+<td>WebBrowser</td>
+</tr>
+</tbody></table>
+<p>然后一般写在开头，例如btnLogin,tbUsername,tbPassword,lblExit等等</p>
+<p>主要可参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/arxive/p/5884994.html">https://www.cnblogs.com/arxive/p/5884994.html</a></p>
+
                 
             </div>
             <hr/>
@@ -1329,7 +1459,7 @@ richTextBox1<span class="token punctuation">.</span>ForeColor <span class="token
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">223.5k</span>
+                        class="white-color">226.7k</span>
             
             
             
