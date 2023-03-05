@@ -404,14 +404,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.1k
+                    4.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    15 分
+                    16 分
                 </div>
                 
 
@@ -604,6 +604,36 @@
 
 <p>Context 以 DbSet <T> 属性的形式公开实体的集合，上面代码中的 Blog，Post，BlogImage 便是实体类型。Context 的另一个重要的功能就是<strong>跟踪对实体的更改</strong>，以便我们在保存更改时，它知道该如何处理。</T></p>
 <p>Context 跟踪的每个实体所处的以下状态之一：<strong>未更改/added，已修改/modified，已添加/added，已删除/deleted</strong>或<strong>已分离/detached</strong>。可以将上下文视为沙箱，我们可以在其中对实体集合进行更改，然后通过一次保存操作应用这些更改。</p>
+<p><strong>EntityState 枚举</strong>：上下文跟踪实体的状态。</p>
+<table>
+<thead>
+<tr>
+<th>Added</th>
+<th>4</th>
+<th>该实体正由上下文跟踪，但数据库中尚不存在。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Deleted</td>
+<td>2</td>
+<td>该实体正由上下文跟踪，并存在于数据库中。 它已被标记为要从数据库中删除。</td>
+</tr>
+<tr>
+<td>Detached</td>
+<td>0</td>
+<td>上下文未跟踪实体。</td>
+</tr>
+<tr>
+<td>Modified</td>
+<td>3</td>
+<td>该实体正由上下文跟踪，并存在于数据库中。 其部分或全部属性值已修改。</td>
+</tr>
+<tr>
+<td>Unchanged</td>
+<td>1</td>
+<td>该实体正由上下文跟踪，并存在于数据库中。 其属性值与数据库中的值没有变化。</td>
+</tr>
+</tbody></table>
 <h3 id="3-2-DbContext-类型的基础方法"><a href="#3-2-DbContext-类型的基础方法" class="headerlink" title="3.2 DbContext 类型的基础方法"></a>3.2 DbContext 类型的基础方法</h3><p>EF Core 的 DbContext 类型包含一些会在特定时候调用的基础方法：</p>
 <p><code>OnConfiguring 方法</code>：当 context 需要配置它的 provider 和 链接字符串的时候，该方法会被调用，这为开发者提供了介入的入口。</p>
 <ul>
@@ -1298,7 +1328,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">226.7k</span>
+                        class="white-color">227k</span>
             
             
             
