@@ -407,14 +407,14 @@ Repository na">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    883
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -455,7 +455,7 @@ Repository na">
 <h2 id="将本地文件上传到仓库"><a href="#将本地文件上传到仓库" class="headerlink" title="将本地文件上传到仓库"></a>将本地文件上传到仓库</h2><ol>
 <li>把github上面的仓库克隆到本地</li>
 </ol>
-<p>git clone <a href="mailto:&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;">&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;</a>:xxx/xxx.git，推荐使用SSH的形式</p>
+<p>git clone <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#x75;&#x62;&#46;&#x63;&#111;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#x75;&#x62;&#46;&#x63;&#111;&#109;</a>:xxx/xxx.git，推荐使用SSH的形式</p>
 <p>使用git bash</p>
 <ol start="2">
 <li><p>把需要上传的文件拷贝到刚下载的新文件夹内</p>
@@ -472,10 +472,21 @@ Repository na">
 <p>​    git push 不指定远程仓库名和分支名。(当你只有一个分支的时候可以简写为这种形式)</p>
 </li>
 </ol>
+<h2 id="将仓库的文件合并到本地"><a href="#将仓库的文件合并到本地" class="headerlink" title="将仓库的文件合并到本地"></a>将仓库的文件合并到本地</h2><p><strong>git pull</strong> 命令用于从远程获取代码并合并本地的版本。</p>
+<p>当你在一个机子上修改了本地仓库中的文件，并将本地仓库修改的内容提交到github远程仓库中，你又在另一台机子上也修改了同一个本地仓库中的文件，这时候你进行git pull操作就会出现冲突。</p>
+<p><code>error: Your local changes to the following files would be overwritten by merge</code></p>
+<p>通过<code>git stash</code>将工作区恢复到上次提交的内容，同时备份并暂时隐藏本地所做的修改，之后就可以正常<code>git pull</code>了，<code>git pull</code>完成后，执行<code>git stash pop</code>将之前本地做的修改隐藏的应用拉取到当前工作区。</p>
+<pre class="line-numbers language-none"><code class="language-none">git stash
+git pull
+git stash pop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>git stash</strong>: 备份当前的工作区的内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前的工作区内容保存到Git栈中。</p>
+<p><strong>git stash pop</strong>: 从Git栈中读取最近一次保存的内容，恢复工作区的相关内容。由于可能存在多个Stash的内容，所以用栈来管理，pop会从最近的一个stash中读取内容并恢复。</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44722674/article/details/117200397">github仓库建立及配置教程新手教程</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43729943/article/details/103915046">如何在GitHub上创建自己的仓库？</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/stc1247679496/article/details/104269657">git如何上传本地文件到github仓库（超详细教程）</a> </li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41018861/article/details/118442711">git 常见冲突—— git pull遇到报错Your local changes to the following files would be overwritten by merge</a></li>
 </ol>
 
                 
@@ -1043,7 +1054,7 @@ Repository na">
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">233.2k</span>
+                        class="white-color">233.5k</span>
             
             
             
