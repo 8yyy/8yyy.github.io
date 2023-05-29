@@ -4,9 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="计算机网络, 8yyy&#39;s blog">
-    <meta name="description" content="前言根据中科大郑烇、杨坚全套《计算机网络（自顶向下方法 第7版，James F.Kurose，Keith W.Ross）》课程做的笔记。
-">
+    <meta name="keywords" content="计算机网络 第一章, 8yyy&#39;s blog">
+    <meta name="description" content="根据中科大郑烇、杨坚全套《计算机网络（自顶向下方法 第7版，James F.Kurose，Keith W.Ross）》课程做的笔记。
+1. 什么是Internet？1.1 从具体构成角度
+节点 （主机节点和数据交换节点）
+主机（host）及">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>计算机网络 | 8yyy&#39;s blog</title>
+    <title>计算机网络 第一章 | 8yyy&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
@@ -248,12 +250,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">计算机网络</h1>
+                    <h1 class="description center-align post-title">计算机网络 第一章</h1>
                 </div>
             </div>
         </div>
@@ -394,7 +396,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-11-18
+                    2022-07-18
                 </div>
                 
 
@@ -403,14 +405,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    39
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    14 分
                 </div>
                 
 
@@ -433,8 +435,440 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>根据<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JV411t7ow?p=3&vd_source=794a7fc718885ad84490c05351dcf216">中科大郑烇、杨坚全套《计算机网络（自顶向下方法 第7版，James F.Kurose，Keith W.Ross）》课程</a>做的笔记。</p>
+                <p>根据<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JV411t7ow?p=3&vd_source=794a7fc718885ad84490c05351dcf216">中科大郑烇、杨坚全套《计算机网络（自顶向下方法 第7版，James F.Kurose，Keith W.Ross）》课程</a>做的笔记。</p>
+<h2 id="1-什么是Internet？"><a href="#1-什么是Internet？" class="headerlink" title="1. 什么是Internet？"></a>1. 什么是Internet？</h2><h3 id="1-1-从具体构成角度"><a href="#1-1-从具体构成角度" class="headerlink" title="1.1 从具体构成角度"></a>1.1 从具体构成角度</h3><ul>
+<li>节点 （主机节点和数据交换节点）<ul>
+<li>主机（host）及其上运行的应用程序<ul>
+<li>主机节点（电脑、手机、IPAD、联网的冰箱、联网的机顶盒等） </li>
+<li>主机也称为端系统（end system）</li>
+<li>方的</li>
+</ul>
+</li>
+<li>路由器（router）、交换机（switch）等网络交换设备<ul>
+<li>特点是既不是数据的源，也不是数据的目标，是数据的中转节点</li>
+<li>圆的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>边：通信链路（communication link）<ul>
+<li>接入网链路：主机连接到互联网的链路<ul>
+<li>有方的</li>
+</ul>
+</li>
+<li>主干链路：路由器间的链路<ul>
+<li>两个圆的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>协议</li>
+</ul>
+<ul>
+<li>数以亿计的、互联的计算设备<ul>
+<li><font color="red">主机 = 端系统</font></li>
+<li>运行<font color="red">网络应用程序</font></li>
+</ul>
+</li>
+<li>通信链路<ul>
+<li> 光纤、同轴电缆、无线电 、卫星</li>
+<li>传输速率 = <font color="red">带宽（bit/s或bps)</font></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><font color="red">分组交换设备</font>：转发分组 (packets)<ul>
+<li>路由器和交换机</li>
+</ul>
+</li>
+<li>协议控制发送、接收消息 <ul>
+<li>如TCP、IP、HTTP、FTP、 PPP</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><font color="red">Internet：“网络的网络”</font><ul>
+<li>松散的层次结构，互连的ISP</li>
+<li>公共Internet vs 专用intranet</li>
+</ul>
+</li>
+<li>Internet 标准<ul>
+<li>RFC: Request for comments（IETF的标准文档称为请求评论）<ul>
+<li>定义了TCP,IP,HTTP等协议</li>
+</ul>
+</li>
+<li>IETF: Internet Engineering  Task Force（因特网工程任务组）</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-从服务角度"><a href="#1-2-从服务角度" class="headerlink" title="1.2 从服务角度"></a>1.2 从服务角度</h3><p>即从为应用程序提供服务的基础设施的角度来描述Internet。</p>
+<ul>
+<li>使用通信设施进行通信的分布式应用<ul>
+<li>Web、VoIP、email、分布式游戏、电子商务、社交网络……</li>
+</ul>
+</li>
+<li>通信基础设施为apps提供编程接口（通信服务）<ul>
+<li>将发送和接收数据的apps与互联网连接起来</li>
+<li>为app应用提供服务选择，类似于邮政服务：<ul>
+<li>无连接不可靠服务</li>
+<li>面向连接的可靠服务  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-什么是协议（protocol）？"><a href="#2-什么是协议（protocol）？" class="headerlink" title="2. 什么是协议（protocol）？"></a>2. 什么是协议（protocol）？</h2><p>人类协议和计算机网络协议示例</p>
+<p><img src="/images/Computer-Network/image-20230516161838672.png" alt="image-20230516161838672"></p>
+<p>左边的是人类协议，右边的计算机网络协议。</p>
+<p>人类协议：</p>
+<ul>
+<li>发送你好</li>
+<li>接收你好</li>
+<li>发送几点了？</li>
+<li>接收2点</li>
+</ul>
+<blockquote>
+<p>注意在我们人类协议中。有我们<strong>发送的特定报文</strong>，也有我们<strong>根据接收到的应答报文或其他事件(例如在某个给定的时间内没有回答)采取的动作</strong>。显然，发送和接收的报文，以及这些报文发送和接收或其他事件出现时所采取的动作，这些在一个人类协议中起到了核心作用。</p>
+</blockquote>
+<p>网络协议:</p>
+<ul>
+<li>类似人类协议</li>
+<li>机器之间的协议而非人与人之间的协议</li>
+<li>Internet中所有的通信行为都受协议制约  </li>
+</ul>
+<blockquote>
+<p>协议定义了在两个或多个通信实体之间交换的<strong>报文格式</strong>和<strong>次序</strong>，以及在报文传输和/或接收或其他事件方面所采取的<strong>动作</strong>。</p>
+</blockquote>
+<p>语法 语义 时序</p>
+<p>因特网（更一般地说是计算机网络）广泛地使用了协议。不同的协议用于完成不同的通信任务。掌握计算机网络领域知识的过程就是理解网络协议的构成、原理和工作方式的过程。</p>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p><font color="red">网络边缘：</font>edge</p>
+<ul>
+<li>主机</li>
+<li>应用程序（客户端和服务器）</li>
+</ul>
+<p><font color="red">网络核心：</font>core</p>
+<ul>
+<li>互连着的路由器</li>
+<li>网络的网络</li>
+</ul>
+<p><font color="red">接入网、物理媒体：</font>access</p>
+<ul>
+<li>有线或者无线通信链路  </li>
+</ul>
+<p><img src="/images/Computer-Network/image-20230529101348113.png"></p>
+<p>互联网从大的构成角度来看包括三个子系统：边缘系统、接入系统和网络核心。</p>
+<p><code>边缘</code>通过<code>接入</code>接入到<code>核心</code>，<code>核心</code>把所有的<code>边缘</code>节点接在一起，从而能够让任意两个端系统之间能够相互通信。</p>
+<p>从应用往下看都是基础设施。基础设置为分布式的应用程序提供通信服务。</p>
+<h2 id="3-网络边缘"><a href="#3-网络边缘" class="headerlink" title="3.  网络边缘"></a>3.  网络边缘</h2><p><font color="red">端系统（主机）：</font></p>
+<ul>
+<li>运行应用程序</li>
+<li>如Web、email</li>
+<li>在 “网络的边缘”</li>
+</ul>
+<p><font color="red">客户/服务器模式</font> C/S</p>
+<ul>
+<li>客户端向服务器请求、接收服务</li>
+<li>如Web浏览器/服务器；email 客户端/服务器</li>
+<li>可扩展性差：随着请求载荷的增加，能力下降，达到一定阈值，断崖式下降</li>
+</ul>
+<p><font color="red">对等（peer-peer ）模式</font></p>
+<ul>
+<li>很少（甚至没有）专门的服务器</li>
+<li> 如 Gnutella、KaZaA、Emule</li>
+</ul>
+<p>每个节点既是服务器也是客户端，互相请求，分布式系统，无客户/服务器模式的缺陷<br>迅雷、电驴等 可以获得带宽的聚集</p>
+<h3>网络边缘:采用网络设施的面向连接服务
 
+<p><font color="red">目标</font>：在端系统之间传输数据</p>
+<ul>
+<li><p>握手：在数据传输之前做好准备</p>
+<ul>
+<li>人类协议中：你好、你好</li>
+<li>两个通信主机之间为<font color="red">连接建立状态</font></li>
+</ul>
+</li>
+<li><p>TCP–传输控制协议(Transmission Control Protocol)</p>
+<ul>
+<li>Internet上面向连接的服务</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">TCP 服务 </font>[RFC 793]</p>
+<ul>
+<li><p>可靠（不重复、不丢失、不乱序、不错误）地、按顺序地传送数据</p>
+<ul>
+<li>确认和重传</li>
+</ul>
+</li>
+<li><p>流量控制（发送方和接收方不一致）</p>
+<ul>
+<li>发送方不会淹没接收方</li>
+</ul>
+</li>
+<li><p>拥塞控制（中间节点链路堵塞）</p>
+<ul>
+<li>当网络拥塞时，发送方降低发送速率</li>
+</ul>
+</li>
+</ul>
+<p>面向连接和有连接的区别：</p>
+<ul>
+<li>面向连接连接状态的维持仅仅靠端系统维持</li>
+<li>有连接不仅端系统知道，中间的节点都知道</li>
+</ul>
+<h3>网络边缘：采用基础设施的无连接服务
+
+<p><font color="red">目标</font>：在端系统之间传输数据</p>
+<ul>
+<li>无连接服务</li>
+</ul>
+<p><font color="red">UDP</font> – 用户数据报协议 (User Datagram Protocol) [RFC 768]：</p>
+<ul>
+<li>无连接</li>
+<li>不可靠数据传输 </li>
+<li>无流量控制 </li>
+<li>无拥塞控制</li>
+</ul>
+<p><font color="red">使用TCP的应用：</font></p>
+<ul>
+<li>HTTP (Web), FTP (文件传 送), Telnet (远程登录), SMTP (email)</li>
+</ul>
+<p><font color="red">使用 UDP的应用：</font></p>
+<ul>
+<li>流媒体、远程会议、 DNS、 Internet电话、域名解析（事务性强）</li>
+</ul>
+<h2 id="4-网络核心：电路交换、分组交换"><a href="#4-网络核心：电路交换、分组交换" class="headerlink" title="4. 网络核心：电路交换、分组交换"></a>4. 网络核心：电路交换、分组交换</h2><p>网络核心：路由器的网状网络</p>
+<p><font color="red">基本问题：</font>数据怎样通过网络进行传输？</p>
+<ul>
+<li><font color="red">电路交换circuit switching：</font>为每个呼叫预留一条专有电路：如电话网</li>
+<li><font color="red">分组交换packet switching：</font><ul>
+<li>将要传送的数据分成一个个单位：分组</li>
+<li>将分组从也给路由器传到相邻路由器（hop），一段段最终从源端传送到目标端</li>
+<li>每段：采用链路的最大传输能力（带宽）</li>
+</ul>
+</li>
+</ul>
+<h3 id="网络核心：电路交换（线路交换）"><a href="#网络核心：电路交换（线路交换）" class="headerlink" title="网络核心：电路交换（线路交换）"></a>网络核心：电路交换（线路交换）</h3><p><font color="red">端到端的资源被分配给从源端到目标端的呼叫 “call”：</font></p>
+<p><img src="/images/Computer-Network/image-20230518200228886.png"></p>
+<p>图中，每段链路有4条线路：</p>
+<ul>
+<li>该呼叫采用了上面链路的第2个线路，右边链路的第1个线路（piece）</li>
+</ul>
+<p>独享资源：不同享</p>
+<ul>
+<li>每个呼叫一旦建立起来就能够保证性能</li>
+</ul>
+<p>如果呼叫没有数据发送，被分配的资源就会被浪费 (no sharing)</p>
+<p>通常被传统电话网络采用</p>
+<p><font color="red">为呼叫预留端-端资源 </font></p>
+<ul>
+<li>链路带宽、交换能力 </li>
+<li>专用资源：不共享 </li>
+<li>保证性能 </li>
+<li>要求建立呼叫连接</li>
+</ul>
+<p>网络资源（如带宽）被分成<font color="red">片</font></p>
+<ul>
+<li>为呼叫分配片</li>
+<li>如果某个呼叫没有数据， 则其资源片处于<font color="red">空闲状态</font>（不共享）</li>
+</ul>
+<p>将带宽分成片</p>
+<ul>
+<li>频分(Frequencydivision multiplexing)</li>
+<li>时分(Time-division multiplexing)</li>
+<li>波分(Wave-division multiplexing)</li>
+</ul>
+<p><strong>电路交换：FDM 与 TDM</strong></p>
+<p>对于FDM，链路的频谱由跨越链路创建的所有连接共享。特别是，在连接期间链路为每条连接专用一个频段。在电话网络中，这个频段的宽度通常为4kHz（即每秒4000周期）。毫无疑问，该频段的宽度称为带宽（bandwidth）。调频无线电台也使用FDM来共享88MHz~108MHz的频谱，其中每个电台被分配一个特定的频段。</p>
+<p>对于一条TDM链路，时间被划分为固定期间的帧，并且每个帧又被划分为固定数量的时隙。当网络跨越一条链路传创建一条连接时，网络在每个帧中为该连接指定一个时隙。这些时隙专门由该连接单独使用，一个时隙（在每个帧内）可用于传输该连接的数据。</p>
+<p><img src="/images/Computer-Network/image-20230518200336799.png"></p>
+<p><font color="red">在一个电路交换网络上，从主机A到主机B发送一个640,000比特的文件需要多长时间?</font></p>
+<ul>
+<li>所有的链路速率为1.536 Mbps</li>
+<li>每条链路使用时隙数为24的TDM</li>
+<li>建立端-端的电路需500 ms</li>
+</ul>
+<p>每条链路的速率（一个时间片）: 1.536Mbps/24 =64kbps</p>
+<p>传输时间:640kb/64kps = 10s</p>
+<p>共用时间:传输时间+建立链路时间=10s + 500ms = 10.5s</p>
+<p><strong>电路交换不适合计算机之间的通信</strong></p>
+<ul>
+<li>连接建立时间长</li>
+<li>计算机之间的通信有突发性，如果使用线路交换，则浪费的片较多<ul>
+<li>即使这个呼叫没有数据传递，其所占据的片也不能够被别的呼叫使用</li>
+</ul>
+</li>
+<li>可靠性不高?</li>
+</ul>
+<h3 id="网络核心：分组交换"><a href="#网络核心：分组交换" class="headerlink" title="网络核心：分组交换"></a>网络核心：分组交换</h3><p><img src="/images/Computer-Network/image-20230529142609316.png"></p>
+<p><font color="red">以分组为单位存储-转发方式</font></p>
+<ul>
+<li>网络带宽资源不再分分为一个个片，传输时使用全部带宽</li>
+<li>主机之间传输的数据被分为一个个分组</li>
+</ul>
+<p><font color="red">资源共享，按需使用：</font></p>
+<ul>
+<li>存储-转发：分组每次移动一跳（ hop ） 相当于分段使用链路<ul>
+<li>在转发之前，节点必须收到整个分组（减少占用，提高效率）</li>
+<li>延迟比线路交换要大（节点需要收到整个分组的时间+不确定的排队延时）</li>
+<li>排队时间</li>
+</ul>
+</li>
+</ul>
+<p><strong>分组交换：存储-转发</strong></p>
+<ul>
+<li>被传输到下一个链路之前，真个分组必须到达路由器：<strong>存储-转发</strong></li>
+<li>在一个速率为R bps的链路，一个长度为L bits的分组的存储转发延时：L/R s</li>
+<li>Example： L=7.5 Mbits ，R=1.5Mbps，三次存储转发的延时：3*7.5Mbits /1.5Mbps=15s</li>
+</ul>
+<p><strong>分组交换：排队延迟和丢失</strong></p>
+<p><img src="/images/Computer-Network/image-20230529143015011.png"></p>
+<p>如果到达速率&gt;链路的传输速率：</p>
+<ul>
+<li>分组将会排队，等待传输</li>
+<li>如果路由器的缓存用完了，分组将会被抛弃</li>
+</ul>
+<p><strong>网络核心的关键功能</strong></p>
+<p><font color="red">路由</font>: 决定分组采用的源到 目标的路径</p>
+<p><font color="red">转发</font>: 将分组从路由器的输 入链路转移到输出链路</p>
+<p><strong>统计多路复用</strong></p>
+<p><img src="/images/Computer-Network/image-20230529144038628.png"></p>
+<p>A&amp;B 时分复用 链路资源 </p>
+<p>A &amp; B 分组没有固定的模式 -&gt;统计多路复用</p>
+<h3 id="分组交换-vs-电路交换"><a href="#分组交换-vs-电路交换" class="headerlink" title="分组交换 vs. 电路交换"></a>分组交换 vs. 电路交换</h3><p><font color="red"><strong>同样的网络资源，分组交换允许更多用户使用网络！</strong></font></p>
+<ul>
+<li><p>1 Mb/s链路口</p>
+</li>
+<li><p>每个用户:</p>
+<ul>
+<li>活动时100 kb/s</li>
+<li>10% 的时间是活动的</li>
+</ul>
+</li>
+<li><p>电路交换:</p>
+<ul>
+<li>10用户</li>
+</ul>
+</li>
+<li><p>分组交换:</p>
+<ul>
+<li>35用户时 &gt;=10个用户活动的概率为0.0004 能支持更多用户</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">分组交换是“突发数据的胜利者?”</font></p>
+<ul>
+<li>适合于对突发式数据传输<ul>
+<li>资源共享</li>
+<li>简单，不必建立呼叫</li>
+</ul>
+</li>
+<li><font color="red">过度使用会造成网络拥塞：</font>分组延时和丢失<ul>
+<li>对可靠地数据传输需要协议来约束：拥塞控制</li>
+</ul>
+</li>
+<li><font color="red">Q：怎样提供类似电路交换的服务?</font><ul>
+<li>保证音频/视频应用需要的带宽</li>
+<li>一个仍未解决的问题(chapter 7)</li>
+</ul>
+</li>
+</ul>
+<p>Q: 预约服务（线路交换）对比按需服务（分组交换）的例子?</p>
+<p><strong>分组交换网络：存储-转发</strong></p>
+<p><font color="red">分组交换：</font>分组的存储转发一段一段从源端传到目标端，按照有无网络层的连接，分成：</p>
+<ol>
+<li><font color="red">数据报（datagram）网络：</font>无连接<ul>
+<li>分组的目标地址决定下一跳</li>
+<li><strong>在不同的阶段，路由可以改变</strong></li>
+<li>类似：问路</li>
+<li><strong>Internent</strong></li>
+</ul>
+</li>
+<li><font color="red">虚电路网络：</font>有连接<ul>
+<li>每个分组都带标签（虚电路标识VC ID），标签决定下一跳</li>
+<li><strong>在呼叫建立时决定路径，在整个呼叫中路径保持不变</strong></li>
+<li><font color="red">路由器维持每个呼叫的状态信息</font></li>
+<li><strong>X.25和ATM</strong></li>
+</ul>
+</li>
+</ol>
+<p>数据报是按地址找人，不事先确定路好不好走；虚电路是先去一次，熟悉一下路线，再进行发送。</p>
+<p><strong>数据报(datagram) 的工作原理</strong></p>
+<ul>
+<li>在通信之前，无须建立起一个连接，有数据就传输</li>
+<li>每一个分组都独立路由(路径不一样，可能会失序)</li>
+<li>路由器根据分组的目标地址进行路由(不维护主机和主机之间的状态)</li>
+</ul>
+<p><img src="/images/Computer-Network/image-20230529162106018.png"></p>
+<p>虚电路(virtual circuit)的工作原理</p>
+<p>信令控制</p>
+<p><img src="/images/Computer-Network/image-20230529144618124.png"></p>
+<h3 id="网络分类"><a href="#网络分类" class="headerlink" title="网络分类"></a>网络分类</h3><p><img src="/images/Computer-Network/image-20230529144652427.png"></p>
+<h2 id="5-接入网、物理媒体"><a href="#5-接入网、物理媒体" class="headerlink" title="5.  接入网、物理媒体"></a>5.  接入网、物理媒体</h2><p>把网络边缘接入网络核心</p>
+<p>Q: 怎样将端系统和边缘路由 器连接？<br> 住宅接入网络<br> 单位接入网络 （学校、公 司）<br> 无线接入网络<br>注意：<br> 接入网络的带宽 (bits per second) ？<br> 共享/专用？</p>
+<h3 id="住宅接入：modem"><a href="#住宅接入：modem" class="headerlink" title="住宅接入：modem"></a>住宅接入：modem</h3><ul>
+<li><p>将上网数据调制加载音频信号上， 在电话线上传输，在局端将其中的 数据解调出来；反之亦然<br> 调频  调幅  调相位  综合调制 </p>
+</li>
+<li><p>拨号调制解调器 </p>
+<ul>
+<li><p>56Kbps 的速率直接接入路由器 (通常更低) </p>
+</li>
+<li><p>不能同时上网和打电话：不能 总是在线</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>接入网: digital subscriber line (DSL)</strong></p>
+<p><img src="/images/Computer-Network/image-20210720220936454.png" alt="image-20210720220936454"></p>
+<ul>
+<li>采用现存的到交换局DSLAM的电话线 <ul>
+<li>DSL线路上的数据被传到互联网    （&gt;4kHz，上行、下行再分频率）</li>
+<li>DSL线路上的语音被传到电话网    （&lt; 4kHz）</li>
+</ul>
+</li>
+<li>&lt; 2.5 Mbps上行传输速率(typically &lt; 1 Mbps) </li>
+<li>&lt; 24 Mbps下行传输速率(typically &lt; 10 Mbps)</li>
+</ul>
+<p><strong>接入网: 线缆网络</strong></p>
+<p><img src="/images/Computer-Network/image-20210720221946094.png" alt="image-20210720221946094"></p>
+<p>有线电视信号线缆双向改造<br>FDM: 在不同频段传输不同信道的数据， 数字电视和上网数据（上下行）</p>
+<ul>
+<li>HFC: hybrid fiber coax <ul>
+<li>非对称: 最高30Mbps的下行传输速率, 2 Mbps 上行传输 速率 </li>
+</ul>
+</li>
+<li>线缆和光纤网络将个家庭用户接入到 ISP 路由器 </li>
+<li>各用户共享到线缆头端的接入网络 <ul>
+<li>与DSL不同, DSL每个用户一个专用线路到CO（central office）</li>
+</ul>
+</li>
+</ul>
+<h3 id="住宅接入：电缆模式"><a href="#住宅接入：电缆模式" class="headerlink" title="住宅接入：电缆模式"></a>住宅接入：电缆模式</h3><p>fiber optic transport——光纤传输</p>
+<p><img src="/images/Computer-Network/image-20210720222500481.png" alt="image-20210720222500481"></p>
+<h3 id="接入网-家庭网络"><a href="#接入网-家庭网络" class="headerlink" title="接入网: 家庭网络"></a>接入网: 家庭网络</h3><p><img src="/images/Computer-Network/image-20210720222705251.png" alt="image-20210720222705251"></p>
+<p>router, firewall, NAT</p>
+<h3 id="企业接入网络-Ethernet"><a href="#企业接入网络-Ethernet" class="headerlink" title="企业接入网络(Ethernet)"></a>企业接入网络(Ethernet)</h3><p><img src="/images/Computer-Network/image-20210720223020529.png" alt="image-20210720223020529"></p>
+<p> 经常被企业或者大学等机构采用<br> 10 Mbps, 100Mbps, 1Gbps, 10Gbps传输率<br> 现在，端系统经常直接接到以太网络交换机上</p>
+<h3 id="无线接入网络"><a href="#无线接入网络" class="headerlink" title="无线接入网络"></a>无线接入网络</h3><p> 各无线端系统共享无线接入网络<strong>（端系统到无线路由器）</strong> </p>
+<ul>
+<li>通过基站或者叫接入点</li>
+</ul>
+<img src="http://knight777.oss-cn-beijing.aliyuncs.com/img/image-20210720223347934.png" alt="image-20210720223347934" style="zoom: 80%;">
+
+<h3 id="物理媒体"><a href="#物理媒体" class="headerlink" title="物理媒体"></a>物理媒体</h3><p>Bit: 在发送-接收对间传播 </p>
+<p>物理链路：连接每个发送-接 收对之间的物理媒体<br><strong>导引型媒体:信号沿着固体媒介被导引</strong>：同轴电缆、光纤、 双绞线<br><strong>非导引型媒体:开放的空间传输电磁波或者光信号</strong>，在电磁或者光信号中承载数字数据</p>
+<p><u>双绞线 (TP)</u><br> 两根绝缘铜导线拧合  5类：100Mbps 以太网 ，Gbps 千兆位以太网  6类：10Gbps万兆以太网</p>
+<p><strong>同轴电缆、光纤</strong></p>
+<p>同轴电缆：<br> 两根同轴的铜导线<br> 双向<br> 基带电缆：  电缆上一个单个信道  Ethernet<br> 宽带电缆：  电缆上有多个信道  HFC </p>
+<p>光纤和光缆：<br> 光脉冲，每个脉冲表示一个 bit，在玻璃纤维中传输<br> 高速：  点到点的高速传输（如10 Gps-100Gbps传输速率 ）<br> 低误码率：在两个中继器之 间可以有很长的距离，不受 电磁噪声的干扰<br> 安全</p>
+<p><strong>无线链路</strong></p>
+<p> 开放空间传输电磁波，携 带要传输的数据<br> 无需物理“线缆”<br> 双向<br> 传播环境效应：  反射  吸收  干扰</p>
+<p>无线链路类型:<br> 地面微波  e.g. up to 45 Mbps channels<br> LAN (e.g., WiFi)  11Mbps, 54 Mbps,540Mbps…<br> wide-area (e.g., 蜂窝)  3G cellular: ~ 几Mbps  4G 10Mbps  5G 数Gbps<br> 卫星 每个信道Kbps 到45Mbps (或者 多个聚集信道)  270 msec端到端延迟  同步静止卫星和低轨卫星</p>
+</h3></h3>
                 
             </div>
             <hr/>
@@ -460,7 +894,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://8yyy.github.io/2022/11/18/Computer-Network/">http://8yyy.github.io/2022/11/18/Computer-Network/</a>
+                    <a href="http://8yyy.github.io/2022/07/18/Computer-Network/">http://8yyy.github.io/2022/07/18/Computer-Network/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -677,12 +1111,12 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/11/18/Binding/">
+                <a href="/2022/08/21/CSharpNotes/">
                     <div class="card-image">
                         
-                        <img src="/images/Binding/binding.png" class="responsive-img" alt="Binding">
+                        <img src="/images/CSharpNotes/note.jpeg" class="responsive-img" alt="CSharpNotes">
                         
-                        <span class="card-title">Binding</span>
+                        <span class="card-title">CSharpNotes</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -693,14 +1127,14 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-18
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/NET/" class="post-category">
-                                    .NET
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
+                                    笔记
                                 </a>
                             
                             
@@ -710,16 +1144,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/WPF/">
-                        <span class="chip bg-color">WPF</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BAWPF/">
-                        <span class="chip bg-color">深入浅出WPF</span>
-                    </a>
-                    
-                    <a href="/tags/Data-Binding/">
-                        <span class="chip bg-color">Data Binding</span>
+                    <a href="/tags/CSharp/">
+                        <span class="chip bg-color">CSharp</span>
                     </a>
                     
                 </div>
@@ -733,12 +1159,12 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/11/17/Fox/">
+                <a href="/2022/01/23/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
                     <div class="card-image">
                         
-                        <img src="/images/Fox/fox.jpeg" class="responsive-img" alt="Fox">
+                        <img src="/images/%E8%AE%B0%E5%BD%95%E4%B8%8B%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%BF%87%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/hexo.jpeg" class="responsive-img" alt="记录下自己搭建博客的过程和注意事项">
                         
-                        <span class="card-title">Fox</span>
+                        <span class="card-title">记录下自己搭建博客的过程和注意事项</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -749,14 +1175,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-23
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Unity/" class="post-category">
-                                    Unity
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2/" class="post-category">
+                                    博客
                                 </a>
                             
                             
@@ -766,12 +1192,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Fox/">
-                        <span class="chip bg-color">Fox</span>
-                    </a>
-                    
-                    <a href="/tags/Demo/">
-                        <span class="chip bg-color">Demo</span>
+                    <a href="/tags/%E5%8D%9A%E5%AE%A2/">
+                        <span class="chip bg-color">博客</span>
                     </a>
                     
                 </div>
@@ -1012,7 +1434,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">233.6k</span>
+                        class="white-color">237.5k</span>
             
             
             
