@@ -1,0 +1,2049 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="第三章 传输层, 8yyy&#39;s blog">
+    <meta name="description" content="目标： 
+
+理解传输层的工作原理
+多路复用/解复用 
+可靠数据传输
+流量控制 
+拥塞控制 
+
+
+学习Internet的传输层协议 
+UDP：无连接传输 
+TCP：面向连接的可靠传 输 
+TCP的拥塞控制
+
+
+
+1. 概述和传输层服务传输服务">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>第三章 传输层 | 8yyy&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: 100% 100%;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">8yyy&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">8yyy&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/14.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">第三章 传输层</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                <span class="chip bg-color">计算机网络</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="post-category">
+                                计算机基础
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-08-16
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    11.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    39 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><u><font color="red">目标： </font></u></p>
+<ul>
+<li>理解传输层的工作原理<ul>
+<li>多路复用/解复用 </li>
+<li>可靠数据传输</li>
+<li>流量控制 </li>
+<li>拥塞控制 </li>
+</ul>
+</li>
+<li>学习Internet的传输层协议 <ul>
+<li>UDP：无连接传输 </li>
+<li>TCP：面向连接的可靠传 输 </li>
+<li><font color="red">TCP的拥塞控制</font></li>
+</ul>
+</li>
+</ul>
+<h2 id="1-概述和传输层服务"><a href="#1-概述和传输层服务" class="headerlink" title="1. 概述和传输层服务"></a>1. 概述和传输层服务</h2><p>传输服务和协议 </p>
+<ul>
+<li>运输层协议为运行在不同主机上的应用进程提供<font color="red">逻辑通信</font>(logic communication)功能<ul>
+<li>从应用程序的角度看，通过逻辑通信，运行不同进程的主机好像直接相连一样</li>
+<li>应用程序使用运输层提供的逻辑通信功能彼此发送报文，而无须考虑承载这些报文的物理设施节点的细节</li>
+</ul>
+</li>
+<li>传输协议运行在<strong>端系统</strong> <ul>
+<li>发送方：将应用层的报文分成<font color="red">报文段</font>(segment)，然后传递给网络层 </li>
+<li>接收方：将报文段重组成报文，然后传递给应用层 </li>
+</ul>
+</li>
+<li>有多个传输层协议可供应用选择 <ul>
+<li><strong>Internet: TCP(字节流的服务，不保证界限) 和 UDP</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-传输层和网络层的关系"><a href="#1-1-传输层和网络层的关系" class="headerlink" title="1.1 传输层和网络层的关系"></a>1.1 传输层和网络层的关系</h3><ul>
+<li><p><font color="blue">网络层服务：</font>主机之间的逻辑通信 </p>
+</li>
+<li><p><font color="blue">传输层服务：</font>主机上的进程间的逻辑通信 </p>
+<ul>
+<li>依赖于网络层的服务 <ul>
+<li>延时、带宽 </li>
+</ul>
+</li>
+<li>并对网络层的服务进行增强<ul>
+<li>数据丢失、顺序混乱、 加密</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">有些服务是可以加强的：不可靠 -&gt; 可靠；安全</font></p>
+<p><font color="red">但有些服务是不可以被加强的：带宽，延迟</font></p>
+<p><img src="/images/Computer-Network3/image-20230622092809104.png"></p>
+<p>Ann和Bill负责收发邮件，不参与任何一个中间邮件中心的功能工作，类似的，传输层协议只工作在端系统中。</p>
+<h3 id="1-2-Internet传输层协议"><a href="#1-2-Internet传输层协议" class="headerlink" title="1.2 Internet传输层协议"></a>1.2 Internet传输层协议</h3><p><font color="blue">可靠的、保序的传输： <strong>TCP</strong>(字节流的服务)</font></p>
+<ul>
+<li>多路复用、解复用</li>
+<li>拥塞控制</li>
+<li>流量控制</li>
+<li>建立连接</li>
+</ul>
+<p><font color="blue">不可靠、不保序的传输：&lt;**UDP**(用户数据报协议)</font></p>
+<ul>
+<li>多路复用、解复用 </li>
+<li>没有为尽力而为的IP服务添加更多的其它额外服务 </li>
+</ul>
+<p><strong>都不提供的服务： 延时保证    带宽保证</strong></p>
+<blockquote>
+<p>因特网文献（如RFC）经常将TCP的运输层分组称为报文段，而UDP的分组称为数据报，同时将网络层分组也称为数据报！</p>
+</blockquote>
+<p><font color="red">统一将TCP和UDP的分组统称为 <strong>报文段</strong>，而将 <strong>数据报</strong> 名称保留给网络层分组不容易混淆。</font></p>
+<p><font color="blue">因特网网际协议IP：</font></p>
+<ul>
+<li>IP的服务模型是<strong>尽力而为交付服务</strong>（best-effort delivery service）</li>
+<li>不可靠服务</li>
+<li>每台主机至少有一个网络层地址——IP地址</li>
+</ul>
+<p><font color="blue">UDP和TCP所提供的服务模型：</font></p>
+<ul>
+<li><p>最基本的职责：将两个端系统间IP的交付服务扩展为运行在端系统上的两个进程之间的交付服务。</p>
+<ul>
+<li>运输层的多路复用</li>
+<li>多路分解</li>
+</ul>
+</li>
+<li><p>进程到进程的数据交付和差错检查是两种最低限度的运输层服务，也是UDP所能提供的仅有的两种服务。</p>
+</li>
+</ul>
+<h2 id="2-多路复用与解复用"><a href="#2-多路复用与解复用" class="headerlink" title="2. 多路复用与解复用"></a>2. 多路复用与解复用</h2><p>多路复用/解复用（一个TCP/UDP实体上有很多应用进程借助其发送）</p>
+<p><font color="red">在发送方主机<strong>多路复用</strong></font></p>
+<ul>
+<li>从多个套接字接收来自多个进程的报文，根据套接字对应的<font color="red">IP地址和端口号</font>等信息对报文段用头部加以封装 (该头部信息用于以后的<strong>解复用</strong>)</li>
+</ul>
+<p><font color="red">在接收方主机<strong>多路解复用</strong></font>(多路分解)</p>
+<ul>
+<li>根据报文段的头部信息中的<font color="red">IP地址和端口号</font>将接收到的报文段发给正确的套接字(和对应的应用进程)</li>
+</ul>
+<blockquote>
+<p>在前面的家庭类比中，当Bill从邮递员收到一批信件，并通过收信人名称分发给他的兄弟姐妹时，他执行的就是一个<font color="red">多路分解</font>操作；当Ann从兄弟姐妹中收集邮件并将它们交给邮递员时，她执行的就是一个<font color="red">多路复用</font>操作。</p>
+</blockquote>
+<p>多路解复用工作原理</p>
+<ul>
+<li>解复用作用：TCP或者UDP实体采用哪些信息，将报文段的数据部分交给正确的socket，从而交给正确的进程</li>
+<li>主机收到IP数据报 <ul>
+<li>每IP数据报有<font color="red">源IP地址和目标IP地址</font></li>
+<li>IP数据报承载一个传输层报文段，每个段有一个<font color="red">源端口号和目标端口号 </font>(特定应用有著名的端口号)</li>
+</ul>
+</li>
+<li>主机联合使用<font color="red">IP地址</font>和<font color="red">端口号</font>将报文段发送给合适的套接字，交给相应的进程（线程）<ul>
+<li>TCP使用4元组</li>
+<li>UDP使用2元组（目标IP，目标Port）</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-无连接-UDP-多路复用和多路分解"><a href="#2-1-无连接-UDP-多路复用和多路分解" class="headerlink" title="2.1 无连接(UDP)多路复用和多路分解"></a>2.1 无连接(UDP)多路复用和多路分解</h3><p><strong>创建套接字：</strong>（Python）</p>
+<ul>
+<li><font color="blue">服务器端：</font><font color="red">serverSocket=socket(PF_INET,SOCK_DGRAM,O);bind(serverSocket,&amp;sad,sizeof(sad));</font></li>
+</ul>
+<p>serverSocket和Sad指定的端口号捆绑</p>
+<ul>
+<li><p><font color="blue">客户端：</font></p>
+<p><font color="red">clientSocket=socket(PF_INET,SOCK_DGRAM,0);</font></p>
+</li>
+</ul>
+<blockquote>
+<p>没有Bind，clientSocket和OS为之分配的某个端口号捆绑（客户端使用什么端口号无所谓，客户端主动找服务器）,即运输层从1024~65535（非周知）中自动为该套接字分配一个端口号，该端口号是当前未被该主机中任何其他UDP端口使用的号。</p>
+</blockquote>
+<blockquote>
+<p>通常，应用程序的客户端让运输层自动地分配端口号，而服务器端则分配一个特定的端口号。</p>
+</blockquote>
+<p><u><font color="red">示例：</font></u>假定在主机A中的一个进程具有UDP端口19157，它要发送一个应用程序数据库给位于主机B的另一个进程，该进程具有UDP端口46428。</p>
+<ol>
+<li>主机A的运输层创建一个运输层报文段：应用程序数据、源端口号（19157）、目的端口号（46428）和两个其他值。</li>
+<li>运输层将得到的报文段传到网络层。</li>
+<li>网络层将该报文段封装到一个IP数据报中，并尽力而为地将报文段交付给接收主机。</li>
+<li>如果该报文段到达接收主机B，接收主机运输层就检查该报文段中的目的端口号（46428），并将该报文段交付给端口号46428所标识的套接字。</li>
+</ol>
+<ul>
+<li>在接收端，UDP套接字用二元组标识<font color="red">(目标IP地址、目标端口号)</font></li>
+<li>当主机收到UDP报文段：<ul>
+<li>检查报文段的目标端口号</li>
+<li>用该端口号将报文段定位给套接字</li>
+</ul>
+</li>
+<li>如果两个不同源IP地址/源端口号的数据报，但是<font color="red">有相同的目标IP地址和端口号</font>，则被定位到相同的套接字</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230622162412620.png" alt="image-20230622162412620"></p>
+<ul>
+<li>回顾：创建拥有本地端口号的套接字：</li>
+</ul>
+<p>DatagramSocket mySocket1 = New DatagramSocket(12534)；</p>
+<ul>
+<li>回顾：当创建UDP段采用端口号，可以指定： <ul>
+<li>目标IP地址 </li>
+<li>目标端口号</li>
+</ul>
+</li>
+<li>当主机接收到UDP段时： <ul>
+<li>检查UDP段中的目标端口号 </li>
+<li>将UDP段交给具备那个端口号的套接字</li>
+</ul>
+</li>
+</ul>
+<p>具备相同目标IP地址和目标端口号，即使是源IP地址或源端口号不同的IP数据报，将会被传到相同的目标UDP套接字上（目标IP地址，目标端口号一样发送给同一个进程）</p>
+<p><img src="/images/Computer-Network3/image-20230622162849196.png" alt="image-20230622162849196"></p>
+<p><img src="/images/Computer-Network3/image-20230622162906105.png" alt="image-20230622162906105"></p>
+<h3 id="2-2-面向连接-TCP-的多路复用"><a href="#2-2-面向连接-TCP-的多路复用" class="headerlink" title="2.2 面向连接(TCP)的多路复用"></a>2.2 面向连接(TCP)的多路复用</h3><ul>
+<li><p>TCP套接字:四元组本地标识： </p>
+<ul>
+<li>源IP地址 </li>
+<li>源端口号 </li>
+<li>目的IP地址 </li>
+<li>目的端口号</li>
+</ul>
+</li>
+<li><p><font color="red">解复用：</font>接收主机用这四个值来将数据报定位到合适的套接字</p>
+</li>
+<li><p>服务器能够在一个TCP端口上同时支持多个TCP套接字：</p>
+<ul>
+<li>每个套接字由其四元组标识（有不同的源IP和源PORT）</li>
+</ul>
+</li>
+<li><p>Web服务器对每个连接客户端有不同的套接字</p>
+<ul>
+<li>非持久对每个请求有不同的套接字</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230622163146934.png" alt="image-20230622163146934"></p>
+<p>尽管主机A和主机C向服务器B发送的报文段的目标IP地址和目标端口号一致，但是源IP地址或源端口号不一致，因此服务器B仍然能够正确地分解这几个具有相同源端口号的连接。</p>
+<p><img src="/images/Computer-Network3/image-20230622163158005.png" alt="image-20230622163158005"></p>
+<p><img src="/images/Computer-Network3/image-20230622163210503.png" alt="image-20230622163210503"></p>
+<p><img src="/images/Computer-Network3/image-20230622163229815.png" alt="image-20230622163229815"></p>
+<p>连接套接字与进程之间并非总是有着一一对应的关系。事实上，当今的高性能Web服务器通常只使用一个进程，但是为每个新的客户连接创建一个具有新连接套接字的新线程。（线程可被看作是一个轻量级的子线程）对于这样一台服务器，在任意给定的时间内都可能有（具有不同标识的）许多连接套接字连接到相同的进程。</p>
+<p>UDP无非就是对网络层协议增加了一点多路复用/多路分解服务而已。</p>
+<h2 id="3-无连接传输：UDP"><a href="#3-无连接传输：UDP" class="headerlink" title="3. 无连接传输：UDP"></a>3. 无连接传输：UDP</h2><p>UDP: User Datagram Protocol  用户数据包协议<br>在IP（主机到主机）所提供的基础上增加了一个多路复用/解复用（进程到进程）的服务</p>
+<ul>
+<li><p>“尽力而为”的服务，报文 段可能 </p>
+<ul>
+<li>丢失 </li>
+<li>送到应用进程的报文段乱序（延迟不一样）</li>
+</ul>
+</li>
+<li><p>无连接：</p>
+<ul>
+<li>UDP发送端和接收端之间没有握手 </li>
+<li>每个UDP报文段都被独立地处理</li>
+</ul>
+</li>
+<li><p>UDP 被用于: </p>
+<ul>
+<li>（实时）流媒体（丢失不敏感， 速率敏感、应用可控制 传输速率）</li>
+<li>DNS</li>
+<li>SNMP</li>
+<li>事务性的应用(一次性往返搞定)</li>
+</ul>
+</li>
+<li><p>在UDP上可行可靠传输: </p>
+<ul>
+<li><strong>在应用层增加可靠性</strong> </li>
+<li><strong>应用特定的差错恢复</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="UDP：用户数据报协议"><a href="#UDP：用户数据报协议" class="headerlink" title="UDP：用户数据报协议"></a>UDP：用户数据报协议</h3><p><img src="/images/Computer-Network3/image-20210725134800713.png" alt="image-20210725134800713"></p>
+<h3 id="为什么要有UDP"><a href="#为什么要有UDP" class="headerlink" title="为什么要有UDP?"></a>为什么要有UDP?</h3><ol>
+<li><p>不建立连接 (会增加延时) </p>
+</li>
+<li><p>简单：在发送端和接收端没有连接状态 </p>
+</li>
+<li><p><strong>报文段的头部很小(开销小)</strong> </p>
+</li>
+<li><p><strong>无拥塞控制和流量控制</strong>：UDP可以尽可能快的发送报文段</p>
+</li>
+<li><p><strong>应用-&gt;传输的速率 = 主机-&gt;网络的速率 (忽略头部时)</strong></p>
+</li>
+</ol>
+<p>UDP校验和<br>目标： 检测在被传输报文段中的差错 (如比特反转)</p>
+<p>发送方：<br> 将报文段的内容视为16 比特的整数<br> 校验和：报文段的加法和（1的补运算）<br> 发送方将校验和放在 UDP的校验和字段</p>
+<p>接收方：<br> 计算接收到的报文段的校验和<br> 检查计算出的校验和与校验和字段的内容是否相等：<br>     不相等––检测到差错<br>     <strong>相等––没有检测到差错 ，但也许还是有差错 (残存错误，为检测出来)</strong></p>
+<h3 id="Internet校验和的例子"><a href="#Internet校验和的例子" class="headerlink" title="Internet校验和的例子"></a>Internet校验和的例子</h3><p>注意：当数字相加时，在最高位的进位要回卷（加到最低位上），再加到结果上</p>
+<p><img src="/images/Computer-Network3/image-20210725135335276.png" alt="image-20210725135335276"></p>
+<p> <strong>目标端：校验范围+校验和=1111111111111111 通过校验</strong><br>     否则没有通过校验<br> 注：求和时，必须将进位回卷到结果上</p>
+<h2 id="3-4-可靠数据传输的原理"><a href="#3-4-可靠数据传输的原理" class="headerlink" title="3.4 可靠数据传输的原理"></a>3.4 可靠数据传输的原理</h2><p>可靠数据传输（rdt）的原理            rdt(Reliable Data Transfer)</p>
+<p> rdt在应用层、传输层和数据链路层都很重要<br> 是网络Top 10问题之一</p>
+<p> 信道的不可靠特点决定了可靠数据传输协议（ rdt ）的复杂性</p>
+<p><img src="/images/Computer-Network3/image-20210725151016012.png" alt="image-20210725151016012"></p>
+<p> 渐增式地开发可靠数据传输协议（ rdt ）的发送方和接收方<br> 只考虑单向数据传输<br>     但控制信息是双向流动的！<br> <strong>双向的数据传输问题实际上是2个单向数据传输问题的综合</strong><br> 使用<strong>有限状态机 (FSM)</strong> 来描述发送方和接收方</p>
+<h3 id="Rdt1-0：-在可靠信道上的可靠数据传输"><a href="#Rdt1-0：-在可靠信道上的可靠数据传输" class="headerlink" title="Rdt1.0： 在可靠信道上的可靠数据传输"></a>Rdt1.0： 在可靠信道上的可靠数据传输</h3><p><strong>下层的信道是完全可靠的</strong> </p>
+<ul>
+<li>没有比特出错 </li>
+<li>没有分组丢失 </li>
+</ul>
+<p>发送方和接收方的FSM </p>
+<ul>
+<li>发送方将数据发送到下层信道 </li>
+<li>接收方从下层信道接收数据</li>
+</ul>
+<p>发送方：接收–封装–打走       接收方：解封装–交付          什么都不用干      </p>
+<h3 id="Rdt2-0：具有比特差错的信道"><a href="#Rdt2-0：具有比特差错的信道" class="headerlink" title="Rdt2.0：具有比特差错的信道"></a>Rdt2.0：具有比特差错的信道</h3><p>下层信道可能会出错：将分组中的比特翻转<br>     用校验和来检测比特差错 </p>
+<p> 问题：怎样从差错中恢复：<br>     确认(ACK)：接收方显式地告诉发送方分组已被正确接收<br>     否定确认( NAK): 接收方显式地告诉发送方分组发生了差错<br>        • 发送方收到NAK后，发送方重传分组 </p>
+<p> rdt2.0中的新机制：采用差错控制编码进行差错检测<br>     发送方差错控制编码、缓存<br>     接收方使用编码检错<br>     接收方的反馈：控制报文（ACK，NAK）：接收方-&gt;发送方<br>     发送方收到反馈相应的动作</p>
+<h4 id="Rdt2-0：FSM描述"><a href="#Rdt2-0：FSM描述" class="headerlink" title="Rdt2.0：FSM描述"></a>Rdt2.0：FSM描述</h4><p><img src="/images/Computer-Network3/image-20210725152850739.png" alt="image-20210725152850739"></p>
+<p>发送方接收nak (接收方检测出错) ，将之前封装的package重传，直到收到ack才开始下一轮的发送</p>
+<h3 id="rdt2-0的致命缺陷！-gt-rdt2-1"><a href="#rdt2-0的致命缺陷！-gt-rdt2-1" class="headerlink" title="rdt2.0的致命缺陷！-&gt; rdt2.1"></a>rdt2.0的致命缺陷！-&gt; rdt2.1</h3><p>如果ACK/NAK出错？<br> 发送方不知道接收方发生了什么事情！<br> <strong>发送方如何做？</strong><br>     <strong>重传？可能重复</strong><br>     <strong>不重传？可能死锁(或出 错)</strong><br> <strong>需要引入新的机制</strong><br>     <strong>序号</strong></p>
+<p>处理重复：<br>     发送方在每个分组中加 入序号<br>     如果ACK/NAK出错，发送方重传当前分组<br>     <strong><u>接收方丢弃（不发给上层）重复分组</u></strong><br>    <strong>接收方通过序号判断，是否重复接收同样的包，在进行下一次流程/发送ack</strong></p>
+<p><strong>停等协议: 发送方发送一个分组， 然后等待接收方的应答</strong> </p>
+<p>发送方： </p>
+<ol>
+<li>在分组中加入序列号<br> 两个序列号（0，1）就 足够了 <pre><code> 一次只发送一个未经确认 的分组 
+</code></pre>
+</li>
+<li>必须检测ACK/NAK是否 出错（需要EDC ）<br>状态数变成了两倍<br>必须记住当前分组的序列号为0还是1</li>
+</ol>
+<p>接收方： </p>
+<ol>
+<li>必须检测接收到的分组是否是重复的<br> 状态会指示希望接收到的 分组的序号为0还是1 </li>
+</ol>
+<p>注意：接收方并不知道 发送方是否正确收到了 其ACK/NAK</p>
+<p><strong>rdt2.1的运行</strong></p>
+<p><img src="/images/Computer-Network3/image-20210725154944808.png" alt="image-20210725154944808"></p>
+<p>接收方不知道它最后发送的ACK/NAK是否被正确地收到<br> 发送方不对收到的ack/nak给确认，**<u>没有所谓的确认的确认</u>**；<br> 接收方发送ack，如果后面接收方收到的是：<br>     <strong>老分组p0？则ack 错误</strong><br>     <strong>下一个分组？P1，ack正确</strong></p>
+<h3 id="rdt2-2：无NAK的协议"><a href="#rdt2-2：无NAK的协议" class="headerlink" title="rdt2.2：无NAK的协议"></a>rdt2.2：无NAK的协议</h3><ul>
+<li>功能同rdt2.1，但只使用ACK(ack 要编号） </li>
+<li>接收方对最后正确接收的分组发ACK，以替代NAK <ul>
+<li>接收方必须显式地包含被正确接收分组的序号 </li>
+</ul>
+</li>
+<li><strong>当收到重复的ACK（如：再次收到ack0）时，发送方与收到NAK采取相同的动作：重传当前分组</strong> </li>
+<li>为后面的一次发送多个数据单位做一个准备 <ul>
+<li>一次能够发送多个 </li>
+<li>每一个的应答都有：ACK，NACK；麻烦 </li>
+<li>使用对前一个数据单位的ACK，代替本数据单位的nak </li>
+<li>确认信息减少一半，协议处理简单</li>
+</ul>
+</li>
+</ul>
+<p>NAK free </p>
+<p><img src="/images/Computer-Network3/image-20210725155525434.png" alt="image-20210725155525434"></p>
+<p><strong>rdt2.2的运行</strong></p>
+<p><img src="/images/Computer-Network3/image-20210725155546252.png" alt="image-20210725155546252"></p>
+<p><img src="/images/Computer-Network3/image-20210725155624953.png" alt="image-20210725155624953"></p>
+<p>1、No error        2、packet error        3、ack error</p>
+<h3 id="rdt3-0：具有比特差错和分组丢失的信道"><a href="#rdt3-0：具有比特差错和分组丢失的信道" class="headerlink" title="rdt3.0：具有比特差错和分组丢失的信道"></a>rdt3.0：具有比特差错和分组丢失的信道</h3><p><strong>新的假设：下层信道可 能会丢失分组（数据或ACK）</strong><br> 会死锁<br> 机制还不够处理这种 状况：<br>    • 检验和<br>    • 序列号<br>    • ACK<br>    • 重传</p>
+<ul>
+<li>方法：发送方等待ACK一段合理的时间<br>发送端<strong>超时重传</strong>：如果到时没有 收到ACK-&gt;重传 </li>
+<li>问题：如果分组（或ACK ）只 是被延迟了：<br>重传将会导致数据重复，但利用序列号已经可以处理这 个问题 <pre><code>  接收方必须指明被正确接收的序列号 
+</code></pre>
+</li>
+<li>需要一个倒计数定时器</li>
+</ul>
+<p>链路层的timeout时间确定的  （比较集中）<br>传输层timeout时间是适应式的 （不太集中）</p>
+<h4 id="rdt3-0的运行"><a href="#rdt3-0的运行" class="headerlink" title="rdt3.0的运行"></a>rdt3.0的运行</h4><p><img src="/images/Computer-Network3/image-20210725161318287.png" alt="image-20210725161318287"></p>
+<p><img src="/images/Computer-Network3/image-20210725161335326.png" alt="image-20210725161335326"></p>
+<p>1、no loss    2、packet loss    3、ACK loss    <strong>4、premature timeout/ delayed ACK</strong></p>
+<p> <strong><u>过早超时（延迟的ACK）也能够正常工作；但是效率较低，一半的分组和确认是重复的；</u></strong><br> 设置一个合理的超时时间也是比较重要的；</p>
+<h4 id="rdt3-0的性能"><a href="#rdt3-0的性能" class="headerlink" title="rdt3.0的性能"></a>rdt3.0的性能</h4><p><strong>rdt3.0可以工作，但链路容量比较大的情况下，性能很差</strong> </p>
+<ul>
+<li>链路容量比较大，一次发一个PDU 的不能够充分利用链路的传输能力</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20210725171743570.png" alt="image-20210725171743570"></p>
+<ul>
+<li>U sender：利用率 – 忙于发送的时间比例 </li>
+<li>每30ms发送1KB的分组 -&gt; 270kbps=33.75kB/s 的吞吐量（在1 Gbps 链路上） </li>
+<li>瓶颈在于：网络协议限制了物理资源的利用！</li>
+</ul>
+<h3 id="rdt3-0：停-等操作-stop-wait"><a href="#rdt3-0：停-等操作-stop-wait" class="headerlink" title="rdt3.0：停-等操作  stop-wait"></a>rdt3.0：停-等操作  stop-wait</h3><p><img src="/images/Computer-Network3/image-20210725171641105.png" alt="image-20210725171641105"></p>
+<p><strong>一次收发一个</strong></p>
+<h3 id="流水线：提高链路利用率"><a href="#流水线：提高链路利用率" class="headerlink" title="流水线：提高链路利用率"></a>流水线：提高链路利用率</h3><p>pipeline</p>
+<p><img src="/images/Computer-Network3/image-20210725175741034.png" alt="image-20210725175741034"></p>
+<p> 增加n,能提高链路利用率<br> 但当达到某个n,其u=100%时,无法再通过增加n，提高利用率<br> 瓶颈转移了-&gt;链路带宽</p>
+<h4 id="流水线协议-管道化协议"><a href="#流水线协议-管道化协议" class="headerlink" title="流水线协议/管道化协议"></a>流水线协议/管道化协议</h4><p>流水线：允许发送方在未得到对方确认的情况下一次发送多个 分组<br> 必须增加序号的范围:用多个bit表示分组的序号<br> 在发送方/接收方要有缓冲区<br>• 发送方缓冲：未得到确认，可能需要重传；<br>• 接收方缓存：上层用户取用数据的速率≠接收到的数据速率；接收到的数据可 能乱序，排序交付（可靠）</p>
+<table>
+<thead>
+<tr>
+<th>slide window</th>
+<th>sw(sending window)</th>
+<th>rw(receiving window)</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>=1</td>
+<td>=1</td>
+<td>stop-wait</td>
+</tr>
+<tr>
+<td>流水线协议</td>
+<td>&gt;1</td>
+<td>=1</td>
+<td>GBN</td>
+</tr>
+<tr>
+<td>流水线协议</td>
+<td>&gt;1</td>
+<td>&gt;1</td>
+<td>SR</td>
+</tr>
+</tbody></table>
+<p>两种通用的流水线协议：回退N步(GBN)和选择重传(SR)</p>
+<h4 id="发送缓冲区"><a href="#发送缓冲区" class="headerlink" title="发送缓冲区"></a>发送缓冲区</h4><ul>
+<li><strong>形式：内存中的一个区域，<u>落入缓冲区的分组可以发送</u></strong> </li>
+<li><strong>功能：用于存放已发送，但是没有得到确认的分组</strong> </li>
+<li><strong>必要性：需要重发时可用</strong> </li>
+</ul>
+<p>发送缓冲区的大小：一次最多可以发送多少个未经确认的分组 </p>
+<ul>
+<li>停止等待协议=1</li>
+<li>流水线协议&gt;1，合理的值，不能很大，链路利用率不能够超100% </li>
+</ul>
+<p>发送缓冲区中的分组 </p>
+<ul>
+<li>未发送的：落入发送缓冲区的分组，可以连续发送出去； </li>
+<li><strong>已经发送出去的、等待对方确认的分组：发送缓冲区的分组只有得到确认才能删除</strong></li>
+</ul>
+<h4 id="发送窗口"><a href="#发送窗口" class="headerlink" title="发送窗口"></a>发送窗口</h4><p>采用相对移动方式表示，分组不动<br>可缓冲范围移动，代表一段可以发送的权力</p>
+<p><strong>发送窗口：发送缓冲区内容的一个范围</strong> </p>
+<ul>
+<li>那些已发送但是未经确认分组的序号构成的空间 </li>
+</ul>
+<p>发送窗口的最大值&lt;=发送缓冲区的值<br>一开始：没有发送任何一个分组 </p>
+<ul>
+<li>后沿=前沿 </li>
+<li>之间为发送窗口的尺寸=0 </li>
+</ul>
+<p>每发送一个分组，前沿前移一个单位</p>
+<p><img src="/images/Computer-Network3/image-20210725180820132.png" alt="image-20210725180820132"></p>
+<p>发送窗口前沿移动的极限：不能够超过<strong>发送缓冲区的大小</strong></p>
+<p>发送窗口后沿移动<br>    条件：收到老分组的确认<br>    结果：发送缓冲区罩住新的分组，来了分组可以发送<br>    移动的极限：不能够超过前沿</p>
+<p><img src="/images/Computer-Network3/image-20210725181322552.png" alt="image-20210725181322552"></p>
+<h4 id="接收窗口"><a href="#接收窗口" class="headerlink" title="接收窗口"></a>接收窗口</h4><table>
+<thead>
+<tr>
+<th>slide window</th>
+<th>sw (sending window)</th>
+<th>rw (receiving window)</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>=1</td>
+<td>=1</td>
+<td>stop-wait</td>
+</tr>
+<tr>
+<td>流水线协议</td>
+<td>&gt;1</td>
+<td>=1</td>
+<td>GBN</td>
+</tr>
+<tr>
+<td>流水线协议</td>
+<td>&gt;1</td>
+<td>&gt;1</td>
+<td>SR</td>
+</tr>
+</tbody></table>
+<p><strong>两种通用的流水线协议：回退N步(GBN)和选择重传(SR)</strong></p>
+<p>接收窗口 (receiving window)=接收缓冲区 </p>
+<ul>
+<li>接收窗口用于控制哪些分组可以接收；<ul>
+<li>只有收到的分组序号落入接收窗口内才允许接收</li>
+<li>若序号在接收窗口之外，则丢弃；</li>
+</ul>
+</li>
+<li><strong>接收窗口尺寸Wr=1，则只能顺序接收；</strong></li>
+<li><strong>接收窗口尺寸Wr&gt;1 ，则可以乱序接收</strong><ul>
+<li>但提交给上层的分组，要按序</li>
+</ul>
+</li>
+</ul>
+<p>例子：Wr＝1，在0的位置；只有0号分组可以接收；向前滑动一个，罩在1的位置，如果来了第2号分组，则丢 弃。</p>
+<p>接收窗口的滑动和发送确认 </p>
+<ul>
+<li>滑动： <ul>
+<li>低序号的分组到来，接收窗口移动； </li>
+<li>高序号分组乱序到，缓存但不交付（因为要实现rdt，不允许失序），不滑动 </li>
+</ul>
+</li>
+<li>发送确认： <ul>
+<li><strong>接收窗口尺寸=1 ； 发送连续收到的最大的分组确认（累计确认）</strong> </li>
+<li><strong>接收窗口尺寸&gt;1 ； 收到分组，发送那个分组的确认（非累计确认）</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20210725184310106.png" alt="image-20210725184310106"></p>
+<h4 id="正常情况下的2个窗口互动"><a href="#正常情况下的2个窗口互动" class="headerlink" title="正常情况下的2个窗口互动"></a>正常情况下的2个窗口互动</h4><p><img src="/images/Computer-Network3/image-20210725184748257.png" alt="image-20210725184748257"></p>
+<h4 id="异常情况下GBN的2窗口互动"><a href="#异常情况下GBN的2窗口互动" class="headerlink" title="异常情况下GBN的2窗口互动"></a>异常情况下GBN的2窗口互动</h4><p>发送窗口</p>
+<ul>
+<li><p>新分组落入发送缓冲区范围，发送-&gt;前沿滑动</p>
+</li>
+<li><p><strong>超时重发机制让发送端将发送窗口中的所有分组发送出去</strong></p>
+</li>
+<li><p>来了老分组的重复确认-&gt;后沿不向前滑动-&gt;新的分组无法落入发送缓冲区的范围团(此时如果发送缓冲区有新的分组可以发送)</p>
+</li>
+</ul>
+<p>接收窗口</p>
+<ul>
+<li>收到乱序分组，没有落入到接收窗口范界内，抛弃</li>
+<li>(重复）发送老分组的确认，<strong>累计确认</strong></li>
+</ul>
+<h4 id="异常情况下SR的2窗口互动"><a href="#异常情况下SR的2窗口互动" class="headerlink" title="异常情况下SR的2窗口互动"></a>异常情况下SR的2窗口互动</h4><p>发送窗口</p>
+<ul>
+<li>新分组落入发送缓冲区范围，发送-&gt;前沿滑动</li>
+<li><strong>超时重发机制让发送端将超对的分组重新发送出去</strong></li>
+<li>来了乱序分组的确认-&gt;后沿不向前滑动-&gt;新的分组无法落入发送缓冲区的范围（此时如果发送缓冲率有新的分组可以发送)</li>
+</ul>
+<p>接收窗口</p>
+<ul>
+<li>收到乱序分组，落入到接收窗口范围内，接收</li>
+<li>发送该分组的确认，<strong>单独确认</strong></li>
+</ul>
+<h4 id="GBN协议和SR协议的异同"><a href="#GBN协议和SR协议的异同" class="headerlink" title="GBN协议和SR协议的异同"></a>GBN协议和SR协议的异同</h4><p>相同之处      发送窗口&gt;1      一次能够可发送多个 未经确认的分组</p>
+<p>不同之处 </p>
+<p>GBN :接收窗口尺寸=1 </p>
+<ul>
+<li><strong>接收端：只能顺序接收</strong> </li>
+<li><strong>发送端：从表现来看，一旦一个 分组没有发成功，如：0,1,2,3,4 ; 假如1未成功，234都发送出去 了，要返回1再发送；GB1(go back 1)</strong> </li>
+</ul>
+<p>SR: 接收窗口尺寸&gt;1 </p>
+<ul>
+<li><strong>接收端：可以乱序接收</strong> </li>
+<li><strong>发送端：发送0,1,2,3,4，一旦1 未成功，2,3,4,已发送，无需重发，选择性发送1</strong></li>
+</ul>
+<p><strong>Go-back-N:</strong><br> 发送端最多在流水线中有N个未确认的分组<br> <strong>接收端只是发送<u>累计型确认</u>(cumulative ack)</strong><br>     接收端如果发现gap，不确认新到来的分组 </p>
+<p>发送端拥有对最老的 未确认分组的定时器<br>   只需设置一个定时器<br>   <strong>当定时器到时时，重传所有未确认分组</strong></p>
+<p><strong>Selective Repeat:</strong><br> 发送端最多在流水线中有N个未确认的分组<br> 接收方对每个到来的分组单独确认individual ack （非累计确认）</p>
+<p>发送方为每个未确认的分组保持一个定时器<br>    当超时定时器到时，只是重发到时的未确认分组</p>
+<h4 id="运行中的GBN"><a href="#运行中的GBN" class="headerlink" title="运行中的GBN"></a>运行中的GBN</h4><p><img src="/images/Computer-Network3/image-20210725191547108.png" alt="image-20210725191547108"></p>
+<h4 id="选择重传SR的运行"><a href="#选择重传SR的运行" class="headerlink" title="选择重传SR的运行"></a>选择重传SR的运行</h4><p> 发送窗口的最大值（发送缓冲区）限制发送未确认分组的个数</p>
+<p>发送方</p>
+<blockquote>
+<p>从上层接收数据：<br> 如果下一个可用于该分组的序 号可在发送窗口中，则发送<br>timeout(n):<br> 重新发送分组n，重新设定定时器<br>ACK(n) in [sendbase,sendbase+N]:<br> 将分组n标记为已接收<br> 如n为最小未确认的分组序号， 将base移到下一个未确认序号</p>
+</blockquote>
+<p>接收方</p>
+<blockquote>
+<p>分组n [rcvbase, rcvbase+N-1]<br> 发送ACK(n)<br> 乱序：缓存<br> 有序：该分组及以前缓存的 序号连续的分组交付给上层 ，然后将窗口移到下一个仍 未被接收的分组<br>分组n [rcvbase-N, rcvbase-1]<br> ACK(n) 其它：<br> 忽略该分组</p>
+</blockquote>
+<p><img src="/images/Computer-Network3/image-20210725191937619.png" alt="image-20210725191937619"></p>
+<h4 id="对比GBN和SR"><a href="#对比GBN和SR" class="headerlink" title="对比GBN和SR"></a>对比GBN和SR</h4><table>
+<thead>
+<tr>
+<th></th>
+<th>GBN</th>
+<th>SR</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优点</td>
+<td>简单，所需资源少（接收方一个 缓存单元）</td>
+<td>出错时，重传一个代价小</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>一旦出错，回退N步代价大</td>
+<td>复杂，所需要资源多（接收方多个 缓存单元）</td>
+</tr>
+</tbody></table>
+<p><strong>适用范围</strong> </p>
+<ul>
+<li>出错率低：比较适合GBN，出错非常罕见，没有必 要用复杂的SR，为罕见的事件做日常的准备和复杂处理 </li>
+<li>链路容量大<strong>（延迟大、带宽大）</strong>：比较适合SR而不 是GBN，一点出错代价太大</li>
+</ul>
+<p><strong>窗口的最大尺寸</strong></p>
+<p> GBN: 2^n -1<br> SR:2^(n-1) 例<br>如：n=2; 序列号：0, 1, 2, 3<br>     GBN =3<br>     SR=2<br>SR的例子：  接收方看不到二者的区别！  将重复数据误认为新数据 (a) </p>
+<p>Q: 序号大小与窗口大小 之间的关系？</p>
+<h2 id="3-5-面向连接的传输：-TCP"><a href="#3-5-面向连接的传输：-TCP" class="headerlink" title="3.5 面向连接的传输： TCP"></a>3.5 面向连接的传输： TCP</h2><p>点对点：一个发送方，一个接收方</p>
+<p>可靠的、按顺序的字节流：没有报文边界</p>
+<p>管道化（流水线）：TCP拥塞控制和流量控制设置窗口大小</p>
+<p>发送和接收缓存</p>
+<p>全双工数据：</p>
+<ul>
+<li>在同一连接中数据流双向 流动</li>
+<li>MSS：最大报文段大小     MSS的大小  + TCP头部 + IP头部 = 一个报文段</li>
+</ul>
+<p>面向连接：在数据交换之前，通过握 手（交换控制报文） 初始 化发送方、接收方的状态 变量 </p>
+<p>有流量控制：发送方不会淹没接收方</p>
+<h3 id="TCP报文段结构"><a href="#TCP报文段结构" class="headerlink" title="TCP报文段结构"></a>TCP报文段结构</h3><p><img src="/images/Computer-Network3/image-20210726073703179.png" alt="image-20210726073703179"></p>
+<p><strong>序号：报文段首字节的在字节流的编号</strong> </p>
+<p><strong>确认号：1、期望从另一方收到的下一个字节的序号 2、累积确认</strong></p>
+<p><img src="/images/Computer-Network3/image-20210726074323701.png" alt="image-20210726074323701"></p>
+<h4 id="TCP序号和确认号"><a href="#TCP序号和确认号" class="headerlink" title="TCP序号和确认号"></a>TCP序号和确认号</h4><p><img src="/.io//Users\20662\AppData\Roaming\Typora\typora-user-images\image-20210726075010148.png" alt="image-20210726075010148"></p>
+<h4 id="TCP-往返延时（RTT）和超时"><a href="#TCP-往返延时（RTT）和超时" class="headerlink" title="TCP  往返延时（RTT）和超时"></a>TCP  往返延时（RTT）和超时</h4><p>怎样设置TCP 超时？<br>比RTT要长 ，但RTT是变化的<br>太短：太早超时 ，不必要的重传<br>太长：对报文段丢失反应太慢，消极</p>
+<p>怎样估计RTT？<br>SampleRTT：测量从报文段发出到 收到确认的时间  如果有重传，忽略此次测量<br>SampleRTT会变化，因此估计的 RTT应该比较平滑  对几个最近的测量值求平均，而 不是仅用当前的SampleRTT</p>
+<p>EstimatedRTT = (1- a)*EstimatedRTT + a*SampleRTT<br> <strong><u>指数加权移动平均</u></strong><br> <strong>过去样本的影响呈指数衰减</strong><br> 推荐值：a = 0.125</p>
+<p><img src="/images/Computer-Network3/image-20210726075613747.png" alt="image-20210726075613747"></p>
+<h4 id="设置超时"><a href="#设置超时" class="headerlink" title="设置超时"></a>设置超时</h4><p><img src="/images/Computer-Network3/image-20210726075813845.png" alt="image-20210726075813845"></p>
+<h3 id="TCP：可靠数据传输"><a href="#TCP：可靠数据传输" class="headerlink" title="TCP：可靠数据传输"></a>TCP：可靠数据传输</h3><p>TCP在IP不可靠服务的基础上 建立了rdt<br> 管道化的报文段 • GBN or SR </p>
+<p> <strong>累积确认（像GBN）</strong><br> <strong>单个重传定时器（像GBN）</strong><br> <strong>是否可以接受乱序的，没有规范</strong></p>
+<p>通过以下事件<strong>触发重传</strong><br> <strong>超时（只重发那个最早的未确认段：SR）</strong><br> <strong>重复的确认</strong><br>        • 例子：收到了ACK50,之后又收到3 个ACK50</p>
+<p>首先考虑简化的TCP发送方：  忽略重复的确认  忽略流量控制和拥塞控 制</p>
+<h4 id="TCP发送方事件："><a href="#TCP发送方事件：" class="headerlink" title="TCP发送方事件："></a>TCP发送方事件：</h4><p>从应用层接收数据：<br> 用nextseq创建报文段<br> 序号nextseq为报文段首字节的字节流编号<br> 如果还没有运行，启动定时器</p>
+<p>超时：<br> <strong>重传后沿最老的报文段</strong><br> <strong>重新启动定时器</strong></p>
+<p>收到确认：<br> 如果是对尚未确认的报文段确认<br>     更新已被确认的报文序号<br>     如果当前还有未被确认的报文段，重新启动定时器 (发完，就关掉定时器)</p>
+<p>TCP重传</p>
+<p><img src="/images/Computer-Network3/image-20210726081314233.png" alt="image-20210726081314233"></p>
+<p>ACK丢失                过早超时                    对顺序收到的最高字节确认</p>
+<p><img src="/images/Computer-Network3/image-20210726082045415.png" alt="image-20210726082045415"></p>
+<p><strong>产生TCP ACK的建议</strong></p>
+<table>
+<thead>
+<tr>
+<th>接收方的事件</th>
+<th>TCP接收方动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所期望序号的报文段按序到达。 所有在期望序号之前的数据都已经被确认</td>
+<td>延迟的ACK（提高效率，少发一个ACK）。对另一个按序报文段的到达最多等待500ms。如果下一个报文段<strong>在这个时间间隔内没有到达</strong>，则发送一个ACK。</td>
+</tr>
+<tr>
+<td>有期望序号的报文段到达。 另一个按序报文段等待发送ACK</td>
+<td><strong>立即发送单个累积ACK，以确认两个按序报文段。</strong></td>
+</tr>
+<tr>
+<td>比期望序号大的报文段乱序到达。 检测出数据流中的间隔</td>
+<td>立即发送重复的ACK，<strong>指明下一个期待字节的序号</strong></td>
+</tr>
+<tr>
+<td>能部分或完全填充接收数据间隔 的报文段到达</td>
+<td>若该报文段起始于间隔（gap）的低端， 则立即发送ACK（给确认。反映下一段的需求）。</td>
+</tr>
+</tbody></table>
+<h3 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h3><p>超时周期往往太长：<br>    在重传丢失报文段之前的延时太长</p>
+<p>通过重复的ACK来检测 报文段丢失<br>     发送方通常连续发送大量 报文段<br>     如果报文段丢失，通常会引起多个重复的ACK</p>
+<p><img src="/images/Computer-Network3/image-20210726083307463.png" alt="image-20210726083307463"></p>
+<p>如果发送方收到同一数据 的3个冗余ACK，重传最 小序号的段：<br> <strong>快速重传：在定时器过时之前重发报文段</strong> </p>
+<p> 它假设跟在被确认的数据 后面的数据丢失了 </p>
+<p>• 第一个ACK是正常的； </p>
+<p>• 收到第二个该段的ACK，表 示接收方收到一个该段后的乱序段； </p>
+<p>• 收到第3，4个该段的ack，表 示接收方收到该段之后的2个 ，3个乱序段，可能性非常大段丢失了</p>
+<p><strong>三重ACK接收后的快速重传</strong></p>
+<p><img src="/images/Computer-Network3/image-20210726083418896.png" alt="image-20210726083418896"></p>
+<h3 id="TCP-流量控制"><a href="#TCP-流量控制" class="headerlink" title="TCP 流量控制"></a>TCP 流量控制</h3><p>流量控制<br>接收方控制发送方，不让发送方发送的太多、太快以至于让 接收方的缓冲区溢出</p>
+<p>接收方在其向发送方的TCP段 头部的rwnd字段“通告”其空闲buffer大小 </p>
+<ul>
+<li>RcvBuffer大小通过socket选项 设置 (典型默认大小为4096 字 节) </li>
+<li>很多操作系统自动调整 RcvBuffer</li>
+</ul>
+<p>发送方限制未确认(“inflight”)字节的个数≤接收 方发送过来的 rwnd 值 </p>
+<p>保证接收方不会被淹没</p>
+<p><img src="/images/Computer-Network3/image-20210726115906902.png" alt="image-20210726115906902"></p>
+<p>RcvWindow = 缓冲区空间 - 已经接收到未读取的空间</p>
+<h3 id="TCP连接管理"><a href="#TCP连接管理" class="headerlink" title="TCP连接管理"></a>TCP连接管理</h3><p>在正式交换数据之前，发送方和接收方握手建立通 信关系:<br> <strong>同意建立连接（每一方都知道对方愿意建立连接）</strong><br> <strong>同意连接参数</strong></p>
+<h4 id="同意建立连接"><a href="#同意建立连接" class="headerlink" title="同意建立连接"></a>同意建立连接</h4><p>在网络中，2次握手建 立连接总是可行吗？<br> 变化的延迟（连接请求的段没有丢，但可能超时）<br> 由于丢失造成的重传 (e.g. req_conn(x))<br> 报文乱序<br> 相互看不到对方</p>
+<p>2次握手的失败场景：</p>
+<p><img src="/images/Computer-Network3/image-20210726121120744.png" alt="image-20210726121120744"></p>
+<p>1、可能发送半连接（只在服务器维护了连接）<br>2、老的数据被当成新的数据接收了    <strong><u>seq  x 和 x + 1</u></strong></p>
+<p>TCP 3次握手</p>
+<p><img src="/images/Computer-Network3/image-20210726121321781.png" alt="image-20210726121321781"></p>
+<p><strong>解决方案：变化的初始序号+双方确认对方的序号 (3次握手)</strong></p>
+<p>第一次：SYNbit + seq    第二次：SYNbit + ACKbit + seq + ACKnum    第三次：ACKbit + ACKnum</p>
+<h4 id="3次握手解决：半连接和接收老数据问题"><a href="#3次握手解决：半连接和接收老数据问题" class="headerlink" title="3次握手解决：半连接和接收老数据问题"></a><u>3次握手解决：半连接和接收老数据问题</u></h4><p><img src="/images/Computer-Network3/image-20210726121605926.png" alt="image-20210726121605926"></p>
+<p><strong>二次握手：可能发送半连接（只在服务器维护了连接）</strong><br><strong>三次握手：客户端在第三次握手拒绝连接请求  服务器二次握手后的连接请求</strong></p>
+<p><strong>二次握手：老的数据被当成新的数据接收了</strong><br><strong>三次握手：未建立连接（无半连接），故将发来的数据丢掉</strong></p>
+<p>扔掉：连接不存在， 没建立起来；连接的 序号不在当前连接的 范围之内</p>
+<p><strong>若一个数据滞留时间足够长导致</strong><br><strong>在TCP第二次连接（两个三次握手后）到来，这个数据包大概率也会被丢弃，因为seq不一样，而seq又与时间有关</strong></p>
+<h4 id="TCP-关闭连接"><a href="#TCP-关闭连接" class="headerlink" title="TCP: 关闭连接"></a>TCP: 关闭连接</h4><ul>
+<li><strong>客户端，服务器分别关闭它自己这一侧的连接</strong> <ul>
+<li><strong>发送FIN bit = 1的TCP段</strong></li>
+</ul>
+</li>
+<li><strong>一旦接收到FIN，用ACK回应</strong><ul>
+<li><strong>接到FIN段，ACK可以和它自己发出的FIN段一起发 送</strong></li>
+</ul>
+</li>
+<li><strong>可以处理同时的FIN交换</strong></li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20210726124018451.png" alt="image-20210726124018451"></p>
+<p>假设Client端发起中断连接请求，也就是发送FIN报文。Server端接到FIN报文后，意思是说”我Client端没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭Socket，可以继续发送数据。所以你先发送ACK，”告诉Client端，你的请求我收到了，但是我还没准备好，请继续你等我的消息”。这个时候Client端就进入FIN_WAIT状态，继续等待Server端的FIN报文。当Server端确定数据已发送完成，则向Client端发送FIN报文，”告诉Client端，好了，我这边数据发完了，准备好关闭连接了”。Client端收到FIN报文后，”就知道可以关闭连接了，但是他还是不相信网络，怕Server端不知道要关闭，所以发送ACK后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。“，Server端收到ACK后，”就知道可以断开连接了”。Client端等待了2MSL后依然没有收到回复，则证明Server端已正常关闭，那好，我Client端也可以关闭连接了。Ok，TCP连接就这样关闭了！</p>
+<p>【问题1】为什么连接的时候是三次握手，关闭的时候却是四次握手？<br>答：因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
+<h2 id="3-6-拥塞控制原理"><a href="#3-6-拥塞控制原理" class="headerlink" title="3.6 拥塞控制原理"></a>3.6 拥塞控制原理</h2><p>拥塞:<br> 非正式的定义: “太多的数据需要网络传输，超过了网络的处理能力”<br> 与流量控制不同<br> 拥塞的表现:<br>     <strong><u>分组丢失 (路由器缓冲区溢出)</u></strong><br>     <strong><u>分组经历比较长的延迟(在路由器的队列中排队)</u></strong><br> 网络中前10位的问题!</p>
+<h3 id="拥塞的原因-代价-场景1"><a href="#拥塞的原因-代价-场景1" class="headerlink" title="拥塞的原因/代价: 场景1"></a>拥塞的原因/代价: 场景1</h3><p><img src="/images/Computer-Network3/image-20210726125936998.png" alt="image-20210726125936998"></p>
+<h3 id="拥塞的原因-代价-场景2"><a href="#拥塞的原因-代价-场景2" class="headerlink" title="拥塞的原因/代价: 场景2"></a>拥塞的原因/代价: 场景2</h3><p> 一个路由器，有限的缓冲<br> 分组丢失时，发送端重传<br>    应用层的输入=应用层输出:  λ(in) =  λ(out)<br>    传输层的输入包括重传:  λ(in‘) &gt;=  λ(in)</p>
+<p><img src="/images/Computer-Network3/image-20210726130345272.png" alt="image-20210726130345272"></p>
+<p>理想化: 发送端有完美的信息<br>发送端知道什么时候路由器的缓冲是可用的<br>     只在缓冲可用时发送<br>     不会丢失: λ(in‘’) =  λ(in)</p>
+<p>理想化: 掌握丢失信息 分组可以丢失，在路由器由 于缓冲器满而被丢弃  如果知道分组丢失了，发 送方重传分组</p>
+<p>现实情况: 重复  分组可能丢失，由于缓冲器 满而被丢弃  发送端最终超时，发送第2 个拷贝，2个分组都被传出</p>
+<p>现实情况: 重复  分组可能丢失，由于缓冲器 满而被丢弃  发送端最终超时，发送第2 个拷贝，2个分组都传到</p>
+<p>拥塞的“代价”:<br> 为了达到一个有效输出，网络需要做更多的工作（重传）<br> 没有必要的重传，链路中包括了多个分组的拷贝<br>     是那些没有丢失，经历的时间比较长（拥塞状态）但是 超时的分组<br>     降低了的“goodput”</p>
+<p><u><strong>输出比输入少原因：1）重传的丢失分组；2） 没有必要重传的重复分组</strong></u></p>
+<h3 id="拥塞的原因-代价-场景3"><a href="#拥塞的原因-代价-场景3" class="headerlink" title="拥塞的原因/代价: 场景3"></a>拥塞的原因/代价: 场景3</h3><p>1、4个发送端        2、多重路径        3、超时／重传</p>
+<p><img src="/images/Computer-Network3/image-20210726131141125.png" alt="image-20210726131141125"></p>
+<p><img src="/images/Computer-Network3/image-20210726131409102.png" alt="image-20210726131409102"></p>
+<p>又一个拥塞的代价:<br> 当分组丢失时，<strong>任何“关于这个分组的上游传输能力” 都被浪费了</strong></p>
+<h3 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h3><p>2种常用的拥塞控制方法: </p>
+<p>端到端拥塞控制:<br> 没有来自网络的显式反馈<br> <strong>端系统根据延迟和丢失事件推断是否有拥塞</strong><br> TCP采用的方法</p>
+<p>网络辅助的拥塞控制:<br> <strong>路由器提供给端系统以反馈信息</strong><br>     单个bit置位，显示有拥塞 (SNA, DECbit, TCP/IP ECN, ATM)<br>     显式提供发送端可以采用的速率</p>
+<h3 id="案例学习-ATM-ABR-拥塞控制"><a href="#案例学习-ATM-ABR-拥塞控制" class="headerlink" title="案例学习: ATM ABR 拥塞控制"></a>案例学习: ATM ABR 拥塞控制</h3><p>ABR: available bit rate:<br> “弹性服务”<br> <strong>如果发送端的路径“轻载 ”    发送方使用可用带宽</strong><br> <strong>如果发送方的路径拥塞了    发送方限制其发送的速度到一个 <u>最小保障速率</u> 上</strong></p>
+<p><strong>RM (资源管理) 信元:</strong><br> 由发送端发送,在数据信元中间隔插入<br> RM信元中的比特被交换机设置 (“网络辅助”)    有无拥塞<br>         <strong>NI bit: no increase in rate (轻微拥塞)速率不要增加了</strong><br>         <strong>CI bit: congestion indication 拥塞指示</strong><br> 发送端发送的RM 信元被接收端返回, 接收端不做任何 改变</p>
+<p>在RM信元中的2个字节 ER (explicit rate)字段    多大带宽<br>     <strong>拥塞的交换机可能会<u>降低信元中ER的值</u></strong><br>     <strong>发送端发送速度因此是  <u>最低的可支持速率(交换机)</u></strong> </p>
+<p>数据信元中的EFCI bit: 被拥塞的交换机设置成1<br>     如果在管理信元RM前面的数据信元EFCI被设置成了1, 接收端在 返回的RM信元中设置CI bit</p>
+<p>总结：网络提供一些信息，包括一些标志位的置位以及字段 (为两主机间的通信提供多大的带宽)</p>
+<h2 id="3-7-TCP-拥塞控制"><a href="#3-7-TCP-拥塞控制" class="headerlink" title="3.7 TCP 拥塞控制"></a>3.7 TCP 拥塞控制</h2><h3 id="TCP-拥塞控制：机制"><a href="#TCP-拥塞控制：机制" class="headerlink" title="TCP 拥塞控制：机制"></a>TCP 拥塞控制：机制</h3><p>端到端的拥塞控制机制<br> 路由器不向主机有关拥塞的反馈信息<br>    • 路由器的负担较轻<br>    • <strong>符合网络核心简单的 TCP/IP架构原则</strong> </p>
+<p> <strong>端系统根据自身得到的信息</strong> ，判断是否发生拥塞，从而 采取动作</p>
+<p>拥塞控制的几个问题<br> 如何检测拥塞<br>     轻微拥塞<br>     拥塞<br> 控制策略<br>     在拥塞发送时如何动 作，降低速率<br>        • 轻微拥塞，如何降低<br>        • 拥塞时，如何降低<br> 在拥塞缓解时如何动 作，增加速率</p>
+<h3 id="TCP-拥塞控制：拥塞感知"><a href="#TCP-拥塞控制：拥塞感知" class="headerlink" title="TCP 拥塞控制：拥塞感知"></a>TCP 拥塞控制：拥塞感知</h3><p>发送端如何探测到拥塞?</p>
+<ol>
+<li><p>某个段超时了（丢失事件 ）：拥塞<br> 超时时间到，某个段的确认没有来<br> <strong>原因1：网络拥塞（某个路由器缓冲区没空间了，被丢弃）概率大</strong><br> <strong>原因2：<u>出错被丢弃了（各级错误，没有通过校验，被丢弃）概率小</u></strong><br> 一旦超时，就认为拥塞了，有一定误判，但是总体控制方向是对的</p>
+</li>
+<li><p><strong>有关某个段的3次重复ACK：轻微拥塞</strong><br> 段的第1个ack，正常，确认绿段，期待红段<br> 段的第2个重复ack，意味着红段的后一段收到了，蓝段乱序到达<br> 段的第2、3、4个ack重复，意味着红段的后第2、3、4个段收到了 ，橙段乱序到达，同时红段丢失的可能性很大（后面3个段都到了， 红段都没到）<br> <strong>网络这时还能够进行一定程度的传输，拥塞但情况要比第一种好</strong></p>
+</li>
+</ol>
+<h3 id="TCP-拥塞控制：速率控制方法"><a href="#TCP-拥塞控制：速率控制方法" class="headerlink" title="TCP 拥塞控制：速率控制方法"></a>TCP 拥塞控制：速率控制方法</h3><p>如何控制发送端发送的速率<br> <strong><u>维持一个拥塞窗口的值：CongWin (主要手段)</u></strong><br> 发送端限制  <strong><u>已发送但是未确认</u></strong> 的数据量**<u>（的上限）</u><strong>: LastByteSent-LastByteAcked  &lt;= CongWin<br> 从而</strong>粗略地控制**发送方的往网络中注入的速率</p>
+<p><strong>RTT 往返延时</strong></p>
+<p><img src="/images/Computer-Network3/image-20210726150610364.png" alt="image-20210726150610364"></p>
+<p>如何控制发送端发送的速率<br> CongWin是动态的，是感知到的网络拥塞程度的函数<br>         <strong>超时或者3个重复ack，CongWin↓（下降）</strong><br>            • 超时时：<strong>CongWin降为1MSS</strong>，<strong>进入SS阶段</strong>然后再倍增到 CongWin(原) / 2（每个RTT），从而<strong>进入CA阶段</strong><br>            • 3个重复ack ：CongWin降为CongWin/2,CA阶段<br> 否则（正常收到Ack，没有发送以上情况）：CongWin跃跃欲试↑ （上升）<br>            • <strong>SS阶段：加倍增加(每个RTT)</strong><br>            • <strong>CA阶段：线性增加(每个RTT)</strong></p>
+<h3 id="TCP拥塞控制和流量控制的联合动作"><a href="#TCP拥塞控制和流量控制的联合动作" class="headerlink" title="TCP拥塞控制和流量控制的联合动作"></a>TCP拥塞控制和流量控制的联合动作</h3><p>联合控制的方法:<br> 发送端控制发送但是未确认的量同时也不能够超过接收 窗口，满足流量控制要求<br>     <strong><u>SendWin=min{CongWin, RecvWin}</u></strong><br>     同时满足 拥塞控制和流量控制要求</p>
+<h3 id="拥塞控制策略"><a href="#拥塞控制策略" class="headerlink" title="拥塞控制策略"></a>拥塞控制策略</h3><p> 慢启动<br> AIMD：线性增、乘性减少<br> 超时事件后的保守策略</p>
+<h4 id="TCP-慢启动"><a href="#TCP-慢启动" class="headerlink" title="TCP 慢启动"></a>TCP 慢启动</h4><p>连接刚建立, CongWin = 1 MSS </p>
+<ul>
+<li>如: MSS = 1460bytes &amp; RTT = 200 msec  初始速率 = 58.4kbps </li>
+</ul>
+<p>可用带宽可能&gt;&gt; MSS/RTT </p>
+<ul>
+<li>应该尽快加速，到达希望的速率</li>
+</ul>
+<p>当连接开始时，指数性增加发送速率，直到发生丢失的事件 </p>
+<ul>
+<li>1、启动初值很低        2、但是速度很快</li>
+</ul>
+<p>当连接开始时，指数性增 加（每个RTT）发送速率 直到发生丢失事件<br> 每一个RTT， CongWin加倍<br> 每收到一个ACK时， CongWin加1（why）<br> 慢启动阶段：只要不超时或 3个重复ack，一个RTT， CongWin加倍</p>
+<p>总结: 初始速率很慢，但是加速却是指数性的  指数增加，SS时间很短，长期来看可以忽略</p>
+<h4 id="TCP-拥塞控制：AIMD"><a href="#TCP-拥塞控制：AIMD" class="headerlink" title="TCP 拥塞控制：AIMD"></a>TCP 拥塞控制：AIMD</h4><p>乘性减: 丢失事件后将CongWin降为1(ss阶段通常可忽略，故相当于直接减少到 CongWin/2 )，将CongWin/2作为阈值，进入慢启动阶段（倍增直到 CongWin/2）</p>
+<p>加性增： <strong>当 CongWin &gt;阈值时</strong>，一个 RTT 如没有发生丢失事件，将 CongWin 加1MSS : 探 测</p>
+<p>当收到3个重复的ACKs: </p>
+<ul>
+<li>CongWin 减半 </li>
+<li>窗口（缓冲区大小）之后 线性增长</li>
+</ul>
+<p>当超时事件发生时: </p>
+<ul>
+<li>CongWin被设置成 1 MSS，进入SS阶段</li>
+<li>之后窗口指数增长</li>
+<li>增长到一个阈值（上次发 生拥塞的窗口的一半）时 ，再线性增加</li>
+</ul>
+<h3 id="总结-TCP拥塞控制"><a href="#总结-TCP拥塞控制" class="headerlink" title="总结: TCP拥塞控制"></a>总结: TCP拥塞控制</h3><p>出现丢失，Threshold设置成 CongWin的1/2</p>
+<ul>
+<li><p>当CongWin＜Threshold, 发送端处于慢启动阶段（ slow-start）, 窗口指数性增长. </p>
+</li>
+<li><p>当CongWin &gt; Threshold, 发送端处于拥塞避免阶段 （congestion-avoidance）, 窗口线性增长. </p>
+</li>
+<li><p>当收到三个重复的ACKs (triple duplicate ACK), Threshold设置成 CongWin/2， CongWin=Threshold+3. </p>
+</li>
+<li><p>当超时事件发生时timeout, Threshold=CongWin/2 CongWin=1 MSS，进入SS阶段</p>
+</li>
+</ul>
+<h4 id="TCP-发送端拥塞控制"><a href="#TCP-发送端拥塞控制" class="headerlink" title="TCP 发送端拥塞控制"></a>TCP 发送端拥塞控制</h4><p>状态转换</p>
+<p><img src="/images/Computer-Network3/image-20210726153615143.png" alt="image-20210726153615143"></p>
+<h3 id="TCP-吞吐量"><a href="#TCP-吞吐量" class="headerlink" title="TCP 吞吐量"></a>TCP 吞吐量</h3><p>TCP的平均吞吐量是多少，使用窗口window尺寸W和RTT来 描述?<br> 忽略慢启动阶段，假设发送端总有数据传输</p>
+<p>W：发生丢失事件时的窗口尺寸（单位：字节）<br> <strong>平均窗口尺寸（#in-flight字节）：3/4W</strong><br> <strong>平均吞吐量：一个RTT时间吞吐3/4W， avg TCP thruput = 3/4 * (W/RTT) bytes/sec</strong></p>
+<h3 id="TCP-公平性"><a href="#TCP-公平性" class="headerlink" title="TCP 公平性"></a>TCP 公平性</h3><p><strong>公平性目标</strong>: 如果 <strong>K个TCP会话</strong>分享一个链路带宽为R的 瓶颈，每一个会话的有效带宽为 <strong>R/K</strong></p>
+<p>2个竞争的TCP会话:<br> 加性增加，斜率为1, 吞吐量增加<br> 乘性减，吞吐量比例减少</p>
+<p><strong><u>往返延迟相同时，TCP会话竞争的最终，双方的 有效的带宽 将收敛到 链路带宽 的一半。</u></strong><br><u><strong>所以相互竞争时 应用建立的TCP会话越多，占有带宽一般越大。</strong></u></p>
+<p>公平性和 UDP<br> 多媒体应用通常不是用 TCP<br> 应用发送的数据速率希望 不受拥塞控制的节制<br>使用UDP:  音视频应用泵出数据的速率是恒定的, 忽略数据的丢失  研究领域: TCP 友好性</p>
+<p>公平性和并行TCP连接<br> 2个主机间可以打开多个并行的TCP连接<br> Web浏览器 </p>
+<ul>
+<li>例如: 带宽为R的链路支持了 9个连接; <ul>
+<li>如果新的应用要求建1个TCP连接,获得带宽R/10 </li>
+<li>如果新的应用要求建11个TCP连接,获得带宽R/2</li>
+</ul>
+</li>
+</ul>
+<h2 id="第三章-总结"><a href="#第三章-总结" class="headerlink" title="第三章 总结"></a>第三章 总结</h2><ul>
+<li><p>传输层提供的服务 </p>
+<ul>
+<li>应用进程间的逻辑通信<ul>
+<li>Vs 网络层提供的是主机到主机的通信服务 </li>
+</ul>
+</li>
+<li>互联网上传输层协议：UDP TCP <ul>
+<li>特性 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>多路复用和解复用 </p>
+<ul>
+<li>端口：传输层的SAP </li>
+<li>无连接的多路复用和解复用 </li>
+<li>面向连接的多路复用和解复用 </li>
+</ul>
+</li>
+<li><p>实例1：无连接传输层协议 UDP </p>
+<ul>
+<li>多路复用解复用</li>
+<li>UDP报文格式</li>
+<li>检错机制：校验和</li>
+</ul>
+</li>
+<li><p>可靠数据传输原理</p>
+<ul>
+<li>问题描述</li>
+<li>停止等待协议<ul>
+<li>Rdt1.0 rdt2.0,2.1 ,2.2 Rdt 3.0 </li>
+</ul>
+</li>
+<li>流水线协议 <ul>
+<li>GBN</li>
+<li>SR（Selective Repeat）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>实例2：面向连接的 传输层协议-TCP </p>
+<ul>
+<li>概述：TCP特性 </li>
+<li>报文段格式<ul>
+<li>序号，超时机制及时间</li>
+</ul>
+</li>
+<li>TCP可靠传输机制</li>
+<li>重传，快速重传</li>
+<li>流量控制</li>
+<li>连接管理<ul>
+<li>三次握手</li>
+<li>对称连接释放</li>
+</ul>
+</li>
+<li>拥塞控制原理<ul>
+<li>网络辅助的拥塞控制</li>
+<li>端到端的拥塞控制</li>
+</ul>
+</li>
+<li>TCP的拥塞控制<ul>
+<li>AIMD</li>
+<li>慢启动</li>
+<li>超时之后的保守策略</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">8yyy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://8yyy.github.io/2022/08/16/Computer-Network3/">http://8yyy.github.io/2022/08/16/Computer-Network3/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">8yyy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                    <span class="chip bg-color">计算机网络</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/08/21/CSharpNotes/">
+                    <div class="card-image">
+                        
+                        <img src="/images/CSharpNotes/note.jpeg" class="responsive-img" alt="CSharpNotes">
+                        
+                        <span class="card-title">CSharpNotes</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
+                                    笔记
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CSharp/">
+                        <span class="chip bg-color">CSharp</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/30/Computer-Network2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/18.jpg" class="responsive-img" alt="第二章 应用层">
+                        
+                        <span class="card-title">第二章 应用层</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    计算机基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">计算机网络</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('50')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 8yyy&#39;s blog<br />'
+            + '文章作者: 8yyy<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7668596917"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">8yyy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">278k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/8yyy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1410868939@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1410868939" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1410868939" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
