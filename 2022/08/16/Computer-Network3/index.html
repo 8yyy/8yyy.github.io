@@ -418,14 +418,14 @@ TCP的拥塞控制
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    11.1k
+                    13.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    39 分
+                    46 分
                 </div>
                 
 
@@ -642,60 +642,128 @@ TCP的拥塞控制
 <p><img src="/images/Computer-Network3/image-20230622163229815.png" alt="image-20230622163229815"></p>
 <p>连接套接字与进程之间并非总是有着一一对应的关系。事实上，当今的高性能Web服务器通常只使用一个进程，但是为每个新的客户连接创建一个具有新连接套接字的新线程。（线程可被看作是一个轻量级的子线程）对于这样一台服务器，在任意给定的时间内都可能有（具有不同标识的）许多连接套接字连接到相同的进程。</p>
 <p>UDP无非就是对网络层协议增加了一点多路复用/多路分解服务而已。</p>
-<h2 id="3-无连接传输：UDP"><a href="#3-无连接传输：UDP" class="headerlink" title="3. 无连接传输：UDP"></a>3. 无连接传输：UDP</h2><p>UDP: User Datagram Protocol  用户数据包协议<br>在IP（主机到主机）所提供的基础上增加了一个多路复用/解复用（进程到进程）的服务</p>
+<h2 id="3-无连接传输：UDP"><a href="#3-无连接传输：UDP" class="headerlink" title="3. 无连接传输：UDP"></a>3. 无连接传输：UDP</h2><p>UDP: User Datagram Protocol  用户数据报协议<br>在IP（主机到主机）所提供的基础上增加了一个多路复用/解复用（进程到进程）的服务</p>
+<blockquote>
+<p>运输层最低限度必须提供一种复用/分解服务，以便在网络层与正确的应用级进程之间传递数据。</p>
+</blockquote>
+<p><font color="red">由 RFC 768 定义的 UDP 只是做了运输协议能够做的最少工作。除了复用/分解功能及少量的差错检测外，它几乎没有对 IP 增加别的东西。</font></p>
 <ul>
-<li><p>“尽力而为”的服务，报文 段可能 </p>
-<ul>
+<li>“尽力而为”的服务，报文段可能 <ul>
 <li>丢失 </li>
 <li>送到应用进程的报文段乱序（延迟不一样）</li>
 </ul>
 </li>
-<li><p>无连接：</p>
-<ul>
+<li><font color="red">无连接：</font><ul>
 <li>UDP发送端和接收端之间没有握手 </li>
 <li>每个UDP报文段都被独立地处理</li>
 </ul>
 </li>
-<li><p>UDP 被用于: </p>
-<ul>
+<li>UDP 被用于: <ul>
 <li>（实时）流媒体（丢失不敏感， 速率敏感、应用可控制 传输速率）</li>
 <li>DNS</li>
 <li>SNMP</li>
 <li>事务性的应用(一次性往返搞定)</li>
 </ul>
 </li>
-<li><p>在UDP上可行可靠传输: </p>
-<ul>
+<li>在UDP上可行可靠传输：<ul>
 <li><strong>在应用层增加可靠性</strong> </li>
 <li><strong>应用特定的差错恢复</strong></li>
 </ul>
 </li>
 </ul>
-<h3 id="UDP：用户数据报协议"><a href="#UDP：用户数据报协议" class="headerlink" title="UDP：用户数据报协议"></a>UDP：用户数据报协议</h3><p><img src="/images/Computer-Network3/image-20210725134800713.png" alt="image-20210725134800713"></p>
-<h3 id="为什么要有UDP"><a href="#为什么要有UDP" class="headerlink" title="为什么要有UDP?"></a>为什么要有UDP?</h3><ol>
+<h3 id="3-1-为什么要有UDP"><a href="#3-1-为什么要有UDP" class="headerlink" title="3.1 为什么要有UDP?"></a>3.1 为什么要有UDP?</h3><ul>
 <li><p>不建立连接 (会增加延时) </p>
 </li>
 <li><p>简单：在发送端和接收端没有连接状态 </p>
+<ul>
+<li>不需要像TCP那样在端系统中维护连接状态</li>
+</ul>
 </li>
-<li><p><strong>报文段的头部很小(开销小)</strong> </p>
+<li><p>报文段的头部很小(开销小)</p>
+<ul>
+<li>每个TCP报文段都有20字节的首部开销，而UDP仅有8字节的开销</li>
+</ul>
 </li>
-<li><p><strong>无拥塞控制和流量控制</strong>：UDP可以尽可能快的发送报文段</p>
+<li><p>无拥塞控制和流量控制：UDP可以尽可能快的发送报文段</p>
+<ul>
+<li><strong>应用-&gt;传输的速率 = 主机-&gt;网络的速率 (忽略头部时)</strong></li>
+</ul>
 </li>
-<li><p><strong>应用-&gt;传输的速率 = 主机-&gt;网络的速率 (忽略头部时)</strong></p>
+</ul>
+<blockquote>
+<p><strong>使用 UDP 的应用是可能实现可靠数据传输的。</strong>这可通过在应用程序自身中建立可靠性机制来完成，例如谷歌浏览器所使用的QUIC协议在UDP之上的应用层协议中实现了可靠性。</p>
+</blockquote>
+<h3 id="3-2-UDP-报文段结构"><a href="#3-2-UDP-报文段结构" class="headerlink" title="3.2 UDP 报文段结构"></a>3.2 UDP 报文段结构</h3><p><img src="/images/Computer-Network3/image-20210725134800713.png" alt="image-20210725134800713"></p>
+<p>UDP报文段如上图所示，它由 RFC 768 定义。应用程序数据占用UDP报文段的数据字段。</p>
+<ul>
+<li>例如，对于DNS应用，数据字段要么包含一个查询报文，要么包含一个响应报文</li>
+<li>对于流式音频应用，音频抽样数据填充到数据字段。</li>
+</ul>
+<p>UDP首部只有<font color="red">4</font>个字段，每个字段由<font color="red">2</font>个字节组成：</p>
+<ul>
+<li>通过<strong>端口号</strong>可以使目的主机将应用程序数据交给运行在目的端系统的响应进行（即执行分解功能）</li>
+<li><strong>长度</strong>字段指示了在UDP报文段中的字节数（首部+数据）</li>
+<li>接收方通过<strong>检验和</strong>来检查在该报文段中是否出现了差错</li>
+</ul>
+<h3 id="3-3-UDP-检验和"><a href="#3-3-UDP-检验和" class="headerlink" title="3.3 UDP 检验和"></a>3.3 UDP 检验和</h3><p><u><font color="red">目标： 检测在被传输报文段中的差错 (如比特反转)</font></u></p>
+<p><u><font color="red">发送方：</font></u> </p>
+<ul>
+<li>将报文段的内容视为16 比特的整数 </li>
+<li>校验和：报文段的加法和的反码运算</li>
+<li>发送方将校验和放在 UDP的校验和字段</li>
+</ul>
+<p><u><font color="red">接收方：</font></u> </p>
+<ul>
+<li>计算接收到的报文段的校验和 </li>
+<li>检查计算出的校验和与校验和字段的内容是否相等：<ul>
+<li>不相等––检测到差错 </li>
+<li><strong>相等––没有检测到差错 ，但也许还是有差错 (残存错误，未检测出来)</strong></li>
+</ul>
 </li>
-</ol>
-<p>UDP校验和<br>目标： 检测在被传输报文段中的差错 (如比特反转)</p>
-<p>发送方：<br> 将报文段的内容视为16 比特的整数<br> 校验和：报文段的加法和（1的补运算）<br> 发送方将校验和放在 UDP的校验和字段</p>
-<p>接收方：<br> 计算接收到的报文段的校验和<br> 检查计算出的校验和与校验和字段的内容是否相等：<br>     不相等––检测到差错<br>     <strong>相等––没有检测到差错 ，但也许还是有差错 (残存错误，为检测出来)</strong></p>
+</ul>
 <h3 id="Internet校验和的例子"><a href="#Internet校验和的例子" class="headerlink" title="Internet校验和的例子"></a>Internet校验和的例子</h3><p>注意：当数字相加时，在最高位的进位要回卷（加到最低位上），再加到结果上</p>
 <p><img src="/images/Computer-Network3/image-20210725135335276.png" alt="image-20210725135335276"></p>
-<p> <strong>目标端：校验范围+校验和=1111111111111111 通过校验</strong><br>     否则没有通过校验<br> 注：求和时，必须将进位回卷到结果上</p>
-<h2 id="3-4-可靠数据传输的原理"><a href="#3-4-可靠数据传输的原理" class="headerlink" title="3.4 可靠数据传输的原理"></a>3.4 可靠数据传输的原理</h2><p>可靠数据传输（rdt）的原理            rdt(Reliable Data Transfer)</p>
-<p> rdt在应用层、传输层和数据链路层都很重要<br> 是网络Top 10问题之一</p>
-<p> 信道的不可靠特点决定了可靠数据传输协议（ rdt ）的复杂性</p>
-<p><img src="/images/Computer-Network3/image-20210725151016012.png" alt="image-20210725151016012"></p>
-<p> 渐增式地开发可靠数据传输协议（ rdt ）的发送方和接收方<br> 只考虑单向数据传输<br>     但控制信息是双向流动的！<br> <strong>双向的数据传输问题实际上是2个单向数据传输问题的综合</strong><br> 使用<strong>有限状态机 (FSM)</strong> 来描述发送方和接收方</p>
-<h3 id="Rdt1-0：-在可靠信道上的可靠数据传输"><a href="#Rdt1-0：-在可靠信道上的可靠数据传输" class="headerlink" title="Rdt1.0： 在可靠信道上的可靠数据传输"></a>Rdt1.0： 在可靠信道上的可靠数据传输</h3><p><strong>下层的信道是完全可靠的</strong> </p>
+<ul>
+<li><strong>目标端：校验范围+校验和=1111111111111111 通过校验</strong> <ul>
+<li>否则没有通过校验 </li>
+</ul>
+</li>
+<li>注：求和时，必须将进位回卷到结果上</li>
+</ul>
+<h2 id="4-可靠数据传输的原理"><a href="#4-可靠数据传输的原理" class="headerlink" title="4. 可靠数据传输的原理"></a>4. 可靠数据传输的原理</h2><ul>
+<li>rdt在应用层、传输层和数据链路层都很重要</li>
+<li>是网络Top 10问题之一，榜首的候选者</li>
+<li><font color="red">为上层实体提供的服务抽象是：</font>数据通过一条可靠的信道进行传输<ul>
+<li>借助于可靠信道，传输数据比特就不会收到损坏（由0变为1，或者相反）或丢失</li>
+<li>所有数据都是按照其发送顺寻进行交付</li>
+<li>这恰好是TCP向调用它的因特网应用所提供的服务模型</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624142354098.png" alt="可靠数据传输：服务模型和服务实现"></p>
+<ul>
+<li>实现这种服务抽象是可靠传输数协议（reliable data transfer protocol）的责任</li>
+<li>信道的不可靠特点决定了可靠数据传输协议（ rdt ）的复杂性<ul>
+<li>可靠数据传输协议的<strong>下层协议</strong>也许是不可靠的</li>
+<li>例如<strong>TCP</strong>是不可靠的<strong>IP</strong>端到端网络层之上实现的可靠数据传输协议</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624140559067.png"></p>
+<ul>
+<li>使用<font color="red">“分组”</font>，而不使用运输层的<font color="red">“报文段”</font>，是因为可靠数据传输的理论适用于更一般的计算机网络，而不只是用于运输层</li>
+<li>渐增式地开发可靠数据传输协议（ rdt ）的发送方和接收方</li>
+<li>只考虑单向数据传输（unidirectional data transfer）<ul>
+<li> 但控制信息是双向（bidirectional）流动的！</li>
+</ul>
+</li>
+<li><strong>双向的数据传输问题实际上是2个单向数据传输问题的综合</strong> </li>
+</ul>
+<h3 id="4-1-构造可靠数据传输协议"><a href="#4-1-构造可靠数据传输协议" class="headerlink" title="4.1 构造可靠数据传输协议"></a>4.1 构造可靠数据传输协议</h3><h4 id="4-1-1-经完全可靠信道上的可靠数据传输：rdt1-0"><a href="#4-1-1-经完全可靠信道上的可靠数据传输：rdt1-0" class="headerlink" title="4.1.1 经完全可靠信道上的可靠数据传输：rdt1.0"></a>4.1.1 经完全可靠信道上的可靠数据传输：rdt1.0</h4><ul>
+<li>使用<strong>有限状态机 (FSM)</strong> 来描述发送方和接收方</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624140657161.png" alt="image-20230624140657161"></p>
+<p><strong>下层的信道是完全可靠的</strong> </p>
 <ul>
 <li>没有比特出错 </li>
 <li>没有分组丢失 </li>
@@ -705,31 +773,103 @@ TCP的拥塞控制
 <li>发送方将数据发送到下层信道 </li>
 <li>接收方从下层信道接收数据</li>
 </ul>
-<p>发送方：接收–封装–打走       接收方：解封装–交付          什么都不用干      </p>
-<h3 id="Rdt2-0：具有比特差错的信道"><a href="#Rdt2-0：具有比特差错的信道" class="headerlink" title="Rdt2.0：具有比特差错的信道"></a>Rdt2.0：具有比特差错的信道</h3><p>下层信道可能会出错：将分组中的比特翻转<br>     用校验和来检测比特差错 </p>
-<p> 问题：怎样从差错中恢复：<br>     确认(ACK)：接收方显式地告诉发送方分组已被正确接收<br>     否定确认( NAK): 接收方显式地告诉发送方分组发生了差错<br>        • 发送方收到NAK后，发送方重传分组 </p>
-<p> rdt2.0中的新机制：采用差错控制编码进行差错检测<br>     发送方差错控制编码、缓存<br>     接收方使用编码检错<br>     接收方的反馈：控制报文（ACK，NAK）：接收方-&gt;发送方<br>     发送方收到反馈相应的动作</p>
-<h4 id="Rdt2-0：FSM描述"><a href="#Rdt2-0：FSM描述" class="headerlink" title="Rdt2.0：FSM描述"></a>Rdt2.0：FSM描述</h4><p><img src="/images/Computer-Network3/image-20210725152850739.png" alt="image-20210725152850739"></p>
-<p>发送方接收nak (接收方检测出错) ，将之前封装的package重传，直到收到ack才开始下一轮的发送</p>
-<h3 id="rdt2-0的致命缺陷！-gt-rdt2-1"><a href="#rdt2-0的致命缺陷！-gt-rdt2-1" class="headerlink" title="rdt2.0的致命缺陷！-&gt; rdt2.1"></a>rdt2.0的致命缺陷！-&gt; rdt2.1</h3><p>如果ACK/NAK出错？<br> 发送方不知道接收方发生了什么事情！<br> <strong>发送方如何做？</strong><br>     <strong>重传？可能重复</strong><br>     <strong>不重传？可能死锁(或出 错)</strong><br> <strong>需要引入新的机制</strong><br>     <strong>序号</strong></p>
-<p>处理重复：<br>     发送方在每个分组中加 入序号<br>     如果ACK/NAK出错，发送方重传当前分组<br>     <strong><u>接收方丢弃（不发给上层）重复分组</u></strong><br>    <strong>接收方通过序号判断，是否重复接收同样的包，在进行下一次流程/发送ack</strong></p>
-<p><strong>停等协议: 发送方发送一个分组， 然后等待接收方的应答</strong> </p>
-<p>发送方： </p>
-<ol>
-<li>在分组中加入序列号<br> 两个序列号（0，1）就 足够了 <pre><code> 一次只发送一个未经确认 的分组 
-</code></pre>
+<p><img src="/images/Computer-Network3/image-20230624140743260.png"></p>
+<p>可以看到每一个FSM都只有一个状态。</p>
+<p>发送方：接收–封装–打走       </p>
+<p>接收方：解封装–交付          什么都不用干      </p>
+<h4 id="4-1-2-经具有比特差错信道的可靠数据传输：rdt2-0"><a href="#4-1-2-经具有比特差错信道的可靠数据传输：rdt2-0" class="headerlink" title="4.1.2 经具有比特差错信道的可靠数据传输：rdt2.0"></a>4.1.2 经具有比特差错信道的可靠数据传输：rdt2.0</h4><p>下层信道可能会出错：将分组中的比特翻转</p>
+<ul>
+<li>用校验和来检测比特差错</li>
+</ul>
+<p>问题：怎样从差错中恢复：</p>
+<ul>
+<li><font color="red">确认(ACK)：</font>接收方显式地告诉发送方分组已被正确接收</li>
+<li><font color="red">否定确认(NAK)：</font>接收方显式地告诉发送方分组发生了差错<ul>
+<li>发送方收到NAK后，发送方重传分组</li>
+</ul>
 </li>
-<li>必须检测ACK/NAK是否 出错（需要EDC ）<br>状态数变成了两倍<br>必须记住当前分组的序列号为0还是1</li>
-</ol>
-<p>接收方： </p>
-<ol>
-<li>必须检测接收到的分组是否是重复的<br> 状态会指示希望接收到的 分组的序号为0还是1 </li>
-</ol>
-<p>注意：接收方并不知道 发送方是否正确收到了 其ACK/NAK</p>
+</ul>
+<p>在计算机网络环境中，基于这样重传机制的可靠数据传输协议称为<font color="red">自动重传请求（Automatic Repeat reQuest，ARQ）协议。</font></p>
+<p>ARQ协议需要另外三种协议功能来处理存在比特差错的情况：</p>
+<ul>
+<li>差错检测</li>
+<li>接收方反馈</li>
+<li>重传</li>
+</ul>
+<p>rdt2.0中的新机制：采用差错控制编码进行差错检测</p>
+<ul>
+<li>发送方差错控制编码、缓存 </li>
+<li>接收方使用编码检错 </li>
+<li>接收方的反馈：控制报文（ACK，NAK）：接收方-&gt;发送方 </li>
+<li>发送方收到反馈相应的动作</li>
+</ul>
+<h4 id="Rdt2-0：FSM描述"><a href="#Rdt2-0：FSM描述" class="headerlink" title="Rdt2.0：FSM描述"></a>Rdt2.0：FSM描述</h4><p><img src="/images/Computer-Network3/image-20230624141001637.png" alt="image-20230624141001637"></p>
+<p>发送方接收nak (接收方检测出错) ，将之前封装的package重传，直到收到ack才开始下一轮的发送</p>
+<p>rdt2.0：没有差错时的操作</p>
+<p><img src="/images/Computer-Network3/image-20230624141038029.png"></p>
+<p>rdt2.0：有差错时</p>
+<p><img src="/images/Computer-Network3/image-20230624141058767.png" alt="image-20230624141058767"></p>
+<h4 id="4-1-3-rdt2-0的致命缺陷！-gt-rdt2-1"><a href="#4-1-3-rdt2-0的致命缺陷！-gt-rdt2-1" class="headerlink" title="4.1.3 rdt2.0的致命缺陷！-&gt; rdt2.1"></a>4.1.3 rdt2.0的致命缺陷！-&gt; rdt2.1</h4><p><font color="red">致命缺陷：如果ACK/NAK出错？ </font></p>
+<ul>
+<li>发送方不知道接收方发生了什么事情！ </li>
+<li>发送方如何做？ <ul>
+<li>重传？可能重复 </li>
+<li>不重传？可能死锁(或出错) </li>
+</ul>
+</li>
+<li>需要引入新的机制 <ul>
+<li>在数据分组中添加一字段，让发送方对其数据分组编号，即将发送数据分组的<strong>序号</strong>（sequence number）放在该字段。</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">处理重复：</font> </p>
+<ul>
+<li>发送方在每个分组中加入<font color="blue">序号</font></li>
+<li>如果<strong>ACK/NAK</strong>出错，发送方<font color="red">重传</font>当前分组 </li>
+<li><strong><u>接收方丢弃（不发给上层）重复分组</u></strong> </li>
+</ul>
+<p>​    <strong>接收方通过序号判断，是否重复接收同样的包，在进行下一次流程/发送ack</strong></p>
+<blockquote>
+<p><font color="red">停等协议：</font>发送方发送一个分组， 然后等待接收方的应答 </p>
+</blockquote>
+<p><img src="/images/Computer-Network3/image-20230624141430798.png" alt="image-20230624141430798"></p>
+<p><img src="/images/Computer-Network3/image-20230624141440162.png" alt="image-20230624141440162"></p>
+<p><FONT color="RED">发送方： </FONT></p>
+<ul>
+<li>在分组中加入序列号</li>
+<li>两个序列号（0，1）就足够了<ul>
+<li>一次只发送一个未经确认的分组</li>
+</ul>
+</li>
+<li>必须检测ACK/NAK是否出错（需要EDC ）</li>
+<li>状态数变成了两倍 <ul>
+<li>必须记住当前分组的序列号为0还是1</li>
+</ul>
+</li>
+</ul>
+<p><FONT color="RED">接收方： </FONT></p>
+<ul>
+<li>必须检测接收到的分组是否是重复的<ul>
+<li>状态会指示希望接收到的分组的序号为0还是1 </li>
+</ul>
+</li>
+<li>注意：接收方并不知道 发送方是否正确收到了 其ACK/NAK<ul>
+<li>没有安排确认的确认</li>
+</ul>
+</li>
+</ul>
 <p><strong>rdt2.1的运行</strong></p>
 <p><img src="/images/Computer-Network3/image-20210725154944808.png" alt="image-20210725154944808"></p>
-<p>接收方不知道它最后发送的ACK/NAK是否被正确地收到<br> 发送方不对收到的ack/nak给确认，**<u>没有所谓的确认的确认</u>**；<br> 接收方发送ack，如果后面接收方收到的是：<br>     <strong>老分组p0？则ack 错误</strong><br>     <strong>下一个分组？P1，ack正确</strong></p>
-<h3 id="rdt2-2：无NAK的协议"><a href="#rdt2-2：无NAK的协议" class="headerlink" title="rdt2.2：无NAK的协议"></a>rdt2.2：无NAK的协议</h3><ul>
+<p>接收方不知道它最后发送的ACK/NAK是否被正确地收到</p>
+<ul>
+<li>发送方不对收到的ack/nak给确认，<font color="red">没有所谓的确认的确认；</font></li>
+<li>接收方发送ack，如果后面接收方收到的是：<ul>
+<li>老分组p0？则之前的ack 错误 </li>
+<li>下一个分组？P1，之前的ack正确</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-1-4-有比特差错信道实现的无NAK的协议：rdt2-2"><a href="#4-1-4-有比特差错信道实现的无NAK的协议：rdt2-2" class="headerlink" title="4.1.4 有比特差错信道实现的无NAK的协议：rdt2.2"></a>4.1.4 有比特差错信道实现的无NAK的协议：rdt2.2</h4><ul>
 <li>功能同rdt2.1，但只使用ACK(ack 要编号） </li>
 <li>接收方对最后正确接收的分组发ACK，以替代NAK <ul>
 <li>接收方必须显式地包含被正确接收分组的序号 </li>
@@ -750,65 +890,94 @@ TCP的拥塞控制
 <p><img src="/images/Computer-Network3/image-20210725155546252.png" alt="image-20210725155546252"></p>
 <p><img src="/images/Computer-Network3/image-20210725155624953.png" alt="image-20210725155624953"></p>
 <p>1、No error        2、packet error        3、ack error</p>
-<h3 id="rdt3-0：具有比特差错和分组丢失的信道"><a href="#rdt3-0：具有比特差错和分组丢失的信道" class="headerlink" title="rdt3.0：具有比特差错和分组丢失的信道"></a>rdt3.0：具有比特差错和分组丢失的信道</h3><p><strong>新的假设：下层信道可 能会丢失分组（数据或ACK）</strong><br> 会死锁<br> 机制还不够处理这种 状况：<br>    • 检验和<br>    • 序列号<br>    • ACK<br>    • 重传</p>
+<p><img src="/images/Computer-Network3/image-20230624170128991.png" alt="image-20230624170128991"></p>
+<h4 id="4-1-5-rdt3-0：具有比特差错和分组丢失的信道"><a href="#4-1-5-rdt3-0：具有比特差错和分组丢失的信道" class="headerlink" title="4.1.5 rdt3.0：具有比特差错和分组丢失的信道"></a>4.1.5 rdt3.0：具有比特差错和分组丢失的信道</h4><p><font color="red">新的假设：</font>下层信道可能会丢失分组（数据或ACK）</p>
 <ul>
-<li>方法：发送方等待ACK一段合理的时间<br>发送端<strong>超时重传</strong>：如果到时没有 收到ACK-&gt;重传 </li>
-<li>问题：如果分组（或ACK ）只 是被延迟了：<br>重传将会导致数据重复，但利用序列号已经可以处理这 个问题 <pre><code>  接收方必须指明被正确接收的序列号 
-</code></pre>
-</li>
-<li>需要一个倒计数定时器</li>
+<li>会死锁 </li>
+<li>机制还不够处理这种状况： <ul>
+<li>检验和 </li>
+<li>序列号</li>
+<li>ACK </li>
+<li>重传</li>
 </ul>
-<p>链路层的timeout时间确定的  （比较集中）<br>传输层timeout时间是适应式的 （不太集中）</p>
-<h4 id="rdt3-0的运行"><a href="#rdt3-0的运行" class="headerlink" title="rdt3.0的运行"></a>rdt3.0的运行</h4><p><img src="/images/Computer-Network3/image-20210725161318287.png" alt="image-20210725161318287"></p>
-<p><img src="/images/Computer-Network3/image-20210725161335326.png" alt="image-20210725161335326"></p>
-<p>1、no loss    2、packet loss    3、ACK loss    <strong>4、premature timeout/ delayed ACK</strong></p>
-<p> <strong><u>过早超时（延迟的ACK）也能够正常工作；但是效率较低，一半的分组和确认是重复的；</u></strong><br> 设置一个合理的超时时间也是比较重要的；</p>
-<h4 id="rdt3-0的性能"><a href="#rdt3-0的性能" class="headerlink" title="rdt3.0的性能"></a>rdt3.0的性能</h4><p><strong>rdt3.0可以工作，但链路容量比较大的情况下，性能很差</strong> </p>
+</li>
+</ul>
+<p><font color="red">方法：</font>发送方等待ACK一段<font color="red">合理的时间</font> </p>
+<ul>
+<li><p>发送端<strong>超时重传</strong>：如果到时没有收到ACK-&gt;重传 </p>
+</li>
+<li><p>问题：如果分组（或ACK ）只是被延迟了： </p>
+<ul>
+<li>重传将会导致数据重复，但利用序列号已经可以处理这个问题 </li>
+<li> 接收方必须指明被正确接收的序列号 </li>
+</ul>
+</li>
+<li><p>需要一个倒计数定时器（countdown timer）：在一个给定的时间量过期后，可中断发送方</p>
+<ul>
+<li>每次发送一个分组（包括第一次分组和重传分组）时，便启动一个定时器</li>
+<li>响应定时器中断（采取适当的动作）</li>
+<li>终止定时器</li>
+</ul>
+</li>
+</ul>
+<p><font color="blue">链路层的timeout时间确定的  （比较集中）</font><br><font color="blue">传输层timeout时间是适应式的 （不太集中）</font></p>
+<p><img src="/images/Computer-Network3/image-20230624170342026.png" alt="image-20230624170342026"></p>
+<p><strong>rdt3.0的运行</strong></p>
+<p><img src="/images/Computer-Network3/image-20210725161318287.png" alt="image-20210725161318287"></p>
+<p><img src="/images/Computer-Network3/image-20230625092736031.png" alt="image-20230625092736031"></p>
+<p><img src="/images/Computer-Network3/image-20230624170356297.png" alt="image-20230624170356297"></p>
+<p><img src="/images/Computer-Network3/image-20230625092750509.png" alt="image-20230625092750509"></p>
+<p>因此分组序号在0和1之间交替，因此rdt3.0有时也被称为<font color="red">比特交替协议</font>（alternating-bit protocol）。</p>
+<p><strong>rdt3.0的性能</strong></p>
+<p><font color="red">rdt3.0可以工作，但链路容量比较大的情况下，性能很差</font></p>
 <ul>
 <li>链路容量比较大，一次发一个PDU 的不能够充分利用链路的传输能力</li>
 </ul>
 <p><img src="/images/Computer-Network3/image-20210725171743570.png" alt="image-20210725171743570"></p>
 <ul>
-<li>U sender：利用率 – 忙于发送的时间比例 </li>
+<li>U<sub>sender</sub>：<font color="red">利用率</font> – 忙于发送的时间比例 </li>
 <li>每30ms发送1KB的分组 -&gt; 270kbps=33.75kB/s 的吞吐量（在1 Gbps 链路上） </li>
-<li>瓶颈在于：网络协议限制了物理资源的利用！</li>
+<li><font color="red">瓶颈</font>在于：<font color="blue"><strong>网络协议限制了物理资源的利用！</strong></font></li>
 </ul>
-<h3 id="rdt3-0：停-等操作-stop-wait"><a href="#rdt3-0：停-等操作-stop-wait" class="headerlink" title="rdt3.0：停-等操作  stop-wait"></a>rdt3.0：停-等操作  stop-wait</h3><p><img src="/images/Computer-Network3/image-20210725171641105.png" alt="image-20210725171641105"></p>
-<p><strong>一次收发一个</strong></p>
-<h3 id="流水线：提高链路利用率"><a href="#流水线：提高链路利用率" class="headerlink" title="流水线：提高链路利用率"></a>流水线：提高链路利用率</h3><p>pipeline</p>
+<p><strong>rdt3.0：停-等操作  stop-wait</strong></p>
+<p><img src="/images/Computer-Network3/image-20230624170530829.png" alt="image-20230624170530829"></p>
+<p><strong>一次收发一个</strong>，可以看到停等协议有着非常低的发送方利用率，发送方只有万分之2.7时间是忙的。</p>
+<h3 id="4-2-流水线：提高链路利用率"><a href="#4-2-流水线：提高链路利用率" class="headerlink" title="4.2 流水线：提高链路利用率"></a>4.2 流水线：提高链路利用率</h3><p>rdt3.0是一个<font color="red">功能正确</font>的协议，但并非人人对它的<font color="red">性能</font>满意。<strong>rdt3.0性能问题的核心在于它是一个<font color="red">停等协议。</font></strong></p>
 <p><img src="/images/Computer-Network3/image-20210725175741034.png" alt="image-20210725175741034"></p>
-<p> 增加n,能提高链路利用率<br> 但当达到某个n,其u=100%时,无法再通过增加n，提高利用率<br> 瓶颈转移了-&gt;链路带宽</p>
-<h4 id="流水线协议-管道化协议"><a href="#流水线协议-管道化协议" class="headerlink" title="流水线协议/管道化协议"></a>流水线协议/管道化协议</h4><p>流水线：允许发送方在未得到对方确认的情况下一次发送多个 分组<br> 必须增加序号的范围:用多个bit表示分组的序号<br> 在发送方/接收方要有缓冲区<br>• 发送方缓冲：未得到确认，可能需要重传；<br>• 接收方缓存：上层用户取用数据的速率≠接收到的数据速率；接收到的数据可 能乱序，排序交付（可靠）</p>
-<table>
-<thead>
-<tr>
-<th>slide window</th>
-<th>sw(sending window)</th>
-<th>rw(receiving window)</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td>=1</td>
-<td>=1</td>
-<td>stop-wait</td>
-</tr>
-<tr>
-<td>流水线协议</td>
-<td>&gt;1</td>
-<td>=1</td>
-<td>GBN</td>
-</tr>
-<tr>
-<td>流水线协议</td>
-<td>&gt;1</td>
-<td>&gt;1</td>
-<td>SR</td>
-</tr>
-</tbody></table>
-<p>两种通用的流水线协议：回退N步(GBN)和选择重传(SR)</p>
-<h4 id="发送缓冲区"><a href="#发送缓冲区" class="headerlink" title="发送缓冲区"></a>发送缓冲区</h4><ul>
+<ul>
+<li>增加n，能提高链路利用率</li>
+<li>但当达到某个n，其u=100%时,无法再通过增加n，提高利用率 </li>
+<li>瓶颈转移了-&gt;链路带宽</li>
+</ul>
+<p><strong>流水线协议/管道化协议</strong></p>
+<p><font color="red">流水线(pipelining)：</font>允许发送方在<font color="red">未得到对方确认</font>的情况下一次发送多个分组 </p>
+<ul>
+<li><p>必须增加序号的范围：用多个bit表示分组的序号 </p>
+</li>
+<li><p>在发送方/接收方要有缓冲区</p>
+<ul>
+<li>发送方缓冲：<strong>未得到确认</strong>，可能需要重传； </li>
+<li>接收方缓存：上层用户取用数据的速率≠接收到的数据速率；接收到的数据可能乱序，排序交付（可靠）</li>
+</ul>
+</li>
+<li><p>两种通用的流水线协议：<font color="red">回退N步(GBN)</font>和<font color="red">选择重传(SR)</font></p>
+</li>
+</ul>
+<h3 id="4-3-通用：滑动窗口协议"><a href="#4-3-通用：滑动窗口协议" class="headerlink" title="4.3 通用：滑动窗口协议"></a>4.3 通用：滑动窗口协议</h3><h4 id="回退N步（GBN）"><a href="#回退N步（GBN）" class="headerlink" title="回退N步（GBN）"></a>回退N步（GBN）</h4><p>在GBN协议中，允许发送方发送多个分组（当有多个分组可用时）而不需等待确认，但它也受限于在流水线中未确认的分组数不能超过某个最大允许数N。</p>
+<p><img src="/images/Computer-Network3/image-20230625095941938.png" alt="在GBN中发送方看到的序号"></p>
+<p>我们将基序号（base）定义为最早未确认分组的序号，将下一个序号（nextseqnum）定义未最小的未使用序号（即下一个待发送分组的序号）：</p>
+<ul>
+<li>在[ 0 , base-1 ]段内的序号对应于<font color="red">已经发送并被确认</font>的分组</li>
+<li>在[ base , nextseqnum-1 ]段内对应<font color="red">已经发送但未被确认</font>的分组</li>
+<li>在[ nextseqnum , base+N-1 ]段内的序号能用于那些<font color="red">要被立即发送</font>的分组，如果有数据来自上层的话</li>
+<li>大于base+N的序号是不能使用的，直到当前流水线中<font color="red">未被确认的分组（特别是base分组）已得到确认</font>为止</li>
+</ul>
+<p>那些已被发送但还未被确认的分组的许可号范围可用被看成是一个在序号范围内长度未N的窗口。随着协议的运行，该窗口在序号空间向滑动。因此，N常被称为<font color="red">窗口长度</font>（window size），GBN协议也常被称为<font color="red">窗口滑动协议</font>（sliding-window protocol）。</p>
+<blockquote>
+<p>为什么要限制分组的数目？将在流量控制和拥塞控制中分析原因。</p>
+</blockquote>
+<p>发送缓冲区</p>
+<ul>
 <li><strong>形式：内存中的一个区域，<u>落入缓冲区的分组可以发送</u></strong> </li>
 <li><strong>功能：用于存放已发送，但是没有得到确认的分组</strong> </li>
 <li><strong>必要性：需要重发时可用</strong> </li>
@@ -820,53 +989,49 @@ TCP的拥塞控制
 </ul>
 <p>发送缓冲区中的分组 </p>
 <ul>
-<li>未发送的：落入发送缓冲区的分组，可以连续发送出去； </li>
-<li><strong>已经发送出去的、等待对方确认的分组：发送缓冲区的分组只有得到确认才能删除</strong></li>
+<li><font color="red">未发送的：</font>落入发送缓冲区的分组，可以连续发送出去； </li>
+<li><font color="red">已经发送出去的、等待对方确认的分组：</font>发送缓冲区的分组只有得到确认才能删除</li>
 </ul>
-<h4 id="发送窗口"><a href="#发送窗口" class="headerlink" title="发送窗口"></a>发送窗口</h4><p>采用相对移动方式表示，分组不动<br>可缓冲范围移动，代表一段可以发送的权力</p>
-<p><strong>发送窗口：发送缓冲区内容的一个范围</strong> </p>
+<p>发送窗口滑动过程-相对表示方法</p>
+<ul>
+<li>采用相对移动方式表示，分组不动</li>
+<li>可缓冲范围移动，代表一段可以发送的权力</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624170951209.png" alt="image-20230624170951209"></p>
+<ul>
+<li><p>发送窗口：发送缓冲区内容的一个范围</p>
 <ul>
 <li>那些已发送但是未经确认分组的序号构成的空间 </li>
 </ul>
-<p>发送窗口的最大值&lt;=发送缓冲区的值<br>一开始：没有发送任何一个分组 </p>
+</li>
+<li><p>发送窗口的最大值&lt;=发送缓冲区的值 </p>
+</li>
+<li><p>一开始：没有发送任何一个分组 </p>
 <ul>
 <li>后沿=前沿 </li>
 <li>之间为发送窗口的尺寸=0 </li>
 </ul>
-<p>每发送一个分组，前沿前移一个单位</p>
+</li>
+<li><p>每发送一个分组，前沿前移一个单位</p>
+</li>
+</ul>
 <p><img src="/images/Computer-Network3/image-20210725180820132.png" alt="image-20210725180820132"></p>
-<p>发送窗口前沿移动的极限：不能够超过<strong>发送缓冲区的大小</strong></p>
-<p>发送窗口后沿移动<br>    条件：收到老分组的确认<br>    结果：发送缓冲区罩住新的分组，来了分组可以发送<br>    移动的极限：不能够超过前沿</p>
+<ul>
+<li>发送窗口前沿移动的极限：不能够超过<strong>发送缓冲区的大小</strong></li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624171107501.png" alt="image-20230624171107501"></p>
+<p><img src="/images/Computer-Network3/image-20230624171207236.png" alt="image-20230624171207236"></p>
+<ul>
+<li>发送窗口后沿移动<ul>
+<li>条件：收到老分组的确认</li>
+<li>结果：发送缓冲区罩住新的分组，来了分组可以发送</li>
+<li> 移动的极限：不能够超过前沿</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624171236036.png" alt="image-20230624171236036"></p>
+<p><img src="/images/Computer-Network3/image-20230624171253263.png" alt="image-20230624171253263"></p>
 <p><img src="/images/Computer-Network3/image-20210725181322552.png" alt="image-20210725181322552"></p>
-<h4 id="接收窗口"><a href="#接收窗口" class="headerlink" title="接收窗口"></a>接收窗口</h4><table>
-<thead>
-<tr>
-<th>slide window</th>
-<th>sw (sending window)</th>
-<th>rw (receiving window)</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td>=1</td>
-<td>=1</td>
-<td>stop-wait</td>
-</tr>
-<tr>
-<td>流水线协议</td>
-<td>&gt;1</td>
-<td>=1</td>
-<td>GBN</td>
-</tr>
-<tr>
-<td>流水线协议</td>
-<td>&gt;1</td>
-<td>&gt;1</td>
-<td>SR</td>
-</tr>
-</tbody></table>
-<p><strong>两种通用的流水线协议：回退N步(GBN)和选择重传(SR)</strong></p>
 <p>接收窗口 (receiving window)=接收缓冲区 </p>
 <ul>
 <li>接收窗口用于控制哪些分组可以接收；<ul>
@@ -880,7 +1045,7 @@ TCP的拥塞控制
 </ul>
 </li>
 </ul>
-<p>例子：Wr＝1，在0的位置；只有0号分组可以接收；向前滑动一个，罩在1的位置，如果来了第2号分组，则丢 弃。</p>
+<p>例子：Wr＝1，在0的位置；只有0号分组可以接收；向前滑动一个，罩在1的位置，如果来了第2号分组，则丢弃。</p>
 <p>接收窗口的滑动和发送确认 </p>
 <ul>
 <li>滑动： <ul>
@@ -921,33 +1086,117 @@ TCP的拥塞控制
 <li>收到乱序分组，落入到接收窗口范围内，接收</li>
 <li>发送该分组的确认，<strong>单独确认</strong></li>
 </ul>
-<h4 id="GBN协议和SR协议的异同"><a href="#GBN协议和SR协议的异同" class="headerlink" title="GBN协议和SR协议的异同"></a>GBN协议和SR协议的异同</h4><p>相同之处      发送窗口&gt;1      一次能够可发送多个 未经确认的分组</p>
-<p>不同之处 </p>
+<h4 id="GBN协议和SR协议的异同"><a href="#GBN协议和SR协议的异同" class="headerlink" title="GBN协议和SR协议的异同"></a>GBN协议和SR协议的异同</h4><p><font color="red">相同之处</font>    </p>
+<ul>
+<li>发送窗口&gt;1     </li>
+<li>一次能够可发送多个 未经确认的分组</li>
+</ul>
+<p><font color="red">不同之处</font></p>
 <p>GBN :接收窗口尺寸=1 </p>
 <ul>
 <li><strong>接收端：只能顺序接收</strong> </li>
-<li><strong>发送端：从表现来看，一旦一个 分组没有发成功，如：0,1,2,3,4 ; 假如1未成功，234都发送出去 了，要返回1再发送；GB1(go back 1)</strong> </li>
+<li><strong>发送端：从表现来看，一旦一个 分组没有发成功，如：0,1,2,3,4 ; 假如1未成功，234都发送出去 了，<font color="red">要返回1再发送；GB1</font>(go back 1)</strong> </li>
 </ul>
 <p>SR: 接收窗口尺寸&gt;1 </p>
 <ul>
 <li><strong>接收端：可以乱序接收</strong> </li>
-<li><strong>发送端：发送0,1,2,3,4，一旦1 未成功，2,3,4,已发送，无需重发，选择性发送1</strong></li>
+<li><strong>发送端：发送0,1,2,3,4，一旦1 未成功，2,3,4,已发送，无需重发，<font color="red">选择性发送1</font></strong></li>
 </ul>
-<p><strong>Go-back-N:</strong><br> 发送端最多在流水线中有N个未确认的分组<br> <strong>接收端只是发送<u>累计型确认</u>(cumulative ack)</strong><br>     接收端如果发现gap，不确认新到来的分组 </p>
-<p>发送端拥有对最老的 未确认分组的定时器<br>   只需设置一个定时器<br>   <strong>当定时器到时时，重传所有未确认分组</strong></p>
-<p><strong>Selective Repeat:</strong><br> 发送端最多在流水线中有N个未确认的分组<br> 接收方对每个到来的分组单独确认individual ack （非累计确认）</p>
-<p>发送方为每个未确认的分组保持一个定时器<br>    当超时定时器到时，只是重发到时的未确认分组</p>
+<p><font color="red"><strong>Go-back-N:</strong> </font></p>
+<ul>
+<li>发送端最多在流水线中有N个未确认的分组</li>
+<li><strong>接收端只是发送<u>累计型确认</u>(<font color="red">cumulative ack</font>)</strong> <ul>
+<li>接收端如果发现gap，不确认新到来的分组</li>
+</ul>
+</li>
+<li>发送端拥有对最老的未确认分组的定时器<ul>
+<li> 只需设置<font color="red">一个定时器</font></li>
+<li> 当定时器到时时，<font color="red">重传所有未确认分组</font></li>
+</ul>
+</li>
+</ul>
+<p><font color="red"><strong>Selective Repeat:</strong> </font></p>
+<ul>
+<li>发送端最多在流水线中有N个未确认的分组</li>
+<li>接收方对每个到来的分组单独确认<font color="red">individual ack （非累计确认）</font></li>
+<li>发送方为每个<font color="red">未确认的分组保持一个定时器</font><ul>
+<li>当超时定时器到时，只是重发到时的未确认分组</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230624194426183.png" alt="image-20230624194426183"></p>
+<p><img src="/images/Computer-Network3/image-20230624194455561.png" alt="image-20230624194455561"></p>
+<ul>
+<li>只发送ACK：对顺序接收的最高序号的分组<ul>
+<li>可能会产生重复的ACK</li>
+<li>只需记住expectedseqnum；接收窗口=1<ul>
+<li><strong>只一个变量就可以表示接收窗口</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对乱序的分组：<ul>
+<li>丢弃（不缓存）-&gt; <font color="red">在接收方不被缓存！</font></li>
+<li>对顺序接收的最高序号的分组进行确认-累计确认</li>
+</ul>
+</li>
+</ul>
 <h4 id="运行中的GBN"><a href="#运行中的GBN" class="headerlink" title="运行中的GBN"></a>运行中的GBN</h4><p><img src="/images/Computer-Network3/image-20210725191547108.png" alt="image-20210725191547108"></p>
-<h4 id="选择重传SR的运行"><a href="#选择重传SR的运行" class="headerlink" title="选择重传SR的运行"></a>选择重传SR的运行</h4><p> 发送窗口的最大值（发送缓冲区）限制发送未确认分组的个数</p>
-<p>发送方</p>
-<blockquote>
-<p>从上层接收数据：<br> 如果下一个可用于该分组的序 号可在发送窗口中，则发送<br>timeout(n):<br> 重新发送分组n，重新设定定时器<br>ACK(n) in [sendbase,sendbase+N]:<br> 将分组n标记为已接收<br> 如n为最小未确认的分组序号， 将base移到下一个未确认序号</p>
-</blockquote>
-<p>接收方</p>
-<blockquote>
-<p>分组n [rcvbase, rcvbase+N-1]<br> 发送ACK(n)<br> 乱序：缓存<br> 有序：该分组及以前缓存的 序号连续的分组交付给上层 ，然后将窗口移到下一个仍 未被接收的分组<br>分组n [rcvbase-N, rcvbase-1]<br> ACK(n) 其它：<br> 忽略该分组</p>
-</blockquote>
+<p><img src="/images/Computer-Network3/image-20230625105047259.png" alt="运行中的GBN"></p>
+<h4 id="选择重传SR"><a href="#选择重传SR" class="headerlink" title="选择重传SR"></a>选择重传SR</h4><p><font color="red">GBN协议存在着性能问题：单个分组的差错就能引起重传大量分组。</font></p>
+<p><font color="blue">选择重传（SR）协议通过让发送方<strong>仅重传那些它怀疑在接收方出错（即丢失或受损）的分组</strong>而避免了不必要的重传。</font></p>
+<ul>
+<li><p>接收方对每个正确接收的分组，分别发送<strong>ACKn</strong>（非累积确认）</p>
+<ul>
+<li>接收窗口&gt;1<ul>
+<li>可以缓存乱序的分组</li>
+</ul>
+</li>
+<li>最终将分组按顺序交付给上层</li>
+</ul>
+</li>
+<li><p>发送方只对那些没有收到<strong>ACK</strong>的分组进行重发-选择性重发</p>
+<ul>
+<li>发送方为每个未确认的分组设定一个定时器</li>
+</ul>
+</li>
+<li><p>发送窗口的最大值（发送缓冲区）限制发送未确认分组的个数</p>
+</li>
+</ul>
+<p><font color="blue">发送方</font></p>
+<p><font color="red">从上层接收数据： </font></p>
+<p>如果下一个可用于该分组的序号可在发送窗口中，则发送<br><font color="red">超时 timeout(n)：</font> </p>
+<ul>
+<li>重新发送分组<strong>n</strong>，重新设定定时器</li>
+</ul>
+<p><font color="red">ACK(n)</font> in [sendbase,sendbase+N]: </p>
+<ul>
+<li>将分组<strong>n</strong>标记为已接收</li>
+<li>如<strong>n</strong>为最小未确认的分组序号， 将<strong>base</strong>移到下一个未确认序号</li>
+</ul>
+<p><font color="blue">接收方</font></p>
+<p><font color="red">分组n</font> [rcvbase, rcvbase+N-1] </p>
+<ul>
+<li>发送<strong>ACK(n)</strong></li>
+<li>乱序：缓存 </li>
+<li>有序：该分组及以前缓存的序号连续的分组交付给上层 ，然后将窗口移到下一个仍未被接收的分组</li>
+</ul>
+<p><font color="red">分组n</font> [rcvbase-N, rcvbase-1] </p>
+<ul>
+<li>ACK(n)</li>
+</ul>
+<p><font color="red">其它：</font> </p>
+<ul>
+<li>忽略该分组</li>
+</ul>
 <p><img src="/images/Computer-Network3/image-20210725191937619.png" alt="image-20210725191937619"></p>
+<p><img src="/images/Computer-Network3/image-20230625110353723.png" alt="SR操作"></p>
+<h4 id="发送方和接收方窗口间缺乏同步产生的后果"><a href="#发送方和接收方窗口间缺乏同步产生的后果" class="headerlink" title="发送方和接收方窗口间缺乏同步产生的后果"></a>发送方和接收方窗口间缺乏同步产生的后果</h4><p><img src="/images/Computer-Network3/image-20230625141829927.png" alt="image-20230625141829927"></p>
+<p>a）种情况下，前3个分组的ACK丢失，因此发送方重传这些分组。</p>
+<p><img src="/images/Computer-Network3/image-20230625141841283.png" alt="image-20230625141841283"></p>
+<p>b）种情况下，前3个分组的ACK都被正确交付。因此发送方向前移动窗口并发送第4、5、6个分组，其序号分别为3、0、1。序号为3的分组丢失，但序号为0的分组到达（一个新分组）。</p>
+<p><font color="red">SR窗口接收方太大的困境：是一个新分组还是一次重传</font></p>
+<p><font color="blue">作为接收方<strong>没办法区分是重传还是初次传输</strong>，显然<strong>窗口长度</strong>和<strong>序号空间</strong>的关系是值得商榷的</font></p>
 <h4 id="对比GBN和SR"><a href="#对比GBN和SR" class="headerlink" title="对比GBN和SR"></a>对比GBN和SR</h4><table>
 <thead>
 <tr>
@@ -958,23 +1207,70 @@ TCP的拥塞控制
 </thead>
 <tbody><tr>
 <td>优点</td>
-<td>简单，所需资源少（接收方一个 缓存单元）</td>
+<td>简单，所需资源少（接收方一个缓存单元）</td>
 <td>出错时，重传一个代价小</td>
 </tr>
 <tr>
 <td>缺点</td>
 <td>一旦出错，回退N步代价大</td>
-<td>复杂，所需要资源多（接收方多个 缓存单元）</td>
+<td>复杂，所需要资源多（接收方多个缓存单元）</td>
 </tr>
 </tbody></table>
 <p><strong>适用范围</strong> </p>
 <ul>
-<li>出错率低：比较适合GBN，出错非常罕见，没有必 要用复杂的SR，为罕见的事件做日常的准备和复杂处理 </li>
+<li>出错率低：比较适合GBN，出错非常罕见，没有必要用复杂的SR，为罕见的事件做日常的准备和复杂处理 </li>
 <li>链路容量大<strong>（延迟大、带宽大）</strong>：比较适合SR而不 是GBN，一点出错代价太大</li>
 </ul>
 <p><strong>窗口的最大尺寸</strong></p>
-<p> GBN: 2^n -1<br> SR:2^(n-1) 例<br>如：n=2; 序列号：0, 1, 2, 3<br>     GBN =3<br>     SR=2<br>SR的例子：  接收方看不到二者的区别！  将重复数据误认为新数据 (a) </p>
-<p>Q: 序号大小与窗口大小 之间的关系？</p>
+<ul>
+<li>GBN: 2<sup>n</sup> -1</li>
+<li>SR:2<sup>n-1</sup> </li>
+<li>例如：n=2; 序列号：0, 1, 2, 3 <ul>
+<li>GBN =3</li>
+<li>SR=2</li>
+</ul>
+</li>
+<li>SR的例子： <ul>
+<li>接收方看不到二者的区别！ </li>
+<li>将重复数据误认为新数据 (a) </li>
+</ul>
+</li>
+</ul>
+<p>Q: 序号大小与窗口大小之间的关系？</p>
+<p><font color="red">窗口长度必须小于或等于序列空间大小的一半</font></p>
+<h3 id="4-4-可靠传输机制及其用途的总结"><a href="#4-4-可靠传输机制及其用途的总结" class="headerlink" title="4.4 可靠传输机制及其用途的总结"></a>4.4 可靠传输机制及其用途的总结</h3><table>
+<thead>
+<tr>
+<th><center>机制</center></th>
+<th><center>用途和说明</center></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><div style="width: 150pt">检验和</div></td>
+<td>用于监测在一个传输分组中的比特错误</td>
+</tr>
+<tr>
+<td>定时器</td>
+<td>用于超时/重传一个分组，可能因为该分组（或其ACK）在信道中丢失了。由于当一个分组延时但未丢失，或当一个分组已被接收方接收但从接收方到发送方的ACK丢失时,可能产生超时事件，所以接收方可能会收到一个分组的多个冗余副本</td>
+</tr>
+<tr>
+<td>序号</td>
+<td>用于为从发送方流向接收方的数据分组按序号编号。所接受分组的序号的空隙可是的接收方检测除丢失的分组。具有相同序号的分组可使接收方检测出一个分组的冗余副本</td>
+</tr>
+<tr>
+<td>确认</td>
+<td>接收方用于告诉发送方一个分组或一组分组已经被正确地接收到了。确认报文通常携带着被确认的分组或多个分组的序号。确认可以是逐个的或积累的，这取决于协议</td>
+</tr>
+<tr>
+<td>是否确认</td>
+<td>接收方用于告诉发送方某个分组未被正确的接收。否则人确定报文通常携带着未被正确接收的分组的序号</td>
+</tr>
+<tr>
+<td>窗口、流水线</td>
+<td>发送方也许被限制仅发送那些序号落在一个指定范围内的分组。通过允许一次发送多个分组但未被确认，发送方的利用率可以在停等操作模式上得到增加。我们很快将会看到，窗口长度可根据接收方接收和缓存报文的能力、网络中的拥塞程度或两者的情况来进行设置</td>
+</tr>
+</tbody></table>
+<p>​    </p>
 <h2 id="3-5-面向连接的传输：-TCP"><a href="#3-5-面向连接的传输：-TCP" class="headerlink" title="3.5 面向连接的传输： TCP"></a>3.5 面向连接的传输： TCP</h2><p>点对点：一个发送方，一个接收方</p>
 <p>可靠的、按顺序的字节流：没有报文边界</p>
 <p>管道化（流水线）：TCP拥塞控制和流量控制设置窗口大小</p>
@@ -1809,7 +2105,7 @@ TCP的拥塞控制
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">278k</span>
+                        class="white-color">280.1k</span>
             
             
             
