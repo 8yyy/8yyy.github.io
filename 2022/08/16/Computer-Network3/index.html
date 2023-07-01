@@ -418,14 +418,14 @@ TCP的拥塞控制
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    15k
+                    16.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    53 分
+                    58 分
                 </div>
                 
 
@@ -1617,7 +1617,7 @@ TCP的拥塞控制
 <p><img src="/images/Computer-Network3/image-20230628142059621.png" alt="TCP服务器经历的典型的TCP状态序列"></p>
 <p>假设Client端发起中断连接请求，也就是发送FIN报文。Server端接到FIN报文后，意思是说”我Client端没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭Socket，可以继续发送数据。所以你先发送ACK，”告诉Client端，你的请求我收到了，但是我还没准备好，请继续你等我的消息”。这个时候Client端就进入FIN_WAIT状态，继续等待Server端的FIN报文。当Server端确定数据已发送完成，则向Client端发送FIN报文，”告诉Client端，好了，我这边数据发完了，准备好关闭连接了”。Client端收到FIN报文后，”就知道可以关闭连接了，但是他还是不相信网络，怕Server端不知道要关闭，所以发送ACK后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。“，Server端收到ACK后，”就知道可以断开连接了”。Client端等待了2MSL后依然没有收到回复，则证明Server端已正常关闭，那好，我Client端也可以关闭连接了。Ok，TCP连接就这样关闭了！</p>
 <p>【问题1】为什么连接的时候是三次握手，关闭的时候却是四次握手？<br>答：因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
-<h2 id="3-6-拥塞控制原理"><a href="#3-6-拥塞控制原理" class="headerlink" title="3.6 拥塞控制原理"></a>3.6 拥塞控制原理</h2><p><font color="red">拥塞：</font></p>
+<h2 id="6-拥塞控制原理"><a href="#6-拥塞控制原理" class="headerlink" title="6. 拥塞控制原理"></a>6. 拥塞控制原理</h2><p><font color="red">拥塞：</font></p>
 <ul>
 <li>非正式的定义: “太多的数据需要网络传输，超过了网络的处理能力” </li>
 <li>与流量控制不同</li>
@@ -1628,33 +1628,44 @@ TCP的拥塞控制
 </li>
 <li>网络中前10位的问题!</li>
 </ul>
-<h3 id="拥塞的原因-代价-场景1"><a href="#拥塞的原因-代价-场景1" class="headerlink" title="拥塞的原因/代价: 场景1"></a>拥塞的原因/代价: 场景1</h3><p><img src="/images/Computer-Network3/image-20210726125936998.png" alt="image-20210726125936998"></p>
-<h3 id="拥塞的原因-代价-场景2"><a href="#拥塞的原因-代价-场景2" class="headerlink" title="拥塞的原因/代价: 场景2"></a>拥塞的原因/代价: 场景2</h3><ul>
-<li>一个路由器，<font color="blue">有限的缓冲</font></li>
+<h3 id="6-1-拥塞原因与代价"><a href="#6-1-拥塞原因与代价" class="headerlink" title="6.1 拥塞原因与代价"></a>6.1 拥塞原因与代价</h3><p>我们通过分析<strong>3个复杂性越来越高的发生拥塞的情况</strong>，开始对拥塞控制的一般性研究。在每种情况下，我们首先将看看<strong>出现拥塞的原因</strong>以及<strong>拥塞的代价</strong>（根据资源未被充分利用以及端系统得到的低劣服务性能来评价）。我们暂<strong>不关注如何对拥塞做出反应或避免拥塞</strong>，而是重点理解一个较为简单的问题，即<strong>随着主机增加其发送速率并使网络变得拥塞，这时会发生的情况</strong>。</p>
+<h4 id="6-1-1-情况1：两个发送方和一台具有无穷大缓存的路由器"><a href="#6-1-1-情况1：两个发送方和一台具有无穷大缓存的路由器" class="headerlink" title="6.1.1 情况1：两个发送方和一台具有无穷大缓存的路由器"></a>6.1.1 情况1：两个发送方和一台具有无穷大缓存的路由器</h4><p>最简单的拥塞情况</p>
+<p><img src="/images/Computer-Network3/image-20210726125936998.png" alt="image-20210726125936998"></p>
+<p>取得每连接R/2的吞吐量实际上看起来可能是件好事，因为在将分组交付到目的地的过程中链路被充分利用了。但是当发送速率接近R/2时（从左至右），平均时延就会越来越大。当发送速率 超过R/2时，路由器中的平均排队分组数就会无限增长，源与目的地之间的平均时延也会变成无穷大（假设这些连接以此发送速率运行无限长时间并且有无限量的缓存可用）。因此，<strong>虽然从吞吐量角度看，运行在总吞吐量接近R的状态也许是一个理想状态，但从时延角度看，却远不是一个理想状态</strong>。甚至在这种（极端）理想化的情况中，我们已经发现了拥寒网络的一种代价，即<font color="red">当分组的到达速率接近链路容量时，分组经历巨大的排队时延</font>。</p>
+<h4 id="6-1-2-情况2：两个发送方和一台具有有限缓存的路由器"><a href="#6-1-2-情况2：两个发送方和一台具有有限缓存的路由器" class="headerlink" title="6.1.2 情况2：两个发送方和一台具有有限缓存的路由器"></a>6.1.2 情况2：两个发送方和一台具有有限缓存的路由器</h4><ul>
+<li>一个路由器，<font color="blue">有限的缓冲</font><ul>
+<li>意味着当分组到达一个已满的缓存时会被丢弃</li>
+</ul>
+</li>
 <li>分组丢失时，发送端重传<ul>
 <li>应用层的输入=应用层输出:  λ<sub>in</sub> =  λ<sub>out</sub> </li>
 <li>传输层的输入包括重传:  λ<sub>in’’</sub>&gt;=  λ<sub>in</sub></li>
+<li>λ<sub>in’’</sub>有时被称为网路的<strong>供给载荷</strong>（offered load）</li>
+<li>实现性能强烈地依赖重传的方式</li>
 </ul>
 </li>
 </ul>
 <p><img src="/images/Computer-Network3/image-20210726130345272.png" alt="image-20210726130345272"></p>
-<p><font color="blue">理想化: 发送端有完美的信息</font></p>
+<p><em><font color="blue">理想化：</font><font color="red">发送端有完美的信息</font></em></p>
 <p>发送端知道什么时候路由器的缓冲是可用的 </p>
 <ul>
-<li>只在缓冲可用时发送 </li>
-<li>不会丢失: λ<sub>in’’</sub> =  λ<sub>in</sub></li>
+<li>只在缓冲可用时发送</li>
+<li>不会丢包: λ<sub>in’’</sub> =  λ<sub>in</sub></li>
 </ul>
+<p>从吞吐量的角度看，性能是理想的，即发送的每个分组都被接收到。注意到在这种情况下，平均主机发送速率不能超过R/2,因为假定不会发生分组丢失。</p>
 <p><em><font color="blue">理想化：</font><font color="red">掌握丢失信息</font></em> </p>
 <p>分组可以丢失，在路由器由于缓冲器满而被丢弃</p>
 <ul>
 <li>如果知道分组丢失了，发送方重传分组</li>
 </ul>
+<p><font color="red">拥寒的代价，即发送方必须执行重传以补偿因为缓存溢出而丢弃（丢失）的分组。</font></p>
 <p><em><font color="blue">现实情况：</font><font color="red">重复</font></em> </p>
 <ul>
 <li>分组可能丢失，由于缓冲器满而被丢弃 </li>
 <li>发送端最终<font color="red">超时</font>，发送第2个拷贝，2个分组都被传出</li>
 </ul>
-<p><img src="/images/Computer-Network3/image-20230628182224224.png" alt="image-20230628182224224"></p>
+<p><font color="red">拥塞的另一种代价，即发送方在遇到大时延时所进行的不必要重传会引起路由器利用其链路带宽来转发不必要的分组副本。</font></p>
+<p><img src="/images/Computer-Network3/image-20230630095613625.png" alt="3种情况的性能"></p>
 <p><img src="/images/Computer-Network3/image-20230628182236334.png" alt="image-20230628182236334"></p>
 <p><font color="red">拥塞的“代价”：</font></p>
 <ul>
@@ -1666,23 +1677,22 @@ TCP的拥塞控制
 </li>
 </ul>
 <p><u><strong>输出比输入少原因：1）重传的丢失分组；2） 没有必要重传的重复分组</strong></u></p>
-<h3 id="拥塞的原因-代价-场景3"><a href="#拥塞的原因-代价-场景3" class="headerlink" title="拥塞的原因/代价: 场景3"></a>拥塞的原因/代价: 场景3</h3><ul>
-<li><p>4个发送端        </p>
-</li>
-<li><p>多重路径        </p>
-</li>
-<li><p>超时／重传</p>
-</li>
+<h4 id="6-1-3-情况3：4个发送方和具有有限缓存的多台路由器及多跳路径"><a href="#6-1-3-情况3：4个发送方和具有有限缓存的多台路由器及多跳路径" class="headerlink" title="6.1.3 情况3：4个发送方和具有有限缓存的多台路由器及多跳路径"></a>6.1.3 情况3：4个发送方和具有有限缓存的多台路由器及多跳路径</h4><ul>
+<li>4个发送端        </li>
+<li>每台都通过交叠的两跳路径传输        </li>
+<li>超时／重传</li>
+<li>所有主机都有相同的 λ<sub>in</sub></li>
+<li>所有路由器的链路容量都是R字节/秒</li>
 </ul>
 <p>Q：当λ<sub>in’’</sub>   λ<sub>in</sub> 增加时，会发生什么？</p>
-<p>A：当红色的 λ<sub>in’’</sub> 增加时，所有到来的蓝色分组都在最上方的队列中丢弃了，蓝色吞吐-&gt;0</p>
-<p><img src="/images/Computer-Network3/image-20210726131141125.png" alt="image-20210726131141125"></p>
+<p>A：考虑R2。<font color="red">A-C流量与B-D流量在路由器R2上必须为有限缓存空间而竞争</font>，所以当来自B-D连接的供给载荷越来越大时，A-C连接上成功通过R2 （即由于缓存溢出而未被丢失）的流量会越来越小。在极限情况下，当供给载荷趋近于无穷大时，R2的空闲缓存会立即被B-D连接的分组占满，因而A-C连接在R2上的吞吐量趋近于0。<font color="red">大流量的情况中, 每当有一个分组在第二跳路由器上被丢弃时，第一跳路由器所做的将分组转发到第二 跳路由器的工作就是“劳而无功”的。</font></p>
+<p><img src="/images/Computer-Network3/image-20230630100341620.png" alt="image-20230630100341620"></p>
 <p><img src="/images/Computer-Network3/image-20210726131409102.png" alt="image-20210726131409102"></p>
 <p><font color="red">又一个拥塞的代价：</font></p>
 <ul>
 <li>当分组丢失时，<strong>任何“关于这个分组的上游传输能力” 都被浪费了</strong></li>
 </ul>
-<h3 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h3><p>**2种常用的拥塞控制方法: **</p>
+<h3 id="6-2-拥塞控制方法"><a href="#6-2-拥塞控制方法" class="headerlink" title="6.2 拥塞控制方法"></a>6.2 拥塞控制方法</h3><p>**2种常用的拥塞控制方法: **</p>
 <p><font color="red">端到端拥塞控制:</font> </p>
 <ul>
 <li>没有来自网络的显式反馈 </li>
@@ -1691,11 +1701,11 @@ TCP的拥塞控制
 </ul>
 <p><font color="red">网络辅助的拥塞控制: </font></p>
 <ul>
-<li>路由器提供给端系统以反馈信息 </li>
+<li>路由器提供给端系统以显示反馈信息 </li>
 <li>单个bit置位，显示有拥塞 (SNA, DECbit, TCP/IP ECN, ATM) </li>
 <li>显式提供发送端可以采用的速率</li>
 </ul>
-<h3 id="案例学习-ATM-ABR-拥塞控制"><a href="#案例学习-ATM-ABR-拥塞控制" class="headerlink" title="案例学习: ATM ABR 拥塞控制"></a>案例学习: ATM ABR 拥塞控制</h3><p><font color="red">ABR: available bit rate: </font></p>
+<h3 id="6-3-案例学习-ATM-ABR-拥塞控制"><a href="#6-3-案例学习-ATM-ABR-拥塞控制" class="headerlink" title="6.3 案例学习: ATM ABR 拥塞控制"></a>6.3 案例学习: ATM ABR 拥塞控制</h3><p><font color="red">ABR: available bit rate: </font></p>
 <ul>
 <li>“弹性服务” </li>
 <li>如果发送端的路径“轻载 ”    <ul>
@@ -1730,7 +1740,7 @@ TCP的拥塞控制
 </li>
 </ul>
 <p>总结：网络提供一些信息，包括一些标志位的置位以及字段 (为两主机间的通信提供多大的带宽)</p>
-<h2 id="3-7-TCP-拥塞控制"><a href="#3-7-TCP-拥塞控制" class="headerlink" title="3.7 TCP 拥塞控制"></a>3.7 TCP 拥塞控制</h2><h3 id="TCP-拥塞控制：机制"><a href="#TCP-拥塞控制：机制" class="headerlink" title="TCP 拥塞控制：机制"></a>TCP 拥塞控制：机制</h3><p><strong><font color="red">端到端的拥塞控制机制</font></strong> </p>
+<h2 id="7-TCP-拥塞控制"><a href="#7-TCP-拥塞控制" class="headerlink" title="7. TCP 拥塞控制"></a>7. TCP 拥塞控制</h2><h3 id="7-1-TCP-拥塞控制：机制"><a href="#7-1-TCP-拥塞控制：机制" class="headerlink" title="7.1 TCP 拥塞控制：机制"></a>7.1 TCP 拥塞控制：机制</h3><p><strong><font color="red">端到端的拥塞控制机制</font></strong> </p>
 <ul>
 <li><p>路由器不向主机有关拥塞的反馈信息 </p>
 <ul>
@@ -1758,7 +1768,7 @@ TCP的拥塞控制
 </ul>
 </li>
 </ul>
-<h3 id="TCP-拥塞控制：拥塞感知"><a href="#TCP-拥塞控制：拥塞感知" class="headerlink" title="TCP 拥塞控制：拥塞感知"></a>TCP 拥塞控制：拥塞感知</h3><p><u><font color="red">发送端如何探测到拥塞?</font></u></p>
+<h3 id="7-2-TCP-拥塞控制：拥塞感知"><a href="#7-2-TCP-拥塞控制：拥塞感知" class="headerlink" title="7.2 TCP 拥塞控制：拥塞感知"></a>7.2 TCP 拥塞控制：拥塞感知</h3><p><u><font color="red">发送端如何探测到拥塞?</font></u></p>
 <ul>
 <li>某个段超时了（丢失事件 ）：<font color="red">拥塞</font><ul>
 <li>超时时间到，某个段的确认没有来 </li>
@@ -1775,14 +1785,22 @@ TCP的拥塞控制
 </ul>
 </li>
 </ul>
-<h3 id="TCP-拥塞控制：速率控制方法"><a href="#TCP-拥塞控制：速率控制方法" class="headerlink" title="TCP 拥塞控制：速率控制方法"></a>TCP 拥塞控制：速率控制方法</h3><p><u><font color="red">如何控制发送端发送的速率</font></u> </p>
+<p><img src="/images/Computer-Network3/image-20230630144317278.png" alt="image-20230630144317278"></p>
+<h3 id="7-3-TCP-拥塞控制：速率控制方法"><a href="#7-3-TCP-拥塞控制：速率控制方法" class="headerlink" title="7.3 TCP 拥塞控制：速率控制方法"></a>7.3 TCP 拥塞控制：速率控制方法</h3><p><u><font color="red">如何控制发送端发送的速率</font></u> </p>
 <ul>
-<li><p>维持一个拥塞窗口的值：CongWin (主要手段)</p>
+<li><p>维持一个拥塞窗口的值：CongWin (主要手段) PPT</p>
+<ul>
+<li><font color="red">拥塞窗口：cwnd</font>（congestion window）书</li>
+</ul>
 </li>
-<li><p>发送端限制<font color="red">已发送但是未确认</font>的数据量（的上限: </p>
+<li><p>发送端限制<font color="red">已发送但是未确认</font>的数据量（的上限）: </p>
 <p><font color="green">LastByteSent-LastByteAcked  &lt;= CongWin</font></p>
+<p>书上是：LastByteSent - LastByteAcked &lt;= min {cwnd, rwnd}</p>
 </li>
 <li><p>从而<strong>粗略地控制</strong>发送方的往网络中注入的速率</p>
+<ul>
+<li>cwnd/RTT字节/秒</li>
+</ul>
 </li>
 </ul>
 <p><strong>RTT 往返延时</strong></p>
@@ -1790,8 +1808,8 @@ TCP的拥塞控制
 <ul>
 <li>CongWin是动态的，是感知到的网络拥塞程度的函数 <ul>
 <li>超时或者3个重复ack，CongWin↓（下降）<ul>
-<li><font color="red">超时时：</font><strong>CongWin降为1MSS</strong>，<strong>进入SS阶段</strong>然后再倍增到 <font color="red">CongWin(原) / 2（每个RTT</font>，从而<strong>进入CA阶段</strong> </li>
-<li><font color="red">3个重复ack ：</font>CongWin降为CongWin/2,CA阶段 </li>
+<li><font color="red">超时时：</font><strong>CongWin降为1MSS</strong>，<strong>进入(慢启动)SS阶段</strong>然后再倍增到 <font color="red">CongWin(原) / 2（每个RTT</font>，从而<strong>进入(拥塞避免)CA阶段</strong> </li>
+<li><font color="red">3个重复ack ：</font>CongWin降为CongWin/2，拥塞控制阶段 </li>
 </ul>
 </li>
 <li>否则（正常收到Ack，没有发送以上情况）：CongWin跃跃欲试↑ （上升）<ul>
@@ -1802,25 +1820,32 @@ TCP的拥塞控制
 </ul>
 </li>
 </ul>
-<h3 id="TCP拥塞控制和流量控制的联合动作"><a href="#TCP拥塞控制和流量控制的联合动作" class="headerlink" title="TCP拥塞控制和流量控制的联合动作"></a>TCP拥塞控制和流量控制的联合动作</h3><p><u><font color="red">联合控制的方法: </font></u> </p>
+<h3 id="7-4-TCP拥塞控制和流量控制的联合动作"><a href="#7-4-TCP拥塞控制和流量控制的联合动作" class="headerlink" title="7.4 TCP拥塞控制和流量控制的联合动作"></a>7.4 TCP拥塞控制和流量控制的联合动作</h3><p><u><font color="red">联合控制的方法: </font></u> </p>
 <ul>
-<li>发送端控制发送但是未确认的量同时也不能够超过接收 窗口，满足流量控制要求 <ul>
+<li>发送端控制发送但是未确认的量同时也不能够超过接收窗口，满足流量控制要求 <ul>
 <li><strong>SendWin=min{CongWin, RecvWin}</strong> </li>
 <li>同时满足 拥塞控制和流量控制要求</li>
 </ul>
 </li>
 </ul>
-<p><u><font color="red">拥塞控制策略:</font></u> </p>
+<p><u><font color="red">拥塞控制策略:</font></u> PPT</p>
 <ul>
 <li>慢启动 </li>
 <li>AIMD：线性增、乘性减少 </li>
 <li>超时事件后的保守策略</li>
 </ul>
-<h4 id="TCP-慢启动"><a href="#TCP-慢启动" class="headerlink" title="TCP 慢启动"></a>TCP 慢启动</h4><ul>
+<p><u><font color="red">TCP拥塞控制算法：</font></u>书</p>
+<ol>
+<li>慢启动</li>
+<li>拥塞避免</li>
+<li>快速回复</li>
+</ol>
+<p><strong>慢启动和拥塞避免是TCP的强制部分</strong>，两者的差异在于对收到的ACK 做出反应时增加cwnd长度的方式。我们很快将会看到慢启动比拥塞避免能更快地增加cwnd的长度（不要被名称所迷惑！）。<strong>快速恢复是推荐部分，对TCP发送方并非是必需的</strong>。</p>
+<h4 id="7-4-1-TCP-慢启动（slow-start）"><a href="#7-4-1-TCP-慢启动（slow-start）" class="headerlink" title="7.4.1 TCP 慢启动（slow-start）"></a>7.4.1 TCP 慢启动（slow-start）</h4><ul>
 <li><p>连接刚建立, CongWin = 1 MSS </p>
 <ul>
 <li>如: MSS = 1460bytes &amp; RTT = 200 msec </li>
-<li>初始速率 = 58.4kbps </li>
+<li>初始速率 = MSS/RTT=1460*8/0.2=58.4kbps </li>
 </ul>
 </li>
 <li><p>可用带宽可能 &gt;&gt; MSS/RTT </p>
@@ -1834,20 +1859,51 @@ TCP的拥塞控制
 <li>但是速度很快</li>
 </ul>
 </li>
-<li><p>当连接开始时，指数性增加（每个RTT）发送速率 直到发生丢失事件 </p>
+<li><p>当连接开始时，<font color="red">指数</font>性增加（每个RTT）发送速率直到发生丢失事件 </p>
 <ul>
 <li>每一个RTT， CongWin加倍 </li>
-<li>每收到一个ACK时， CongWin加1（why） </li>
-<li>慢启动阶段：只要不超时或 3个重复ack，一个RTT， CongWin加倍</li>
+<li>每收到一个ACK时， CongWin加1MSS（why） </li>
+<li>慢启动阶段：只要不超时或3个重复ack，一个RTT， CongWin加倍</li>
 </ul>
 </li>
-<li><p><u><font color="red">总结: </font></u> 初始速率很慢，但是加速却是指数性的</p>
+</ul>
+<p><img src="/images/Computer-Network3/image-20230630140359427.png" alt="image-20230630140359427"></p>
 <ul>
+<li><u><font color="red">总结: </font></u> 初始速率很慢，但是加速却是指数性的<ul>
 <li>指数增加，SS时间很短，长期来看可以忽略</li>
 </ul>
 </li>
+<li>如何结束这种指数增长呢？<ul>
+<li>首先，如果存在一个由超时指示的<font color="red">丢包</font>事件<ul>
+<li>TCP发送方将cwnd设置为1并重启慢启动过程</li>
+<li>将第二个状态变量的值ssthresh（”慢启动阈值“的速记）设置为cwnd(发生拥塞时)/2</li>
 </ul>
-<h4 id="TCP-拥塞控制：AIMD"><a href="#TCP-拥塞控制：AIMD" class="headerlink" title="TCP 拥塞控制：AIMD"></a>TCP 拥塞控制：AIMD</h4><p><u><font color="red">乘性减: </font></u></p>
+</li>
+<li>当 <font color="red">cwnd的值等于ssthresh时</font>，结束慢启动并且TCP转移到拥塞避免模式</li>
+<li>检测到<font color="red">3个冗余ACK</font>，这时TCP执行快速重传并进入快速恢复状态</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-4-2-拥塞避免"><a href="#7-4-2-拥塞避免" class="headerlink" title="7.4.2 拥塞避免"></a>7.4.2 拥塞避免</h4><ul>
+<li>cwnd的值是上次遇到拥塞值的一半</li>
+<li>每个RTT将cwnd的值增加一个MSS<ul>
+<li>一种通用的方法是对于TCP发送方无论何时到达一个新的确认，就将cwnd增加一个 MSS （ MSS/cwnd）字节</li>
+</ul>
+</li>
+<li>如何结束每RTT 1MSS的线性增长？<ul>
+<li>出现超时，与慢启动情况一致</li>
+<li>3个冗余ACK引发的丢包<ul>
+<li>TCP将cwnd的值减半（为使测量结果更好，计及已收到的3个冗余的 ACK要加上3个MSS），并且当收到3个冗余的ACK，将ssthresh的值记录为cwnd的值的 一半。接下来进入快速恢复状态</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>TCP 拥塞控制：AIMD</strong></p>
+<blockquote>
+<p>AIMD英文全称：Additive Increase Multiplicative Decrease。TCP/IP模型中，属于<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%BF%90%E8%BE%93%E5%B1%82/9094793?fromModule=lemma_inlink">运输层</a>，为了解决<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/732651?fromModule=lemma_inlink">拥塞控制</a>的一个方法，即：加性增，乘性减，或者叫做“和式增加，积式减少”。</p>
+</blockquote>
+<p><u><font color="red">乘性减: </font></u></p>
 <p>丢失事件后将CongWin降为1(ss阶段通常可忽略，故相当于直接减少到 CongWin/2 )，将CongWin/2作为阈值，进入慢启动阶段（倍增直到 CongWin/2）</p>
 <p><u><font color="red">加性增： </font></u> </p>
 <p><strong>当 CongWin &gt;阈值时</strong>，一个 RTT 如没有发生丢失事件，将 CongWin 加1MSS : 探测</p>
@@ -1870,25 +1926,28 @@ TCP的拥塞控制
 <li>超过之前的3个重复的ACK表示“警报”</li>
 </ul>
 </blockquote>
-<h3 id="总结-TCP拥塞控制"><a href="#总结-TCP拥塞控制" class="headerlink" title="总结: TCP拥塞控制"></a>总结: TCP拥塞控制</h3><p>出现丢失，Threshold设置成 CongWin的1/2</p>
+<h4 id="7-4-3-快速恢复"><a href="#7-4-3-快速恢复" class="headerlink" title="7.4.3 快速恢复"></a>7.4.3 快速恢复</h4><p>在快速恢复中，对于引起TCP进入快速恢复状态的缺失报文段，对收到的每个冗余的 ACK，cwnd的值增加一个MSS。最终，当对丢失报文段的一个ACK到达时，TCP在降低 cwnd后进入拥塞避免状态。如果出现超时事件，快速恢复在执行如同在慢启动和拥塞避 免中相同的动作后，迁移到慢启动状态：当丢包事件出现时，cwnd的值被设置为1个 MSS，并且ssthresh的值设置为 cwnd值的一半。</p>
+<h3 id="7-5-总结-TCP拥塞控制"><a href="#7-5-总结-TCP拥塞控制" class="headerlink" title="7.5 总结: TCP拥塞控制"></a>7.5 总结: TCP拥塞控制</h3><p>出现丢失，ssthresh设置成 CongWin的1/2</p>
 <ul>
-<li><p>当<strong>CongWin＜Threshold</strong>, 发送端处于慢启动阶段<font color="blue">（ slow-start）</font>, 窗口指数性增长. </p>
+<li><p>当<strong>CongWin＜ssthresh</strong>, 发送端处于慢启动阶段<font color="blue">（ slow-start）</font>, 窗口指数性增长. </p>
 </li>
-<li><p>当<strong>CongWin &gt; Threshold</strong>, 发送端处于拥塞避免阶段 <font color="blue">（congestion-avoidance）</font>, 窗口线性增长. </p>
+<li><p>当<strong>CongWin &gt; ssthresh</strong>, 发送端处于拥塞避免阶段 <font color="blue">（congestion-avoidance）</font>, 窗口线性增长. </p>
 </li>
-<li><p>当收到三个重复的ACKs <font color="blue">(triple duplicate ACK)</font>, Threshold设置成 <strong>CongWin/2， CongWin=Threshold+3</strong>. </p>
+<li><p>当收到三个重复的ACKs <font color="blue">(triple duplicate ACK)</font>, Threshold设置成 <strong>CongWin/2， CongWin=ssthresh+3</strong>. </p>
 </li>
-<li><p>当超时事件发生时<font color="blue">timeout</font>, <strong>Threshold=CongWin/2 CongWin=1 MSS</strong>，进入SS阶段</p>
+<li><p>当超时事件发生时<font color="blue">timeout</font>, <strong>ssthresh=CongWin/2，CongWin=1 MSS</strong>，进入SS阶段</p>
 </li>
 </ul>
 <h4 id="TCP-发送端拥塞控制"><a href="#TCP-发送端拥塞控制" class="headerlink" title="TCP 发送端拥塞控制"></a>TCP 发送端拥塞控制</h4><p>状态转换</p>
 <p><img src="/images/Computer-Network3/image-20230628200108431.png" alt="image-20230628200108431"></p>
 <p><img src="/images/Computer-Network3/image-20230628200133257.png" alt="image-20230628200133257"></p>
-<h3 id="TCP-吞吐量"><a href="#TCP-吞吐量" class="headerlink" title="TCP 吞吐量"></a>TCP 吞吐量</h3><ul>
-<li><p>TCP的平均吞吐量是多少，使用窗口window尺寸W和RTT来描述? </p>
+<h3 id="7-6-TCP-吞吐量"><a href="#7-6-TCP-吞吐量" class="headerlink" title="7.6 TCP 吞吐量"></a>7.6 TCP 吞吐量</h3><ul>
+<li><p>TCP的平均吞吐量是多少，使用窗口window尺寸w字节和RTT秒来描述? </p>
 <ul>
-<li>忽略慢启动阶段，假设发送端总有数据传输</li>
+<li>TCP发送速率大约为 w/RTT</li>
 </ul>
+</li>
+<li><p>忽略慢启动阶段（指数增长，所以通常很短），假设发送端总有数据传输</p>
 </li>
 <li><p>W：发生丢失事件时的窗口尺寸（单位：字节）</p>
 <ul>
@@ -1902,7 +1961,7 @@ TCP的拥塞控制
 </li>
 </ul>
 <p><img src="/images/Computer-Network3/image-20230628200310577.png" alt="image-20230628200310577"></p>
-<h3 id="TCP-公平性"><a href="#TCP-公平性" class="headerlink" title="TCP 公平性"></a>TCP 公平性</h3><p><font color="red">公平性目标：</font>如果 <strong>K个TCP会话</strong>分享一个链路带宽为R的 瓶颈，每一个会话的有效带宽为 <strong>R/K</strong></p>
+<h3 id="7-7-TCP-公平性"><a href="#7-7-TCP-公平性" class="headerlink" title="7.7 TCP 公平性"></a>7.7 TCP 公平性</h3><p><font color="red">公平性目标：</font>如果 <strong>K个TCP会话</strong>分享一个链路带宽为R的 瓶颈，每一个会话的有效带宽为 <strong>R/K</strong></p>
 <p><img src="/images/Computer-Network3/image-20230628200323222.png" alt="image-20230628200323222"></p>
 <p>为什么TCP是公平的？</p>
 <p>2个竞争的TCP会话: </p>
@@ -1937,6 +1996,7 @@ TCP的拥塞控制
 </ul>
 </li>
 </ul>
+<h3 id="7-8-明确拥塞通告"><a href="#7-8-明确拥塞通告" class="headerlink" title="7.8 明确拥塞通告"></a>7.8 明确拥塞通告</h3><p>IP和TCP的扩展方案［RFC 3168］已经提出并已经实现和部署，该方案允许网络明确向TCP 发送方和接收方发出拥塞信号。这种形式的网络辅助拥塞控制称为明确拥塞通告（Explicit Congestion Notification, ECN）。</p>
 <p><img src="/images/Computer-Network3/image-20230628200604313.png" alt="image-20230628200604313"></p>
 <h2 id="第三章-总结"><a href="#第三章-总结" class="headerlink" title="第三章 总结"></a>第三章 总结</h2><ul>
 <li><p>传输层提供的服务 </p>
@@ -2575,7 +2635,7 @@ TCP的拥塞控制
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">281.9k</span>
+                        class="white-color">283.5k</span>
             
             
             
