@@ -1926,7 +1926,7 @@ TCP的拥塞控制
 <li>超过之前的3个重复的ACK表示“警报”</li>
 </ul>
 </blockquote>
-<h4 id="7-4-3-快速恢复"><a href="#7-4-3-快速恢复" class="headerlink" title="7.4.3 快速恢复"></a>7.4.3 快速恢复</h4><p>在快速恢复中，对于引起TCP进入快速恢复状态的缺失报文段，对收到的每个冗余的 ACK，cwnd的值增加一个MSS。最终，当对丢失报文段的一个ACK到达时，TCP在降低 cwnd后进入拥塞避免状态。如果出现超时事件，快速恢复在执行如同在慢启动和拥塞避 免中相同的动作后，迁移到慢启动状态：当丢包事件出现时，cwnd的值被设置为1个 MSS，并且ssthresh的值设置为 cwnd值的一半。</p>
+<h4 id="7-4-3-快速恢复"><a href="#7-4-3-快速恢复" class="headerlink" title="7.4.3 快速恢复"></a>7.4.3 快速恢复</h4><p>在快速恢复中，对于引起TCP进入快速恢复状态的缺失报文段，对收到的每个冗余的 ACK，cwnd的值增加一个MSS。最终，当对丢失报文段的一个ACK到达时，TCP在降低 cwnd后进入拥塞避免状态。如果出现超时事件，快速恢复在执行如同在慢启动和拥塞避免中相同的动作后，迁移到慢启动状态：当丢包事件出现时，cwnd的值被设置为1个 MSS，并且ssthresh的值设置为 cwnd值的一半。</p>
 <h3 id="7-5-总结-TCP拥塞控制"><a href="#7-5-总结-TCP拥塞控制" class="headerlink" title="7.5 总结: TCP拥塞控制"></a>7.5 总结: TCP拥塞控制</h3><p>出现丢失，ssthresh设置成 CongWin的1/2</p>
 <ul>
 <li><p>当<strong>CongWin＜ssthresh</strong>, 发送端处于慢启动阶段<font color="blue">（ slow-start）</font>, 窗口指数性增长. </p>
@@ -2635,7 +2635,7 @@ TCP的拥塞控制
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">283.5k</span>
+                        class="white-color">295.6k</span>
             
             
             

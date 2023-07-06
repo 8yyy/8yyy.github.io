@@ -1,0 +1,2217 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="第四章 网络层：数据平面, 8yyy&#39;s blog">
+    <meta name="description" content="本章目标：
+
+理解网络服务的基本原理，聚焦于其数据平面
+网络服务模型
+转发和路由
+路由器工作原理
+通用转发
+
+
+互联网中网络层协议的实例和实现
+
+1. 网络层概述
+数据平面
+控制平面
+
+网络层服务
+
+在发送主机和接收主机对之间传送段（seg">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>第四章 网络层：数据平面 | 8yyy&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: 100% 100%;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">8yyy&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">8yyy&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/23.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">第四章 网络层：数据平面</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                <span class="chip bg-color">计算机网络</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="post-category">
+                                计算机基础
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-09-08
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    12.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    43 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本章目标：</p>
+<ul>
+<li>理解网络服务的基本原理，聚焦于其<font color="red">数据平面</font><ul>
+<li>网络服务模型</li>
+<li>转发和路由</li>
+<li>路由器工作原理</li>
+<li>通用转发</li>
+</ul>
+</li>
+<li>互联网中网络层协议的实例和实现</li>
+</ul>
+<h2 id="1-网络层概述"><a href="#1-网络层概述" class="headerlink" title="1. 网络层概述"></a>1. 网络层概述</h2><ul>
+<li><font color="red">数据平面</font></li>
+<li><font color="red">控制平面</font></li>
+</ul>
+<p><strong>网络层服务</strong></p>
+<ul>
+<li>在发送主机和接收主机对之间传送<font color="red">段（segment） </font></li>
+<li>在发送端将段封装到数据报中</li>
+<li>在接收端，将段上交给传输层实体 </li>
+<li>网络层协议存在于<font color="red">每一个</font>主机和路由器 </li>
+<li>路由器检查每一个经过它的IP数据报的头部</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230702104127977.png" alt="网络层"></p>
+<h3 id="1-1-网络层的关键功能"><a href="#1-1-网络层的关键功能" class="headerlink" title="1.1 网络层的关键功能"></a>1.1 网络层的关键功能</h3><p><u><font color="red">网络层功能： </font></u></p>
+<ul>
+<li><p><font color="blue">转发：</font>当一个分组到达某路由器的一条输入链路时，该路由器必须将该分组移动到适当的输出链路</p>
+<ul>
+<li>转发是<font color="green">数据平面</font>中实现的唯一功能</li>
+</ul>
+</li>
+<li><p><font color="blue">路由选择：</font>使用路由算法来决定分组从发送主机到目标接收主机的路径（<font color="green">控制平面</font>）</p>
+<ul>
+<li>路由选择算法 </li>
+<li>路由选择协议</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><font color="red">转发(forwarding)</font>是指将分组从一个输入链路接口转移到适当的输出链路接口的路由器本地动作。转发发生的时间尺度很短(通常为几纳秒)，因此通常用硬件来实现。</p>
+<p><font color="red">路由选择(routing)</font>是指确定分组从源到目的地所采取的端到端路径的网络范围处理过程。路由选择发生的时间尺度长得多(通常为几秒)，因此通常用软件来实现。</p>
+</blockquote>
+<p><u><font color="red">旅行的类比： </font></u></p>
+<ul>
+<li><font color="blue">转发：</font>通过单条立交桥的过程，从进入一个入口，到决定离开的出口（局部）</li>
+<li><font color="blue">路由选择：</font>在着手行程之前，驾驶员已经查阅了地图并在许多可能的路径中选择一条，其中每条路径都由一系列经立交桥连接的路段组成（全局）</li>
+</ul>
+<h3 id="1-2-网络层：数据平面、控制平面"><a href="#1-2-网络层：数据平面、控制平面" class="headerlink" title="1.2 网络层：数据平面、控制平面"></a>1.2 网络层：数据平面、控制平面</h3><p><strong><font color="red">数据平面</font></strong></p>
+<ul>
+<li>本地，每个路由器功能 </li>
+<li>决定从路由器输入端口到达的分组如何转发到输出端口 </li>
+<li>转发功能： <ul>
+<li>传统方式：基于目标地址+转发表 </li>
+<li><strong>SDN方式：基于多个字段+流表</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong><font color="red">控制平面</font></strong> </p>
+<ul>
+<li>网络范围内的逻辑 </li>
+<li>决定数据报如何在路由器之间路由，决定数据报从源到目标主机之间的端到端路径 </li>
+<li>2个控制平面方法: <ul>
+<li>传统的路由算法: 在路由器中被实现<ul>
+<li>功能单一：根据目标的IP地址进行转发</li>
+</ul>
+</li>
+<li><font color="blue">software-defined networking (SDN): </font>在远程的服务器中实现        <ul>
+<li>软件定义网络     匹配很多字段，功能更多：泛洪、block、转发、修改字段</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-1-控制平面：传统的方式"><a href="#1-2-1-控制平面：传统的方式" class="headerlink" title="1.2.1 控制平面：传统的方式"></a>1.2.1 控制平面：传统的方式</h4><p>在<font color="blue">每一个路由器</font>中的单独路由器算法元件，在控制平面进行交互<br><strong>紧耦合，难以修改</strong></p>
+<p><font color="red">传统方式下每个路由器既实现了控制平面的功能，又实现了数据平面的功能</font>（分布式）</p>
+<p><img src="/images/Computer-Network4/image-20211001102609192.png" alt="image-20211001102609192"></p>
+<p>每台网络路由器中有一个关键元素是它的<font color="red">转发表(forwarding table)</font>。路由器检査到达分组首部的一个或多个字段值，进而使用这些首部值在其转发表中索引，通过这种方法来转发分组。这些值对应存储在转发表项中的值，指出了该分组将被转发的路由器的输出链路接口。</p>
+<p><img src="/images/Computer-Network4/image-20211001102633237.png" alt="image-20211001102633237"></p>
+<p>路由选择功能的方法，是路由选择厂商在其产品中采用的传统方法</p>
+<h4 id="1-2-2-控制平面：SDN-方法"><a href="#1-2-2-控制平面：SDN-方法" class="headerlink" title="1.2.2 控制平面：SDN 方法"></a>1.2.2 控制平面：SDN 方法</h4><p>一个不同的（通常是远程的）控制器与本地控制代理（CAs） 交互<br>网络操作系统运行在集中的控制器上</p>
+<p><img src="/images/Computer-Network4/image-20211001102716772.png" alt="image-20211001102716772"></p>
+<p>从路由器物理上分离的另一种方法，远程控制器计算和分发转发表以供每台路由器所使用。</p>
+<ul>
+<li><font color="red">控制平面路由选择功能与物理的路由器是分离的</font>，即路由选择设备仅执行转发，而远程控制器计算并分发转发表</li>
+<li>远程控制器可能实现在具有高可靠性和冗余的<font color="red">远程数据中心</font>中，并可能由ISP或某些第三方管理</li>
+<li>路由器和远程控制器通过交换包含转发表和其他路由选择信息的报文进行通信</li>
+<li>控制平面是软件定义网络的本质</li>
+</ul>
+<h3 id="1-3-网络服务模型"><a href="#1-3-网络服务模型" class="headerlink" title="1.3 网络服务模型"></a>1.3 网络服务模型</h3><p>因特网的网络层提供了单一的服务，称为<font color="red">尽力而为服务（best effort service）</font>。使用尽力而为服务，传送的分组既不能保证以它们发送的顺序被接收，也不能保证它们最终交付；既不能保证端到端时延，也不能保证有最小的带宽。</p>
+<p>Q: 从发送方主机到接收方主机传输数据报的“通道” ，网络提供什么样的<font color="blue">服务模型</font>？</p>
+<p><font color="red">对于单个数据报的服务: </font></p>
+<ul>
+<li>可靠传送 </li>
+<li>延迟保证，如：少于 <strong>40ms</strong>的延迟</li>
+</ul>
+<p><font color="red">对于数据报流的服务:</font> </p>
+<ul>
+<li>保序数据报传送 </li>
+<li>保证流的最小带宽 </li>
+<li>分组之间的延迟差</li>
+</ul>
+<p><strong>连接建立</strong></p>
+<ul>
+<li><p>在某些网络架构中是第三个重要的功能 </p>
+<ul>
+<li>ATM, frame relay, X.25 </li>
+</ul>
+</li>
+<li><p>在分组传输之前，在两个主机之间，在通过一些 路由器所构成的路径上建立一个网络层连接 </p>
+<ul>
+<li>涉及到路由器 </li>
+</ul>
+</li>
+<li><p>网络层和传输层连接服务区别：</p>
+<ul>
+<li><font color="red">网络层：</font>在2个主机之间，涉及到路径上的一些路由器  —— 有连接</li>
+<li><font color="red">传输层：</font>在2个进程之间，很可能只体现在端系统上 (TCP连接)  —— 面向连接</li>
+</ul>
+</li>
+</ul>
+<p><strong>一些网络层服务模型</strong></p>
+<p><img src="/images/Computer-Network4/image-20211001103624022.png" alt="image-20211001103624022"></p>
+<h2 id="2-路由器工作原理"><a href="#2-路由器工作原理" class="headerlink" title="2. 路由器工作原理"></a>2. 路由器工作原理</h2><blockquote>
+<p>既然我们已经概述了网络层中的数据平面和控制平面、转发与路由选择之间的重要区别以及网络层的服务与功能，我们将注意力转向网络层的<strong>转发功能</strong>，即实际将分组从一台路由器的入链路传送到适当的出链路。</p>
+</blockquote>
+<p>高层面(非常简化的)通用路由器体系架构 </p>
+<ul>
+<li>路由：运行<font color="red">路由</font>选择算法／协议 (RIP, OSPF, BGP) - 生成 路由表 </li>
+<li>转发：从输入到输出链路交换数据报 - 根据路由表进行分组的<font color="red">转发</font></li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230702193455035.png" alt="路由器体系结构"></p>
+<p>任何一个端口既是输入端口，也是输出端口</p>
+<ul>
+<li>输入端口（input port）<ul>
+<li>在路由器中执行终结入物理链路的物理层功能</li>
+<li>与位于入链路远端的数据链路层交互来执行数据链路层功能</li>
+<li>执行查找功能，通过查询转发表决定路由器的输出端口（端口指路由器的物理接入和接出接口）</li>
+</ul>
+</li>
+<li>交换结构<ul>
+<li>交换结构将路由器的输入端口连接到它的输岀端口。这种交换结构完全包含在路由器之中，即它是一个网络路由器中的网络!</li>
+</ul>
+</li>
+<li>输出端口<ul>
+<li>输出端口存储从交换结构接收的分组，并通过执行必要的链路层和物理层功能在输出链路上传输这些分组。当一条链路是双向的时（即承载两个方向的流量），输出端口通常与该链路的输入端口成对出现在同一线路卡上。</li>
+</ul>
+</li>
+<li>路由选择处理器：路由选择处理器执行控制平面功能<ul>
+<li>在传统的路由器中，它执行路由选择协议，维护路由选择表与关联链路状态信息，并为该路由器计算转发表</li>
+<li>在SDN路由器中，路由选择处理器（在其他活动中）负责与远程控制器通信，目的是接收由远程控制器计算的转发表项，并在该路由器的输入端口安装这些表项</li>
+<li>路由选择处理器还执行网络管理功能</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>路由器的输入端口、输出端口和交换结构几乎总是用硬件实现</p>
+</blockquote>
+<p><img src="/images/Computer-Network4/image-20211001103919273.png" alt="image-20211001103919273"></p>
+<h3 id="2-1-输入端口功能和基于目的地转发"><a href="#2-1-输入端口功能和基于目的地转发" class="headerlink" title="2.1 输入端口功能和基于目的地转发"></a>2.1 输入端口功能和基于目的地转发</h3><p>假设转发决定仅基于分组的目的地址，而非基于通用的分组首部字段。</p>
+<p><img src="/images/Computer-Network4/image-20230703095936968.png" alt="输入端口处理"></p>
+<p>输入端口有个队列</p>
+<p><img src="/images/Computer-Network4/image-20211001104327835.png" alt="image-20211001104327835">目的地址范围       链路接口</p>
+<p><img src="/images/Computer-Network4/image-20230702192637763.png" alt="image-20230702192637763"></p>
+<p><img src="/images/Computer-Network4/image-20230702192644838.png" alt="image-20230702192644838"></p>
+<p><img src="/images/Computer-Network4/image-20230702192652837.png" alt="image-20230702192652837"></p>
+<p>TCAM：三态内容可寻址存储器</p>
+<p><strong>输入端口缓存</strong></p>
+<ul>
+<li>当交换机构的速率小于输入端口的汇聚速率时， 在输入端口可能要排队 <ul>
+<li><font color="red">排队延迟以及由于输入缓存溢出造成丢失!</font> </li>
+</ul>
+</li>
+<li><font color="red">Head-of-the-Line (HOL) blocking: </font>.排在队头的数据报阻止了队列中其他数据报向前移动</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001104653702.png" alt="image-20211001104653702"></p>
+<h3 id="2-2-交换结构"><a href="#2-2-交换结构" class="headerlink" title="2.2 交换结构"></a>2.2 交换结构</h3><ul>
+<li>将分组从输入缓冲区传输到合适的输出端口</li>
+<li>交换速率：分组可以按照该速率从输入传输到输出<ul>
+<li>运行速度经常是输入/输出链路速率的若干倍</li>
+<li>N 个输入端口：交换机构的交换速度是输入线路速度的N倍比较理想，才不会成为瓶颈 </li>
+</ul>
+</li>
+<li>3种典型的交换机构</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230703101525542.png" alt="三种交换技术"></p>
+<h4 id="2-2-1-通过内存交换"><a href="#2-2-1-通过内存交换" class="headerlink" title="2.2.1 通过内存交换"></a>2.2.1 通过内存交换</h4><p><font color="red">第一代路由器:</font></p>
+<ul>
+<li>在<font color="blue">CPU</font>直接控制下的交换，采用<font color="blue">传统的计算机</font><ul>
+<li>最早的路由器是传统的计算机</li>
+<li>CPU相当于路由选择处理器</li>
+</ul>
+</li>
+<li>分组被拷贝到系统内存，CPU从分组的头部提取出目标地址，查找转发表，找到对应的输出端口，拷贝到输出端口</li>
+<li>转发速率被内存的带宽限制(数据报通过BUS(总线)两遍)</li>
+<li>一次只能转发一个分组</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001104907438.png" alt="image-20211001104907438"></p>
+<h4 id="2-2-2-通过总线交换"><a href="#2-2-2-通过总线交换" class="headerlink" title="2.2.2 通过总线交换"></a>2.2.2 通过总线交换</h4><ul>
+<li>数据报通过共享总线，从输入端转发到输出端口 </li>
+<li><font color="red">总线竞争:</font> 交换速度受限于总线带宽 </li>
+<li>1次处理一个分组 </li>
+<li><strong>1 Gbps bus, Cisco 1900； 32 Gbps bus, Cisco 5600；</strong>对于接入或企业级路由器，速度足够（ 但不适合区域或骨干网络）</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001104959142.png" alt="image-20211001104959142"></p>
+<h4 id="2-2-3-通过互联网络-crossbar等-的交换"><a href="#2-2-3-通过互联网络-crossbar等-的交换" class="headerlink" title="2.2.3 通过互联网络(crossbar等)的交换"></a>2.2.3 通过互联网络(crossbar等)的交换</h4><ul>
+<li>同时并发转发多个分组，克服总线带宽限制</li>
+</ul>
+<ul>
+<li>Banyan(榕树〉网络，crossbar(纵横)和其它的互联网络被开发，将多个处理器连接成多处理器</li>
+<li>当分组从端口A到达，转给端口Y；控制器短接相应的两个总线</li>
+<li>高级设计：将数据报分片为固定长度的信元，通过交换网络交换</li>
+<li>如果来自两个不同输入端口的两个分组其目的地为根同的输出端口，则一个分组必须在输入端等待</li>
+<li>Cisco12000：以60Gbps的交换速率通过互联网络</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001105151671.png" alt="image-20211001105151671"></p>
+<h3 id="2-3-输出端口"><a href="#2-3-输出端口" class="headerlink" title="2.3 输出端口"></a>2.3 输出端口</h3><p><img src="/images/Computer-Network4/image-20211001105403564.png" alt="image-20211001105403564"></p>
+<ul>
+<li>当数据报从交换机构的到达速度比传输速率快就需要输出端口<font color="red">缓存 </font></li>
+</ul>
+<ul>
+<li>由<font color="red">调度规则</font>选择排队的数据报进行传输</li>
+</ul>
+<p>优先权调度-谁会获得最优性能， 网络中立？</p>
+<p><img src="/images/Computer-Network4/image-20230703103834805.png" alt="image-20230703103834805"></p>
+<p>输出端口处理取出已经存放在输出端口内存中的分组并将其发送到输出链路上。这包括选择和取岀排队的分组进行传输，执行所需的链路层和物理层传输功能。</p>
+<h3 id="2-4-何时出现排队"><a href="#2-4-何时出现排队" class="headerlink" title="2.4 何时出现排队"></a>2.4 何时出现排队</h3><ul>
+<li>显然，在输入端口和输出端口中都可以形成分组排队。</li>
+<li>排队的位置和程度取决于流量负载、交换结构的相对速率和线路速率。</li>
+<li>随着队列的增长，路由器的缓存空间终将耗尽，从而出现<font color="red">丢包（packet loss）</font>。</li>
+<li>假设输入线路和输出线路速率均为R<sub>line</sub>（单位为每秒分组数）<ul>
+<li>N个输入和输出端口</li>
+<li>所有分组具有相同的固定长度，分组以同步的方式到达输入端口</li>
+<li>交换结构传送速率为R<sub>switch</sub></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-1-输入端口排队"><a href="#2-4-1-输入端口排队" class="headerlink" title="2.4.1 输入端口排队"></a>2.4.1 输入端口排队</h4><p>如果交换结构不能快得使所有分组无时延地通过它传送，在输入端口将出现分组排队。</p>
+<p>考虑纵横式交换结构，并假定：</p>
+<p>①所有链路速度相同；</p>
+<p>②一个分组能够以一条输入链路接收一个分组所用的相同的时间量，从任意一个输入端口传送到给定的输出端口；</p>
+<p>③分组按FCFS方式，从一指定输入队列移动到其要求的输出队列中。</p>
+<p><img src="/images/Computer-Network4/image-20230703110350346.png" alt="在一个输入排队交换机中的HOL阻塞"></p>
+<p>在输入队列前端的两个分组（带深色阴影）要发往同一个右上角输出端口。假定该交换结构决定发送左上角队列前端的分组。</p>
+<p>在这种情况下，左下角队列中的深色阴影分组必须等待。但不仅该分组要等待，左下角队列中排在该分组后面的浅色阴影分组也要等待，即使右中侧输出端口（浅色阴影分组的目的地）中无竞争。</p>
+<p>这种现象叫作输入排队交换机中的<font color="red">线路前部 （Head-Of-the-Line, HOL）阻塞</font>，即在一个输入队列中排队的分组必须等待通过交换结构发送（即使输出端口是空闲的），因为它被位于线路前部的另一个分组所阻塞。</p>
+<p>［Karol 1987 ］指出，由于 HOL阻塞，只要输入链路上的分组到达速率达到其容量的58%，在某些假设前提下，输入队列长度就将无限制地增大（不严格地讲，这等同于说将出现大量的丢包）。</p>
+<h4 id="2-4-2-输出端口排队"><a href="#2-4-2-输出端口排队" class="headerlink" title="2.4.2 输出端口排队"></a>2.4.2 输出端口排队</h4><p><img src="/images/Computer-Network4/image-20211001105440439.png" alt="image-20211001105440439"></p>
+<ul>
+<li>假设交换速率R<sub>switch</sub>是R<sub>line</sub>的N倍（N：输入端口的数量） </li>
+<li>当多个输入端口同时向输出端口发送时，缓冲该分组（当通过交换网络到达的速率超过输出速率则缓存） </li>
+<li><font color="red">排队带来延迟，由于输出端口缓存溢出则丢弃数据报！</font><ul>
+<li>丢弃新到达的分组，称为弃尾（drop-tail）的策略</li>
+<li>也可以删除排队的分组为新到达的分组腾出空间</li>
+</ul>
+</li>
+</ul>
+<h4 id="需要多少缓存"><a href="#需要多少缓存" class="headerlink" title="需要多少缓存?"></a>需要多少缓存?</h4><p><img src="/images/Computer-Network4/image-20211001105910410.png" alt="image-20211001105910410"></p>
+<h3 id="2-5-调度机制"><a href="#2-5-调度机制" class="headerlink" title="2.5 调度机制"></a>2.5 调度机制</h3><p>讨论确定次序</p>
+<ul>
+<li>*<font color="red">调度：</font>*选择下一个要通过链路传输的分组</li>
+<li><em><font color="blue">丢弃策略:</font></em> 如果分组到达一个满的队列，哪个分组将会被抛弃? <ul>
+<li>*<font color="blue">tail drop: </font>*丢弃刚到达的分组 </li>
+<li>*<font color="blue">priority: </font>*根据优先权丢失/移除分组 </li>
+<li><em><font color="blue">random:</font></em> 随机地丢弃/移除</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-5-1-先进先出"><a href="#2-5-1-先进先出" class="headerlink" title="2.5.1 先进先出"></a>2.5.1 先进先出</h4><p>*<font color="red">FIFO (first in first out) scheduling：</font>*按照分组到来的次序发送 （也称为FCFS，先来先服务）</p>
+<p><img src="/images/Computer-Network4/image-20230704103503752.png" alt="FIFO 排队抽象"></p>
+<p><img src="/images/Computer-Network4/image-20230704103625909.png" alt="运行中的 FIFO 队列"></p>
+<h4 id="2-5-2-优先权排队"><a href="#2-5-2-优先权排队" class="headerlink" title="2.5.2 优先权排队"></a>2.5.2 优先权排队</h4><p>*<font color="red">优先权调度：</font>*发送最高优先权的分组 </p>
+<ul>
+<li>多类，不同类别有不同的优先权 <ul>
+<li>类别可能依赖于标记或者其他的头部字段, e.g. IP source/dest, port numbers, ds，etc. </li>
+<li>先传高优先级的队列中的分组，除非没有</li>
+<li>同一优先权类的分组之间的选择通常以FIFO 方式完成</li>
+<li>在<strong>非抢占式有限权排队</strong>规则下，一旦分组开始传输，就不能打断</li>
+<li>现实生活中的例子? </li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230704103644917.png" alt="优先权排队模型"></p>
+<p>分组134高优先权，分组25低优先权</p>
+<p><img src="/images/Computer-Network4/image-20230704104245675.png" alt="优先权队列的操作"></p>
+<h4 id="2-5-3-循环和加权公平排队"><a href="#2-5-3-循环和加权公平排队" class="headerlink" title="2.5.3 循环和加权公平排队"></a>2.5.3 循环和加权公平排队</h4><p><em><font color="red">Round Robin (RR) scheduling: 循环排队规则</font></em></p>
+<ul>
+<li>多类</li>
+<li>循环扫描不同类型的队列, 发送完一类的一个分组 ，再发送下一个类的一个分组，循环所有类</li>
+<li><strong>保持工作排队</strong>：在有（任何类）分组排队等待传输时，不许与链路保持空闲。<ul>
+<li>当寻找给定类的分组没有找到，立即检查循环序列中的下一个类</li>
+</ul>
+</li>
+<li>现实例子?</li>
+</ul>
+<p>分组124属于第一类，分组35属于第二类</p>
+<p><img src="/images/Computer-Network4/image-20230704105040505.png" alt="image-20230704105040505"></p>
+<p><em><font color="red">Weighted Fair Queuing (WFQ): 加权公平排队</font></em></p>
+<ul>
+<li>一般化的Round Robin，广泛地实现在路由器中</li>
+<li>在一段时间内，每个队列得到的服务时间是：  W<sub>i</sub> /(Σ(W<sub>i</sub> )) *t ，和权重成正比<ul>
+<li>每个类 i 被分配一个权 w<sub>i</sub></li>
+</ul>
+</li>
+<li>每个类在每一个循环中获得不同权重的服务量 </li>
+<li>现实例子</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230704105209661.png" alt="image-20230704105209661"></p>
+<h2 id="3-网际协议：IPv4、寻址、IPv6及其他"><a href="#3-网际协议：IPv4、寻址、IPv6及其他" class="headerlink" title="3. 网际协议：IPv4、寻址、IPv6及其他"></a>3. 网际协议：IPv4、寻址、IPv6及其他</h2><p><font color="blue">IP（Internet Protocol）网际协议</font></p>
+<p><font color="blue">ICMP（Internet Control Message Protocol）Internet控制报文协议</font></p>
+<p><font color="red">掌握IP编址就是掌握因特网的网络层！</font></p>
+<p>互联网的网络层<br>主机，路由器中的网络层功能：</p>
+<p>IP协议主要实现的是数据平面的转发功能</p>
+<p><img src="/images/Computer-Network4/image-20211001111457486.png" alt="image-20211001111457486"></p>
+<h3 id="3-1-IPv4-数据报格式"><a href="#3-1-IPv4-数据报格式" class="headerlink" title="3.1 IPv4 数据报格式"></a>3.1 IPv4 数据报格式</h3><p><img src="/images/Computer-Network4/image-20230704141146951.png" alt="IP数据报格式"></p>
+<p><font color="red">IPv4数据报的关键字段如下：</font></p>
+<ul>
+<li><font color="blue">版本号。</font>这4比特规定了数据报的IP协议版本</li>
+<li><font color="blue">首部长度。</font>用4比特来确定IP数据报中载荷实际开始的地方</li>
+<li><font color="blue">服务类型。</font>使不同类型的数据报能够相互区分<ul>
+<li>例如将IP电话应用（实时）和FTP（非实时）区分是很有用的</li>
+<li>提供特定等级的服务是一个由网络管理员对路由器确定和配置的策略问题</li>
+</ul>
+</li>
+<li><font color="blue">数据报长度。</font>这是IP数据报的总长度（首部加上数据），以字节计。<ul>
+<li>16比特，所以IP数据报理论上最大长度为65535字节，实际上很少过1500字节，该长度使得IP数据报能够容纳最大长度以太网帧的载荷字段</li>
+</ul>
+</li>
+<li><font color="blue">标识、标志、片偏移。</font>与IP分片有关<ul>
+<li>IPv6不允许在路由器上对分组分片</li>
+</ul>
+</li>
+<li><font color="blue">寿命。</font>TTL字段用来确保数据报不会永远在网络中循环</li>
+<li><font color="blue">协议。</font>指示了IP数据报的数据部分应交给哪个特定的运输层协议<ul>
+<li>仅当一个IP数据报到达最终目的地时使用</li>
+<li>值为6 –&gt; TCP ；值为17 –&gt; UDP</li>
+</ul>
+</li>
+<li><font color="blue">首部校验和。</font>首部检验和用于帮助路由器检测收到的IP数据报中的比特错误</li>
+<li><font color="blue">源和目的IP地址。</font></li>
+<li><font color="blue">选项。</font></li>
+<li><font color="blue">数据（有效载荷）。</font></li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001111652067.png" alt="image-20211001111652067"></p>
+<h3 id="3-2-IPv4-分片和重组-Fragmentation-amp-Reassembly"><a href="#3-2-IPv4-分片和重组-Fragmentation-amp-Reassembly" class="headerlink" title="3.2 IPv4 分片和重组(Fragmentation &amp; Reassembly)"></a>3.2 IPv4 分片和重组(Fragmentation &amp; Reassembly)</h3><ul>
+<li>网络链路有MTU (最大传输单元) –链路层帧所携带的最大数据长度 <ul>
+<li>不同的链路类型</li>
+<li>因为每个IP数据报封装在链路层帧从一台路由器传输到下一台路由器，故<font color="red">链路层协议的MTU严格地限制着IP数据报的长度</font></li>
+<li>问题在于在<font color="red">发送方与目的地路径上的每段链路可能使用不同的链路层协议</font>，且每种协议可能具有不同的 MTU</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>为了更好地理解这一转发问题，想象你是一台互联几条链路的路由器，且每条链路运行具有不同MTU的链路层协议。假定你从某条链路收到一个IP数据报，通过检查转发表确定出链路，并且该条出链路的MTU比该IP数据报的长度要小。此时你会感到慌乱，如何将这个过大的IP分组挤进链路层帧的有效载荷字段呢？解决该问题的方法是将IP数据报中的数据分片成两个或更多个较小的IP数据报，用单独的链路层帧封装这些较小的IP数据报，然后通过输出链路发送这些帧。每个这些较小的数据报都称为片 (fragment) </p>
+</blockquote>
+<ul>
+<li>大的IP数据报在网络上被分<font color="red">片 (“fragmented”)</font><ul>
+<li>一个数据报被分割成若干个小的数据报（IPv4的设计者将标识、标志和片偏移字段放在IP数据报首部中） <ul>
+<li>相同的ID </li>
+<li>不同的偏移量（用来确定是否丢失） </li>
+<li>最后一个分片标志比特设为0，而其他所有片的标志比特被设为1</li>
+</ul>
+</li>
+<li>“重组”只在最终的目标主机进行 </li>
+<li>IP头部的信息被用于标识，排序相关分片</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230704164516826.png" alt="IP分片与重组"></p>
+<p><img src="/images/Computer-Network4/image-20211001133700562.png" alt="image-20211001133700562"></p>
+<h3 id="3-3-IPv4-编址"><a href="#3-3-IPv4-编址" class="headerlink" title="3.3 IPv4 编址"></a>3.3 IPv4 编址</h3><ul>
+<li><font color="red">IP 地址:</font> 32位标示（大约40亿），对主机或者路由器的接口编址 <ul>
+<li>通常采用<strong>点分十进制记法</strong>书写</li>
+</ul>
+</li>
+<li><font color="red">接口: </font>主机/路由器和物理链路的连接处 <ul>
+<li>路由器通常拥有多个接口 </li>
+<li>主机也有可能有多个接口 </li>
+<li>IP地址和每一个接口关联 </li>
+</ul>
+</li>
+<li><font color="red">从技术上讲，一个IP地址和一个接口相关联</font></li>
+<li>在全球因特网中的每台主机和路由器上的每个接口，都必须有一个全球唯一的IP地址（NAT除外）<ul>
+<li>地址不能随意自由选择</li>
+<li>一个接口的IP地址的一部分由其连接在子网决定</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">示例：</font>一台路由器（具有3个接口）用于互联7台主机。</p>
+<p><img src="/images/Computer-Network4/image-20211001135955479.png" alt="IP地址和子网"></p>
+<p>可以看到左上侧的3台主机以及它们连接的路由器接口，都有一个形如223. 1.1. xxx的 IP 地址</p>
+<ul>
+<li>这就是说，在它们的IP地址中，最左侧的24比特是相同的</li>
+<li>这4个接口也通过一个并不包含路由器的网络互联起来</li>
+</ul>
+<p><font color="red">用IP术语来说，互联这3个主机接口与1个路由器接口的网络形成一个<strong>子网</strong></font></p>
+<p>IP编址为这个子网分配一个地址223.1.1.0/24，其中的 /24 记法，有时称为子网掩码（network mask），指示32比特中的最左侧24比特定义了子网地址</p>
+<h4 id="3-3-1-子网-Subnets"><a href="#3-3-1-子网-Subnets" class="headerlink" title="3.3.1 子网(Subnets)"></a>3.3.1 子网(Subnets)</h4><p><font color="blue">IP地址: </font></p>
+<ul>
+<li>子网部分(高位bits) </li>
+<li>主机部分(低位bits) </li>
+</ul>
+<p><font color="blue">什么是子网(subnet) ? </font></p>
+<ul>
+<li>一个子网内的节点（主机或者路由器）它们的 <font color="red">IP地址的高位部分相同</font> ，这些节点构成的网络的一部分叫做子网 </li>
+<li><font color="red">无需路由器介入</font>，子网内各主机可以在物理上相互直接到达   ——   只需要交换机即可，一跳可达</li>
+<li>一个子网的 IP 定义并<font color="red">不局限于连接多台主机到一个路由器接口</font>的以太网段</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001142106457.png" alt="image-20211001142106457"></p>
+<p><strong>长途链路 —— 点到点的形式   中国到日本的链路</strong><br><strong>计算机局域网  ——  多点连接的方式</strong></p>
+<p><u><font color="red">方法：</font></u> </p>
+<ul>
+<li>要判断一个子网，将每一个接口从主机或者路由器上分开，构成了一个个网络的孤岛</li>
+<li><font color="red">每一个孤岛（网络）都 是一个都可以被称之为 subnet.</font></li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20230704141834807.png" alt="image-20230704141834807"></p>
+<p><font color="red">子网掩码：</font>11111111 11111111 11111111 00000000<br>Subnet mask: /24，指示了32比特中最左侧24比特定义了子网地址</p>
+<p><img src="/images/Computer-Network4/image-20230704172739685.png" alt="3台路由器和6个子网"></p>
+<p><font color="red">3个子网：多台主机与一个路由器接口</font></p>
+<ul>
+<li>223.1.1.0/24</li>
+<li>223.1.2.0/24</li>
+<li>223.1.3.0/24</li>
+</ul>
+<p><font color="red">还有3个子网：路由器与路由器的接口连接</font></p>
+<ul>
+<li>223.1.7.0/24</li>
+<li>223.1.8.0/24</li>
+<li>223.1.9.0/24</li>
+</ul>
+<p><font color="red">IP 地址分类：分类编址</font></p>
+<p>在CIDR被采用之前，IP地址的网络部分被限制为8、16、24比特，称为分类编址（classful addressing）的编址方案，这是因为具有8、16、24比特子网地址的子网被称为A、B、C类网络。</p>
+<ul>
+<li>Class A：126 networks ，16 million hosts<ul>
+<li>支持 2<sup>24</sup> - 2 = 16777214 台主机（其中两个地址预留用于特殊用途）</li>
+<li>首位为0，2<sup>7</sup> - 2 = 126 个网络</li>
+</ul>
+</li>
+<li>Class B：16382networks ，64 K hosts<ul>
+<li>支持 2<sup>16</sup> - 2 = 65534 台主机（其中两个地址预留用于特殊用途）</li>
+<li>前2位为10，2<sup>14</sup> - 2 = 16382</li>
+</ul>
+</li>
+<li>Class C：2 million networks ，254 host<ul>
+<li>支持 2<sup>8</sup> - 2 = 254 台主机（其中两个地址预留用于特殊用途）</li>
+<li>前3位为110，2<sup>21</sup> - 2</li>
+</ul>
+</li>
+<li>Class D：multicast</li>
+<li> Class E：reserved for future</li>
+</ul>
+<p>A，B，C类为单播</p>
+<p>全0全1不用</p>
+<p><img src="/images/Computer-Network4/image-20230704141925543.png" alt="image-20230704141925543"></p>
+<p><font color="red">特殊IP地址</font></p>
+<ul>
+<li>一些约定：<ul>
+<li><strong>子网部分: 全为 0—本网络</strong>       <strong>127   Loopback —— 回路地址</strong></li>
+<li><strong>主机部分: 全为0—本主机</strong> </li>
+<li><strong>主机部分: 全为1–广播地址，这个网络的所有主机</strong> <ul>
+<li>255.255.255.255，报文将交付给同一个网络中的所有主机</li>
+</ul>
+</li>
+<li>除了前面的类号   <strong>全为1——在本地网络广播</strong></li>
+</ul>
+</li>
+<li>特殊IP地址</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001142922347.png" alt="image-20211001142922347"></p>
+<p><font color="red">内网(专用)IP地址</font></p>
+<ul>
+<li><strong>专用地址：地址空间的一部份供专用地址使用</strong> </li>
+<li>永远不会被当做公用地址来分配, 不会与公用地址重复 <ul>
+<li>只在局部网络中有意义，区分不同的设备 </li>
+</ul>
+</li>
+<li><strong>路由器不对目标地址是专用地址的分组进行转发</strong> </li>
+<li>专用地址范围 <ul>
+<li><strong>Class A 10.0.0.0-10.255.255.255 MASK 255.0.0.0</strong> </li>
+<li><strong>Class B 172.16.0.0-172.31.255.255 MASK 255.255.0.0</strong> </li>
+<li><strong>Class C 192.168.0.0-192.168.255.255 MASK 255.255.255.0</strong></li>
+</ul>
+</li>
+</ul>
+<p><font color="red">因特网的地址分配策略为CIDR</font></p>
+<p><font color="red">CIDR:</font> Classless InterDomain Routing （无类别域间路由选择） </p>
+<ul>
+<li>子网部分可以在任意的位置 </li>
+<li>地址格式：<font color="red">a.b.c.d/x</font>， 其中 x 是地址中子网号的长度</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001143934822.png" alt="image-20211001143934822"></p>
+<p><font color="red">子网掩码(subnet mask)</font></p>
+<ul>
+<li>32bits ,0 or 1 in each bit <ul>
+<li>1：bit位置表示子网部分</li>
+<li>0：bit位置表示主机部分</li>
+</ul>
+</li>
+<li>原始的A、B、C类网络的子网掩码分别是<ul>
+<li>A:255.0.0.0 : 11111111 00000000 00000000 00000000</li>
+<li>B:255,255.0.0:11111111 11111111 0000000 00000000</li>
+<li>C:255,255,255.0:11111111 11111111 11111111 00000000</li>
+</ul>
+</li>
+<li>CIDR下的子网掩码例子:<ul>
+<li>1111111111111111 11111100 00000000</li>
+</ul>
+</li>
+<li>另外的一种表示子网掩码的表达方式<ul>
+<li>/#</li>
+<li>例：/22：表示前面22个bit为子网部分</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">转发表和转发算法</font></p>
+<p><img src="/images/Computer-Network4/image-20211001144206732.png" alt="image-20211001144206732"></p>
+<ul>
+<li>获得IP数据报的目标地址 </li>
+<li>对于转发表中的每一个表项 <ul>
+<li>如 (IP Des addr) &amp; (mask)== destination, 则按照表项 对应的接口转发该数据报 </li>
+<li>如果都没有找到,则使用默认表项转发数据报</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">如何获得一个IP地址</font></p>
+<p>Q: 主机如何获得一个IP地址?</p>
+<ul>
+<li>系统管理员将地址配置在一个文件中 <ul>
+<li>Wintel: control-panel-&gt;network- &gt;configuration-&gt;tcp/ip-&gt;properties </li>
+<li>UNIX: /etc/rc.config</li>
+</ul>
+</li>
+<li><strong>DHCP: Dynamic Host Configuration Protocol: 从服务器中动态获得一个IP地址</strong> <ul>
+<li>“plug-and-play</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-3-2-如何获得一个IP地址"><a href="#3-3-2-如何获得一个IP地址" class="headerlink" title="3.3.2 如何获得一个IP地址"></a>3.3.2 如何获得一个IP地址</h4><p>Q: 如何获得一个网络的子网部分?<br>A: 从ISP获得地址块中分配一个小地址块</p>
+<blockquote>
+<p>为了获取一块IP地址用于一个组织的子网内，某网络管理员也许首先会与他的ISP联系，该ISP可能会从已分给它的更大地址块中提供一些地址。例如，该ISP也许自己已被分配了地址块<strong>200. 23. 16. 0/20</strong>。该ISP可以依次将该地址块分成8个长度相等的连续地址块，为本ISP支持的最多达8个组织中的一个分配这些地址块中的一块</p>
+</blockquote>
+<p><img src="/images/Computer-Network4/image-20230705133925389.png"></p>
+<p><font color="red">层次编址: 路由聚集（route aggregation） </font></p>
+<p><img src="/images/Computer-Network4/image-20211001145630149.png" alt="image-20211001145630149"></p>
+<p><font color="red">层次编址: 特殊路由信息(more specific routes)</font></p>
+<p><strong>匹配冲突时候，采取的是最长前缀匹配</strong></p>
+<p><img src="/images/Computer-Network4/image-20211001150738412.png" alt="image-20211001150738412"></p>
+<p>IP地址由<strong>因特网名字和编号分配机构（ICANN）</strong>管理</p>
+<ul>
+<li>作用不仅是分配IP地址，还管理DNS根服务器</li>
+<li>它还有一项容易引起争论的工作，即分配域名与解决域名纷争</li>
+</ul>
+<p><font color="red">IP 编址:  ISP如何获得一块地址</font></p>
+<p>Q: 一个ISP如何获得一个地址块?<br>A: ICANN: Internet Corporation for Assigned Names and Numbers </p>
+<ul>
+<li>分配地址 </li>
+<li>管理DNS </li>
+<li>分配域名，解决冲突</li>
+</ul>
+<h4 id="3-3-3-获取主机地址：动态主机配置协议"><a href="#3-3-3-获取主机地址：动态主机配置协议" class="headerlink" title="3.3.3 获取主机地址：动态主机配置协议"></a>3.3.3 获取主机地址：动态主机配置协议</h4><p>某组织一旦获得了一块地址，它就可为本组织内的主机与路由器接口逐个分配IP地址</p>
+<blockquote>
+<p>系统管理员通常手工配置路由器中的IP地址（常常在远程通过网络管理工具进行配置）。主机地址也能手动配置，但是这项任务目前更多的是使用<strong>动态主机配置协议（DHCP）</strong></p>
+</blockquote>
+<p>DHCP: Dynamic Host Configuration Protocol</p>
+<ul>
+<li><u><font color="red">目标：</font></u>允许主机在加入网络的时候，动态地从服务器那里获得IP地址：<ul>
+<li>可以更新对主机在用IP地址的租用期-租期快到了</li>
+<li>重新启动时，允许重新使用以前用过的IP地址</li>
+<li>支持移动用户加入到该网络（短期在网）</li>
+</ul>
+</li>
+<li>DHCP工作概况：<ul>
+<li>主机广播<font color="blue">“DHCP discover”</font>报文[可选]</li>
+<li>DHCP服务器用<font color="blue">“DHCP offer”</font>提供报文响应[可选]</li>
+<li>主机请求IP地址：发送<font color="blue">“DHCP request”</font>报文</li>
+<li>DHCP服务器发送地址：<font color="blue">“DHCP ack”</font>报文</li>
+</ul>
+</li>
+</ul>
+<p>DHCP client-server scenario</p>
+<p><img src="/images/Computer-Network4/image-20230704142333132.png" alt="image-20230704142333132"></p>
+<p><strong>第二次是因为可能有多个DHCP 服务器，要确认用哪一个</strong></p>
+<p><img src="/images/Computer-Network4/image-20230704142341762.png" alt="image-20230704142341762"></p>
+<p>DHCP: 不仅仅是IP addresses</p>
+<p>DHCP 返回: </p>
+<ul>
+<li> IP 地址 </li>
+<li> 第一跳路由器的IP地址（默认网关） </li>
+<li> DNS服务器的域名和IP地址 </li>
+<li> 子网掩码 (指示地址部分的网络号和主机号)</li>
+</ul>
+<blockquote>
+<p>由于DHCP具有将主机连接进一个网络的网络相关方面的自动能力，故它又常被称为<strong>即插即用协议（plug and-play protocol）</strong>或<strong>零配置（zeroconf）协议</strong>。</p>
+</blockquote>
+<p><font color="red">DHCP: 实例</font></p>
+<p><img src="/images/Computer-Network4/image-20211001145225819.png" alt="image-20211001145225819"></p>
+<p>第一次握手</p>
+<ul>
+<li>联网笔记本需要获取自己的IP地址，第一跳路由器地址和DNS服务器：采用DHCP协议</li>
+<li>DHCP 请求被封装在UDP段中，封装在IP数据报中，封装在以太网的帧中</li>
+<li>以太网帧在局域网范围内广播(dest： FFFFFFFFFFFF)，被运行DHCP服务的路由器收到</li>
+<li>以太网帧解封装成IP，IP解封装成UDP，解封装成DHCP</li>
+<li>DHCP服务器生成DHCP ACK，包含客户端的IP地址，第一跳路由器的IP地址和DNS域名服务器的IP地址</li>
+<li>DHCP服务器封装的报文所在的帧转发到客户端，在客户端解封装成DHCP报文</li>
+<li>客户端知道它自己的IP地址，DNS服务器的名字和IP地址，第一跳路由器的IP地址</li>
+</ul>
+<p>第二次握手 略</p>
+<h3 id="3-4-NAT-Network-Address-Translation-网络地址转换-内网"><a href="#3-4-NAT-Network-Address-Translation-网络地址转换-内网" class="headerlink" title="3.4 NAT: Network Address Translation  网络地址转换(内网)"></a>3.4 NAT: Network Address Translation  网络地址转换(内网)</h3><blockquote>
+<p>随着所谓小型办公室、家庭办公室(Small Office, Home Office, SOHO)子网的大量出现，看起来意味着每当一个SOHO想安装一个LAN以互联多台机器时，需要ISP分配一组地址以供该SOHO的所有IP设备(包括电话、平板电脑、 游戏设备、IPTV、打印机等)使用。如果该子网变大了，则需要分配一块较大的地址。 但如果ISP已经为SOHO网络的当前地址范围分配过一块连续地址该怎么办呢？并且，家 庭主人一般要(或应该需要)首先知道的管理IP地址的典型方法有哪些呢？幸运的是， 有一种简单的方法越来越广泛地用在这些场合：<strong>网络地址转换(Network Address Translation ,NAT)</strong> </p>
+</blockquote>
+<p><img src="/images/Computer-Network4/image-20211001150949929.png" alt="image-20211001150949929"></p>
+<ul>
+<li><font color="red">动机:</font> 本地网络只有一个有效IP地址：       分配更多地址<ul>
+<li>不需要从ISP分配一块地址，可用一个IP地址用于所有的（局域网）设备–省钱 </li>
+<li>可以在局域网改变设备的地址情况下而无须通知外界 </li>
+<li>可以改变ISP（地址变化）而不需要改变内部的设备地址 </li>
+<li>局域网内部的设备没有明确的地址，对外是不可见的–安全</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">实现:</font> NAT 路由器必须：</p>
+<ul>
+<li><p><font color="blue">外出数据包：</font>替换<font color="red">源地址和端口号</font>为NAT IP地址 和新的端口号目标IP和端口不变 …远端的C/S将会用NAP IP地址，新端口号作为目标地址</p>
+</li>
+<li><p><font color="blue">记住</font>每个转换替换对（在NAT转换表中）<br>.. 源IP，端口 vs NAP IP ，新端口 </p>
+</li>
+<li><p><font color="blue">进入数据包：</font>替换<font color="red">目标IP地址和端口号</font>，采用存储在NAT表中的mapping表项，用（源IP，端口）</p>
+</li>
+</ul>
+<p><strong>实际上就是用外网的端口号代表内网的某个IP和相应的端口号</strong><br><strong>出去的时候替换   原来IP 和 端口号</strong><br><strong>进来的时候替换    目标IP 和 端口号</strong></p>
+<p><img src="/images/Computer-Network4/image-20230704142941954.png" alt="image-20230704142941954"></p>
+<p>16-bit端口字段: </p>
+<ul>
+<li>6万多个同时连接，一个局域网! </li>
+</ul>
+<p>对NAT是有争议的: </p>
+<ul>
+<li><p>路由器只应该对第3层做信息处理，而这里对端口号（4层）作了处理 </p>
+</li>
+<li><p>违反了end-to-end 原则 </p>
+<ul>
+<li><p>端到端原则：复杂性放到网络边缘 </p>
+<ul>
+<li>无需借助中转和变换，就可以直接传送到目标主机</li>
+</ul>
+</li>
+<li><p>NAT可能要被一些应用设计者考虑，eg，P2P app</p>
+</li>
+<li><p> 外网的机器无法主动连接到内网的机器上 </p>
+</li>
+</ul>
+</li>
+<li><p>地址短缺问题可以被IPv6 解决 </p>
+</li>
+<li><p>NAT穿越： 如果客户端需要连接在NAT后面的服务器，如何操作</p>
+</li>
+</ul>
+<h4 id="NAT-穿越问题（略）"><a href="#NAT-穿越问题（略）" class="headerlink" title="NAT 穿越问题（略）"></a>NAT 穿越问题（略）</h4><p><img src="/images/Computer-Network4/image-20211001152533723.png" alt="image-20211001152533723"></p>
+<ul>
+<li><p>客户端需要连接地址为 10.0.0.1的服务器 </p>
+<ul>
+<li>服务器地址10.0.0.1 LAN本地地址 (客户端不能够使用其作为目标地址) </li>
+<li>整网只有一个外部可见地址: 138.76.29.7 </li>
+</ul>
+</li>
+<li><p><strong>方案1: 静态配置NAT：转发进来的对服务器特定端口连接请求</strong></p>
+<ul>
+<li>e.g., (123.76.29.7, port 2500) 总是转发到10.0.0.1 port 25000</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001152723380.png" alt="image-20211001152723380"></p>
+</li>
+<li><p><strong>方案2: Universal Plug and Play (UPnP) Internet Gateway Device (IGD) 协议. 允许 NATted主机可以:</strong>    动态分配端口</p>
+<ul>
+<li>获知网络的公共 IP地址 (138.76.29.7) </li>
+<li>列举存在的端口映射</li>
+<li>增/删端口映射 (在租用时间内 )</li>
+</ul>
+</li>
+<li><p>i.e., 自动化静态NAT端口映射配置</p>
+</li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001152732177.png" alt="image-20211001152732177"></p>
+<ul>
+<li><strong>方案 3: 中继 (used in Skype)</strong> <ul>
+<li>NAT后面的服务器建立和中继的连接 </li>
+<li>外部的客户端链接到中继 </li>
+<li>中继在2个连接之间桥接</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-5-IPv6"><a href="#3-5-IPv6" class="headerlink" title="3.5 IPv6"></a>3.5 IPv6</h3><p><u><font color="red">IPv6：动机</font></u></p>
+<ul>
+<li><font color="red">初始动机: </font>32-bit地址空间将会被很快用完 </li>
+<li>另外的动机: <ul>
+<li>头部格式改变帮助加速处理和转发 <ul>
+<li>TTL-1 </li>
+<li>头部checksum </li>
+<li>分片 </li>
+</ul>
+</li>
+<li>头部格式改变帮助QoS </li>
+</ul>
+</li>
+</ul>
+<h4 id="3-5-1-IPv6-数据报格式"><a href="#3-5-1-IPv6-数据报格式" class="headerlink" title="3.5.1 IPv6 数据报格式"></a>3.5.1 IPv6 数据报格式</h4><p><strong><img src="/images/Computer-Network4/image-20230705153540675.png" alt="IPv6 数据报格式"></strong></p>
+<ul>
+<li>扩大的地址容量：IPv6 将IP 地址长度从32比特增加到128比特</li>
+<li>固定的40 字节头部 </li>
+</ul>
+<p>IPv6 数据报的结构更简单和高效：</p>
+<ul>
+<li><font color="blue">版本。</font>该<strong>4</strong>比特字段用于标识IP版本号<ul>
+<li>IPv6将该字段设置为6，注意将该字段设置为4不能创建一个合法的IPv4数据报</li>
+</ul>
+</li>
+<li><font color="blue">流量标签。</font>该<strong>8</strong>比特字段与我们在IPv4中看到的<strong>TOS</strong>字段的含义相似</li>
+<li><font color="blue">流标签</font><ul>
+<li>该<strong>20</strong>比特的字段用于标识一条数据报的流，能够对一条流中的某些数据报给出优先权，或者它能够用来对来自某些应用（例如IP语音）的数据报给岀更高的优先权，以优于来自其他应用（例如SMTP电子邮件） 的数据报</li>
+</ul>
+</li>
+<li><font color="blue">有效载荷长度。</font>该16比特值作为一个无符号整数，给出了 IPv6数据报中跟在定长的40字节数据报首部后面的字节数量</li>
+<li><font color="blue">下一个首部。</font>该字段标识数据报中的内容（数据字段）需要交付给哪个协议（如 TCP或UDP）。该字段使用与IPv4首部中协议字段相同的值。</li>
+<li><font color="blue">跳限制。</font>转发数据报的每台路由器将对该字段的内容减1。如果跳限制计数达到 0,则该数据报将被丢弃。 </li>
+<li><font color="blue">源地址和目的地址。</font>IPv6 128比特地址的各种格式在RFC 4291中进行了描述。 </li>
+<li><font color="blue">数据。</font>这是IPv6数据报的有效载荷部分。当数据报到达目的地时，该有效载荷就 从IP数据报中移出，并交给在下一个首部字段中指定的协议处理</li>
+</ul>
+<p><strong><font color="red">IPv6 头部 (Cont)</font></strong></p>
+<p>Priority: 标示流中数据报的优先级<br>Flow Label: 标示数据报在一个<strong>“flow”流</strong> ( “flow”的概念没有被严格的定义)<br>Next header: 标示上层协议</p>
+<p><img src="/images/Computer-Network4/image-20211001153026504.png" alt="image-20211001153026504"></p>
+<p><strong><font color="red">和IPv4的其它变化</font></strong></p>
+<ul>
+<li><font color="red">Checksum: </font>被移除掉，降低在每一段中的处理 速度 </li>
+<li><font color="red">Options:</font> 允许，但是在头部之外, 被 “Next Header” 字段标示 </li>
+<li>分片/重组。数据报传输过程中，不允许分片（不允许在中间路由器上进行分片和重组）。这种操作之呢个在源和目的地执行</li>
+<li><font color="red">ICMPv6: </font>ICMP的新版本 <ul>
+<li>附加了报文类型, e.g. “Packet Too Big” </li>
+<li>多播组管理功能</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-5-2-从IPv4到IPv6的迁移"><a href="#3-5-2-从IPv4到IPv6的迁移" class="headerlink" title="3.5.2 从IPv4到IPv6的迁移"></a>3.5.2 从IPv4到IPv6的迁移</h4><p><font color="red">问题：新型IPv6能使系统可做成向后兼容，即能发送、路由和接收IPv4数据报，但已部署的具有IPv4能力的系统却不能够处理IPv6数据报</font></p>
+<ul>
+<li>不是所有的路由器都能够同时升级的 <ul>
+<li>没有一个标记日 “flag days” ：即指定某个日期和时间，届时因特网的所有机器都关机从IPv4升级到IPv6（显然不可能）</li>
+<li>在IPv4和IPv6路由器混合时，网络如何运转? </li>
+</ul>
+</li>
+<li>广泛采用的方法是<strong>建隧道（tunneling）: 在IPv4路由器之间传输的IPv4数据报中携带IPv6数据报</strong></li>
+</ul>
+<p><img src="/images/Computer-Network4/image-20211001153350960.png" alt="image-20211001153350960"></p>
+<p><font color="red">隧道(Tunneling)</font></p>
+<p>中间IPv4路由器的集合称为隧道</p>
+<p><img src="/images/Computer-Network4/image-20211001153500951.png" alt="image-20211001153500951"></p>
+<p><img src="/images/Computer-Network4/image-20211001153521591.png" alt="image-20211001153521591"></p>
+<blockquote>
+<p>借助于隧道，在隧道发送端的IPv6节点 （如B）可将整个IPv6数据报放到一个IPv4数据报的数据（有效载荷）字段中。于是, 该IPv4数据报的地址设为指向隧道接收端的IPv6节点（在此例中为E）,再发送给隧道中的第一个节点（在此例中为C）。隧道中的中间IPv4路由器在它们之间为该数据报提供路由，就像对待其他数据报一样，完全不知道该IPv4数据报自身就含有一个完整的 IPv6数据报。隧道接收端的IPv6节点最终收到该IPv4数据报（它是该IPv4数据报的目的地），并确定该IPv4数据报含有一个IPv6数据报（通过观察在IPv4数据报中的协议号字段是41 [RFC 4213],指示该IPv4有效载荷是IPv6数据报），从中取出IPv6数据报，然后再为该IPv6数据报提供路由，就好像它是从一个直接相连的IPv6邻居那里接收到该IPv6数据报一样。</p>
+</blockquote>
+<p><font color="red">IPv6: 应用</font></p>
+<ul>
+<li>Google: 8% 的客户通过IPv6访问谷歌服务</li>
+<li>NIST: 全美国1/3的政府域支持IPv6 </li>
+<li><font color="red">估计还需要很长时间进行部署</font><ul>
+<li>20年以上! </li>
+<li>看看过去20年来应用层面的变化: WWW, Facebook, streaming media, Skype, … </li>
+<li>为什么?</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>改变网络层协议是及其困难的，这就好比替换一幢房子的基石；应用层协议的部署是可以非常迅速的，这就好比给一幢房子重新刷油漆</p>
+</blockquote>
+<h2 id="4-通用转发和SDN"><a href="#4-通用转发和SDN" class="headerlink" title="4 通用转发和SDN"></a>4 通用转发和SDN</h2><h3 id="4-1-网络层功能为例的数据平面和控制平面"><a href="#4-1-网络层功能为例的数据平面和控制平面" class="headerlink" title="4.1 网络层功能为例的数据平面和控制平面"></a>4.1 网络层功能为例的数据平面和控制平面</h3><p><font color="red">网络层功能：</font> </p>
+<ul>
+<li><font color="blue">转发：</font>  对于从某个端口到来的分组转发到合适的输出端口 </li>
+<li><font color="blue">路由：</font>  决定分组从源端到目标端的路径 <ul>
+<li>路由算法</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">类比: 旅行</font></p>
+<ul>
+<li><font color="blue">转发：</font>  一个多岔路口的进入和转出过程 </li>
+<li><font color="blue">路由： </font> 规划从源到目标的旅行路径</li>
+</ul>
+<p><font color="red">数据平面</font>     细节</p>
+<ul>
+<li>本地的、每个路由器的功能 </li>
+<li>决定某个从某个端口进入的分组从从哪个端口 输出 </li>
+<li>转发功能</li>
+</ul>
+<p><font color="red">控制平面</font>     整体</p>
+<ul>
+<li>网络范围的逻辑 </li>
+<li>决定分组端到端穿行于各个路由器的路径</li>
+</ul>
+<h3 id="4-2-每个路由器-Per-Route-的控制平面-（传统）"><a href="#4-2-每个路由器-Per-Route-的控制平面-（传统）" class="headerlink" title="4.2 每个路由器(Per Route)的控制平面  （传统）"></a>4.2 每个路由器(Per Route)的控制平面  （传统）</h3><p>每个路由器上都有实现路由算法元件（它们之间需要相互交 互）- 形成传统IP实现方式的控制平面</p>
+<p><strong>控制平面式分布式的，由各个路由器的各自完成，难于管理</strong></p>
+<p><img src="/images/Computer-Network4/image-20211001154409133.png" alt="image-20211001154409133"></p>
+<h4 id="4-2-1-数量众多、功能各异的中间盒"><a href="#4-2-1-数量众多、功能各异的中间盒" class="headerlink" title="4.2.1 数量众多、功能各异的中间盒"></a>4.2.1 数量众多、功能各异的中间盒</h4><ul>
+<li>路由器的网络层功能： <ul>
+<li>IP转发：对于到来的分组按照路由表决定如何转发，数据平面 </li>
+<li>路由：决定路径，计算路由表；处在控制平面 </li>
+</ul>
+</li>
+<li>还有其他种类繁多网络设备（中间盒）： <ul>
+<li>交换机；防火墙；NAT；IDS；负载均衡设备 </li>
+<li>未来：不断增加的需求和相应的网络设备 </li>
+<li><strong>需要不同的设备去实现不同的网络功能</strong> <ul>
+<li><strong>每台设备集成了控制平面和数据平面的功能</strong> </li>
+<li><strong>控制平面分布式地实现了各种控制平面功能</strong> </li>
+<li><strong>升级和部署网络设备非常困难</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-2-2-网络设备控制平面的实现方式特点"><a href="#4-2-2-网络设备控制平面的实现方式特点" class="headerlink" title="4.2.2 网络设备控制平面的实现方式特点"></a>4.2.2 网络设备控制平面的实现方式特点</h4><ul>
+<li><p>互联网网络设备：传统方式都是通过分布式，每台 备的方法来实现数据平面和控制平面功能</p>
+<ul>
+<li><font color="red">垂直集成：</font>每台路由器或其他网络设备，包括： <ul>
+<li>1）硬件、在私有的操作系统； </li>
+<li>2）互联网标准协议(IP, RIP, IS-IS, OSPF, BGP)的私有实现 </li>
+<li>从上到下都由一个厂商提供（代价大、被设备上“绑架”“） </li>
+</ul>
+</li>
+<li>每个设备都实现了数据平面和控制平面的事情 <ul>
+<li>控制平面的功能是<font color="red">分布式</font>实现的 </li>
+</ul>
+</li>
+<li>设备基本上只能（分布式升级困难）按照<font color="red">固定方式工作</font>， 控制逻辑固化。不同的网络功能需要不同的 “middleboxes”：防火墙、负载均衡设备、NAT boxes, .</li>
+</ul>
+</li>
+<li><p>（数据+控制平面）集成&gt;（控制逻辑）分布-&gt;固化 </p>
+<ul>
+<li>代价大；升级困难；管理困难等</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-2-3-传统方式实现网络功能的问题"><a href="#4-2-3-传统方式实现网络功能的问题" class="headerlink" title="4.2.3 传统方式实现网络功能的问题"></a>4.2.3 传统方式实现网络功能的问题</h4><ul>
+<li>问题： <ul>
+<li><strong>垂直集成&gt;昂贵、不便于创新的生态</strong> </li>
+<li><strong>分布式、固化设备功能==网络设备种类繁多</strong> <ul>
+<li>无法改变路由等工作逻辑，无法实现流量工程等高级特性 </li>
+<li>配置错误影响全网运行；升级和维护会涉及到全网设备：<strong>管理困难</strong> </li>
+<li>要增加新的网络功能，需要设计、实现以及部署新的特定设备，设备种类繁多 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>~2005: 开始重新思考网络控制平面的处理方式 <ul>
+<li>集中：远程的控制器集中实现控制逻辑 </li>
+<li>远程：数据平面和控制平面的分离</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-SDN：逻辑上集中的控制平面"><a href="#4-3-SDN：逻辑上集中的控制平面" class="headerlink" title="4.3 SDN：逻辑上集中的控制平面"></a>4.3 SDN：逻辑上集中的控制平面</h3><p>一个不同的（通常是远程）控制器和CA交互，控制器决定分组转发的逻辑（可编程），CA所在设备执行逻辑。</p>
+<p><img src="/images/Computer-Network4/image-20230704144139059.png" alt="image-20230704144139059"></p>
+<h4 id="4-3-1-SDN的主要思路"><a href="#4-3-1-SDN的主要思路" class="headerlink" title="4.3.1 SDN的主要思路"></a>4.3.1 SDN的主要思路</h4><ul>
+<li>网络设备数据平面和控制平面分离 </li>
+<li>数据平面-分组交换机 <ul>
+<li>将路由器、交换机和目前大多数网络设备的功能进一步<font color="red">抽象</font>成：按照流表（由控制平面设置的控制逻辑）进行PDU （帧、分组）的<strong>动作（包括转发、丢弃、拷贝、泛洪、阻塞）</strong> </li>
+<li><font color="red">统一化</font>设备功能：SDN交换机（分组交换机），执行控制逻辑 </li>
+</ul>
+</li>
+<li>控制平面-控制器+网络应用 <ul>
+<li>分离、集中 </li>
+<li>计算和下发控制逻辑：流表</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-3-2-SDN控制平面和数据平面分离的优势"><a href="#4-3-2-SDN控制平面和数据平面分离的优势" class="headerlink" title="4.3.2 SDN控制平面和数据平面分离的优势"></a>4.3.2 SDN控制平面和数据平面分离的优势</h4><ul>
+<li><font color="red">水平集成</font>控制平面的<font color="red">开放实现</font>（而非私有实现），创造出好的产业生态，促进发展 <ul>
+<li>分组交换机、控制器和各种控制逻辑网络应用app可由不同 厂商生产，专业化，引入竞争形成良好生态 </li>
+</ul>
+</li>
+<li><font color="red">集中式</font>实现控制逻辑，网络<font color="red">管理容易：</font> <ul>
+<li>集中式控制器了解网络状况，编程简单，传统方式困难 </li>
+<li>避免路由器的误配置 </li>
+</ul>
+</li>
+<li>基于流表的<strong>匹配+行动</strong>的工作方式允许<font color="red">“可编程的”</font>分组交换机<ul>
+<li>实现流量工程等高级特性 </li>
+<li>在此框架下实现各种新型（未来）的网络设备</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-3-3-类比-主框架到PC的演变"><a href="#4-3-3-类比-主框架到PC的演变" class="headerlink" title="4.3.3 类比: 主框架到PC的演变"></a>4.3.3 类比: 主框架到PC的演变</h4><p><strong>要买硬件 就要买操作系统  就要买专用的软件</strong></p>
+<p><img src="/images/Computer-Network4/image-20230704144333657.png" alt="image-20230704144333657"></p>
+<h3 id="4-4-流量工程-传统路由比较困难"><a href="#4-4-流量工程-传统路由比较困难" class="headerlink" title="4.4 流量工程: 传统路由比较困难"></a>4.4 流量工程: 传统路由比较困难</h3><p><img src="/images/Computer-Network4/image-20211001160320932.png" alt="image-20211001160320932"></p>
+<p><strong>Q: 网管如果需要u到z的流量走uvwz,x到z的流量走xwyz，怎么办？</strong> </p>
+<p>A: <strong>需要定义链路的代价</strong>，流量路由算法以此运算<strong>（ IP路由面向目标，无法操作）</strong> (或者需要新的路由算法)! </p>
+<p><font color="red">链路权重只是控制旋钮，错！</font></p>
+<h4 id="4-4-1-流量工程：困难"><a href="#4-4-1-流量工程：困难" class="headerlink" title="4.4.1 流量工程：困难"></a>4.4.1 流量工程：困难</h4><p><img src="/images/Computer-Network4/image-20211001160555463.png" alt="image-20211001160555463"></p>
+<p>Q: 如果网管需要将u到z的流量分成2路：uvwz 和uxyz ( 负载均衡)，怎么办?（IP路由面向目标） </p>
+<p>A: 无法完成(在原有体系下只有使用新的路由选择算法 ，而在全网部署新的路由算法是个大的事情)</p>
+<p><img src="/images/Computer-Network4/image-20211001160622576.png" alt="image-20211001160622576"></p>
+<p>Q:如果需要w对蓝色的和红色的流量采用不同的路由，怎么办？ </p>
+<p>A: 无法操作 (基于目标的转发，采用LS, DV 路由)</p>
+<h4 id="4-4-2-SDN特点"><a href="#4-4-2-SDN特点" class="headerlink" title="4.4.2 SDN特点"></a>4.4.2 SDN特点</h4><p><img src="/images/Computer-Network4/image-20211001160657605.png" alt="image-20211001160657605"></p>
+<h3 id="4-5-SDN-架构"><a href="#4-5-SDN-架构" class="headerlink" title="4.5 SDN 架构"></a>4.5 SDN 架构</h3><h4 id="4-5-1-SDN-架构-数据平面交换机"><a href="#4-5-1-SDN-架构-数据平面交换机" class="headerlink" title="4.5.1 SDN 架构: 数据平面交换机"></a>4.5.1 SDN 架构: 数据平面交换机</h4><p><font color="red">数据平面交换机</font> </p>
+<ul>
+<li>快速，简单，商业化交换设备采用硬件实现通用转发功能 </li>
+<li>流表被控制器计算和安装 </li>
+<li><strong>基于南向API（例如OpenFlow ），SDN控制器访问基于流的交换机</strong> <ul>
+<li>定义了哪些可以被控制哪些不能 </li>
+</ul>
+</li>
+<li>也定义了和控制器的协议 (e.g., OpenFlow)</li>
+</ul>
+<h4 id="4-5-2-SDN-架构-SDN控制器"><a href="#4-5-2-SDN-架构-SDN控制器" class="headerlink" title="4.5.2 SDN 架构: SDN控制器"></a>4.5.2 SDN 架构: SDN控制器</h4><p><font color="red">SDN 控制器(网络OS): </font></p>
+<ul>
+<li>维护网络状态信息 </li>
+<li><strong>通过上面的北向API和网络控制应用交互</strong>   向上</li>
+<li><strong>通过下面的南向API和网络交换机交互</strong>       向下</li>
+<li>逻辑上集中，但是在实现上通常由于性能、可扩展性、 容错性以及鲁棒性采用分布式方法</li>
+</ul>
+<h4 id="4-5-3-SDN-架构-控制应用"><a href="#4-5-3-SDN-架构-控制应用" class="headerlink" title="4.5.3 SDN 架构: 控制应用"></a>4.5.3 SDN 架构: 控制应用</h4><p><font color="red">网络控制应用: </font></p>
+<ul>
+<li>控制的大脑： 采用下层提供的服务（SDN控制器提供的 API)，实现网络功能 <ul>
+<li>路由器 交换机 </li>
+<li>接入控制 防火墙 </li>
+<li>负载均衡 </li>
+<li>其他功能 </li>
+</ul>
+</li>
+<li>非绑定：可以被第三方提供 ，与控制器厂商以通常上不 同，与分组交换机厂商也可以不同</li>
+</ul>
+<h4 id="4-5-4-通用转发和SDN"><a href="#4-5-4-通用转发和SDN" class="headerlink" title="4.5.4 通用转发和SDN"></a>4.5.4 通用转发和SDN</h4><p>每个路由器包含一个<font color="red">流表</font>（被逻辑上集中的控制器计算和分发）</p>
+<p><img src="/images/Computer-Network4/image-20211001161538845.png" alt="image-20211001161538845"></p>
+<h3 id="4-6-OpenFlow协议"><a href="#4-6-OpenFlow协议" class="headerlink" title="4.6 OpenFlow协议"></a>4.6 OpenFlow协议</h3><p>通用flow-bascd基于流的匹配+行动(c.g,DpcnFlow)</p>
+<p><strong>OpenFlow</strong>，一种网络通信协议，属于<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">数据链路层</a>，<strong>能够控制网上交换器或<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%B7%AF%E7%94%B1%E5%99%A8">路由器</a>的转发平面（forwarding plane），借此改变网络数据包所走的网络路径。</strong></p>
+<blockquote>
+<p>OpenFlow能够启动远程的控制器，经由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E4%BA%A4%E6%8D%A2%E5%99%A8/8534019">网络交换器</a>，决定网络数据包要由何种路径通过<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E4%BA%A4%E6%8D%A2%E6%9C%BA/2105356">网络交换机</a>。这个协议的发明者，将它当成<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C">软件定义网络</a>（Software-defined networking）的启动器。 [1] </p>
+<p>OpenFlow允许从远程控制网络交换器的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%8C%85">数据包</a>转送表，透过新增、修改与移除数据包控制规则与行动，来改变数据包转送的路径。比起用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E8%A1%A8">访问控制表</a>(ACLs) 和路由协议，允许更复杂的流量管理。同时，OpenFlow允许不同供应商用一个简单，开源的协议去远程管理交换机（通常提供专有的接口和描述语言）。</p>
+<p>OpenFlow<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8D%8F%E8%AE%AE">协议</a>用来描述控制器和交换机之间交互所用信息的标准，以及控制器和交换机的接口标准。协议的核心部分是用于OpenFlow协议信息结构的集合。</p>
+<p>OpenFlow<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8D%8F%E8%AE%AE%E6%94%AF%E6%8C%81">协议支持</a>三种信息类型：Controller-to-Switch，Asynchronous和Symmetric，每一个类型都有多个子类型。Controller-to-Switch信息由控制器发起并且直接用于检测交换机的状态。Asynchronous信息由交换机发起并通常用于更新控制器的网络事件和改变交换机的状态。Symmetric信息可以在没有请求的情况下由控制器或交换机发起。</p>
+</blockquote>
+<h4 id="4-6-1-OpenFlow-数据平面抽象"><a href="#4-6-1-OpenFlow-数据平面抽象" class="headerlink" title="4.6.1 OpenFlow 数据平面抽象"></a>4.6.1 OpenFlow 数据平面抽象</h4><ul>
+<li><font color="blue">流：由分组（帧）头部字段所定义</font> </li>
+<li><font color="blue">通用转发：简单的分组处理规则</font> <ul>
+<li>*<font color="red">模式（匹配）：</font>*将分组头部字段和流表进行匹配 </li>
+<li>*<font color="red">行动（动作）：</font>*对于匹配上的分组，可以是丢弃、转发、修改、 将匹配的分组发送给控制器 </li>
+<li>*<font color="red">优先权Priority：</font>*几个模式匹配了，优先采用哪个，消除歧 义 </li>
+<li><em><font color="red">计数器Counters：</font></em>#bytes 以及 #packets</li>
+</ul>
+</li>
+</ul>
+<p>匹配加动作转发表在 OpenFlow 中称为<font color="red">流表（flow table）</font>，它的每个表项包括：</p>
+<ul>
+<li>首部字段值的集合，入分组将与之匹配</li>
+<li>计数器集合</li>
+<li>当分组匹配流表项时所采取的动作集合</li>
+</ul>
+<blockquote>
+<p>流表本质上是一个API</p>
+</blockquote>
+<h4 id="4-6-2-OpenFlow-流表的表项结构"><a href="#4-6-2-OpenFlow-流表的表项结构" class="headerlink" title="4.6.2 OpenFlow: 流表的表项结构"></a>4.6.2 OpenFlow: 流表的表项结构</h4><p><img src="/images/Computer-Network4/image-20230706104054696.png" alt="OpenFlow 1.0流表的分组匹配字段"></p>
+<p><img src="/images/Computer-Network4/image-20211001161724509.png" alt="image-20211001161724509"></p>
+<h4 id="4-6-3-例子-基于目标的转发"><a href="#4-6-3-例子-基于目标的转发" class="headerlink" title="4.6.3 例子 基于目标的转发"></a>4.6.3 例子 基于目标的转发</h4><p><img src="/images/Computer-Network4/image-20211001161743836.png" alt="image-20211001161743836"></p>
+<p><img src="/images/Computer-Network4/image-20211001161759335.png" alt="image-20211001161759335"></p>
+<h4 id="4-6-4OpenFlow-抽象"><a href="#4-6-4OpenFlow-抽象" class="headerlink" title="4.6.4OpenFlow 抽象"></a>4.6.4OpenFlow 抽象</h4><p><img src="/images/Computer-Network4/image-20211001161825639.png" alt="image-20211001161825639"></p>
+<h4 id="4-6-5-OpenFlow-例子"><a href="#4-6-5-OpenFlow-例子" class="headerlink" title="4.6.5 OpenFlow 例子"></a>4.6.5 OpenFlow 例子</h4><p><img src="/images/Computer-Network4/image-20211001161835426.png" alt="image-20211001161835426"></p>
+<p>问题: 转发表(基于目标的转发)和 流表（通用转发）是如何计算出 来的？ 答案: 通过控制平面(下一章)</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">8yyy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://8yyy.github.io/2022/09/08/Computer-Network4/">http://8yyy.github.io/2022/09/08/Computer-Network4/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">8yyy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                    <span class="chip bg-color">计算机网络</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/09/19/DOTNETCore/">
+                    <div class="card-image">
+                        
+                        <img src="/images/DOTNETCore/core.jpeg" class="responsive-img" alt="DOTNETCORE">
+                        
+                        <span class="card-title">DOTNETCORE</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Net/" class="post-category">
+                                    .Net
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Net-Core/">
+                        <span class="chip bg-color">.Net Core</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/09/02/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/">
+                    <div class="card-image">
+                        
+                        <img src="/images/%E5%88%98%E9%93%81%E7%8C%9B%E3%80%8AC-%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3%E3%80%8B%E7%AC%94%E8%AE%B0/cover.png" class="responsive-img" alt="刘铁猛《C#语言入门详解》笔记">
+                        
+                        <span class="card-title">刘铁猛《C#语言入门详解》笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CSharp/" class="post-category">
+                                    CSharp
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Note/">
+                        <span class="chip bg-color">Note</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('50')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 8yyy&#39;s blog<br />'
+            + '文章作者: 8yyy<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7668596917"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">8yyy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">295.6k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/8yyy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1410868939@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1410868939" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1410868939" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
