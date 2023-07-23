@@ -1,0 +1,2084 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="第5章 网络层：控制平面, 8yyy&#39;s blog">
+    <meta name="description" content="本章目标：理解网络层控制平面的工作原理
+
+传统路由选择算法 
+SDN 控制器 
+ICMP:Internet Control Message Protocol 
+网络管理（略） 
+
+以及它们在互联网上的实例和实现：
+
+OSPF, BGP, O">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>第5章 网络层：控制平面 | 8yyy&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: 100% 100%;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">8yyy&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">8yyy&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/14.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">第5章 网络层：控制平面</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                <span class="chip bg-color">计算机网络</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="post-category">
+                                计算机基础
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-09-15
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    30 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><font color="red">本章目标：</font>理解网络层控制平面的<font color="red">工作原理</font></p>
+<ul>
+<li>传统路由选择算法 </li>
+<li>SDN 控制器 </li>
+<li>ICMP:Internet Control Message Protocol </li>
+<li>网络管理（略） </li>
+</ul>
+<p>以及它们在互联网上的<font color="red">实例和实现</font>：</p>
+<ul>
+<li>OSPF, BGP, OpenFlow, ODL 和ONOS控制器, ICMP, SNMP</li>
+</ul>
+<h2 id="1-导论"><a href="#1-导论" class="headerlink" title="1. 导论"></a>1. 导论</h2><h3 id="1-1-网络层功能"><a href="#1-1-网络层功能" class="headerlink" title="1.1 网络层功能"></a>1.1 网络层功能</h3><p>回顾：2个网络层功能：</p>
+<ul>
+<li><strong>转发:将分组从路由器的一个输入端口移到合适的输出端口</strong>      数据平面</li>
+<li><strong>路由:确定分组从源到目标的路径</strong>   控制平面</li>
+</ul>
+<p>2种构建网络控制平面功能的方法:</p>
+<ul>
+<li><p><strong>每个路由器控制功能实现（传统)</strong></p>
+</li>
+<li><p><strong>逻辑上集中的控制功能实现(software defined networking)</strong></p>
+</li>
+</ul>
+<h3 id="1-2-传统方式：每-路由器-Per-router-控制平面"><a href="#1-2-传统方式：每-路由器-Per-router-控制平面" class="headerlink" title="1.2 传统方式：每-路由器(Per-router)控制平面"></a>1.2 传统方式：每-路由器(Per-router)控制平面</h3><p>在每一个路由器中的单独路由器算法元件，在控制平面进行 交互</p>
+<p><img src="/images/Computer-Network5/image-20211001182236954.png" alt="image-20211001182236954"></p>
+<p><img src="/images/Computer-Network5/image-20230710142246729.png" alt="image-20230710142246729"></p>
+<h3 id="1-3-SDN方式：逻辑上集中的控制平面"><a href="#1-3-SDN方式：逻辑上集中的控制平面" class="headerlink" title="1.3 SDN方式：逻辑上集中的控制平面"></a>1.3 SDN方式：逻辑上集中的控制平面</h3><p>一个不同的（通常是远程的）控制器与本地控制代理（CAs） 交互.</p>
+<p>上发状态，下发流表</p>
+<p><img src="/images/Computer-Network5/image-20211001182317151.png" alt="image-20211001182317151"></p>
+<p><img src="/images/Computer-Network5/image-20230710142257988.png" alt="image-20230710142257988"></p>
+<h2 id="2-路由选择算法"><a href="#2-路由选择算法" class="headerlink" title="2. 路由选择算法"></a>2. 路由选择算法</h2><ul>
+<li>link state LS 链路状态路由选择算法</li>
+<li>distance vector  DV 距离向量路由选择算法</li>
+</ul>
+<h3 id="2-1-路由-route-的概念"><a href="#2-1-路由-route-的概念" class="headerlink" title="2.1 路由(route)的概念"></a>2.1 路由(route)的概念</h3><ul>
+<li><p><strong>路由选择算法目的：按照某种指标(传输延迟,所经过的站点数目等)找到一条从源节点到目标节点的较好路径</strong> </p>
+<ul>
+<li>较好路径：按照某种指标较小的路径 </li>
+<li>指标：站数， 延迟，费用，队列长度等，或者是一些单纯指标的加权平均 </li>
+<li>采用什么样的指标，表示网络使用者希望网络在什么方面表现突出，什么指标网络使用者比较重视 </li>
+</ul>
+</li>
+<li><p><strong>以<font color="red">网络</font>为单位进行路由（路由信息通告+路由计算）</strong>   <strong>==一个子网 一个子网 进行路由==</strong></p>
+<ul>
+<li>网络为单位进行路由，路由信息传输、计算和匹配的代价低 </li>
+<li>前提条件是：一个网络所有节点地址前缀相同，且物理上聚集 </li>
+<li>路由就是：计算网络到其他网络如何走的问题</li>
+</ul>
+</li>
+<li><p><strong>网络到网络的路由= 路由器-路由器之间路由</strong> </p>
+<ul>
+<li>网络对应的路由器  到  其他网络对应的路由器的路由 </li>
+<li><strong>在一个网络中：路由器-主机之间的通信，链路层解决</strong> </li>
+<li>到了这个路由器就是到了这个网络</li>
+</ul>
+</li>
+<li><p>路由选择算法（routing algorithm）：网络层软件的一部分，完成路由功能</p>
+</li>
+</ul>
+<p><strong>网络的图抽象</strong></p>
+<p><img src="/images/Computer-Network5/image-20211001184712732.png" alt="image-20211001184712732"></p>
+<p><strong>图抽象：边和路径的代价</strong></p>
+<ul>
+<li>用c(x,y)表示节点x和y间边的开销 , c(w,z) = 5 </li>
+<li>代价可能总为１ </li>
+<li>或是 链路带宽的倒数 </li>
+<li>或是 拥塞情况的倒数</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230710144650979.png" alt="image-20230710144650979"></p>
+<p><img src="/images/Computer-Network5/image-20211001184806495.png" alt="image-20211001184806495"></p>
+<blockquote>
+<p><font color="red">路由的输入：</font>拓扑、边的代价、源节点<br><font color="red">输出的输出：</font>源节点的汇集树</p>
+</blockquote>
+<p><strong>最优化原则(optimality principle)</strong></p>
+<ul>
+<li>汇集树(sink tree)    ——  Dijkstra算法、Bellman-Ford算法<ul>
+<li><strong>此节点到所有其它节点的最优路径形成的树</strong>        <strong>==(源节点)==</strong>    到源节点的最短距离</li>
+<li><strong>路由选择算法就是为所有路由器<font color="red">找到</font>并<font color="red">使用</font>汇集树</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211001184954715.png" alt="image-20211001184954715"></p>
+<p><strong>路由的原则</strong></p>
+<p>路由选择算法的原则 </p>
+<ul>
+<li>正确性(correctness)：算法必须是<font color="red">正确</font>的和<font color="red">完整</font>的，使分组一站一站接力，正确发向目标站；完整：目标所有的站地址，在路由表中都能找到相应的表项；没有处理不了的目标站地址； </li>
+<li>简单性(simplicity)：算法在计算机上应简单：最优但复杂的算法，时间上延迟很大，不实用，不应为了获取路由信息增加很多的通信量； </li>
+<li>健壮性(robustness)：算法应能适应<font color="red">通信量</font>和<font color="red">网络拓扑</font>的变化：通信量变化，网络拓扑的变化算法能很快适应； 不向很拥挤的链路发数据，不向断了的链路发送数据；</li>
+<li>稳定性(stability)：产生的路由不应该摇摆 </li>
+<li>公平性(fairness)：对每一个站点都公平 </li>
+<li>最优性(optimality)：某一个指标的最优，时间上，费用上，等指标，或综合指标；实际上，获取最优的结果代价较高，可以是次优的</li>
+</ul>
+<p><strong>路由算法分类</strong></p>
+<p><font color="red">第一种：全局或者局部路由信息?</font></p>
+<p><font color="blue">全局（集中式）：</font></p>
+<ul>
+<li>所有的路由器拥有完整的拓和边的代价的信息（该算法必须知道网络中每条链路的开销） </li>
+<li><strong><font color="red">链路状态“link state” 算法</font></strong></li>
+</ul>
+<p><font color="blue">分布式：</font></p>
+<ul>
+<li>路由器只知道与它有物理连接关系的邻居路由器，和到相应邻居路由器的代价值 </li>
+<li>叠代地与邻居交换路由信息、 计算路由信息 </li>
+<li><strong><font color="red">距离向量“distance vector” 算法</font></strong></li>
+</ul>
+<p><font color="red">第二种：静态或者动态的?</font></p>
+<p><font color="blue">静态:</font></p>
+<ul>
+<li><strong>路由随时间变化缓慢</strong> </li>
+</ul>
+<blockquote>
+<p><strong>非自适应算法(non-adaptive algorithm)： 不能适应网络拓扑和通信量的变化,路由表是事先计算好的</strong></p>
+</blockquote>
+<p><font color="blue">动态:</font> </p>
+<ul>
+<li><strong>路由变化很快</strong> <ul>
+<li><strong>周期性更新</strong> </li>
+<li><strong>根据链路代价的变化而变化</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>自适应路由选择(adaptive algorithm)：能适应网络拓扑和通信量的变化</strong>   ——    网络拓扑状态和边的代价状态</p>
+</blockquote>
+<p><font color="red">第三种：负载敏感的或者负载迟钝的?</font></p>
+<p><font color="blue">负载敏感:</font></p>
+<ul>
+<li>链路开销会动态地变化以反映出底层链路的拥塞水平</li>
+<li>早期的ARPAnet</li>
+</ul>
+<p><font color="blue">负载迟钝:</font></p>
+<ul>
+<li>某条链路的开发不明确地反映其当前（或最近的）用三个水平</li>
+<li>当今的路由选择算法都是负载迟钝的（入RIP、OSPF和BGP）</li>
+</ul>
+<h3 id="2-2-路由选择算法-link-state-（全局）"><a href="#2-2-路由选择算法-link-state-（全局）" class="headerlink" title="2.2 路由选择算法 link state （全局）"></a>2.2 路由选择算法 link state （全局）</h3><blockquote>
+<p>实践中这是通过让每个节点向网络中所有其他节点广播链路状态分组来完成的，每个链路状态分组包含它所连接的链路的标识和开销。</p>
+</blockquote>
+<p><strong>LS路由的工作过程</strong></p>
+<p>配置<font color="red">LS路由选择算法</font>的路由工作过程 </p>
+<ul>
+<li>各点通过各种渠道获得<font color="red">整个网络拓扑</font>, 网络中所有链路代价等信息<strong>（这部分和算法没关系，属于协议和实现）</strong> </li>
+<li>使用<font color="red">LS路由算法</font>，计算本站点到其它站点的最优路径(汇集树)，得到路由表</li>
+<li>按照此路由表转发分组(datagram方式) <ul>
+<li>严格意义上说不是路由的一个步骤 </li>
+<li>分发到输入端口的网络层</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211001224205074.png" alt="image-20211001224205074"></p>
+<p><strong>链路状态路由选择(link state routing)</strong></p>
+<p>LS路由的基本工作过程 </p>
+<ol>
+<li><p><strong>发现相邻节点,获知对方网络地址</strong> </p>
+</li>
+<li><p><strong>测量到相邻节点的代价(延迟,开销)</strong> </p>
+</li>
+<li><p><strong>组装一个LS分组,描述它到相邻节点的代价情况</strong> </p>
+</li>
+<li><p><strong>将分组通过扩散的方法发到所有其它路由器 以上4步让每个路由器获得拓扑和边代价</strong> </p>
+</li>
+<li><p><strong>通过<font color="red">Dijkstra算法</font>找出最短路径（这才是路由算法）</strong> </p>
+</li>
+<li><p>每个节点独立算出来到其他节点（路由器=网络）的最短路径 </p>
+</li>
+<li><p>迭代算法：第k步能够知道本节点到k个其他节点的最短路径</p>
+</li>
+</ol>
+<p>==<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-islands/">200. 岛屿数量</a>  —— 类似泛洪  FloodFill 算法==</p>
+<ol>
+<li>发现相邻节点,获知对方网络地址<ul>
+<li> <strong>一个路由器上电之后,向所有线路发送HELLO分组</strong></li>
+<li> <strong>其它路由器收到HELLO分组,回送应答,在应答分组中,告知自己的名字(全局唯一)</strong> </li>
+<li><strong>在LAN中,通过广播HELLO分组,获得其它路由器的信息, 可以认为引入一个人工节点</strong></li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/Computer-Network5/image-20211001224742043.png" alt="image-20211001224742043"></p>
+<ol start="2">
+<li>测量到相邻节点的代价(延迟,开销) <ul>
+<li><strong>实测法,发送一个分组要求对方立即响应</strong> </li>
+<li>回送一个ECHO分组</li>
+<li>通过测量时间可以估算出延迟情况</li>
+</ul>
+</li>
+<li>组装一个分组,描述相邻节点的情况<ul>
+<li><strong>发送者名称</strong> </li>
+<li>序号,年龄 </li>
+<li>列表: 给出它相邻节点,和它到相邻节点的延迟</li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/Computer-Network5/image-20211001230058910.png" alt="image-20211001230058910"></p>
+<ol start="4">
+<li><p>将分组通过扩散的方法发到所有其它路由器 </p>
+<ul>
+<li><p><strong>顺序号:用于控制无穷的扩散,每个路由器都记录( 源路由器,顺序号),发现重复的或老的就不扩散</strong> </p>
+<ul>
+<li>具体问题1：循环使用问题 </li>
+<li>具体问题2：路由器崩溃之后序号从0开始 </li>
+<li>具体问题3：序号出现错误 </li>
+</ul>
+</li>
+<li><p><strong>解决问题的办法:年龄字段(age)</strong> </p>
+<ul>
+<li><strong>生成一个分组时,年龄字段不为0</strong> </li>
+<li><strong>每个一个时间段,AGE字段减1</strong> </li>
+<li><strong>AGE字段为0的分组将被抛弃</strong></li>
+</ul>
+</li>
+<li><p>关于扩散分组的数据结构</p>
+<ul>
+<li><strong>Source</strong> :从哪个节点收到LS分组 </li>
+<li><strong>Seq,Age</strong>:序号,年龄 </li>
+<li><strong>Send flags</strong>:发送标记,必须向指定的哪些相邻站点转发LS分组</li>
+<li><strong>ACK flags</strong>:本站点必须向哪些相邻站点发送应答</li>
+</ul>
+</li>
+<li><p><strong>DATA</strong>:来自source站点的LS分组  </p>
+</li>
+<li><p>节点B的数据结构</p>
+<p><img src="/images/Computer-Network5/image-20211002003536511.png" alt="image-20211002003536511"></p>
+</li>
+</ul>
+</li>
+<li><p>通过Dijkstra算法找出最短路径 </p>
+<ol>
+<li>路由器获得各站点LS分组和整个网络的拓扑 </li>
+<li>通过Dijkstra算法计算出到其它各路由器的最短 路径(汇集树) </li>
+<li>将计算结果安装到路由表中</li>
+</ol>
+</li>
+</ol>
+<p><strong>LS路由选择算法的工作原理</strong></p>
+<ul>
+<li><p>LS (link state) 的应用情况</p>
+<ul>
+<li>OSPF协议是一种LS协议,被用于Internet上 </li>
+<li>IS-IS(intermediate system- intermediate system): 被用于Internet主干中, Netware </li>
+</ul>
+</li>
+<li><p>符号标记：<br><code>c(i,j)</code>：从节点i 到j<code>链路代价</code>(初始状态下非相邻节点之间的 链路代价为∞)<br><code>D(v)</code>：从源节点到节点v的<code>当前路径代价</code>(节点的代价)<br><code>p(v)</code>：从源到节点V的路径<code>前序节点 </code><br><code>N’</code>：当前已经知道<code>最优路径的的节点集合</code>(永久节点的集合)</p>
+<p><img src="/images/Computer-Network5/image-20230721152255372.png"></p>
+</li>
+<li><p>LS路由选择算法的工作原理</p>
+<ul>
+<li>节点标记: 每一个节点使用<code>(D(v),p(v))</code> 如： (3,B)标记 <ul>
+<li>D(v)从源节点由已知最优路径到达本节点的距离 </li>
+<li>P(v)前序节点来标注 </li>
+</ul>
+</li>
+<li>2类节点 <ul>
+<li>临时节点(tentative node) ：还没有找到从源节点到此节点的最优路径的节点 </li>
+<li>永久节点(permanent node) N’：已经找到了从源节点到此节点的最优路径的节点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>初始化 </p>
+<ul>
+<li>除了源节点外，所有节点都为临时节点  <code>N&#39; =  &#123;u&#125;</code></li>
+<li>节点代价除了与源节点代价相邻的节点外，都为∞ </li>
+</ul>
+</li>
+<li><p>从所有临时节点中找到一个<font color="red">节点代价最小的临时节点</font>，将之变成永久节点(当前节点)w <code>N&#39; = &#123;uw&#125;</code></p>
+</li>
+<li><p>对此节点的<font color="red">所有在临时节点集合中的邻节点(V)</font></p>
+<ul>
+<li>如 D(v)&gt;D(w) + c(w,v), 则重新标注此点，(D(W)+C(W,V), W) <code>D(v) = min(D(v),D(w) + c(w,v))</code></li>
+<li>否则，不重新标注 </li>
+</ul>
+</li>
+<li><p>开始一个新的循环（上2步）</p>
+</li>
+</ul>
+<p>例子:</p>
+<p><img src="/images/Computer-Network5/image-20230721155117229.png" alt="image-20230721155117229"></p>
+<p><img src="/images/Computer-Network5/image-20230708162753481.png"></p>
+<p><strong>Dijkstra算法的讨论</strong></p>
+<p>*<font color="red">算法复杂度: </font>*n节点</p>
+<ul>
+<li>每一次迭代: 需要检查所有不在永久集合N中节点 </li>
+<li>n(n+1)/2 次比较: O(n<sup>2</sup>) </li>
+<li>有很有效的实现: O(nlogn) </li>
+</ul>
+<p><em><font color="red">可能的震荡： </font></em></p>
+<ul>
+<li>e.g.，链路代价=链路承载的流量<pre><code>路径改变次数过多
+</code></pre>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230721155051698.png"></p>
+<h3 id="2-3-路由选择算法-distance-vector-（分布式）"><a href="#2-3-路由选择算法-distance-vector-（分布式）" class="headerlink" title="2.3 路由选择算法 distance vector （分布式）"></a>2.3 路由选择算法 distance vector （分布式）</h3><blockquote>
+<p>距离向量（矢量）算法是一种迭代的、异步的、分布式的、自我终止的一种算法。</p>
+<p>说它是分布式的，是因为每个节点都要从一个或多个直接相连邻居接收某些信息，执行计算，然后将结果发送给邻居。</p>
+<p>说它是迭代的，是因为此过程一直要持续到邻居之间无更多信息要交换为止。</p>
+<p>有趣的是，此算法是自我终止的，即没有计算应该停止的信号，它就停止了。</p>
+<p>说它是异步的，是因为它不要求所有节点相互之间步伐一致地操作。</p>
+</blockquote>
+<p><strong>距离矢量路由选择(distance vector routing)</strong></p>
+<p>动态路由算法之一</p>
+<p>DV算法历史及应用情况 </p>
+<ul>
+<li>1957 Bellman, 1962 Ford Fulkerson </li>
+<li>用于ARPANET, Internet(RIP) DECnet , Novell, ApplTalk </li>
+</ul>
+<p>距离矢量路由选择的基本思想          <strong>以每个点为中心 更新路由表</strong></p>
+<ul>
+<li>各路由器维护一张路由表，结构如图(其它代价) </li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230721171951459.png" alt="image-20230721171951459"></p>
+<ul>
+<li>各路由器与相邻路由器交换路由表(待续)    <strong>==邻居与邻居交换代价==</strong></li>
+<li>根据获得的路由信息,更新路由表(待续)       ==<strong>每个节点算出代价值，改变路径，更新路由表</strong>==</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230721171924210.png" alt="image-20230721171924210"></p>
+<ul>
+<li>代价及相邻节点间代价的获得 <ul>
+<li>跳数(hops), 延迟(delay),队列长度</li>
+<li>相邻节点间代价的获得：通过实测 </li>
+</ul>
+</li>
+<li>路由信息的更新 <ul>
+<li>根据实测得到本节点A到相邻站点的代价（如:延迟） </li>
+<li>根据各相邻站点声称它们到目标站点B的代价</li>
+<li>计算出本站点A经过各相邻站点到目标站点B的代价 </li>
+<li><strong>找到一个最小的代价，和相应的<font color="red">下一个节点Z</font>，到达节点B经过此节点Z，并且代价为A-Z-B的代价</strong></li>
+<li>其它所有的目标节点同样的计算方法</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211002010843273.png" alt="image-20211002010843273"></p>
+<p><strong>距离矢量路由：例子1</strong></p>
+<ul>
+<li>以当前节点J为例,相邻节点 A,I,H,K </li>
+<li>J测得到A,I,H,K的延迟为 8ms,10ms,12ms,6ms </li>
+<li>通过交换DV, 从A,I,H,K获得到 它们到G的延迟为 18ms,31ms,6ms,31ms </li>
+<li>因此从J经过A,I,H,K到G的延迟 为26ms,41ms,18ms, 37ms </li>
+<li>将到G的路由表项更新为18ms, 下一跳为：H </li>
+<li>其它目标一样，除了本节点J</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230721172433991.png"></p>
+<p><strong>距离矢量算法</strong></p>
+<p>递归风车</p>
+<p><img src="/images/Computer-Network5/image-20211002012204557.png" alt="image-20211002012204557"></p>
+<p><strong>Bellman-Ford例子</strong></p>
+<p>SPFA —— 优化后的Bellman-Ford</p>
+<p><img src="/images/Computer-Network5/image-20211002012336956.png" alt="image-20211002012336956"></p>
+<ul>
+<li><font color="red">D<sub>x</sub> (y)</font> = 节点x到y代价最小值的估计 <ul>
+<li>x 节点维护距离矢量<font color="red">D<sub>x</sub> = [D<sub>x</sub> (y): y є N ] </font></li>
+</ul>
+</li>
+<li>节点x: <ul>
+<li>知道到所有邻居v的代价: <font color="red">c(x,v)</font> </li>
+<li>收到并维护一个它邻居的距离矢量集 </li>
+<li>对于每个邻居, x 维护 <font color="red">D<sub>v</sub> = [D<sub>v</sub> (y): y є N ]</font></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211002012514899.png" alt="image-20211002012514899"></p>
+<p><img src="/images/Computer-Network5/image-20230722110405577.png" alt="image-20230722110405577"></p>
+<p><strong>距离矢量算法特点和问题</strong></p>
+<p><img src="/images/Computer-Network5/image-20211002012604939.png" alt="image-20211002012604939"></p>
+<ul>
+<li><p>DV的无穷计算问题 </p>
+<ul>
+<li>DV的特点 <ul>
+<li>好消息传的快 坏消息传的慢 </li>
+</ul>
+</li>
+<li>好消息的传播以每一个交换周期前进一个路由器 的速度进行 <ul>
+<li>好消息:某个路由器接入或有更短的路径 </li>
+<li>举例<br><img src="/images/Computer-Network5/image-20211002012712585.png" alt="image-20211002012712585"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>DV的无穷计算问题 </p>
+<ul>
+<li>坏消息的传播速度非常慢(无穷计算问题)</li>
+<li>例子:<ul>
+<li>第一次交换之后, B从C处获得信息,C可以到达A(C-A, 要经过B本身),但是路径是2,因此B变成3,从C处走 </li>
+<li>第二次交换,C从B处获得消息, B可以到达A,路径为3, 因此,C到A从B走,代价为3 </li>
+<li>无限此之后, 到A的距离变成INF,不可达</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211002012915419.png" alt="image-20211002012915419"></p>
+<p><strong>水平分裂(split horizon)算法</strong>，或者叫毒性逆转</p>
+<ul>
+<li>一种对无穷计算问题的解决办法  —— 结局坏消息传的慢的问题<ul>
+<li><strong>C知道要经过B才能到达A，所以C向B报告它到A的距离 为INF；C 告诉D它到A的真实距离</strong> </li>
+<li>D告诉E,它到A的距离,但D告诉C它通向A的距离为INF </li>
+<li>第一次交换: B通过测试发现到A的路径为INF,而C也告 诉B到A的距离为INF,因此,B到A的距离为INF </li>
+<li>第二次交换: C从B和D那里获知,到A的距离为INF,因此 将它到A的距离为INF </li>
+<li>……坏消息以一次交换一个节点的速度传播</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230721172649661.png" alt="image-20230721172649661"></p>
+<p>告诉B 无穷，D 真实值</p>
+<p><img src="/images/Computer-Network5/image-20230722113725777.png" alt="image-20230722113725777"></p>
+<p><strong>距离矢量算法例子</strong></p>
+<p><img src="/images/Computer-Network5/image-20211002113230006.png" alt="image-20211002113230006"></p>
+<h3 id="2-4-LS-和-DV-算法的比较"><a href="#2-4-LS-和-DV-算法的比较" class="headerlink" title="2.4 LS 和 DV 算法的比较"></a>2.4 LS 和 DV 算法的比较</h3><p><strong>消息复杂度（DV胜出）</strong>  O(NE)</p>
+<p><strong>收敛时间（LS胜出）</strong>       O(NlogN)</p>
+<p><strong>健壮性（LS胜出）</strong>    节点之间影响较小</p>
+<p><img src="/images/Computer-Network5/image-20211002113320727.png" alt="image-20211002113320727"></p>
+<h2 id="3-因特网中自治系统内部的路由选择-实际的、内部的"><a href="#3-因特网中自治系统内部的路由选择-实际的、内部的" class="headerlink" title="3. 因特网中自治系统内部的路由选择 (实际的、内部的)"></a>3. 因特网中自治系统内部的路由选择 (实际的、内部的)</h2><ul>
+<li>自治系统（Autonomous System，AS）</li>
+<li>某些一级ISP在其整个网络中使用一个庞大的AS，而其他ISP则将它们的ISP拆分为数十个互联的AS</li>
+<li>一个自治系统由其全局唯一的AS号（ASN）所标识</li>
+<li>AS号由ICANN区域注册机构所分配</li>
+</ul>
+<h3 id="3-1-RIP-Routing-Information-Protocol"><a href="#3-1-RIP-Routing-Information-Protocol" class="headerlink" title="3.1 RIP ( Routing Information Protocol)"></a>3.1 RIP ( Routing Information Protocol)</h3><ul>
+<li>在 <strong>1982</strong> 年发布的 <strong>BSD-UNIX</strong> 中实现 </li>
+</ul>
+<ul>
+<li><strong>Distance vector 算法</strong> <ul>
+<li>距离矢量:每条链路cost=1，# of hops (max = 15 hops) 跳数 </li>
+<li>DV每隔30秒和邻居交换DV，<font color="red">通告</font></li>
+<li>每个通告包括：最多25个目标<font color="red">子网</font></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211002144643968.png" alt="image-20211002144643968"></p>
+<p><strong>RIP 通告（advertisements）</strong></p>
+<ul>
+<li>DV: 在邻居之间每30秒交换通告报文 <ul>
+<li>定期，而且在改变路由的时候发送通告报文 </li>
+<li>在对方的请求下可以发送通告报文 </li>
+</ul>
+</li>
+<li>每一个通告: 至多AS内部的25个目标网络的 DV <ul>
+<li>目标网络+跳数<br>一次公告最多25个子网 最大跳数为16 </li>
+</ul>
+</li>
+</ul>
+<p><strong>RIP: 例子</strong></p>
+<p><img src="/images/Computer-Network5/image-20211002161034218.png" alt="image-20211002161034218"></p>
+<p><img src="/images/Computer-Network5/image-20211002161049443.png" alt="image-20211002161049443"></p>
+<p><strong>RIP: 链路失效和恢复</strong></p>
+<p>如果180秒没有收到通告信息–&gt;邻居或者链路失效 </p>
+<ul>
+<li>发现经过这个邻居的路由已失效 </li>
+<li>新的通告报文会传递给邻居 </li>
+<li>邻居因此发出新的通告 (如果路由变化的话) </li>
+<li>链路失效快速(?)地在整网中传输 </li>
+<li>使用<font color="red">毒性逆转（poison reverse）</font>阻止ping-pong回路 ( 不可达的距离：跳数无限 = 16 段)</li>
+</ul>
+<p><strong>RIP 进程处理</strong></p>
+<ul>
+<li>RIP 以应用进程的方式实现：**route-d (daemon) **</li>
+<li>通告报文通过<strong>UDP</strong>报文传送，周期性重复 </li>
+<li>网络层的协议使用了传输层的服务，以应用层实体的方式实现</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211002161616471.png" alt="image-20211002161616471"></p>
+<h3 id="3-2-OSPF-Open-Shortest-Path-First-开放最短路优先"><a href="#3-2-OSPF-Open-Shortest-Path-First-开放最短路优先" class="headerlink" title="3.2 OSPF (Open Shortest Path First)开放最短路优先"></a>3.2 OSPF (Open Shortest Path First)开放最短路优先</h3><ul>
+<li>“open”: 标准可公开获得 </li>
+<li><strong>使用LS算法</strong> <ul>
+<li>LS 分组在网络中（一个AS内部）分发 </li>
+<li>全局网络拓扑、代价在每一个节点中都保持 </li>
+<li>路由计算采用Dijkstra算法 </li>
+</ul>
+</li>
+<li>OSPF通告信息中携带：每一个邻居路由器一个表项 </li>
+<li>通告信息会传遍AS全部（通过泛洪） <ul>
+<li>在IP数据报上直接传送OSPF报文 (而不是通过UDP和TCP) </li>
+</ul>
+</li>
+<li><font color="red">IS-IS路由协议：</font>几乎和OSPF一样</li>
+</ul>
+<p><strong>OSPF “高级” 特性(在RIP中的没有的)</strong></p>
+<ul>
+<li><font color="red">安全：</font>所有的OSPF报文都是经过认证的(防止恶意的攻击)</li>
+<li>允许有<font color="red">多个代价相同</font>的路径存在(在RIP协议中只有一个)</li>
+<li>对于每一个链路，对于不同的TOS有<font color="red">多重代价矩阵</font><ul>
+<li>例如：卫星链路代价对于尽力而为的服务代价设置比较低，对实时服务代价设置的比较高</li>
+<li>支持按照不同的代价计算最优路径，如：按照时间和延迟分别计算最优路径</li>
+</ul>
+</li>
+<li>对单播和多播的集成支持：<ul>
+<li>**Multicast OSPF(MOSPF)**使用相同的拓扑数据库，就像在OSPF中一样</li>
+</ul>
+</li>
+<li>在大型网络中支持<font color="red">层次性</font>OSPF</li>
+</ul>
+<p><strong>层次化的OSPF路由</strong></p>
+<p><img src="/images/Computer-Network5/image-20211002170733474.png" alt="image-20211002170733474"></p>
+<ul>
+<li><font color="red">2个级别的层次性: </font>本地, 骨干 <ul>
+<li>链路状态通告仅仅在本地区域Area范围内进行 </li>
+<li>每一个节点拥有本地区域的拓扑信息； <ul>
+<li>关于其他区域，知道去它的方向，通过区域边界路 由器（最短路径） </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>**<font color="red">区域边界路由器: </font>**“汇总（聚集）”到自己区域内网络的距离, 向其它区域边界路由器通告</li>
+<li>**<font color="red">骨干路由器: </font>**仅仅在骨干区域内，运行OSPF路由 </li>
+<li>**<font color="red">边界路由器:</font> **连接其它的AS’s</li>
+</ul>
+<h2 id="4-ISP之间的路由选择-BGP"><a href="#4-ISP之间的路由选择-BGP" class="headerlink" title="4. ISP之间的路由选择: BGP"></a>4. ISP之间的路由选择: BGP</h2><ul>
+<li>上述学习了的RIP及OSPF是一个AS内部路由选择协议</li>
+<li>当分组跨越多个AS进行路由时，我们需要一个<font color="red">自治系统间路由选择协议（inter-autonomous system routing protocol）</font></li>
+<li>在因特网中，所有AS运行相同的AS间路由选择协议，称为<font color="red">边界网关协议（Border Gateway Protocol，BGP）</font></li>
+<li><font color="red">BGP无疑是因特网中最为重要的协议</font>（唯一的竞争者是IP协议）</li>
+</ul>
+<h3 id="4-1-层次路由"><a href="#4-1-层次路由" class="headerlink" title="4.1 层次路由"></a>4.1 层次路由</h3><p><strong>一个<font color="red">平面</font>的路由</strong></p>
+<ul>
+<li>一个网络中的所有路由器的地位一样 </li>
+<li>通过LS, DV，或者其他路由算法，所有路由器都要知道其他所 有路由器（子网）如何走 </li>
+<li>所有路由器在一个平 面</li>
+</ul>
+<p><strong>平面路由的问题</strong></p>
+<ul>
+<li><strong><font color="red">规模</font>巨大的网络中，路由信息的存储、传输和计算代价巨大</strong><ul>
+<li>DV: 距离矢量很大，且不能够收敛 </li>
+<li>LS：几百万个节点的LS分组 的泛洪传输，存储以及最短路径算法的计算 </li>
+</ul>
+</li>
+<li><strong><font color="red">管理</font>问题：</strong>  （一个平面搞不定）<ul>
+<li>不同的网络所有者希望按照自己的方式管理网络 </li>
+<li>希望对外隐藏自己网络的细节 </li>
+<li>当然，还希望和其它网络互联</li>
+</ul>
+</li>
+</ul>
+<p><strong>层次路由</strong></p>
+<ul>
+<li><p>层次路由：将互联网分成一个个AS(路由器区域) </p>
+<ul>
+<li><strong>某个区域内的路由器集合，自治系统 “autonomous systems” (AS)</strong> </li>
+<li>一个AS用AS Number （ASN)唯一标示 </li>
+<li>一个ISP可能包括1个或者多个AS</li>
+</ul>
+</li>
+<li><p>路由变成了: 2个层次路由 </p>
+<ul>
+<li><strong>AS内部路由：</strong>在同一个AS 内路由器运行相同的路由协议<ul>
+<li><font color="red">“intra-AS” routing protocol：</font>内部网关协议 </li>
+<li>不同的AS可能运行着不同的内部网关协议 </li>
+<li>能够解决规模和管理问题 </li>
+<li>如：RIP,OSPF,IGRP </li>
+<li><font color="red">网关路由器：</font>AS边缘路由器 ，可以连接到其他AS </li>
+</ul>
+</li>
+<li><strong>AS</strong>间运行<strong>AS间路由协议</strong> <ul>
+<li><font color="red">“inter-AS” routing protocol：</font>外部网关协议 </li>
+<li>解决AS之间的路由问题，完成AS之间的互联互通</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>层次路由的优点</strong></p>
+<ul>
+<li>解决了<strong>规模问题</strong><ul>
+<li><strong>内部网关协议解决：AS内部<font color="red">数量有限</font>的路由器相互到达的间题，AS内部规模可控</strong><ul>
+<li>如AS节点太多，可分割AS，使得AS内部的节点数量有限</li>
+</ul>
+</li>
+<li>AS之间的路由的规模问题<ul>
+<li>增加一个As，对于AS之间的路由从<font color="red">总体</font>上来说，只是增加了一个节点=子网(每个AS可以用一个点来表示)</li>
+<li>对于其他AS来说只是增加了一个表项，就是这个新增的AS如何走的问题</li>
+<li>扩展性强：规模增大，性能不会减得太多</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>解决了<strong>管理问题</strong> <ul>
+<li>各个AS可以运行不同的内部网关协议</li>
+<li>可以使自己网络的细节不向外透露</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-BGP-的作用"><a href="#4-2-BGP-的作用" class="headerlink" title="4.2 BGP 的作用"></a>4.2 BGP 的作用</h3><ul>
+<li><p><font color="red">BGP (Border Gateway Protocol)：</font>自治区域间路由协议”事实上的”标准</p>
+<p>o “将互联网各个AS粘在一起的胶水”</p>
+</li>
+<li><p>对于位于<code>相同AS</code>中的目的地而言，在路由器转发表中的表项由<code>AS内部路由选择协议</code>所决定；而对于该<code>AS外部</code>的目的地，就需要用到<code>BGP</code>了</p>
+</li>
+<li><p>在BGP中，分组是路由到 CIDR 化的前缀</p>
+<ul>
+<li>每个前缀表示一个子网或一个子网的集合</li>
+<li>一个目的地可以采用 <code>138.16.68/22</code>的形式，对于这个例子来说包含1024个IP地址</li>
+<li>一台路由器的转发表具有形式为（x,l）的表项<ul>
+<li>x是一个前缀</li>
+<li>l 是该路由器的接口之一的接口号</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>BGP提供给每个路由器以下方法：</p>
+<ul>
+<li>（从邻居AS获得前缀的可达性信息）<ul>
+<li><font color="red">eBGP：</font>从相邻的AS那里获得子网可达信息 —— 从外部获取</li>
+<li><font color="red">iBGP：</font>将获得的子网可达信息传遍到AS内部的所有路由器  —— 向内部传</li>
+</ul>
+</li>
+<li>根据子网可达信息和<font color="blue">策略</font>来决定到达子网的”好”路径 （确定到该前缀的“最好的”路由）</li>
+</ul>
+</li>
+<li><p>允许子网向互联网其他网络通告<font color="blue">“我在这里”</font></p>
+</li>
+<li><p>基于距离矢量算法(路径矢量)</p>
+<ul>
+<li>不仅仅是距离矢量，还包括到达各个目标网络的详细路径（AS 序号的列表）能够避免简单DV算法的路由环路问题</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-通告-BGP-路由信息"><a href="#4-3-通告-BGP-路由信息" class="headerlink" title="4.3 通告 BGP 路由信息"></a>4.3 通告 BGP 路由信息</h3><p>每条直接连接以及所有通过该连接发送的BGP报文，称为 <code>BGP连接(BGP cormection)</code></p>
+<p><code>（外部BGP连接）eBGP 连接：</code>跨越两个AS的BGP连接</p>
+<p><code>（内部BGP连接）iBGP 连接：</code>而在相同AS中的两台路由器之间的BGP会话</p>
+<p><img src="/images/Computer-Network5/image-20211002172739773.png" alt="image-20211002172739773"></p>
+<ul>
+<li><p>这个简单的网络具有3个自治系统：AS 1,AS 2,AS 3</p>
+<ul>
+<li>1c,2a,2c,3a 显然是网关路由器(gateway router)</li>
+<li>其余是内部路由器(internal router)</li>
+<li>AS 3包括一个具有前缀X的子网</li>
+</ul>
+</li>
+<li><p><font color="red">BGP 会话：</font>2个BGP路由器(“peers”)通过使用179端口的半永久TCP连接上交换BGP报文：</p>
+<ul>
+<li>通告向不同目标子网前缀的“路径”（BGP是一个“路径矢量”协议）</li>
+</ul>
+</li>
+<li><p>当AS3网关路由器3a向AS2的网关路由器2c通告路径： <font color="red">AS3,X</font>  </p>
+<ul>
+<li>3a参与AS内路由运算，知道本AS所有子网X信息 </li>
+<li>语义上：AS3向AS2<font color="red">承诺</font>，它可以向子网X转发数据报</li>
+<li>3a是2c关于X的下一跳（next hop）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230723095931515.png" alt="image-20230723095931515"></p>
+<p><img src="/images/Computer-Network5/image-20230723100325502.png" alt="image-20230723100325502"></p>
+<p><strong>再次考虑向AS1和AS2中的所有路由器通告前缀X的可达性信息</strong></p>
+<ul>
+<li>路由器AS2.2c从AS3.3a接收到的<font color="red">AS3,X</font>路由通告 (通过 <code>eBGP</code>) </li>
+<li>基于AS2的输入策略，AS2.2c决定接收AS3,X的通告，而且通过 <code>iBGP</code>）向AS2的所有路由器进行通告</li>
+<li>基于AS2的策略，AS2路由器2a通过<code>eBGP</code>向AS1.1c路由器通告 <font color="red">AS2,AS3,X</font> 路由信息 <ul>
+<li>路径上加上了 AS2自己作为AS序列的一跳</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230723100440181.png" alt="image-20230723100440181"></p>
+<p>网关路由器可能获取有关一个子网X的多条路径，从多个eBGP 会话上：</p>
+<ul>
+<li>AS1 网关路由器1c从2a学习到路径：<font color="red">AS2,AS3,X</font> </li>
+<li>AS1网关路由器1c从3a处学习到路径AS3,X </li>
+<li>基于策略，AS1路由器1c选择了路径：<font color="red">AS3,X，而且通过iBGP 告诉所有AS1内部的路由器</font></li>
+</ul>
+<p>BGP 报文</p>
+<ul>
+<li>使用TCP协议交换BGP报文</li>
+<li>BGP 报文: <ul>
+<li><font color="red">OPEN: </font>打开TCP连接，认证发送方 </li>
+<li><font color="red">UPDATE:</font> 通告新路径 (或者撤销原路径) </li>
+<li><font color="red">KEEPALIVE：</font>在没有更新时保持连接，也用于对 OPEN 请求确认 </li>
+<li><font color="red">NOTIFICATION: </font>报告以前消息的错误，也用来关闭连接</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20230723100821618.png" alt="image-20230723100821618"></p>
+<p><img src="/images/Computer-Network5/image-20230723100831694.png" alt="image-20230723100831694"></p>
+<h3 id="4-4-BGP-路径选择"><a href="#4-4-BGP-路径选择" class="headerlink" title="4.4 BGP 路径选择"></a>4.4 BGP 路径选择</h3><ul>
+<li>当通告一个子网前缀时，通告包括 <code>BGP 属性</code><ul>
+<li>用 BGP 术语来说，前缀及其属性称为路由</li>
+<li>prefix + attributes = “route” </li>
+</ul>
+</li>
+<li>2个重要的属性: <ul>
+<li><font color="red">AS-PATH: </font>前缀的通告所经过的AS列表: 从AS1到子网兀有两条路：其中一条使用AS-PATH “AS2 AS3” ；而另一条使用 AS-PATH “AS3” <ul>
+<li>检测和防止通告环路；多路径选择 </li>
+<li>在向其它AS转发时，需要将自己的AS号（ASN）加在路径上 </li>
+</ul>
+</li>
+<li><font color="red">NEXT-HOP: </font>从当前AS到下一跳AS有多个链路，在NETX-HOP 属性中，告诉对方通过那个 I 转发<ul>
+<li>NEXT HOP是AS PATH起始的路由器接口的IP地址</li>
+<li>对于从AS1通过AS2到x的路由 “AS2 AS3 x” ，其属性NEXT-HOP是路由器2a左边接口的IP地址。</li>
+<li>对于从AS1绕过AS2 到x的路由“AS3x“,其NEXT-HOP属性是路由器3d最左边接口的IP地址</li>
+</ul>
+</li>
+<li>其它属性：路由偏好指标，如何被插入的属性 </li>
+</ul>
+</li>
+<li>基于<font color="red">策略</font>的路由： <ul>
+<li>当一个 <strong>网关路由器</strong> 接收到了一个路由通告, 使用 <font color="red">输入策略</font> 来接受或过滤（accept/decline.） <ul>
+<li>过滤原因例1：不想经过某个AS，转发某些前缀的分组 </li>
+<li>过滤原因例2：已经有了一条往某前缀的偏好路径 </li>
+</ul>
+</li>
+<li>策略也决定了是否向它别的邻居<font color="red">通告</font>收到的这个路由信息</li>
+</ul>
+</li>
+</ul>
+<p><strong>热土豆路由选择（hot potota routing）</strong></p>
+<p><img src="/images/Computer-Network5/image-20230723100947227.png" alt="image-20230723100947227"></p>
+<ul>
+<li>2d通过iBGP获知，它可以通过2a或者2c到达X </li>
+<li><font color="blue">热土豆策略：</font>选择具备最小内部区域代价的网关作为往X 的出口（如：2d选择2a，即使往X可能有比较多的AS跳数）：不要操心域间的代价！</li>
+</ul>
+<p><strong>路由器选择算法</strong></p>
+<p>在实践中，BGP使用了一种比热土豆路由选择更复杂却结合了其特点的算法</p>
+<p><font color="red">路由器可能获得一个网络前缀的<strong>多个路径</strong>，路由器必须进行路径的选择，路由选择可以基于： </font></p>
+<ul>
+<li><strong>本地偏好</strong>值属性：偏好策略决定 </li>
+<li>最短AS-PATH ：AS的跳数 </li>
+<li>最近的NEXT-HOP路由器：热土豆路由 </li>
+<li>附加的判据：使用BGP标示 </li>
+</ul>
+<p>一个前缀对应着多种路径，采用消除规则直到留下一条路径</p>
+<p><strong>BGP: 通过路径通告执行策略</strong></p>
+<p><img src="/images/Computer-Network5/image-20230723101048924.png" alt="image-20230723101048924"></p>
+<p><font color="blue">假设一个ISP只想 路由流量 <font color="red">到/去</font>往它的<font color="red">客户网络</font> (不想承载其他ISPs之间的流量，即不通告：不是去往我的客户，也不是来自我的客户)</font></p>
+<ul>
+<li><p>A 向B和C通告路径Aw </p>
+</li>
+<li><p>B选择不向C通告BAw：</p>
+<ul>
+<li> B从CBAw的路由上无法获得收益，因为C,A,w都不是B 的客户 </li>
+<li>C从而无法获知 CBAw路径的存在：每个ISP感知到的网络和真实不一致</li>
+</ul>
+</li>
+<li><p>C可能会通过 CAw（而不是使用B)最终路由到w</p>
+</li>
+<li><p> A,B,C 是 提供商网络： </p>
+</li>
+<li><p>X,W,Y 是桩网络（stub networks）或者叫端网络 </p>
+</li>
+<li><p>X 是<font color="red">双重接入的，多宿桩网络</font>，接入了2个网络 </p>
+</li>
+<li><p>策略强制让X: </p>
+<ul>
+<li>X不想路由 从B通过X到C的 分组 </li>
+<li>因而X就不通告给B，它实际上可以路由到C</li>
+</ul>
+</li>
+</ul>
+<p><strong>为什么内部网关协议和外部网关协议如此不同？</strong></p>
+<p><font color="red">策略：</font></p>
+<ul>
+<li>Inter-AS: 管理员需要控制通信路径，谁在使用它的网络进行数据传输； </li>
+<li>Intra-AS: 一个管理者，所以无需策略; <ul>
+<li>AS内部的各子网的主机尽可能地利用资源进行快速路由 </li>
+</ul>
+</li>
+</ul>
+<p><font color="red">规模：</font></p>
+<ul>
+<li>AS间路由必须考虑规模问题，以便支持全网的数据转发 </li>
+<li>AS内部路由规模不是一个大的问题 <ul>
+<li>如果AS 太大，可将此AS分成小的AS；规模可控 </li>
+<li>AS之间只不过多了一个点而已 </li>
+<li>或者AS内部路由支持层次性，层次性路由节约了表空间, 降低了更新的数据流量 </li>
+</ul>
+</li>
+</ul>
+<p><font color="red">性能：</font></p>
+<ul>
+<li>(内部)Intra-AS: 关注性能 </li>
+<li>(外部)Inter-AS: 策略可能比性能更重要</li>
+</ul>
+<h3 id="4-5-IP-任播"><a href="#4-5-IP-任播" class="headerlink" title="4.5 IP 任播"></a>4.5 IP 任播</h3><p>除了作为因特网的AS间路由选择协议外，<font color="red">BGP还常被用于实现<strong>IP任播</strong>（anycast）服务，该服务通常用于 <strong>DNS</strong> 中</font></p>
+<p>两种感兴趣的情况：</p>
+<ul>
+<li>在许多分散的不同地理位置，替换不同服务器上的相同内容</li>
+<li>让每个用户从最靠近的服务器访问内容</li>
+</ul>
+<p>例如，一个CDN能够更换位于不同国家、 不同服务器上的视频和其他对象。DNS系统能够在遍及全世界的DNS服务器上复制DNS记录。当一个用户要访问该复制的内容，可以将用户指向具有该复制内容的“最近的”服务器。BGP的路由选择算法为做这件事提供了一种最为容易和自然的机制。</p>
+<ul>
+<li><code>实践中CDN通常选择不使用IP任播</code>，因为BGP路由选择变化能够导致相同的TCP连接的不同分组到达Web服务器的不同实例</li>
+<li>但<code>IP任播被DNS系统广泛用于将DNS请求指向最近的根DNS服务器</code></li>
+</ul>
+<h2 id="5-SDN控制平面"><a href="#5-SDN控制平面" class="headerlink" title="5. SDN控制平面"></a>5. SDN控制平面</h2><ul>
+<li>互联网络网络层：历史上都是通过分布式、每个 路由器的实现 <ul>
+<li><em>单个路由器包含了：交换设备硬件、私有路由器OS（ 如：思科IOS）和其上运行的互联网标准协议(IP, RIP, IS-IS, OSPF, BGP)的私有实现</em> </li>
+<li>需要不同的中间盒来实现不同网络层功能：防火墙， 负载均衡设备和NAT…</li>
+</ul>
+</li>
+<li> ~2005: 点燃重新思考互联网控制平面的兴趣</li>
+</ul>
+<p><strong>面临的挑战</strong></p>
+<ul>
+<li>强化控制平面：可信、可靠、性能可扩展性、 安全的分布式系统 <ul>
+<li>对于失效的鲁棒性： 利用为控制平面可靠分布式系 统的强大理论 </li>
+<li>可信任，安全：从开始就进行铸造 </li>
+</ul>
+</li>
+<li>网络、协议满足特殊任务的需求 <ul>
+<li>e.g., 实时性，超高可靠性、超高安全性 </li>
+</ul>
+</li>
+<li>互联网络范围内的扩展性 <ul>
+<li>而不是仅仅在一个AS的内部部署，全网部署</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-ICMP-因特网控制报文协议"><a href="#6-ICMP-因特网控制报文协议" class="headerlink" title="6. ICMP: 因特网控制报文协议"></a>6. ICMP: 因特网控制报文协议</h2><p>ICMP: Internet Control Message Protocol</p>
+<p><img src="/images/Computer-Network5/image-20211002173250939.png" alt="image-20211002173250939"></p>
+<p><img src="/images/Computer-Network5/image-20211002173303211.png" alt="image-20211002173303211"></p>
+<h2 id="7-网络管理和SNMP-略）"><a href="#7-网络管理和SNMP-略）" class="headerlink" title="7. 网络管理和SNMP(略）"></a>7. 网络管理和SNMP(略）</h2><h2 id="什么是网络管理"><a href="#什么是网络管理" class="headerlink" title="什么是网络管理?"></a>什么是网络管理?</h2><p>自治系统（autonomous systems, aka “network”): 1000多个 相互的软件和硬件部件 </p>
+<p>其他复杂系统也需要被监视和控制:  喷气飞机  核电站  其他例子？</p>
+<blockquote>
+<p>“网络管理”包括了硬件、软件和人类元素的设置，综合和协 调，以便监测，测试，轮询，配置，分析，评价和控制网络 和网元资源，用合理的成本满足实时性，运行能和服务质量 的要求；</p>
+</blockquote>
+<p>性能管理:<br>О性能(利用率、吞吐量)量化、测量、报告、分析和控制不同网络部件的性能<br>o 涉及到的部件:单独部件（网卡，协议实体），端到端的路径故障管理:记录、检测和响应故障;<br>○ 性能管理为长期监测设备性能</p>
+<p>故障管理:突然发生的强度大的性能降低，强调对故障的响应配置管理:跟踪设备的配置，管理设备配置信息</p>
+<p>账户管理:定义、记录和控制用户和设备访问网络资源<br>o限额使用、给予使用的收费，以及分配资源访问权限</p>
+<p>安全管理:定义安全策略，控制对网络资源的使用</p>
+<h2 id="网络管理架构"><a href="#网络管理架构" class="headerlink" title="网络管理架构"></a>网络管理架构</h2><p><img src="/images/Computer-Network5/image-20211002173448692.png" alt="image-20211002173448692"></p>
+<h2 id="SNMP协议"><a href="#SNMP协议" class="headerlink" title="SNMP协议"></a>SNMP协议</h2><p><img src="/images/Computer-Network5/image-20211002173459816.png" alt="image-20211002173459816"></p>
+<h3 id="SNMP-协议-报文类型"><a href="#SNMP-协议-报文类型" class="headerlink" title="SNMP 协议: 报文类型"></a>SNMP 协议: 报文类型</h3><p><img src="/images/Computer-Network5/image-20211002173514916.png" alt="image-20211002173514916"></p>
+<p><img src="/images/Computer-Network5/image-20211002173523394.png" alt="image-20211002173523394"></p>
+<h1 id="第五章：总结"><a href="#第五章：总结" class="headerlink" title="第五章：总结"></a>第五章：总结</h1><ul>
+<li>网络层控制平面的方法<ul>
+<li>每个路由器控制（传统方法)</li>
+<li>逻辑上集中的控制(software defined networking)</li>
+</ul>
+</li>
+<li>传统路由选择算法<ul>
+<li>在互联网上的实现:RIP，OSPF，BGP</li>
+</ul>
+</li>
+<li>SDN控制器<ul>
+<li>实际中的实现:ODL,ONOS</li>
+</ul>
+</li>
+<li>Internet Control Message Protocol</li>
+<li>网络管理和SNMP协议</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">8yyy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://8yyy.github.io/2022/09/15/Computer-Network5/">http://8yyy.github.io/2022/09/15/Computer-Network5/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">8yyy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                    <span class="chip bg-color">计算机网络</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/09/19/DOTNETCore/">
+                    <div class="card-image">
+                        
+                        <img src="/images/DOTNETCore/core.jpeg" class="responsive-img" alt="DOTNETCORE">
+                        
+                        <span class="card-title">DOTNETCORE</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Net/" class="post-category">
+                                    .Net
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Net-Core/">
+                        <span class="chip bg-color">.Net Core</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/09/08/Computer-Network4/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/23.jpg" class="responsive-img" alt="第四章 网络层：数据平面">
+                        
+                        <span class="card-title">第四章 网络层：数据平面</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    计算机基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">计算机网络</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('50')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 8yyy&#39;s blog<br />'
+            + '文章作者: 8yyy<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7668596917"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">8yyy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">304k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/8yyy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1410868939@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1410868939" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1410868939" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
