@@ -411,7 +411,7 @@ OSPF, BGP, O">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.4k
+                    8.5k
                 </div>
                 
 
@@ -1247,20 +1247,46 @@ OSPF, BGP, O">
 <h2 id="6-ICMP-因特网控制报文协议"><a href="#6-ICMP-因特网控制报文协议" class="headerlink" title="6. ICMP: 因特网控制报文协议"></a>6. ICMP: 因特网控制报文协议</h2><p>ICMP: Internet Control Message Protocol</p>
 <p><img src="/images/Computer-Network5/image-20211002173250939.png" alt="image-20211002173250939"></p>
 <p><img src="/images/Computer-Network5/image-20211002173303211.png" alt="image-20211002173303211"></p>
-<h2 id="7-网络管理和SNMP-略）"><a href="#7-网络管理和SNMP-略）" class="headerlink" title="7. 网络管理和SNMP(略）"></a>7. 网络管理和SNMP(略）</h2><h2 id="什么是网络管理"><a href="#什么是网络管理" class="headerlink" title="什么是网络管理?"></a>什么是网络管理?</h2><p>自治系统（autonomous systems, aka “network”): 1000多个 相互的软件和硬件部件 </p>
-<p>其他复杂系统也需要被监视和控制:  喷气飞机  核电站  其他例子？</p>
-<blockquote>
-<p>“网络管理”包括了硬件、软件和人类元素的设置，综合和协 调，以便监测，测试，轮询，配置，分析，评价和控制网络 和网元资源，用合理的成本满足实时性，运行能和服务质量 的要求；</p>
-</blockquote>
-<p>性能管理:<br>О性能(利用率、吞吐量)量化、测量、报告、分析和控制不同网络部件的性能<br>o 涉及到的部件:单独部件（网卡，协议实体），端到端的路径故障管理:记录、检测和响应故障;<br>○ 性能管理为长期监测设备性能</p>
-<p>故障管理:突然发生的强度大的性能降低，强调对故障的响应配置管理:跟踪设备的配置，管理设备配置信息</p>
-<p>账户管理:定义、记录和控制用户和设备访问网络资源<br>o限额使用、给予使用的收费，以及分配资源访问权限</p>
-<p>安全管理:定义安全策略，控制对网络资源的使用</p>
-<h2 id="网络管理架构"><a href="#网络管理架构" class="headerlink" title="网络管理架构"></a>网络管理架构</h2><p><img src="/images/Computer-Network5/image-20211002173448692.png" alt="image-20211002173448692"></p>
-<h2 id="SNMP协议"><a href="#SNMP协议" class="headerlink" title="SNMP协议"></a>SNMP协议</h2><p><img src="/images/Computer-Network5/image-20211002173459816.png" alt="image-20211002173459816"></p>
-<h3 id="SNMP-协议-报文类型"><a href="#SNMP-协议-报文类型" class="headerlink" title="SNMP 协议: 报文类型"></a>SNMP 协议: 报文类型</h3><p><img src="/images/Computer-Network5/image-20211002173514916.png" alt="image-20211002173514916"></p>
+<h2 id="7-网络管理和SNMP"><a href="#7-网络管理和SNMP" class="headerlink" title="7. 网络管理和SNMP"></a>7. 网络管理和SNMP</h2><h3 id="7-1-什么是网络管理"><a href="#7-1-什么是网络管理" class="headerlink" title="7.1 什么是网络管理?"></a>7.1 什么是网络管理?</h3><p><font color="blue">“网络管理”</font>包括了硬件、软件和人类元素的设置，综合和协调，以便监测，测试，轮询，配置，分析，评价和控制网络和网元资源，用合理的成本满足实时性，运行能和服务质量的要求</p>
+<p><font color="blue">网络管理的5大功能</font></p>
+<ul>
+<li><p><font color="red">性能管理：</font></p>
+<ul>
+<li>性能(利用率、吞吐量)量化、测量、报告、分析和控制不同网络部件的性能</li>
+<li>涉及到的部件:单独部件（网卡，协议实体），端到端的路径</li>
+</ul>
+</li>
+<li><p><font color="red">故障管理：</font>记录、检测和响应故障</p>
+<ul>
+<li><p>性能管理为长期监测设备性能</p>
+</li>
+<li><p>故障管理：突然发生的强度大的性能降低，强调对故障的响应</p>
+</li>
+</ul>
+</li>
+<li><p><font color="red">配置管理：</font>跟踪设备的配置，管理设备配置信息</p>
+</li>
+<li><p><font color="red">账户管理：</font>定义、记录和控制用户和设备访问网络资源、</p>
+<ul>
+<li>限额使用、给予使用的收费，以及分配资源访问权限</li>
+</ul>
+</li>
+<li><p><font color="red">安全管理：</font>定义安全策略，控制对网络资源的使用</p>
+</li>
+</ul>
+<h3 id="7-2-网络管理架构"><a href="#7-2-网络管理架构" class="headerlink" title="7.2 网络管理架构"></a>7.2 网络管理架构</h3><p><img src="/images/Computer-Network5/image-20211002173448692.png" alt="image-20211002173448692"></p>
+<p><img src="/images/Computer-Network5/image-20230725110315262.png" alt="image-20230725110315262"></p>
+<p>网络管理的组件：管理服务器，被管设备，MIB数据，远程代理，SNMP</p>
+<h3 id="7-3-SNMP协议"><a href="#7-3-SNMP协议" class="headerlink" title="7.3 SNMP协议"></a>7.3 SNMP协议</h3><p><font color="red">简单网络管理协议（Simple Network Management Protocol，SNMP）</font></p>
+<ul>
+<li>应用层协议，用于管理服务器和代表管理服务器执行之间传递网络管理控制和信息报文</li>
+</ul>
+<p><img src="/images/Computer-Network5/image-20211002173459816.png" alt="image-20211002173459816"></p>
+<p><strong>报文类型</strong></p>
+<p><img src="/images/Computer-Network5/image-20211002173514916.png" alt="image-20211002173514916"></p>
 <p><img src="/images/Computer-Network5/image-20211002173523394.png" alt="image-20211002173523394"></p>
-<h1 id="第五章：总结"><a href="#第五章：总结" class="headerlink" title="第五章：总结"></a>第五章：总结</h1><ul>
+<p><img src="/images/Computer-Network5/image-20230725110649458.png" alt="image-20230725110649458"></p>
+<h2 id="第五章：总结"><a href="#第五章：总结" class="headerlink" title="第五章：总结"></a>第五章：总结</h2><ul>
 <li>网络层控制平面的方法<ul>
 <li>每个路由器控制（传统方法)</li>
 <li>逻辑上集中的控制(software defined networking)</li>
@@ -1844,7 +1870,7 @@ OSPF, BGP, O">
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">304k</span>
+                        class="white-color">318.5k</span>
             
             
             

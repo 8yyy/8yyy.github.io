@@ -1,0 +1,2697 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="第6章 链路层和局域网, 8yyy&#39;s blog">
+    <meta name="description" content="导引：
+
+网络层解决了一个网络如何到达另外一个网络的路由问题 
+在一个网络内部如何由一个节点（主机或者路由器）到达另外一个相邻节点
+链路层的点到点传输层功能
+
+
+
+目标：
+
+理解数据链路层服务的原理：
+
+检错和纠错
+共享广播信道：多点接入（">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>第6章 链路层和局域网 | 8yyy&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+   <style>
+    body{
+       background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+       background-repeat:no-repeat;
+       background-size: 100% 100%;
+       background-attachment:fixed;
+    }
+</style>
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">8yyy&#39;s blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">8yyy&#39;s blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">第6章 链路层和局域网</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                <span class="chip bg-color">计算机网络</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="post-category">
+                                计算机基础
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-09-25
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    14.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    52 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><font color="red">导引：</font></p>
+<ul>
+<li>网络层解决了一个网络如何到达另外一个网络的路由问题 </li>
+<li>在一个网络内部如何由一个节点（主机或者路由器）到达另外一个相邻节点<ul>
+<li>链路层的<font color="red">点到点</font>传输层功能</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">目标：</font></p>
+<ul>
+<li><p>理解数据链路层服务的<font color="red">原理：</font></p>
+<ul>
+<li>检错和纠错</li>
+<li>共享广播信道：多点接入（多路访问）</li>
+<li>链路层寻址</li>
+<li>LAN：以太网、WLAN、VLANs</li>
+<li>可靠数据传输，流量控制：<em>解决!</em></li>
+</ul>
+</li>
+<li><p><font color="red">实例</font>和各种链路层技术的<font color="red">实现</font></p>
+</li>
+</ul>
+<p><strong>网络节点的连接方式</strong></p>
+<p><img src="/images/Computer-Network6/image-20230725155255971.png" alt="image-20230725155255971"></p>
+<p><strong>数据链路层和局域网</strong></p>
+<p>WAN 广域网，LAN 局域网</p>
+<ul>
+<li><p><strong>WAN：网络形式采用点到点链路</strong> </p>
+<ul>
+<li>带宽大、距离远（延迟大） <ul>
+<li>带宽延迟积大 </li>
+</ul>
+</li>
+<li>如果采用多点连接方式 <ul>
+<li>竞争方式：一旦冲突代价大</li>
+<li>令牌等协调方式：在其中协调节点的发送代价大</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>点到点链路的链路层服务实现非常简单，封装和解封装</strong></p>
+</li>
+<li><p><strong>LAN一般采用多点连接方式</strong> </p>
+<ul>
+<li>连接节点非常方便 </li>
+<li>接到共享型介质上（或网络交换机），就可以连接所有其他节点</li>
+</ul>
+</li>
+<li><p><strong>多点连接方式网络的链路层功能实现相当复杂</strong> </p>
+<ul>
+<li>多点接入：协调各节点对共享性介质的访问和使用 </li>
+<li>竞争方式：冲突之后的协调 ；</li>
+<li>令牌方式：令牌产生，占有和释放等</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-引论和服务"><a href="#1-引论和服务" class="headerlink" title="1. 引论和服务"></a>1. 引论和服务</h2><p><u><font color="red">一些术语：</font></u></p>
+<ul>
+<li>主机和路由器是<font color="red">节点（网桥和交换机也是）: nodes</font></li>
+<li>沿着通信路径，连接相邻节点通信信道的是<font color="red">链路：links</font><ul>
+<li>有线链路</li>
+<li>无线链路</li>
+<li>局域网，共享性链路</li>
+</ul>
+</li>
+<li>第二层协议数据单元<font color="red">帧frame</font>，封装数据报</li>
+</ul>
+<p><strong><font color="red">数据链路层</font>负责从一个节点通过链路将(帧中的）数据报发送到<font color="red">相邻的物理节点</font></strong>(一个子网内部的2节点)</p>
+<p><strong>上下文</strong></p>
+<ul>
+<li>数据报（分组）在不同的链路上<strong>以不同的链路协议</strong>传送： <ul>
+<li><strong>第一跳链路</strong>：以太网 </li>
+<li><strong>中间链路</strong>：帧中继链路 </li>
+<li><strong>最后一跳</strong>：802.11  (无线局域网通用的标准)</li>
+</ul>
+</li>
+<li>不同的链路协议提供不同 的服务<ul>
+<li>e.g.,比如在链路层上提供（ 或没有）可靠数据传送</li>
+</ul>
+</li>
+</ul>
+<p><u><font color="red">传输类比</font></u></p>
+<ul>
+<li>从 美国新泽西州普林斯顿Princeton 到 瑞士洛桑Lausanne <ul>
+<li>轿车: Princeton to JFK  (从普林斯顿乘豪华大轿车到JFK机场)</li>
+<li>飞机: JFK to Geneva (乘飞机从JFK机场去日内瓦机场)</li>
+<li>火车: Geneva to Lausanne (乘火车从日内瓦机场到洛桑火车站)</li>
+</ul>
+</li>
+<li><strong>旅行者=数据报</strong><font color="red">datagram</font> </li>
+<li><strong>交通段=通信链路</strong> <font color="red">communication link</font> </li>
+<li><strong>交通模式=链路层协议</strong> : <font color="red">数据链路层和局域网 protocol</font></li>
+<li><strong>票务代理（旅行社）= 路由算法</strong> <font color="red">routing algorithm</font></li>
+</ul>
+<h3 id="1-1-链路层服务"><a href="#1-1-链路层服务" class="headerlink" title="1.1 链路层服务"></a>1.1 链路层服务</h3><ul>
+<li><font color="red"><strong>成帧(framing)，链路接入</strong>：</font><ul>
+<li>将网络层数据报封装在帧中，加上帧头、帧尾部 </li>
+<li>如果采用的是共享性介质，信道接入获得信道访问权 </li>
+<li>在帧头部使用<strong>“MAC”</strong>（物理）地址来标示源和目的 <ul>
+<li>不同于<strong>IP</strong>地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font color="red"><strong>在（一个网络内）相邻两个节点完成可靠数据传递</strong></font><ul>
+<li>已经学过了（传输层）</li>
+<li>在低出错率的链路上（光纤和双绞线电缆）很少使用</li>
+<li>在无线链路经常使用：出错率高</li>
+</ul>
+</li>
+</ul>
+<p><strong>Q: 为什么在链路层和传输层都实现了可靠性？</strong></p>
+<blockquote>
+<p>一般化的链路层服务，不是所有的链路层都提供这些服务<br>一个特定的链路层只是提供其中一部分的服务</p>
+</blockquote>
+<ul>
+<li><p><font color="red"><strong>在相邻节点间（一个子网内）进行可靠的转发</strong></font></p>
+<ul>
+<li>我们已经学习过（见第三章）！</li>
+<li><strong>在低差错链路上很少使用 (光纤,一些双绞线)</strong><ul>
+<li>出错率低，没有必要在每一个帧中做差错控制的工作，协议复杂<ul>
+<li>发送端对每一帧进行差错控制编码，根据反馈做相应的动作 </li>
+<li>接收端进行差错控制解码，反馈给发送端（ACK，NAK）</li>
+</ul>
+</li>
+<li>在本层放弃可靠控制的工作，在网络层或者是传输层做可靠控制的工作，或者根本就不做可靠控制的工作</li>
+</ul>
+</li>
+<li>在高差错链路上需要进行可靠的数据传送<ul>
+<li>高差错链路：无线链路：<ul>
+<li><strong>Q：为什么要在采用无线链路的网络上，链路层做可靠数据传输工作 ；还要在传输层做端到端的可靠性工作？</strong></li>
+<li><strong>原因：出错率高，如果在链路层不做差错控制工作，漏出去的错误比较高；到了上层如果需要可靠控制的数据传输代价会很大</strong>   —— 出错率较大的时候，传到上层再纠错代价大<ul>
+<li><strong>如不做local recovery 工作，总体代价大</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><font color="red"><strong>流量控制：</strong> </font></p>
+<ul>
+<li>使得相邻的发送和接收方节点的速度匹配 </li>
+</ul>
+</li>
+<li><p><font color="red"><strong>错误检测：</strong> </font></p>
+<ul>
+<li>差错由信号衰减和噪声引起 </li>
+<li>接收方检测出的错误: <ul>
+<li>通知发送端进行重传或丢弃帧 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><font color="red"><strong>差错纠正:</strong> </font></p>
+<ul>
+<li>接收端检查和纠正bit错误，不通过重传来纠正错误 </li>
+</ul>
+</li>
+<li><p><font color="red"><strong>半双工和全双工:</strong> </font></p>
+<ul>
+<li>半双工：链路可以双向传输，但一次只有一个方向</li>
+<li>全双工：链路可以双向传输，可以同时</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-链路层在何处实现？"><a href="#1-2-链路层在何处实现？" class="headerlink" title="1.2 链路层在何处实现？"></a>1.2 链路层在何处实现？</h3><ul>
+<li>在每一个主机上 <ul>
+<li>也在每个路由器上 </li>
+<li>交换机的每个端口上</li>
+</ul>
+</li>
+<li>链路层的主体部分在<strong>网络适配器（network adapter）</strong>上实现，也被称为<strong>网络接口卡</strong> (aka <font color="red">network interface card</font> NIC) 或者在一个芯片组上<ul>
+<li>核心是链路层控制器，该控制器一个实现了了许多链路层服务（成帧、链路接入、差错检测等）的<code>专用芯片</code>，因此链路层控制器的许多功能是用硬件实现<ul>
+<li>以太网卡，802.11 网卡 ; 以太网芯片组 </li>
+</ul>
+</li>
+<li>实现链路层和相应的物理层功能</li>
+<li>直到20世纪90年代后期，大部分网络适配器还是物理上分离的卡，但<code>越来越多的网络适配器被综合进主机的主板</code></li>
+</ul>
+</li>
+<li>接到主机的系统总线上</li>
+<li>硬件、软件和固件的综合体</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230725163021218.png"></p>
+<p>适配器通信</p>
+<p><img src="/images/Computer-Network6/image-20230725160358798.png" alt="image-20230725160358798"></p>
+<ul>
+<li><p>发送方: </p>
+<ul>
+<li>在帧中封装数据报 </li>
+<li>加上差错控制编码，实现RDT和流量控制功能等</li>
+</ul>
+</li>
+<li><p>接收方：</p>
+<ul>
+<li>检查有无出错，执行rdt和流量控制功能等 </li>
+<li>解封装数据报，将至交给上层</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>尽管大部分链路层是在硬件中实现的，但部分链路层是在运行于主机CPU上的软件中实现的。链路层的软件组件实现了高层链路层功能，如组装链路层寻址信息和激活控制器硬件。在接收端，链路层软件响应控制器中断（例如，由于一个或多个帧的到达），处理差错条件和将数据报向上传递给网络层</p>
+</blockquote>
+<p>适配器是半自治的实现了链路和物理层功能</p>
+<p><font color="red">链路层是硬件和软件的结合体，即此处是协议栈中软件与硬件交接的地方</font></p>
+<h2 id="2-差错检测和纠正"><a href="#2-差错检测和纠正" class="headerlink" title="2. 差错检测和纠正"></a>2. 差错检测和纠正</h2><p><strong>错误检测</strong></p>
+<p>（(Error- Detection and- Correction）EDC=差错检测和纠正位（冗余位）</p>
+<p>D =数据由差错检测保护，可以包含头部字段错误检测不是100%可靠的!</p>
+<p>错误检测不是100%可靠的! </p>
+<ul>
+<li>协议会漏检一些错误，但是很少 </li>
+<li>更长的EDC字段可以得到更好的检测和纠正效果</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211002224745844.png" alt="image-20211002224745844"></p>
+<p><font color="red">在传输数据中检测差错的3种技术：</font></p>
+<ul>
+<li>奇偶校验（它用来描述差错检测和纠正背后隐含的基本思想）</li>
+<li>检验和方法（它通常更多地应用于运输层）</li>
+<li>循环冗余检测（它通常更多地应用在适配器中的链路层）</li>
+</ul>
+<h3 id="2-1-奇偶校验"><a href="#2-1-奇偶校验" class="headerlink" title="2.1 奇偶校验"></a>2.1 奇偶校验</h3><p>差错检测最简单的方式就是用<code>单个奇偶校验位</code></p>
+<ul>
+<li>在<code>偶校验方案</code>中，发送方只需包含一个附加的比特，选择它的值，使得这 <code>d+1</code> 比 特（初始信息加上一个校验比特）中1的总数是 <code>偶数</code></li>
+<li>对于<code>奇校验方案</code>，选择校验比特值使得有<code>奇数个1</code></li>
+</ul>
+<p><code>二维奇偶校验</code>可以检测并纠正单个比特差错，可以检测但不能纠正分组中任意两个比特的差错</p>
+<p>例如对 10101 11110 01110 这15比特的数据进行二位偶校验，可以看到当出现单个出错时可以检测并纠错</p>
+<p><img src="/images/Computer-Network6/image-20211002224811357.png" alt="image-20211002224811357"></p>
+<p>接收方检测和纠正差错的能力被称为<code>前向纠错（Forward Error Correction, FEC）</code> 。这些技术通常用于如音频CD这样的音频存储和回放设备中。在网络环境中，FEC技术可以单独应用，或与链路层ARQ技术一起应用</p>
+<h3 id="2-2-Internet校验和"><a href="#2-2-Internet校验和" class="headerlink" title="2.2 Internet校验和"></a>2.2 Internet校验和</h3><p><u><font color="red">目标：</font></u>检测在传输报文段时的错误（如位翻转），（注：仅仅用在传输层）</p>
+<ul>
+<li><p><u><font color="red">发送方: </font></u></p>
+<ul>
+<li>将报文段看成16-bit整 数 </li>
+<li>报文段的校验和: 和 (1’ 的补码和) </li>
+<li>发送方将checksum的 值放在‘UDP校验和’ 字段</li>
+</ul>
+</li>
+<li><p><u><font color="red">接收方:</font></u></p>
+<ul>
+<li><font color="red">计算</font>接收到的报文段的校验和</li>
+<li>检查是否与<font color="red">携带</font>校验和字段值<font color="red">一致</font>: <ul>
+<li>不一致：检出错误 </li>
+<li>一致：没有检出错误，但可能还是有错误</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>有更简单的检查方法 全部加起来看是不是全1</p>
+<h3 id="2-3-检验和：CRC（循环冗余校验）"><a href="#2-3-检验和：CRC（循环冗余校验）" class="headerlink" title="2.3 检验和：CRC（循环冗余校验）"></a>2.3 检验和：CRC（循环冗余校验）</h3><p>现今的计算机网络中广泛应用的差错检测技术基于<code>循环冗余检测（Cyclic Redundancy Check, CRC）编码</code>。CRC编码也称为<code>多项式编码（polynomial code）</code>,因为该编码能够将要发送的比特串看作为系数是0和1一个多项式，对比特串的操作被解释为多项式算术。</p>
+<p><strong>用CRC进行差错检测的过程因此很简单：</strong></p>
+<ul>
+<li>接收方用G去除接收到的 d+r 比特。如果余数为非零，接收方知道出现了差错；否则认为数据正确而被接收。</li>
+</ul>
+<p><strong>模2运算不考虑进位和借位</strong></p>
+<ul>
+<li>模2加法与减法：</li>
+</ul>
+<p>0+0＝0    0+1＝1    1+0＝1    1+1＝0</p>
+<p>0-0＝0    0-1＝1    1-0＝1    1-1＝0</p>
+<p>例如0101+0011＝0110，0101-0011=0110</p>
+<p><font color="red">这意味着加法和减法是相同的，而且这两种操作等价于操作数的<strong>按位异或（XOR）</strong></font></p>
+<ul>
+<li>模2乘法</li>
+</ul>
+<p>模2乘法对中间结果的处理方式采用的是模2加法</p>
+<p>0×0＝0    0×1＝0    1×0＝0    1×1＝1</p>
+<p>101×11=101+1010=1111</p>
+<ul>
+<li>模2除法</li>
+</ul>
+<p>1011/10=101，余1</p>
+<p>1、模二运算 —— 异或运算</p>
+<p>2、位串的两种表示</p>
+<p><img src="/images/Computer-Network6/image-20211002225934163.png" alt="image-20211002225934163"></p>
+<p>3、（双方协商）生成多项式，r次方</p>
+<p><strong>G = X<sup>3</sup> + 1         r + 1位</strong>             例子：1001 r=3</p>
+<p>4、发送方：根据 r 位 CRC 计算 R 冗余位，使得</p>
+<ul>
+<li> 正好被 G 整除 (modulo 2) </li>
+<li> 接收方知道 G, 将 d+r 除以 G.如果非0余数: 检查出错误!</li>
+<li> 能检出所有少于r+1位的突发错误</li>
+</ul>
+<p><strong>D  ——发送的数据 （左移r位）+  R —— 冗余位 （r位）</strong></p>
+<p><strong>G —— 生成多项式（r - 1次方)</strong></p>
+<p><img src="/images/Computer-Network6/image-20211002230457145.png" alt="image-20211002230457145"></p>
+<ul>
+<li>强大的差错检测码</li>
+<li>将d比特数据 <font color="red">D</font>, 看成是二进制的数据</li>
+<li>生成多项式<font color="red">G</font>：双方协商r+1比特模式（r次方）<ul>
+<li>生成和检查所使用的位模式</li>
+<li>G的最高有效位的比特为1</li>
+</ul>
+</li>
+<li>目标:选择 r 位 CRC附加位 R，使得<ul>
+<li> 正好被 G整除 (modulo 2) </li>
+<li> 接收方知道 G, 将除以 G. 如果非0余数: 检查出错误!</li>
+<li> 能检出所有少于r+1位的突发错误</li>
+</ul>
+</li>
+<li>实际中广泛使用（以太网、802.11 WiFi、ATM）</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211002225357330.png" alt="image-20211002225357330"></p>
+<p><img src="/images/Computer-Network6/image-20230727101636243.png" alt="image-20230727101636243"></p>
+<p>remainder —— 余数 、当余数R不足r位，补0</p>
+<p><strong>CRC性能分析</strong></p>
+<ul>
+<li>突发错误和突发长度</li>
+<li>CRC检错性能描述</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211002231306540.png" alt="image-20211002231306540"></p>
+<h2 id="3-多路访问链路和协议"><a href="#3-多路访问链路和协议" class="headerlink" title="3. 多路访问链路和协议"></a>3. 多路访问链路和协议</h2><p>两种类型的链路（一个子网内部链路连接形式）：</p>
+<ul>
+<li><font color="red">点对点链路（point-to-point link）</font><ul>
+<li>由链路一端的单个发送方和链路另一端的单个接收方组成</li>
+<li>拨号访问的<code>点对点协议PPP </code></li>
+<li>高级数据链路控制（HDLC）</li>
+<li>以太网交换机和主机之间的点对点链路</li>
+</ul>
+</li>
+<li><font color="red">广播链路（broadcast link）</font> (共享线路或媒体) <ul>
+<li>让多个发送和接收节点都连接到相同的、单一的、共享的广播信道上<ul>
+<li>使用术语“广播”是因为当任何一个节点传输一个帧时，信道广播该帧，每个其他节点都收到一个副本</li>
+</ul>
+</li>
+<li>传统以太网 </li>
+<li>HFC上行链路 </li>
+<li>802.11无线局域网</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230801134944748.png" alt="多种多路访问信道"></p>
+<p><font color="blue">多路访问协议</font></p>
+<ul>
+<li>单个共享的广播型链路</li>
+<li>2个或更多站点同时传送：<font color="red"> 冲突（collision）</font><ul>
+<li>多个节点在同一个时刻发送，则会收到2个或多个信号叠加</li>
+</ul>
+</li>
+</ul>
+<p><em><font color="red">多路访问协议（介质访问控制协议：MAC）</font></em></p>
+<ul>
+<li><strong>分布式算法-决定节点如何使用共享信道，即：决定节点什么时候可以发送？</strong></li>
+<li>关于共享控制的通信必须用借助信道本身传输！ <ul>
+<li>没有带外的信道，各节点使用其<code>协调信道</code>使用 </li>
+<li>用于传输控制信息</li>
+</ul>
+</li>
+</ul>
+<p><font color="blue">我们能将任意多路访问协议分为三大类：</font></p>
+<ul>
+<li><font color="red">信道划分</font>（channel partitioning）<ul>
+<li>把信道划分成小片（时间、频率、编码)</li>
+<li>分配片给每个节点专用</li>
+</ul>
+</li>
+<li><font color="red">随机访问</font>（random access）<ul>
+<li>信道不划分，允许冲突</li>
+<li>冲突后恢复</li>
+</ul>
+</li>
+<li><font color="red">依次轮流</font>（taking-turns）<ul>
+<li>节点依次轮流</li>
+<li>但是有很多数据传输的节点可以获得较长的信道使用权</li>
+</ul>
+</li>
+</ul>
+<p><font color="blue">理想的多路访问协议</font></p>
+<p><font color="red">给定：</font>Rbps带宽的广播信道</p>
+<p><font color="red">必要条件：</font></p>
+<ol>
+<li>当一个节点要发送时，可以<strong>以R速率发送</strong>. </li>
+<li>当M个节点要发送，每个可以<strong>以R/M的平均速率</strong>发送 </li>
+<li>完全分布的：<ul>
+<li>没有特殊节点协调发送 </li>
+<li>没有时钟和时隙的同步</li>
+</ul>
+</li>
+<li>简单，实现不昂贵</li>
+</ol>
+<h3 id="3-1-信道划分协议"><a href="#3-1-信道划分协议" class="headerlink" title="3.1 信道划分协议"></a>3.1 信道划分协议</h3><p><code>时分多路复用（TDM）</code>和<code>频分多路复用（FDM）</code>是两种能够用于在所有共享信道节点之间划分广播信道带宽的技术</p>
+<h4 id="3-1-1-信道划分MAC协议：TDMA-时分复用"><a href="#3-1-1-信道划分MAC协议：TDMA-时分复用" class="headerlink" title="3.1.1 信道划分MAC协议：TDMA 时分复用"></a>3.1.1 信道划分MAC协议：TDMA 时分复用</h4><p><img src="/images/Computer-Network6/image-20230801140532891.png" alt="4节点的TDM"></p>
+<p><font color="red">TDMA：time division multiple access</font></p>
+<ul>
+<li>轮流使用信道，信道的时间分为周期 </li>
+<li>每个站点使用每周期中固定的<code>时隙</code>(长度=帧传输时间) 传输帧 </li>
+<li>如果站点无帧传输，时隙空闲-》浪费 <ul>
+<li>如：6站LAN，1、3、4有数据报，时隙2、5、6空闲</li>
+</ul>
+</li>
+<li>节点被限制为R/N bps的平均速率，即使当它是唯一由分组要发送的节点</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230725204633611.png" alt="image-20230725204633611"></p>
+<h4 id="3-1-2-信道划分MAC协议：FDMA-频分复用"><a href="#3-1-2-信道划分MAC协议：FDMA-频分复用" class="headerlink" title="3.1.2 信道划分MAC协议：FDMA  频分复用"></a>3.1.2 信道划分MAC协议：FDMA  频分复用</h4><p><font color="red">FDMA：frequency division multiple access</font></p>
+<ul>
+<li>信道的有效频率范围被分成一个个小的<code>频段</code></li>
+<li>每个站点被分配一个固定的频段 </li>
+<li>分配给站点的频段如果没有被使用，则空闲 <ul>
+<li>例如：6站LAN，1、3、4有数据报，频段2、5、 6空闲</li>
+</ul>
+</li>
+<li>节点被限制为R/N bps的平均速率，即使当它是唯一由分组要发送的节点</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230725204742445.png" alt="image-20230725204742445"></p>
+<h4 id="3-1-3-码分多路访问（CDMA）"><a href="#3-1-3-码分多路访问（CDMA）" class="headerlink" title="3.1.3 码分多路访问（CDMA）"></a>3.1.3 码分多路访问（CDMA）</h4><ul>
+<li>CDMA (code division multiple access) : <ul>
+<li>所有站点在整个频段上同时进行传输, 采用<code>编码</code>原理加以区分 </li>
+<li>完全无冲突</li>
+<li>假定：信号同步很好，线性叠加</li>
+<li>军用系统使用了一段时间（由于它的抗干扰特性），目前也广泛地用于民用，尤其是蜂窝电话</li>
+</ul>
+</li>
+<li>比方 <ul>
+<li>TDM：不同的人在不同的时刻讲话 </li>
+<li>FDM：不同的组在不同的小房间里通信</li>
+<li>CDMA：不同的人使用不同的语言讲话</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-随机存取协议（随机接入协议）"><a href="#3-2-随机存取协议（随机接入协议）" class="headerlink" title="3.2 随机存取协议（随机接入协议）"></a>3.2 随机存取协议（随机接入协议）</h3><p>检错冲突   与  冲突解决/冲突避免</p>
+<ul>
+<li>当节点有帧要发送时 <ul>
+<li><code>以 R bps发送（即全部速率） </code></li>
+<li>没有节点间的预先协调 </li>
+</ul>
+</li>
+<li>两个或更多节点同时传输，会发生➜冲突 “collision” <ul>
+<li>当有碰撞时，涉及碰撞的每个节点反复地重发它的帧（也就是分组），到该帧无碰撞地通过为止。但是当一个节点经历一次碰撞时，它不必立刻重发该帧。相反，它在重发该帧之前等待一个随机时延</li>
+</ul>
+</li>
+<li><font color="red">随机存取协议</font>规定：<ul>
+<li>如何检测冲突 </li>
+<li>如何从冲突中恢复（如：通过稍后的重传） </li>
+</ul>
+</li>
+<li>最常用的随机MAC协议：<ul>
+<li>时隙ALOHA </li>
+<li>ALOHA </li>
+<li>载波侦听多路访问CSMA, <font color="red">CSMA/CD, CSMA/CA</font><ul>
+<li>以太网是一种流行并广泛部署的CSMA协议</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-2-1-时隙ALOHA"><a href="#3-2-1-时隙ALOHA" class="headerlink" title="3.2.1 时隙ALOHA"></a>3.2.1 时隙ALOHA</h4><p>最简单的随机接入协议</p>
+<p><u><font color="red">假设</font></u></p>
+<ul>
+<li>所有帧是等长的L </li>
+<li>时间被划分成相等的 ，每个<code>时隙</code>可发送一帧，L/R </li>
+<li>节点只在时隙开始时发送帧 </li>
+<li>节点在时钟上是同步的 </li>
+<li>如果两个或多个节点在一 个时隙传输，所有的站点都能检测到冲突 </li>
+</ul>
+<p><u><font color="red">运行</font></u> </p>
+<ul>
+<li>当节点获取新的帧，在下一个时隙传输 </li>
+<li>传输时没有检测到冲突，成功 <ul>
+<li>节点能够在下一时隙发送新帧</li>
+</ul>
+</li>
+<li> 检测时如果检测到冲突，失败 </li>
+<li>节点在每一个随后的时隙以概率p重传帧直到成功</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731150338629.png" alt="image-20230731150338629"></p>
+<p><u><font color="red">优点</font></u>  </p>
+<ul>
+<li>节点可以以信道带宽全速连续传输 </li>
+<li>高度分布：仅需要节点之间在时隙上的同步 </li>
+<li>简单 </li>
+</ul>
+<p><u><font color="red">缺点</font></u>  </p>
+<ul>
+<li>存在冲突，浪费时隙 </li>
+<li>即使有帧要发送，仍然有可能存在空闲的时隙</li>
+<li> 节点检测冲突的时间&lt;帧传输的时间 </li>
+<li>必须传完 </li>
+<li>需要时钟上同步</li>
+</ul>
+<p>时隙ALOHA的效率( Efficiency )</p>
+<blockquote>
+<p>效率：当有很多节点，每个节点有很多帧要发送时，x%的时隙是成功传输帧的时隙</p>
+</blockquote>
+<ul>
+<li><p>假设N个节点，每个节点都有很多帧要发送， 在每个时隙中的传输概率是p</p>
+</li>
+<li><p> 一个节点成功传输概率是p(1-p)<sup>N-1</sup> </p>
+</li>
+<li><p>任何一个节点的成功概率是= Np(1-p)<sup>N-1</sup></p>
+</li>
+<li><p>N个节点的最大效率： 求出使f(P)=Np(1-p)N-1最大的p* </p>
+</li>
+<li><p>代入P* 得到最大 <code>f(p*) =Np*(1-p*)N-1  </code></p>
+</li>
+<li><p>N为无穷大时的极限为 1/e=0.37</p>
+</li>
+</ul>
+<blockquote>
+<p>最好情况：信道利用率37%</p>
+</blockquote>
+<h4 id="3-2-2-纯ALOHA-非时隙"><a href="#3-2-2-纯ALOHA-非时隙" class="headerlink" title="3.2.2 纯ALOHA(非时隙)"></a>3.2.2 纯ALOHA(非时隙)</h4><ul>
+<li><p>无时隙ALOHA：简单、无须节点间在时间上同步 </p>
+</li>
+<li><p>当有帧需要传输：马上传输 </p>
+</li>
+<li><p>冲突的概率增加：</p>
+<ul>
+<li>帧在t<sub>0</sub> 发送，和其它在[t<sub>0</sub> -1, t<sub>0</sub> +1]区间内开始发送的帧冲突 </li>
+<li>和当前帧冲突的区间（其他帧在此区间开始传输）增大了一倍</li>
+</ul>
+</li>
+</ul>
+<p>纯ALOHA的效率</p>
+<p><img src="/images/Computer-Network6/image-20230731151015965.png" alt="image-20230731151015965"></p>
+<h4 id="3-2-3-CSMA-载波侦听多路访问"><a href="#3-2-3-CSMA-载波侦听多路访问" class="headerlink" title="3.2.3 CSMA(载波侦听多路访问)"></a>3.2.3 CSMA(载波侦听多路访问)</h4><p><font color="red">Aloha：</font>如何提高ALOHA的效率 </p>
+<p>​              发之前不管有无其他节点在传输 </p>
+<p>在我们的鸡尾酒会类比中，ALOHA 协议非常像一个粗野的聚会客人，他喋喋不休地讲话而不顾是否其他人在说话</p>
+<p><font color="red">CSMA：</font>在传输前先侦听信道: </p>
+<ul>
+<li>如果侦听到信道空闲，传送整个帧 </li>
+<li> 如果侦听到信道忙，推迟传送 </li>
+</ul>
+<p>人类类比：不要打断别人正在进行的说话!</p>
+<ul>
+<li>说话之前先听。<code>载波侦听</code></li>
+<li>如果与其他人同时开始说话，停止说话。<code>碰撞检测</code></li>
+</ul>
+<p>两个规则包含在<code>载波侦听多路访问(Carrier Sense Multiple Access, CSMA)</code>和<code>具有碰撞检测的 CSMA</code> ( CSMA with Collision Detection, CSMA/CD )协议族中</p>
+<p><strong>CSMA冲突</strong></p>
+<p><font color="red">冲突仍然可能发生: </font></p>
+<p>由<code>传播延迟造成</code>：两个节点可能侦听不到正在进行的传输 </p>
+<p><font color="red">冲突: </font></p>
+<p>整个冲突帧的传输时间都被浪费了，是无效的传输(红黄区域) </p>
+<p><font color="red">注意:</font> </p>
+<p><code>传播延迟（距离）决定了冲突的概率 </code></p>
+<blockquote>
+<p>节点依据本地的信道使用情况来判断全部信道的使用情况</p>
+</blockquote>
+<p><img src="/images/Computer-Network6/image-20230801144106840.png"></p>
+<h4 id="3-2-4-CSMA-CD-冲突检测"><a href="#3-2-4-CSMA-CD-冲突检测" class="headerlink" title="3.2.4 CSMA/CD(冲突检测)"></a>3.2.4 CSMA/CD(冲突检测)</h4><p>节点没有进行碰撞检测；即使已经出现了碰撞，B和D都将继续完整地传输它们的帧。</p>
+<ul>
+<li><p><font color="red">CSMA/CD:  </font></p>
+<ul>
+<li>载波侦听CSMA：和在CSMA中一样发送前侦听信道</li>
+<li> 没有传完一个帧就可以在短时间内检测到冲突</li>
+<li> 冲突发生时则传输终止，减少对信道的浪费 </li>
+</ul>
+</li>
+<li><p>冲突检测CD技术，有线局域网中容易实现： </p>
+<ul>
+<li>检测信号强度，比较传输与接收到的信号是否相同 </li>
+<li>通过周期的过零点检测 </li>
+</ul>
+</li>
+<li><p>人类类比：礼貌的对话人</p>
+</li>
+</ul>
+<p>CSMA/CD（冲突检测）</p>
+<p><img src="/images/Computer-Network6/image-20230731151344817.png" alt="image-20230731151344817"></p>
+<p><strong>以太网CSMA/CD算法</strong></p>
+<ol>
+<li><p>适配器获取数据报，创建帧 </p>
+</li>
+<li><p>发送前：侦听信道CS </p>
+<p>1)<font color="red">闲：</font>开始传送帧 </p>
+<p>2)<font color="red">忙：</font>一直等到闲再发送 </p>
+</li>
+<li><p>发送过程中，冲突检测CD </p>
+<p>1)没有冲突：成功 </p>
+<p>2)检测到冲突：放弃，之后尝试重发 </p>
+</li>
+<li><p>发送方适配器检测到冲突， 除放弃外，还发送一个Jam信号，所有听到冲突的适配器也是如此 </p>
+<p><font color="red">强化冲突：让所有站点都知道冲突</font></p>
+</li>
+<li><p>如果放弃，适配器进入指数退避状态</p>
+<p>在第m次失败后，适配器随机选择一个{0，1，2， ， 2<sup>m-1</sup>}中K，等待K*512位时 ，然后转到步骤2  </p>
+<p><font color="red">binary exponential backoff 二进制指数退避算法</font></p>
+</li>
+</ol>
+<p><font color="red">指数退避：</font></p>
+<ul>
+<li>目标：适配器试图适应当前负载，在一个变化的 碰撞窗口中随机选择时间点尝试重发 <ul>
+<li>高负载：重传窗口时间大，减少冲突，但等待时间长 </li>
+<li>低负载：使得各站点等待时间少，但冲突概率大 </li>
+</ul>
+</li>
+<li>首次碰撞：在{0，1}选择K；延迟K*512位时 </li>
+<li>第2次碰撞：在{0，1，2，3}选择 K </li>
+<li>第10次碰撞：在{0，1，2，3，……，1023}选择 K</li>
+</ul>
+<p><strong>CSMA/CD效率</strong></p>
+<p><img src="/images/Computer-Network6/image-20230731152306424.png" alt="image-20230731152306424"></p>
+<h4 id="3-2-5-无线局域网-CSMA-CA"><a href="#3-2-5-无线局域网-CSMA-CA" class="headerlink" title="3.2.5 无线局域网 CSMA/CA"></a>3.2.5 无线局域网 CSMA/CA</h4><p><img src="/images/Computer-Network6/image-20211003011006144.png" alt="image-20211003011006144"></p>
+<p>无线局域网中的 MAC：CSMA/CA</p>
+<ul>
+<li>冲突: 2<sup>+</sup> 站点（AP或者站点）在同一个时刻发送 </li>
+<li>802.11: CSMA – 发送前侦听信道 <ul>
+<li>不会和其它节点正在进行的传输发生冲突 </li>
+</ul>
+</li>
+<li>802.11: 没有冲突检测! <ul>
+<li>无法检测冲突：自身信号远远大于其他节点信号 </li>
+<li>即使能CD：冲突 != 成功 </li>
+<li>目标: <font color="red">avoid collisions: </font>CSMA/C(ollision)A(voidance) <ul>
+<li>无法CD，一旦发送一股脑全部发送完毕，不CD </li>
+<li>为了避免无CD带来的信道利用率低的问题，事前进行冲突避免</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731152417775.png" alt="image-20230731152417775"></p>
+<p><img src="/images/Computer-Network6/image-20230731152857766.png" alt="image-20230731152857766"></p>
+<p>在count down时，侦听到了信道空闲为什么不发送 ，而要等到0时在发送 </p>
+<ul>
+<li>2个站点有数据帧需要发送，第三个节点正在发送 </li>
+<li><font color="blue">LAN CD：让2者听完第三个节点发完，立即发送 </font><ul>
+<li><font color="blue">冲突：放弃当前的发送，避免了信道的浪费于无用冲突帧的发送</font></li>
+<li><font color="blue">代价不昂贵</font></li>
+</ul>
+</li>
+<li>WLAN : CA <ul>
+<li>无法CD，一旦发送就必须发完，如冲突信道浪费严重，代价高昂 </li>
+<li>思想：尽量<font color="red">事先避免</font>冲突，而不是在发生冲突时放弃然后重发 </li>
+<li>听到发送的站点，分别选择随机值，回退到0发送 <ul>
+<li>不同的随机值，一个站点会胜利 </li>
+<li>失败站点会冻结计数器，当胜利节点发完再发</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>无法完全避免冲突 <ul>
+<li>两个站点相互隐藏：<ul>
+<li>A,B 相互隐藏，C在传输 </li>
+<li>A,B选择了随机回退值 </li>
+<li>一个节点如A胜利了，发送 </li>
+<li>而B节点收不到，顺利count down到0 发送 </li>
+<li>A,B的发送在C附近形成了干扰 </li>
+</ul>
+</li>
+<li>选择了非常靠近的随机回退值：<ul>
+<li>A,B选择的值非常近 </li>
+<li>A到0后发送 </li>
+<li>但是这个信号还没到达B时 </li>
+<li>B也到0了，发送 </li>
+<li>冲突</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>冲突避免(续)</p>
+<p>*<font color="red">思想：</font>*允许发送方“预约”信道，而不是随机访问该信道:  避免长数据帧的冲突（可选项） </p>
+<ul>
+<li>发送方首先使用CSMA向BS发送一个小的RTS分组 <ul>
+<li>RTS可能会冲突（但是由于比较短，浪费信道较少） </li>
+</ul>
+</li>
+<li>BS广播 clear-to-send CTS，作为RTS的响应 </li>
+<li>CTS能够被所有涉及到的节点听到 <ul>
+<li>发送方发送数据帧 </li>
+<li>其它节点抑制发送</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>采用小的预约分组，可以完全避免数据帧的冲突</p>
+</blockquote>
+<p>冲突避免：RTS-CTS 交换</p>
+<p><img src="/images/Computer-Network6/image-20211003011156385.png" alt="image-20211003011156385"></p>
+<h4 id="3-2-6-线缆接入网络"><a href="#3-2-6-线缆接入网络" class="headerlink" title="3.2.6 线缆接入网络"></a>3.2.6 线缆接入网络</h4><p><img src="/images/Computer-Network6/image-20230731153447667.png" alt="image-20230731153447667"></p>
+<p><img src="/images/Computer-Network6/image-20230731153458314.png" alt="image-20230731153458314"></p>
+<p><img src="/images/Computer-Network6/image-20230731153506015.png" alt="image-20230731153506015"></p>
+<h3 id="3-3轮流-Taking-Turns-MAC协议"><a href="#3-3轮流-Taking-Turns-MAC协议" class="headerlink" title="3.3轮流(Taking Turns)MAC协议"></a>3.3轮流(Taking Turns)MAC协议</h3><blockquote>
+<p>多路访问协议的两个理想特性是：①当只有一个节点活跃吋，该活跃节点具有R bps的吞吐量；②当有M个节点活跃时，每个活跃节点的吞吐量接近R/M bps。ALOHA和CSMA协议具备第一个特性，但不具备第二个特性。</p>
+</blockquote>
+<ul>
+<li><font color="blue">信道划分MAC协议: </font><ul>
+<li>共享信道在高负载时是有效和公平的 </li>
+<li>在低负载时效率低下 <ul>
+<li>只能等到自己的时隙开始发送或者利用1/N的信道频率发送 </li>
+<li>当只有一个节点有帧传时，也只能够得到1/N个带宽分配 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font color="blue">随机访问MAC协议</font> <ul>
+<li>在低负载时效率高：单个节点可以完全利用信道全部带宽 </li>
+<li>高负载时：冲突开销较大，效率极低，时间很多浪费在冲突中 </li>
+</ul>
+</li>
+<li><font color="red">轮流协议</font><ul>
+<li>有2者的优点!</li>
+</ul>
+</li>
+</ul>
+<p><u><font color="blue">两种重要的轮流MAC协议：</font></u></p>
+<ul>
+<li><font color="red">论询协议</font>（polling protocol）<ul>
+<li>主节点邀请从节点依次传送 </li>
+<li>从节点一般比较“dumb” </li>
+<li>缺点: <ul>
+<li>轮询开销：轮询本身消耗信道带宽 </li>
+<li>等待时间：每个节点需等到主节点轮询后开始传输，即使只有一个节点，也需要等到轮询一周后才能够发送 </li>
+<li>单点故障：主节点失效时造成整个系统无法工作</li>
+</ul>
+</li>
+<li>802.15协议和蓝牙协议</li>
+</ul>
+</li>
+<li><font color="red">令牌传递协议</font>（token-passing protocol）<ul>
+<li>控制<font color="red">令牌( token)</font>循环从一个节点到下一个节点传递 </li>
+<li>令牌报文：特殊的帧 </li>
+<li>缺点: <ul>
+<li>令牌开销：本身消耗带宽 </li>
+<li>延迟：只有等到抓住令牌，才可传输</li>
+<li>单点故障 (token)： <ul>
+<li>令牌丢失系统级故障，整个系统无法传输 </li>
+<li>复杂机制重新生成令牌</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>光纤分布式数据接口（FDDI）协议和IEEE802.5令牌环协议</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-MAC-协议总结"><a href="#3-4-MAC-协议总结" class="headerlink" title="3.4 MAC 协议总结"></a>3.4 MAC 协议总结</h3><p>多点接入问题：对于一个共享型介质，各个节点如何协调对它的访问和使用? </p>
+<ul>
+<li>信道划分：按时间、频率或者编码 <ul>
+<li>TDMA、FDMA、CDMA </li>
+</ul>
+</li>
+<li>随机访问 (动态) <ul>
+<li>ALOHA, S-ALOHA, CSMA, CSMA/CD </li>
+<li>载波侦听: 在有些介质上很容易 (wire：有线介质), 但在有些介质上比较困难 (wireless：无线) </li>
+<li>CSMA/CD ：802.3 Ethernet网中使用 </li>
+<li>CSMA/CA ：802.11WLAN中使用 </li>
+</ul>
+</li>
+<li>依次轮流协议 <ul>
+<li><strong>集中：由一个中心节点轮询；</strong><br><strong>分布：通过令牌控制</strong> </li>
+<li>蓝牙、FDDI、令牌环</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-交换局域网-LAN"><a href="#4-交换局域网-LAN" class="headerlink" title="4. 交换局域网 LAN"></a>4. 交换局域网 LAN</h2><p><img src="/images/Computer-Network6/image-20230801201556154.png" alt="由4台交换机连接起来的某机构网络"></p>
+<p>上图显示了一个交换局域网连接了</p>
+<ul>
+<li> 3个部门</li>
+<li>两台服务器</li>
+<li>一台与4台交换机连接的路由器</li>
+</ul>
+<p>因为这些交换机运行在链路层，所以它们<code>交换链路层帧（而不是网络层数据报）， 不识别网络层地址</code>，不使用如RIP或OSPF这样的路由选择算法来确定通过第二层交换机网络的路径。我们马上就会看到，它们使用<code>链路层地址</code>而不是<code>IP地址</code>来转发链路层帧通过交换机网络。</p>
+<h3 id="4-1-链路层寻址-和-ARP"><a href="#4-1-链路层寻址-和-ARP" class="headerlink" title="4.1 链路层寻址 和 ARP"></a>4.1 链路层寻址 和 ARP</h3><h4 id="4-1-1-MAC-地址"><a href="#4-1-1-MAC-地址" class="headerlink" title="4.1.1 MAC 地址"></a>4.1.1 MAC 地址</h4><ul>
+<li>32bit <code>IP地址</code>：<ul>
+<li><font color="blue">网络层地址</font></li>
+<li><font color="blue">前n-1跳：用于使数据报到达目的IP子网</font> </li>
+<li><font color="blue">最后一跳：到达子网中的目标节点</font></li>
+</ul>
+</li>
+<li><code>MAC（LAN/物理/以太网）地址</code>:    （在一个物理网络的内部来标识每一个节点）<ul>
+<li><font color="blue">用于使帧从一个网卡传递到与其物理连接的另一个网卡 (在同一个物理网络中)</font></li>
+<li><font color="blue">6个字节，48bit MAC地址固化在适配器的ROM，有时也可以通过软件设定</font></li>
+<li><strong>理论上全球任何2个网卡的MAC地址都不相同</strong> </li>
+<li>尽管MAC地址被设计为永久的，但用软件改变一块适配器的MAC地址是可能的（后续讨论假设某适配器的MAC地址是固定的）</li>
+<li>e.g.: 1A-2F-BB-76-09-AD  —— ( 16进制表示 (每一位代表4个bits) )</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">网络地址和mac地址分离：</font></p>
+<ul>
+<li><p>IP地址和MAC地址的作用不同<br>a) <strong>IP地址是<font color="red">分层</font>的</strong>   ——  二层</p>
+<ul>
+<li><strong>一个子网所有站点网络号一致，路由聚集，减少路由表</strong> <ul>
+<li>需要一个网络中的站点地址网络号一致，如果捆绑需要定制网卡非常麻烦 </li>
+</ul>
+</li>
+<li><strong>希望网络层地址是配置的；IP地址完成网络到网络的交付</strong> </li>
+</ul>
+<p>b) <strong>MAC地址是一个<font color="red">平面</font>的</strong> </p>
+<ul>
+<li><strong>网卡在生产时不知道被用于哪个网络，因此给网卡一个唯一的标示，用于区分一个网络内部不同的网卡即可</strong> </li>
+<li><strong>可以完成一个物理网络内部的节点到节点的数据交付</strong></li>
+</ul>
+</li>
+</ul>
+<p>从 IP 的角度，是从一个路由器到另一个路由器。<br>从 链路层的角度，是从一个网卡当另一个网卡。</p>
+<ol>
+<li>分离好处<br>a) <strong>网卡坏了，ip不变，可以捆绑到另外一个网卡的 mac上</strong><br>b) <strong>物理网络还可以除IP之外支持其他网络层协议， 链路协议为任意上层网络协议， 如IPX等</strong> </li>
+<li>捆绑的问题<br>a) 如果仅仅使用IP地址，不用mac地址，那么它仅支持IP协议<br>b) 每次上电都要重新写入网卡 IP地址；<br>c) 另外一个选择就是不使用任何地址；不用MAC地址，则每到来一个帧都要上传到IP层次，由它判断是不是需要接受，干扰一次</li>
+</ol>
+<blockquote>
+<p>主机和路由器接口除了网络层地址之外还有MAC地址，这有如下几个原因。</p>
+<p>首先, 局域网是为任意网络层协议而设计的，而不只是用于IP和因特网。如果适配器被指派 [P地址而不是“中性的” MAC地址的话，则适配器将不能够方便地支持其他网络层协议（例如，IPX或者DECnet）。</p>
+<p>其次，如果适配器使用网络层地址而不是MAC地址的 话，网络层地址必须存储在适配器的RAM中，并且在每次适配器移动（或加电）时要重新配置。另一种选择是在适配器中不使用任何地址，让每个适配器将它收到的每帧数 据（通常是IP数据报）沿协议栈向上传递。然后网络层则能够核对网络地址层是否匹配。这种选择带来的一个问题是，主机将被局域网上发送的每个帧中断，包括被目的地是在相同广播局域网上的其他节点的帧中断。</p>
+<p>总之，为了使网络体系结构中各层次成为 极为独立的构建模块，不同的层次需要有它们自己的寻址方案。我们现在已经看到3种 类型的地址：应用层的主机名、网络层的IP地址以及链路层的MAC地址。</p>
+</blockquote>
+<p>局域网上每个适配器都有一个唯一的MAC地址</p>
+<p>有时某发送适配器的确要让局域网上所有其他适配器来接收并处理它打算发送的帧。在这种情况下，发送适配器在该帧的目的地址字段中插入一个特殊的<code>MAC广播地址（broadcast address）</code>。对于使用6字节地址的局域网（例如以太网和802. 11）来说，广 播地址是48个连续的1组成的字符串（即以十六进制表示法表示的FF- FF- FF- FF- FF-FF)</p>
+<p><img src="/images/Computer-Network6/image-20211003091929111.png" alt="image-20211003091929111"></p>
+<ul>
+<li>MAC地址由IEEE管理和分配 </li>
+<li>制造商购入MAC地址空间（保证唯一性），组成 <font color="red">2<sup>24</sup> </font> 个地址的一块地址空间<ul>
+<li>IEEE分配 2<sup>24</sup>  个地址的方式是：固定一个MAC地址的前24比特，让公司自己为适配器生产后24比特的唯一组合</li>
+</ul>
+</li>
+<li>MAC拥有扁平结构，而IP地址是层次结构<ul>
+<li><font color="red">MAC地址：社会保险号。</font>无论人到哪里该号码都不会变化</li>
+<li><font color="red">IP地址：邮政地址。</font>无论何时当人搬家时，该地址都必须改变</li>
+</ul>
+</li>
+<li>MAC平面地址 ➜ 支持移动 <ul>
+<li>可以将网卡到接到其它网络 </li>
+</ul>
+</li>
+<li>IP地址有层次-不能移动 <ul>
+<li>依赖于节点连接的IP子网，与子网的网络号相同（ 有与其相连的子网相同的网络前缀）</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-1-2-地址解析协议：ARP"><a href="#4-1-2-地址解析协议：ARP" class="headerlink" title="4.1.2 地址解析协议：ARP"></a>4.1.2 地址解析协议：ARP</h4><p><code>地址解析协议（Address Resolution Protocol, ARP）的任务</code>是在<font color="red">网络层的IP地址和链路层的MAC地址之间进行转换</font>。</p>
+<p>问题:已知B的IP地址，如何确定B的MAC地址?</p>
+<p><img src="/images/Computer-Network6/image-20230802100953655.png" alt="image-20230802100953655"></p>
+<ul>
+<li>在LAN上的每个IP节点都有一个<font color="red">ARP表</font> </li>
+<li>ARP表：包括一些 LAN节点IP地址到MAC地址的映射 <font color="red">&lt; IP address; MAC address; TTL&gt; </font><ul>
+<li>TTL时间是指地址映射失效的时间 </li>
+<li>典型是20min</li>
+</ul>
+</li>
+<li>ARP表无需为子网上的每个主机和路由器都包含一个表项<ul>
+<li>有些可能从来没有进入到表中，有些可能已经过期</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230802101813827.png" alt="主机222.222.222.220中可能的ARP表"></p>
+<p><font color="red">ARP协议：在同一个LAN (网络)</font></p>
+<ul>
+<li>A要发送帧给B(B的IP地址已知)， 但B的MAC地址不在A的ARP表中 </li>
+<li>A<font color="red">广播</font>包含B的IP地址的 ARP 查询包 <ul>
+<li>Dest MAC address = FF-FF-FF-FF-FF-FF </li>
+<li>LAN上的所有节点都会收到该查询包 </li>
+</ul>
+</li>
+<li>B接收到ARP包，回复A自己的MAC地址 <ul>
+<li>帧发送给A </li>
+<li>用A的MAC地址（单播）</li>
+</ul>
+</li>
+<li>A在自己的ARP表中，缓存<strong>IP-to-MAC</strong>地址映射关系 ，直到信息超时 <ul>
+<li>软状态: 靠定期刷新维持的系统状态 </li>
+<li>定期刷新周期之间维护的状态信息可能和原有系统不一致 </li>
+</ul>
+</li>
+<li>ARP是<code>即插即用</code>的 <ul>
+<li>节点自己创建ARP的表项 </li>
+<li>无需网络管理员的干预</li>
+</ul>
+</li>
+</ul>
+<p>可以看出查询ARP报文是在广播帧中发送的，而响应ARP报文在一个标准帧中发送</p>
+<blockquote>
+<p>ARP在很多方面与DNS类似，DNS将主机名解析为IP地址。然而，这两种解析器之间的一个重要区别是：DNS为在因特网中的任何地方的主机解析主机名，而ARP只为在同一个子网上的主机和路由器接口解析IP地址。</p>
+</blockquote>
+<p><font color="blue">Q：ARP是一个链路层协议还是一个网络层协议？</font></p>
+<p>一个ARP分组封装在链路层帧中，因而在体系结构上位于链路层之上。然而，一个 ARP分组具有包含链路层地址的字段，因而可认为是链路层协议，但它也包含网络层地址，因而也可认为是为网络层协议。所以，可能<font color="red">最好把ARP看成是跨越链路层和网络层边界两边的协议</font></p>
+<h4 id="4-1-3-发送数据报到子网以外"><a href="#4-1-3-发送数据报到子网以外" class="headerlink" title="4.1.3 发送数据报到子网以外"></a>4.1.3 发送数据报到子网以外</h4><p>Walkthrough ：发送数据报：由A通过R到B， 假设A知道B的IP地址 </p>
+<ul>
+<li>在R上有两个ARP表，分别对应两个子网LAN</li>
+<li> 在源主机的路由表中，发现到目标主机的下一跳时111.111.111.110 </li>
+<li>在源主机的ARP表中，发现其MAC地址是E6-E9-00-17-BB-4B,  etc</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160011929.png" alt="image-20230731160011929"></p>
+<p><font color="red">编址：路由到其他LAN</font></p>
+<ul>
+<li><p>A创建数据报，源IP地址：A；目标IP地址：B           封装一层</p>
+</li>
+<li><p>A创建一个链路层的帧，目标MAC地址是R，该帧包含A到B的IP数据报</p>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160038119.png" alt="image-20230731160038119"></p>
+<ul>
+<li>帧从A发送到R</li>
+<li>帧被R接收到，从中提取出IP分组，交给上层IP协议实体</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160111879.png" alt="image-20230731160111879"></p>
+<ul>
+<li>R转发数据报，数据报源IP地址为A，目标IP地址为B（根据路由表）</li>
+<li>R创建一个链路层的帧，目标MAC地址为B，帧中包含A到B的IP数据报</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160138518.png" alt="image-20230731160138518"></p>
+<h3 id="4-2-以太网"><a href="#4-2-以太网" class="headerlink" title="4.2 以太网"></a>4.2 以太网</h3><ul>
+<li>目前最主流的局域网技术：98%占有率 </li>
+<li>廉价：30元RMB 100Mbps！ </li>
+<li>最早广泛应用的LAN技术 </li>
+<li>比令牌网和ATM网络简单、廉价 </li>
+<li>带宽不断提升：10M, 100M, 1G, 10G</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160245105.png" alt="image-20230731160245105"></p>
+<p><font color="red">以太网：物理拓扑</font></p>
+<ul>
+<li><font color="red">总线：</font>在上个世纪90年代中期很流行 <ul>
+<li>所有节点在一个碰撞域内，一次只允许一个节点发送 </li>
+<li>可靠性差，如果介质破损，截面形成信号的反射，发送节点误认为是冲突，总是冲突</li>
+</ul>
+</li>
+<li><font color="red">星型：</font>目前最主流<ul>
+<li>连接选择: <code>集线器hub</code>(无法并行，一发全收，在物理层) 或者 <code>交换机switch</code> (并行)</li>
+<li><font color="red">现在一般是交换机(switch)在中心</font></li>
+<li>每个节点以及相连的交换机端口使用（独立的）以太网协议（不会和其他节点的发送产生碰撞）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160329495.png" alt="image-20230731160329495"></p>
+<h4 id="4-2-1-以太网帧结构"><a href="#4-2-1-以太网帧结构" class="headerlink" title="4.2.1 以太网帧结构"></a>4.2.1 以太网帧结构</h4><p>发送方适配器在<font color="red">以太网帧</font>中封装IP数据报， 或其他网络层协议数据单元</p>
+<p><img src="/images/Computer-Network6/image-20230731160439724.png"></p>
+<p><img src="/images/Computer-Network6/image-20230802104153476.png" alt="以太网帧结构"></p>
+<ul>
+<li><strong><font color="red">前导码（前同步码）: 8字节</font></strong><ul>
+<li><strong>前7Byte 10101010 + 最后1Byte 10101011</strong> </li>
+<li><strong>用来同步接收方和发送方的时钟速率</strong> <ul>
+<li>使得接收方将自己的时钟调到发送端的时钟 </li>
+<li>从而可以按照发送端的时钟来接收所发送的帧</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><font color="red">地址：</font>6字节源MAC地址，6字节目标MAC地址</strong> <ul>
+<li>如：帧目标地址=本站MAC地址，或是广播地址， 接收，递交帧中的数据到网络层 </li>
+<li>否则，适配器忽略该帧 </li>
+</ul>
+</li>
+<li><strong><font color="red">类型（2字节）：</font>指出高层协(大多情况下是IP，但也支持其它网络层协议Novell IPX和AppleTalk)</strong> </li>
+<li><strong><font color="red">数据（46~1500字节）：</font>这个字段承载了 IP数据报。以太网的最大传输单元 （MTU）是1500字节。</strong><ul>
+<li>意味着如果IP数据报超过了1500字节，则主机必须将该数据报<code>分片</code></li>
+<li>如果少于48字节，则数据报必须被填充到46字节</li>
+</ul>
+</li>
+<li><strong><font color="red">CRC：</font>在接收方校验</strong> <ul>
+<li>如果没有通过校验，丢弃错误帧</li>
+</ul>
+</li>
+</ul>
+<p><font color="red">以太网：无连接、不可靠的服务</font></p>
+<ul>
+<li><strong><font color="red">无连接：</font>帧传输前，发送方和接收方之间没有握手</strong> </li>
+<li><strong><font color="red">不可靠：</font>接收方适配器不发送确认帧或否定确认帧给发送方</strong> <ul>
+<li>递交给网络层的数据报流可能有间隙gap </li>
+<li>如上层使用像传输层TCP协议这样的rdt，gap会被补上( 源主机，TCP实体) </li>
+<li>否则，应用层就会看到gap </li>
+</ul>
+</li>
+<li><strong>以太网的MAC协议：采用<font color="red">二进制退避的CSMA/CD</font> 介质访问控制形式</strong></li>
+</ul>
+<h4 id="4-2-2-以太网技术"><a href="#4-2-2-以太网技术" class="headerlink" title="4.2.2 以太网技术"></a>4.2.2 以太网技术</h4><ul>
+<li><font color="red">很多</font>不同的以太网标准 <ul>
+<li><font color="red">相同的MAC协议（介质访问控制）和帧结构</font> </li>
+<li>不同的速率：2 Mbps、10 Mbps 、100 Mbps 、 1Gbps 、 10G bps </li>
+<li>不同的物理层标准 </li>
+<li>不同的物理层媒介：光纤，同轴电缆和双绞线</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230802153341156.png" alt="90年代，初始的以太网MAC协议和帧格式保留了下来"></p>
+<p><font color="red">以太网使用CSMA/CD</font></p>
+<ul>
+<li>没有时隙 </li>
+<li>NIC如果侦听到其它NIC在发送就不发送：载波侦听 <font color="red">carrier sense</font> </li>
+<li>发送时，适配器当侦听到其它适配器在发送就放弃对当 前帧的发送，冲突检测 <font color="red">collision detection</font> </li>
+<li>冲突后尝试重传，重传前适配器等待一个随机 时间，随机访问<font color="red">random  access</font></li>
+</ul>
+<p>以太网CSMA/CD算法</p>
+<p><img src="/images/Computer-Network6/image-20230731160742848.png" alt="image-20230731160742848"></p>
+<p><img src="/images/Computer-Network6/image-20230731160751392.png" alt="image-20230731160751392"></p>
+<p><img src="/images/Computer-Network6/image-20230731160805685.png" alt="image-20230731160805685"></p>
+<p><font color="red">10Base-T and 100Base-T</font></p>
+<ul>
+<li>100 Mbps 速率 也被称之为 “fast ethernet” </li>
+<li><font color="red">Base  指基带以太网</font>，这意味着物理媒体仅承载以太网流量；几乎所有的802.3标准都适用于基带以太网</li>
+<li>T代表双绞线，一般指双绞铜线</li>
+<li>节点连接到集线器HUB上: “star topology”物理上星型 <ul>
+<li><strong>逻辑上总线型，盒中总线</strong>   一发全收，一次只能发一次</li>
+</ul>
+</li>
+<li>节点和HUB间的最大距离是100 m</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731160850470.png" alt="image-20230731160850470"></p>
+<p><font color="red">集线器Hub</font></p>
+<ul>
+<li>Hubs 本质上是物理层的中继器: <ul>
+<li>从一个端口收，转发到所有其他端口 </li>
+<li>速率一致 </li>
+<li>没有帧的缓存 </li>
+<li>在hub端口上没有CSMA/CD机制：适配器检测冲突 </li>
+<li>提供网络管理功能</li>
+</ul>
+</li>
+</ul>
+<p>Manchester 编码  —— 物理层</p>
+<p><img src="/images/Computer-Network6/image-20211003100140814.png" alt="image-20211003100140814"></p>
+<ul>
+<li>在 10BaseT中使用 </li>
+<li>每一个bit的位时中间有一个信号跳变 </li>
+<li>允许在接收方和发送方节点之间进行时钟同步 <ul>
+<li>节点间不需要集中的和全局的时钟 </li>
+</ul>
+</li>
+<li>10Mbps，使用20M带宽，效率50% </li>
+<li>Hey, this is physical-layer stuff!</li>
+</ul>
+<p>100BaseT中的4b5b编码</p>
+<p><img src="/images/Computer-Network6/image-20211003102620272.png" alt="image-20211003102620272"></p>
+<p><font color="red">吉比特以太网（千兆比特网）</font></p>
+<ul>
+<li>采用标准的以太帧格式 ，并且后向兼容10Base-T and 100Base-T技术<ul>
+<li>这使得吉比特以太网和现已安装的以太网设备基础很容易集成</li>
+</ul>
+</li>
+<li>允许点对点链路和共享广播信道<ul>
+<li>点对点链路使用交换机</li>
+<li>广播信道使用集线器（在吉比特以太网术语中，集线器被称为“带缓存的分配器”） </li>
+</ul>
+</li>
+<li>物理编码：8b10b编码 </li>
+<li>在共享模式，继续使用CSMA/CD MAC技术 ，节点间需要较短距离以提高利用率 </li>
+<li>交换模式：全双工千兆可用于点对点链路 <ul>
+<li>站点使用专用信道，基本不会冲突，效率高</li>
+<li> 除非发往同一个目标站点 </li>
+</ul>
+</li>
+<li><code>10 Gbps now !</code></li>
+</ul>
+<p><font color="red">Q：在总线拓扑和基于集线器的星形拓扑技术时代，以太网很显然是一种广播链路，其中多个节点同时传输时会出现帧碰撞。为了处理这些碰撞，以太网标准包括了CSMA/CD协议，该协议对于跨越一个小的地理半径的有线广播局域网特别有效。但是对于今天广为使用的以太网是基于交换机的星形拓扑，采用的是存储转发分组交换，是否还真正需要一种以太网MAC协议呢？</font></p>
+<p>如我们很快所见，交换机协调其传输，在任何时候 决不会向相同的接口转发超过一个帧。此外，现代交换机是全双工的，这使得一台交换机和一个节点能够在同时向对方发送帧而没有干扰。换句话说，在基于交换机的以太局域网中，不会有碰撞，因此没有必要使用MAC协议了!</p>
+<h3 id="4-3-802-11WLAN"><a href="#4-3-802-11WLAN" class="headerlink" title="4.3 802.11WLAN"></a>4.3 802.11WLAN</h3><p><font color="red"> 802.11b</font></p>
+<ul>
+<li>使用无需许可的2.4-5 GHz 频谱 <ul>
+<li>无绳电话和微波炉 </li>
+</ul>
+</li>
+<li>最高11 Mbps </li>
+<li>在物理层采用直接序列扩频 direct sequence spread  spectrum (DSSS) <ul>
+<li>所有的主机采用同样的序列码 </li>
+</ul>
+</li>
+</ul>
+<p><font color="red"> 802.11a</font></p>
+<ul>
+<li>更高频率5-6 GHz </li>
+<li>最高54 Mbps </li>
+<li>距离相对短，受多路径影响大 </li>
+</ul>
+<p><font color="red"> 802.11g</font> </p>
+<ul>
+<li>频率2.4-5 GHz </li>
+<li>最大54 Mbps </li>
+<li>与802.11b向后兼容 </li>
+</ul>
+<p><font color="red"> 802.11n：</font>多天线MIMO </p>
+<ul>
+<li>频率2.4-5 GHz </li>
+<li>最高200 Mbps</li>
+</ul>
+<blockquote>
+<p>不同：速率，物理层</p>
+<p>相同：MAC, 帧格式</p>
+</blockquote>
+<ul>
+<li>所有的802.11标准都是用CSMA/CA进行多路访问 </li>
+<li>所有的802.11标准都有基站模式和自组织网络模式</li>
+</ul>
+<p><font color="red"> 802.11 LAN 体系结构</font></p>
+<p><img src="/images/Computer-Network6/image-20211003102741419.png" alt="image-20211003102741419"></p>
+<p><font color="red"> 802.11: 信道与关联</font> </p>
+<ul>
+<li>802.11b: 2.4GHz-2.485GHz 频谱被分为11个相互不 同的但是部分重叠的频段 <ul>
+<li>AP管理员为AP选择一个频率 </li>
+<li>可能的干扰: 邻居AP可能选择同样一个信道! </li>
+</ul>
+</li>
+<li>主机: 必须在通信之前和AP建立associate <ul>
+<li>扫描所有的信道，侦听包含AP SSID和MAC地址的信标帧 <ul>
+<li>主动扫描：主机发送探测，接受AP的响应 </li>
+<li>被动扫描 </li>
+</ul>
+</li>
+<li>选择希望关联的AP </li>
+<li>可能需要执行鉴别（认证）[Chapter 8] <ul>
+<li>基于MAC、用户名口令 </li>
+<li>通过AP的中继，使用RADIUS鉴别服务器进行身份鉴别 </li>
+</ul>
+</li>
+<li>将会执行DHCP获得IP地址和AP所在的子网前缀</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731181129823.png" alt="image-20230731181129823"></p>
+<p><img src="/images/Computer-Network6/image-20230731181140520.png" alt="image-20230731181140520"></p>
+<p><img src="/images/Computer-Network6/image-20230731181149657.png" alt="image-20230731181149657"></p>
+<p><img src="/images/Computer-Network6/image-20230731181158000.png" alt="image-20230731181158000"></p>
+<h3 id="4-4-链路层交换机"><a href="#4-4-链路层交换机" class="headerlink" title="4.4 链路层交换机"></a>4.4 链路层交换机</h3><p><font color="red">交换机的任务是接收入链路层帧并将它们转发到出链路</font></p>
+<h4 id="4-4-1-交换机转发和过滤"><a href="#4-4-1-交换机转发和过滤" class="headerlink" title="4.4.1 交换机转发和过滤"></a>4.4.1 交换机转发和过滤</h4><ul>
+<li><font color="red">链路层设备：扮演主动角色（端口执行以太网协议） </font><ul>
+<li>对帧进行<code>过滤（filtering）</code>和<code>转发 （forwarding）</code>，借助于<code>交换机表</code><ul>
+<li>过滤（filtering）是决定一个帧应该转发到某个接口还是应当将其丢弃的交换机功能</li>
+<li>转发（forwarding）是决定一个帧应该被导向哪个接口，并把该帧移动到那些接口的交换机功能</li>
+</ul>
+</li>
+<li>对于到来的帧，检查帧头，根据目标MAC地址进行<font color="red">选择性</font>转发 </li>
+<li>当帧需要向某个（些）网段进行转发，需要使用 CSMA/CD 进行接入控制 </li>
+<li>通常一个交换机端口一个独立网段 </li>
+</ul>
+</li>
+<li><font color="red">透明：</font>主机对交换机的存在可以不关心 <ul>
+<li>通过交换机相联的各节点好像这些站点是直接相联的一样 </li>
+<li>有MAC地址；无IP地址 </li>
+</ul>
+</li>
+<li><font color="red">即插即用，自学习： </font><ul>
+<li>要安装交换机的网络管理员除了将局域网网段与交换机的接口相连外，不需要做其他任何事</li>
+<li>交换机无需配置</li>
+</ul>
+</li>
+</ul>
+<p>交换机：多路同时传输</p>
+<ul>
+<li>主机有一个<font color="red">专用</font>和<font color="red">直接</font>到交换机的连接</li>
+<li>交换机缓存到来的帧</li>
+<li>对每个帧进入的链路使用以太网协议，没有碰撞；全双工<ul>
+<li>每条链路都是一个独立的碰撞域 </li>
+<li>MAC协议在其中的作用弱化了 </li>
+</ul>
+</li>
+<li><strong><font color="red">交换：</font>A-to-A’ 和 B-to-B’ 可以同时传输，没有碰撞</strong></li>
+</ul>
+<p><font color="red">交换机转发表：包含某局域网上某些主机和路由器的但不必是全部的表项</font></p>
+<ol>
+<li>一个 MAC地址</li>
+<li>通向该MAC地址的交换机接口</li>
+<li>表项放置在表中的时间</li>
+</ol>
+<p><img src="/images/Computer-Network6/image-20230802205102446.png"></p>
+<ul>
+<li><p>Q: 交换机如何知道通过接口1到达A，通过接口5到达B’?</p>
+</li>
+<li><p>A：每个交换机都有一个交换表switch table，每个表项:</p>
+<ul>
+<li><strong>(主机的MAC地址,到达该MAC经过的接口，时戳)</strong></li>
+<li><strong>比较像路由表!</strong></li>
+</ul>
+</li>
+<li><p>Q: 每个表项是如何创建的？如何维护的？</p>
+</li>
+<li><p><strong>有点像路由协议?</strong></p>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731181552617.png" alt="image-20230731181552617"></p>
+<ul>
+<li><p>交换机通过<font color="red">自学习</font>得到哪些主机（mac地址）可以通过哪些端口到达 </p>
+<ul>
+<li><strong>当接收到帧，交换机学习到发送站点所在的端口（网段）</strong> </li>
+<li><strong>记录发送方MAC地址/ 进入端口映射关系， 在交换表中</strong></li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211003104905022.png" alt="image-20211003104905022"></p>
+<p><img src="/images/Computer-Network6/image-20211003104914637.png" alt="image-20211003104914637"></p>
+</li>
+</ul>
+<p>交换机：过滤／转发</p>
+<p><img src="/images/Computer-Network6/image-20211003103245720.png" alt="image-20211003103245720"></p>
+<p><strong>自学习，转发的例子</strong></p>
+<p>帧的目标： A’, <font color="red">不知道</font> 其位置在哪：<font color="red">泛洪</font> A’ A </p>
+<ul>
+<li>知道目标A对应的链路 ： A’ 4 60 <font color="red">选择性</font>发送到那个端口</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211003105023894.png" alt="image-20211003105023894"></p>
+<p><img src="/images/Computer-Network6/image-20211003105040787.png" alt="image-20211003105040787"></p>
+<p>交换机可被<font color="red">级联</font>到一起</p>
+<p><img src="/images/Computer-Network6/image-20211003105117255.png" alt="image-20211003105117255"></p>
+<p>Q: A to G的发送 – 交换机S1 如何知道经过从 S4 和S3最终达到F?<br>A: 自学习! (和在一个交换机联接所有站点一样!)</p>
+<p><strong>多交换机自学习的例子</strong></p>
+<p>假设C向I发送帧，I给C应答</p>
+<p><img src="/images/Computer-Network6/image-20211003105129108.png" alt="image-20211003105129108"></p>
+<p>Q: 显示交换表和帧在S1 , S2 , S3 , S4的转发</p>
+<p><img src="/images/Computer-Network6/image-20211003105230290.png" alt="image-20211003105230290"></p>
+<h4 id="4-4-2-交换机的性质"><a href="#4-4-2-交换机的性质" class="headerlink" title="4.4.2 交换机的性质"></a>4.4.2 交换机的性质</h4><ul>
+<li><font color="blue">消除碰撞。</font>在使用交换机（不使用集线器）构建的局域网中，没有因碰撞而浪费带宽！交换机缓存帧并且决不会在网段上同时传输多于一个帧。就像使用路由器一样，交换机的最大聚合带宽是该交换机所有接口速率之和。因此，交换机提供了比使用广播链路的局域网高得多的性能改善</li>
+<li><font color="blue">异质的链路。</font>交换机将链路彼此隔离，因此局域网中的不同链路能够以不同的速率运行并且能够在不同的媒体上运行。</li>
+<li><font color="blue">利于网络管理。</font></li>
+</ul>
+<h4 id="4-4-3-交换机-vs-路由器"><a href="#4-4-3-交换机-vs-路由器" class="headerlink" title="4.4.3 交换机 vs. 路由器"></a>4.4.3 交换机 vs. 路由器</h4><ul>
+<li>都是存储转发设备，但层次不同 <ul>
+<li>交换机：链路层设备（检查 链路层头部） </li>
+<li>路由器：网络层设备（检查 网络层的头部）</li>
+</ul>
+</li>
+<li>都有转发表： <ul>
+<li><font color="red">交换机：</font>维护交换表，按照 MAC地址转发<ul>
+<li>执行过滤、自学习和生成树算法 </li>
+<li><strong>即插即用；二层设备，速率高</strong> </li>
+<li>执行生成树算法，限制广播帧的转发 </li>
+<li><strong>ARP表项随着站点数量增多而增多</strong> </li>
+</ul>
+</li>
+<li><font color="red">路由器：</font>续</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211003105503237.png" alt="image-20211003105503237"></p>
+<ul>
+<li>路由器维护路由表，执行路由算法 <ul>
+<li>路由算法能够避免环路，无需执行生成树算法，可以以各种拓扑构建网络 </li>
+<li>对广播分组做限制 </li>
+<li><strong>不是即插即用的，配置网络地址（子网前缀）</strong> </li>
+<li><strong>三层设备，速率低</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211003105603439.png" alt="image-20211003105603439"></p>
+<h3 id="4-5-VLANS-虚拟局域网"><a href="#4-5-VLANS-虚拟局域网" class="headerlink" title="4.5 VLANS 虚拟局域网"></a>4.5 VLANS 虚拟局域网</h3><p>考虑先前配置的局域网缺点：</p>
+<ul>
+<li><font color="blue">缺乏流量隔离。</font>尽管该等级结构把组流量局域化到一个单一交换机中，但广播流量 （例如携带ARP和DHCP报文或那些目的地还没有被自学习交换机学习到的 帧）仍然必须跨越整个机构网络。限制这些广播流量的范围将改善局域网的性能。 也许更为重要的是，为了安全/隐私的目的也可能希望限制局域网广播流量</li>
+<li><font color="blue">交换机的无效使用。</font>如果该机构不止有3个组，而是有10个组，则将要求有10个第一级交换机。如果每个组都较小，比如说少于10个人，则单台96端口的交换机将足以容纳每个人，但这台单一的交换机将不能提供流量隔离</li>
+<li><font color="blue">管理用户。</font>如果一个雇员在不同组间移动，必须改变物理布线，以将该雇员连接</li>
+</ul>
+<p><font color="red">幸运的是，这些难题中的每个都能够通过支持<strong>虚拟局域网（Virtula Local Network, VLAN）</strong>的交换机来处理</font></p>
+<ul>
+<li>支持VLAN的交换机允许经一个单一的物理局域网基础设施定义多个虚拟局域网</li>
+</ul>
+<p>**VLANs动机考虑场景： **</p>
+<ul>
+<li>CS用户搬到EE大楼办公室 ，但是希望连接到CS的交换机? </li>
+<li>接到多个交换机上 <ul>
+<li>麻烦和浪费：96端口 /10个有用 </li>
+</ul>
+</li>
+<li>如果都接到一个交换机上 ，在一个广播域 <ul>
+<li>所有的层2广播流量 (ARP, DHCP,不知道 MAC地址对应端口的帧 )都必须穿过整个LAN </li>
+<li>安全性/私密性的问题</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731181911092.png" alt="image-20230731181911092"></p>
+<ul>
+<li>*<font color="red">流量隔离：</font>*从/到1-8端口的流量只会涉及到1-8 <ul>
+<li>也可以基于MAC地址进行VLAN定义 </li>
+</ul>
+</li>
+<li>*<font color="red">动态成员：</font>*成员可以在 VLANs之间动态分配 router </li>
+<li>*<font color="red">在VLANs间转发：</font>*通过路由器进行转发 (就像他们通过各自的交换机相联一样) <ul>
+<li>实际操作中，设备生产商可以</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731182140088.png"></p>
+<p><img src="/images/Computer-Network6/image-20230731182201783.png" alt="image-20230731182201783"></p>
+<ul>
+<li>如果有多个交换机，希望它们相连并且<font color="red">共享VLANs信息</font></li>
+<li>方法1：各交换机每个VLAN一个端口和另外交换机相应 VLAN端口相连-&gt;扩展性问题 </li>
+<li><font color="red">trunk port干线端口：</font>多个交换机共享定义的VLAN，在它们之间传输帧 （VLAN干线连接（VLAN trunking） ）<ul>
+<li>帧在不同交换机上的一个VLAN上转发，不能够再使用vanilla  802.1帧 (必须要携带VLAN ID信息) </li>
+<li>802.1Q协议增加/移除附加的头部字段，用于在trunk端口上进行帧的转发</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731182344844.png" alt="image-20230731182344844"></p>
+<ol start="802">
+<li>1Q帧由<code>标准以太网帧</code>与加进首部的<code>4字节VLAN标签（VLAN tag）</code>组成</li>
+</ol>
+<p>VLAN标签自身由一个2字节的标签协议标识符（Tag Protocol Identifier, TPID）字段（具有固定的十六进制值81-00）、一个2 字节的标签控制信息字段（包含一个12比特的VLAN标识符字段）和一个3比特优先权字段（具有类似于IP数据报TOS字段的目的）组成</p>
+<p><img src="/images/Computer-Network6/image-20230803101829840.png" alt="image-20230803101829840"></p>
+<h2 id="5-链路虚拟化：MPLS"><a href="#5-链路虚拟化：MPLS" class="headerlink" title="5. 链路虚拟化：MPLS"></a>5. 链路虚拟化：MPLS</h2><p><font color="red">多协议标签交换（Multiprotocol Label Switching, MPLS）</font>自20世纪90年代中后期在一些产业界的努力下进行演化，以改善IP路由器的转发速度。</p>
+<ul>
+<li><p>从IP网络来看，将一组支持MPLS的网络虚拟成链路的技术 </p>
+</li>
+<li><p>纯IP网络是按照IP地址对分组进行转发的 </p>
+<ul>
+<li>前缀匹配，转发的方法固定 </li>
+<li>无法控制IP分组的路径，无法支持流量工程 </li>
+<li>也无法对一个IP分组流进行资源分配，性能无法保证 </li>
+</ul>
+</li>
+<li><p>MPLS网络按照标签label进行分组的转发，而不必考虑分组的IP地址</p>
+<ul>
+<li>类似于虚电路VC<ul>
+<li>它采用来自虚电路网络领域的一个关键概念：固定长度标签</li>
+</ul>
+</li>
+<li>其目标是：对于基于固定长度标签和虚电路的技术，在 不放弃基于目的地IP数据报转发的基础设施的前提下，当可能时通过选择性地标识数据报并允许路由器基于固定长度的标签（而不是目的地IP地址）转发数据报来增强其功能</li>
+<li>有基于标签的<font color="red">转发表</font> </li>
+<li>基于虚电路表，IP vs 线路交换</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731182509331.png" alt="image-20230731182509331"></p>
+</li>
+</ul>
+<p><font color="red">MPLS使能的路由器处理的链路层帧格式：</font></p>
+<ul>
+<li>在链路层首部和网络层首部之间加入一个MPLS首部</li>
+<li>MPLS首部的字段：<ul>
+<li>标签</li>
+<li>预留的3比特实验字段</li>
+<li>1比特S字段，用于指示一系列“成栈”的MPLS首部的结束（高级话题）</li>
+<li>寿命字段</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230803180852289.png" alt="MPLS首部"></p>
+<ul>
+<li>标签交换的过程： <ul>
+<li>入口路由器：LER对进入的分组按照EFC的定义打上标签 </li>
+<li>在MPLS网络中（虚拟成了链路）对分组按照标签进行交换 </li>
+<li>到了出口路由器，再将标签摘除 </li>
+<li>支持MPLS的路由器组构成的网络，从IP网络的角度来看虚拟成了链路 </li>
+</ul>
+</li>
+<li>标签封装：一些列标准定义了在ATM,FR和以太网中如何封装，利用原有网络中的机制VCI，或者定义新的标签</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20230731182606182.png" alt="image-20230731182606182"></p>
+<ul>
+<li>建立基于标签的转发表-信令协议：支持逐跳和显式路由：路由信息传播，路由计算(基于Qos， 基于策略的)，标签分发<ul>
+<li>LDP CR-LDP </li>
+<li>RSVP扩展 BGP扩展 </li>
+</ul>
+</li>
+<li>MPLS优点 <ul>
+<li>路由弹性：基于Qos，基于策略的 </li>
+<li>充分利用已有的硬件ATM，快速转发 </li>
+<li><font color="red">支持流量工程，VPN</font></li>
+<li>支持带宽等资源</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-数据中心网络"><a href="#6-数据中心网络" class="headerlink" title="6. 数据中心网络"></a>6. 数据中心网络</h2><ul>
+<li>数万-数十万台主机构成DC网络，密集耦合、距离 临近: <ul>
+<li>电子商务(e.g. Amazon) </li>
+<li>内容服务器(e.g., YouTube, Akamai, Apple,  Microsoft) </li>
+<li>搜索引擎，数据挖掘 (e.g., Google) </li>
+</ul>
+</li>
+<li>挑战： <ul>
+<li>多种应用，每一种都服务海量的客户端 </li>
+<li>管理/负载均衡，避免处理 、网络和数据的瓶颈</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Computer-Network6/image-20211003110142423.png" alt="image-20211003110142423"></p>
+<p><img src="/images/Computer-Network6/image-20211003110203396.png" alt="image-20211003110203396"></p>
+<h2 id="7-a-day-in-the-life-of-web-request"><a href="#7-a-day-in-the-life-of-web-request" class="headerlink" title="7. a day in the life of web request"></a>7. a day in the life of web request</h2><p>回顾: 页面请求的历程 </p>
+<ul>
+<li>Top-down的协议栈旅程结束了! <ul>
+<li>应用层、运输层、网络层和链路层 </li>
+</ul>
+</li>
+<li>以一个web页面请求的例子: 综述! <ul>
+<li>*<font color="red">目标：</font>*标示、回顾和理解涉及到的协议（所有层次 ），以一个看似简单的场景: 请求www页面 </li>
+<li>*<font color="red">场景：</font>*学生在校园启动一台笔记本电脑：请求和接受<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a></li>
+</ul>
+</li>
+</ul>
+<p>日常场景</p>
+<p><img src="/images/Computer-Network6/image-20211003110344335.png" alt="image-20211003110344335"></p>
+<p>日常场景：… 连接到互联网</p>
+<p><img src="/images/Computer-Network6/image-20211003111137748.png" alt="image-20211003111137748"></p>
+<ul>
+<li><p>笔记本需要一个IP地址，第一跳路由器的IP地址，DNS的地址：采用*<font color="red">DHCP</font>*</p>
+</li>
+<li><p>DHCP请求被*<font color="blue">封装</font><em>在</em><font color="red">UDP</font><em>中，封装在</em><font color="red">IP</font><em>，封装在</em><font color="red">802.3</font>*以太网帧中</p>
+</li>
+<li><p>以太网的帧在LAN上*<font color="red">广播</font>*<br>(dest: FFFFFFFFFFFF)，被运行中的*<font color="red">DHCP服务器</font>*接收到</p>
+</li>
+<li><p>以太网帧中解封装IP分组，解封装UDP，解封装DHCP</p>
+</li>
+<li><p>DHCP服务器生成*<font color="red">DHCP ACK</font>*包括客户端IP地址，第一跳路由器P地址和DNS名字服务器地址</p>
+</li>
+<li><p>在DHCP服务器封装，帧通过LAN转发(<em><font color="red">交换机学习</font></em>)在客户端段解封装</p>
+</li>
+<li><p>客户端接收DHCP ACK应答</p>
+</li>
+</ul>
+<blockquote>
+<p>客户端有了IP地址，知道了DNS域名服务器的名字和IP地址 第一跳路由器的IP地址</p>
+</blockquote>
+<p>日常场景…… ARP (DNS之前, HTTP之前)</p>
+<p><img src="/images/Computer-Network6/image-20211003111146617.png" alt="image-20211003111146617"></p>
+<ul>
+<li>在发送*<font color="red">HTTP request</font>*请求之前, 需要知道<a target="_blank" rel="noopener" href="http://www.google.com的ip地址/">www.google.com的IP地址</a>: <em><font color="red">DNS</font></em> </li>
+<li>DNS查询被创建，封装在UDP段中 ，封装在IP数据报中，封装在以 太网的帧中. 将帧传递给路由器 ，但是需要知道路由器的接口： MAC地址：*<font color="red">ARP</font>* </li>
+<li>*<font color="red">ARP查询</font><em>广播，被路由器接收， 路由器用</em><font color="red">ARP应答</font>*，给出其IP地 址某个端口的MAC地址 </li>
+<li>客户端现在知道第一跳路由器 MAC地址，所以可以发送DNS查 询帧了</li>
+</ul>
+<p>日常场景：使用DNS</p>
+<p><img src="/images/Computer-Network6/image-20211003111215380.png" alt="image-20211003111215380"></p>
+<ul>
+<li>包含了DNS查询的IP数据报 通过LAN交换机转发，从客 户端到第一跳路由器</li>
+<li>IP 数据报被转发，从校园到达 comcast网络，路由（路由表被 <font color="red">RIP，OSPF，IS-IS 和/或BGP</font>协议创建）到DNS服务器 </li>
+<li>被DNS服务器解封装 </li>
+<li>DNS服务器回复给客户端： <a target="_blank" rel="noopener" href="http://www.google.com的ip地址/">www.google.com的IP地址</a></li>
+</ul>
+<p>日常场景： …TCP连接携带HTTP报文</p>
+<p><img src="/images/Computer-Network6/image-20211003111254982.png" alt="image-20211003111254982"></p>
+<ul>
+<li>为了发送HTTP请求，客户端打开到达web服务器的<font color="red">TCP socket</font></li>
+<li>TCP <font color="red">SYN段</font>(3次握手的第1次握手)域间路由到web服务器</li>
+<li>web服务器用<font color="red">TCP SYNACK</font>应答(3次握手的第2次握手)</li>
+<li>TCP<font color="red">连接建立了!</font></li>
+</ul>
+<p>日常场景： …… HTTP请求和应答</p>
+<p><img src="/images/Computer-Network6/image-20230731183415855.png" alt="image-20230731183415855"></p>
+<ul>
+<li>HTTP请求发送到TCPsocket中</li>
+<li>IP数据报包含HTTP请求，最终路由到<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a></li>
+<li>web服务器用HTTP应答回应(包括请求的页面)</li>
+<li>IP数据报包含HTTP应答最后被路由到客户端</li>
+</ul>
+<h2 id="第6章：总结"><a href="#第6章：总结" class="headerlink" title="第6章：总结"></a>第6章：总结</h2><ul>
+<li><p>数据链路层服务背后的原理: </p>
+<ul>
+<li>检错、纠错 </li>
+<li>共享广播式信道：多路访问 </li>
+<li>链路编址 </li>
+</ul>
+</li>
+<li><p>各种链路层技术的实例和实现 </p>
+<ul>
+<li>Ethernet </li>
+<li>交换式LANS, VLANs </li>
+<li>虚拟成链路层的网络: MPLS </li>
+</ul>
+</li>
+<li><p>综合：一个web页面请求的日常场景</p>
+</li>
+<li><p>自上而下的协议栈的旅行<font color="red">结束</font>了 (除了物理层) </p>
+</li>
+<li><p>坚实地理解了网络的原理和实践 </p>
+</li>
+<li><p>….. 可以在这里停一下 … … 但是仍然还有<font color="red">很多有趣的话题!</font> </p>
+<ul>
+<li>无线网络 </li>
+<li>多媒体 </li>
+<li>网络安全</li>
+</ul>
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">8yyy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://8yyy.github.io/2022/09/25/Computer-Network6/">http://8yyy.github.io/2022/09/25/Computer-Network6/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">8yyy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                    <span class="chip bg-color">计算机网络</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/10/03/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                    <div class="card-image">
+                        
+                        <img src="/images/CSharp%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/DataStructure.jpeg" class="responsive-img" alt="CSharp中常见的数据结构">
+                        
+                        <span class="card-title">CSharp中常见的数据结构</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-03
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Charp/" class="post-category">
+                                    Charp
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/DataStructure/">
+                        <span class="chip bg-color">DataStructure</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/09/19/DOTNETCore/">
+                    <div class="card-image">
+                        
+                        <img src="/images/DOTNETCore/core.jpeg" class="responsive-img" alt="DOTNETCORE">
+                        
+                        <span class="card-title">DOTNETCORE</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Net/" class="post-category">
+                                    .Net
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Net-Core/">
+                        <span class="chip bg-color">.Net Core</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('50')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 8yyy&#39;s blog<br />'
+            + '文章作者: 8yyy<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7668596917"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">8yyy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">318.5k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/8yyy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1410868939@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1410868939" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1410868939" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/8yyy/8yyy.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
